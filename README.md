@@ -5,7 +5,7 @@ Collaborators:
 -Jonathan Harlin
 -Pontus Pettersson
 -Thomas Carleberg
--Jakob 
+-Jakob Andersson
 -Desbele
 
 Inlogg till Azure:
