@@ -6,7 +6,7 @@ Collaborators: -Jonathan Harlin -Pontus Pettersson -Thomas Carleberg -Jakob Ande
 Inlogg till Azure: aysen.furhoff@newton.se Stalin77
 
 DB admin:
-servernamn: syss3-grupp1
+servernamn: syss3-grupp1.database.windows.net
 server admin: Grupp1
 lösen: Hunter12
 
