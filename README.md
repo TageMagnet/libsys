@@ -11,10 +11,10 @@ Stalin77
 ```
 
 ```
-Host: *syss3-grupp1.database.windows.net*
-Username: *Grupp1*
-Password: *Hunter12*
-Database:*libsys*
+Host: syss3-grupp1.database.windows.net
+Username: Grupp1
+Password: Hunter12
+Database: libsys
 ```
 
 FärgKombo:
