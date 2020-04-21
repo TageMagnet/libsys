@@ -6,6 +6,6 @@ namespace LIBSYS.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public string Greeting => "Welcome to Avalonia!";
+        public string Greeting => "Welcome LIBSYS!";
     }
 }
