@@ -3,13 +3,19 @@ Library System
 
 Collaborators: -Jonathan Harlin -Pontus Pettersson -Thomas Carleberg -Jakob Andersson -Desbele
 
-Inlogg till Azure: aysen.furhoff@newton.se Stalin77
+Inlog till Azure: 
 
-DB admin:
+```
+aysen.furhoff@newton.se
+Stalin77 
+```
+
+```
 Host: *syss3-grupp1.database.windows.net*
 Username: *Grupp1*
 Password: *Hunter12*
 Database:*libsys*
+```
 
 FärgKombo:
 Grå/blå för bakgrund: #4A6572
