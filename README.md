@@ -9,3 +9,8 @@ DB admin:
 servernamn: syss3-grupp1
 server admin: Grupp1
 lösen: Hunter12
+
+FärgKombo:
+Grå/blå för bakgrund: #4A6572
+Blå för text: #344955
+Orange för knappar m.m: #F9AA33
