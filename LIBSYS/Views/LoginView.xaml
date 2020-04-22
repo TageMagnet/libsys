@@ -1,0 +1,13 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="440" FontWeight="DemiBold" Foreground="#344955"
+             x:Class="LIBSYS.Views.LoginView">
+  <Grid ColumnDefinitions="*,*,*,*,*,*,*,*,*,*" RowDefinitions="*,*,*,*,*,*,*,*,*,*">
+    <TextBox Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="3" Margin="5" FontSize="20" Watermark="Användarnamn"/>
+    <TextBox Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="4" Margin="5" FontSize="20" Watermark="Lösenord"/>
+    <Button Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="5" Margin="5" Content="Logga in" Background="#F9AA33"
+            Foreground="#344955" FontSize="20"/>
+  </Grid>
+</UserControl>
