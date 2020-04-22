@@ -10,6 +10,7 @@ namespace LIBSYS.Views
         public HomeView()
         {
             this.InitializeComponent();
+            this.DataContext = new HomeViewModel();
         }
 
         private void InitializeComponent()
