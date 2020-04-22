@@ -13,9 +13,15 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Remove="Views\AdminView.xaml" />
+    <AvaloniaResource Remove="Views\CustomerView.xaml" />
+    <AvaloniaResource Remove="Views\LibrarianView.xaml" />
     <AvaloniaResource Remove="Views\LoginView.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Views\AdminView.xaml" />
+    <None Remove="Views\CustomerView.xaml" />
+    <None Remove="Views\LibrarianView.xaml" />
     <None Remove="Views\LoginView.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -26,6 +32,21 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\LoginView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\CustomerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\LibrarianView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\AdminView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
