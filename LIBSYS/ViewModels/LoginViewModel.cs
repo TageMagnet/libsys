@@ -4,8 +4,6 @@ using System.Text;
 
 namespace LIBSYS.ViewModels
 {
-
-    //
     public class LoginViewModel
     {
         public eStatus Status { get; set; }
@@ -13,6 +11,7 @@ namespace LIBSYS.ViewModels
         public int Role { get; set; }
 
     }
+
 
 
 }
