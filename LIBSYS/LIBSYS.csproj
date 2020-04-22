@@ -13,9 +13,24 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Remove="Views\HomeView.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\HomeView.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.0" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.0" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.0" />
+    <PackageReference Include="Material.Avalonia" Version="0.9.0" />
     <PackageReference Include="MaterialDesignThemes" Version="3.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\HomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\LIBSYS.png" />
   </ItemGroup>
 </Project>
