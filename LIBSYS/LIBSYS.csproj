@@ -21,6 +21,7 @@
     <AvaloniaResource Remove="Views\HomeView.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\LibSysWhite.png" />
     <None Remove="Views\AdminView.xaml" />
     <None Remove="Views\CustomerView.xaml" />
     <None Remove="Views\LibrarianView.xaml" />
@@ -64,5 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\LIBSYS.png" />
+    <Resource Include="Assets\LibSysWhite.png" />
   </ItemGroup>
 </Project>
