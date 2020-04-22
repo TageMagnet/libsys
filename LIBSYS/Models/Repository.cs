@@ -19,7 +19,7 @@ namespace LIBSYS.Models
             connection.Open();
         }
 
-
+        //TODO: Skapa metod för att logga in 
 
     }
 }
