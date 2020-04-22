@@ -10,12 +10,15 @@ namespace LIBSYS.Models
     {
         private string ConnectionString { get; }
         private IDbConnection connection { get; }
+
+        //Ändra connectionstringen så den blir hashad
         public Repository()
         {
             ConnectionString = "Data Source=syss3-grupp1.database.windows.net;Initial Catalog=libsys;User Id=Grupp1;Password=Hunter12;";
             connection = new SqlConnection(ConnectionString);
             connection.Open();
         }
+
 
 
     }
