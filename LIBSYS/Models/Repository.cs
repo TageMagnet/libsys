@@ -18,8 +18,5 @@ namespace LIBSYS.Models
             connection = new SqlConnection(ConnectionString);
             connection.Open();
         }
-
-        //TODO: Skapa metod för att logga in 
-
     }
 }

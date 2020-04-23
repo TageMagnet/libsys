@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LIBSYS.Models
 {
-    class User
+    class Member
     {
         public eStatus Status { get; set; }
         public enum eStatus { guest = 0, admin = 1, librarian = 2, customer = 3 }
