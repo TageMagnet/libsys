@@ -27,7 +27,7 @@ namespace LIBSYS.ViewModels
 
         public void LoginMethod()
         {
-            
+            // Metoden ska ta in användarnamn / lösen  från LoginView. kontrollera? samt returnera den användarens roll :)
             
         }
 
