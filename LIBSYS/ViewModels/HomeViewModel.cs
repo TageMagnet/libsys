@@ -18,7 +18,7 @@ namespace LIBSYS.ViewModels
 
         public HomeViewModel()
         {
-            text = "Hello hej";
+            
             LoginCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("login"));
             RegisterCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("register"));
         }
