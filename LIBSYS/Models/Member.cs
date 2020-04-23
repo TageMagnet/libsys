@@ -6,11 +6,11 @@ namespace LIBSYS.Models
 {
     class Member
     {
-        public eStatus Status { get; set; }
-        public enum eStatus { guest = 0, admin = 1, librarian = 2, customer = 3 }
-        public string Email { get; set; }
-        public string NickName { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
+        public int member_ID { get; set; }
+        public string email { get; set; }
+        public string nickName { get; set; }
+        public string pwd { get; set; }
+        public string role { get; set; }
+        public DateTime createdAt { get; set; }
     }
 }
