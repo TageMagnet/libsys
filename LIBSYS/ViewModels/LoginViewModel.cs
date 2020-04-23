@@ -9,12 +9,12 @@ namespace LIBSYS.ViewModels
 {
     public class LoginViewModel: ViewModelBase
     {
-        public Repository repo = new Repository();
+        //public Repository repo = new Repository();
 
         public ReactiveCommand<Unit, Unit> AdminCommand { get; set; }
         public LoginViewModel()
         {
-            AdminCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("Admin"));
+            AdminCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("admin"));
         }
 
 
