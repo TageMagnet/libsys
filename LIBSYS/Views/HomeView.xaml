@@ -9,8 +9,7 @@
   
   <Grid ColumnDefinitions="1*, 1*, 1*" RowDefinitions="1* 1* 1* ">
 
-    <TextBox Watermark="Sök Bok, E-Bok eller Seminarie" Grid.Column="1" Grid.Row="0"  Height="30" VerticalAlignment="Top" Margin="0 30 0 0" MinWidth="200" MaxWidth="500" BorderBrush="{x:Null}" BorderThickness="3"/>
-             <!--<TextBox Watermark="Sök Bok, E-Bok eller Seminarie" Grid.Column="1" Grid.Row="0"  Height="30" VerticalAlignment="Top" Margin="0 30 0 0" MinWidth="200" MaxWidth="500" BorderBrush="{x:Null}" BorderThickness="3" Styles="{StaticResource ThemeAccentBrush}/>-->
+    <TextBox Watermark="Sök Bok, E-Bok eller Seminarie" Grid.Column="1" Grid.Row="0"  Height="30" VerticalAlignment="Top" Margin="0 30 0 0" MinWidth="200" MaxWidth="500" BorderBrush="#F9AA33" BorderThickness="2"/>
     
     
     
