@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
@@ -31,14 +32,39 @@ namespace LIBSYS.Models
             }
         }
 
-        public async Task AddUser(int memberId ,string email, string nickName, string password, string role, DateTime createdAt)
+        #region Members Stored Procedures
+        public void CreateMember(string _email, string _nickName, string _pwd, string _role)
         {
             using (IDbConnection con = Connection)
             {
-                //await CODE
+                connection.Query<Member>("create_member", new { email = _email, nickname = _nickName, pwd = _pwd, role = _role }, commandType: CommandType.StoredProcedure);
             }
         }
-        //TODO: Skapa metod för att logga in 
+
+        public List<Member> ReadMembers()
+        {
+            using (IDbConnection con = Connection)
+            {
+                List<Member> members = (connection.Query<Member>("read_members", commandType: CommandType.StoredProcedure)).ToList();
+                return members;
+            }
+        }
+
+        #endregion
+
+        #region Events Stored Procedures
+        public int CreateEvent(string _eventType, DateTime _timeStart, DateTime _timeEnd, string _location, int _owner)
+        {
+            using (IDbConnection con = Connection)
+            {
+                var eventID = connection.Query<Event>("create_event", new { event_type = _eventType, time_start = _timeEnd, location = _location, owner = _owner }, commandType: CommandType.StoredProcedure);
+                return (int)eventID;
+            }
+        }
+
+
+
+        #endregion
 
     }
 }
