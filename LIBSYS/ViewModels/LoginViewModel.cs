@@ -17,6 +17,7 @@ namespace LIBSYS.ViewModels
             AdminCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("admin"));
         }
 
+        //Skapa loginmetod
 
     }
 
