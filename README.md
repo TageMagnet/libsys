@@ -5,6 +5,8 @@ Collaborators: -Jonathan Harlin -Pontus Pettersson -Thomas Carleberg -Jakob Ande
 
 Inlog till Azure: 
 
+Standard size just nu: window: 960 x 540. usercontrol: 960 x 440
+
 ```
 aysen.furhoff@newton.se
 Stalin77 

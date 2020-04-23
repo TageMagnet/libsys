@@ -9,5 +9,7 @@
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+        <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml"/>
+      <!--<StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.DeepPurple.xaml"/>-->
     </Application.Styles>
 </Application>

@@ -5,13 +5,12 @@ using LIBSYS.ViewModels;
 
 namespace LIBSYS.Views
 {
-    public class LoginView : UserControl
+    public class HomeView : UserControl
     {
-        public LoginView()
+        public HomeView()
         {
-            
             this.InitializeComponent();
-            this.DataContext = new LoginViewModel();
+            this.DataContext = new HomeViewModel();
         }
 
         private void InitializeComponent()
