@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Text;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace LIBSYS.ViewModels
 {
@@ -18,19 +19,27 @@ namespace LIBSYS.ViewModels
         public ReactiveCommand<Unit, Unit> LoginCommand { get; set; }
         public LoginViewModel()
         {
-            //memberList = new List<Member>();
-            //memberList.Add(new Member { nickName = "janne", pwd = "123", role = "admin" });
-
-            memberList = new List<Member>(repo.ReadMembers());
+            LoadDataAsync();
             LoginCommand = ReactiveCommand.Create(() => LoginMethod());
         }
 
         //Skapa loginmetod
+        public async void LoadDataAsync()
+        {
+            await Task.Run(() => GetMembers());
+        }
 
+        public async Task GetMembers()
+        {
+            memberList = new List<Member>(await repo.ReadMembers());
+        }
         public void LoginMethod()
         {
             //Använda denna för att sätta in en ny user. Men ändra på namn m.m eftersom min redan finns
             //repo.CreateMember("Jonathan.harlin@hotmail.com", "Golden", "123", "Admin");
+
+            //Använd denna för att skapa seminarium
+            //int id = repo.CreateEvent("Seminarie", new DateTime(2020, 04, 05), new DateTime(2020, 05, 06), "StatsBiblioteket", 3);
             
         }
 

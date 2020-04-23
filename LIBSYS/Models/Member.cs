@@ -10,7 +10,7 @@ namespace LIBSYS.Models
         public string email { get; set; }
         public string nickname { get; set; }
         public string pwd { get; set; }
-        public string role { get; set; }
+        public List<string> roles { get; set; } = new List<string>();
         public DateTime createdAt { get; set; }
     }
 }

@@ -33,19 +33,20 @@ namespace LIBSYS.Models
         }
 
         #region Members Stored Procedures
-        public void CreateMember(string _email, string _nickName, string _pwd, string _role)
+        public int CreateMember(string _email, string _nickName, string _pwd, string _role)
         {
             using (IDbConnection con = Connection)
             {
-                connection.Query<Member>("create_member", new { email = _email, nickname = _nickName, pwd = _pwd, role = _role }, commandType: CommandType.StoredProcedure);
+                var memberID = connection.Query<int>("create_member", new { email = _email, nickname = _nickName, pwd = _pwd, role = _role }, commandType: CommandType.StoredProcedure);
+                return memberID.First();
             }
         }
 
-        public List<Member> ReadMembers()
+        public async  Task<List<Member>> ReadMembers()
         {
             using (IDbConnection con = Connection)
             {
-                List<Member> members = (connection.Query<Member>("read_members", commandType: CommandType.StoredProcedure)).ToList();
+                List<Member> members = (await connection.QueryAsync<Member>("read_members", commandType: CommandType.StoredProcedure)).ToList();
                 return members;
             }
         }
@@ -57,10 +58,12 @@ namespace LIBSYS.Models
         {
             using (IDbConnection con = Connection)
             {
-                var eventID = connection.Query<Event>("create_event", new { event_type = _eventType, time_start = _timeEnd, location = _location, owner = _owner }, commandType: CommandType.StoredProcedure);
-                return (int)eventID;
+                var eventID = connection.Query<int>("create_event", new { event_type = _eventType, time_start = _timeStart, time_end = _timeEnd , location = _location, owner = _owner }, commandType: CommandType.StoredProcedure);
+                return eventID.First();
             }
         }
+
+        //public List<Event> ReadEvents
 
 
 
