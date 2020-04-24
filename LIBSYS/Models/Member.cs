@@ -6,7 +6,7 @@ namespace LIBSYS.Models
 {
     public class Member
     {
-        public int member_ID { get; set; }
+        public int member_id { get; set; }
         public string email { get; set; }
         public string nickname { get; set; }
         public string pwd { get; set; }
