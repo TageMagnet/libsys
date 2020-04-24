@@ -11,7 +11,7 @@ namespace Library
 {
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private string ConnectionString { get; }
+        private string ConnectionString { get; set; }
         private IDbConnection connection { get; }
 
         /// <summary>
@@ -24,21 +24,13 @@ namespace Library
         /// </summary>
         protected string tableIdName;
 
-        private IDbConnection Connection
-        {
-            get
-            {
-                IDbConnection con = new SqlConnection(ConnectionString);
-                con.Open();
-                return con;
-            }
-        }
 
-        public GenericRepository()
+        protected IDbConnection CreateConnection()
         {
             ConnectionString = "Data Source=syss3-grupp1.database.windows.net;Initial Catalog=libsys;User Id=Grupp1;Password=Hunter12;";
-            connection = new SqlConnection(ConnectionString);
-            connection.Open();
+            IDbConnection con = new SqlConnection(ConnectionString);
+            con.Open();
+            return con;
         }
 
         /// <summary>
@@ -48,22 +40,18 @@ namespace Library
         /// <returns></returns>
         public async Task Create(T t)
         {
-            using (var connection = Connection)
+            using (var connection = CreateConnection())
             {
                 try
                 {
                     string query = GenerateInsertQuery(t);
-
-                    Console.WriteLine(query);
-                    Console.ReadKey();
-
-                    await connection.ExecuteAsync(query,t);
+                    var res = (await connection.QueryAsync<int>(query, t)).Single();
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("ERRRRRRRRRRROR YRRRRRRRRROL asdfgh qwertfy");
+                    System.Diagnostics.Trace.WriteLine(e.Message);
                 }
-              
+
             }
         }
 
@@ -74,7 +62,7 @@ namespace Library
         /// <returns></returns>
         public async Task Delete(int id)
         {
-            using (var connection = Connection)
+            using (var connection = CreateConnection())
             {
                 await connection.QuerySingleAsync<T>($"DELETE FROM {table} WHERE {table + "_id"} = @id;", new { id = id });
             }
@@ -87,7 +75,7 @@ namespace Library
         /// <returns></returns>
         public async Task<T> Read(int id)
         {
-            using (var connection = Connection)
+            using (var connection = CreateConnection())
             {
                 try
                 {
@@ -96,7 +84,7 @@ namespace Library
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("ERRORRRRRRRRRRRRRRRRRRRRR!");
+                    System.Diagnostics.Trace.WriteLine(e.Message);
                     return null;
                 }
 
@@ -119,10 +107,9 @@ namespace Library
         /// <returns></returns>
         public async Task<List<T>> ReadAll()
         {
-            using (var connection = Connection)
+            using (var connection = CreateConnection())
             {
-                var res = await connection.QueryAsync<T>($"SELECT * FROM {table}");
-                return res.ToList();
+                return (await connection.QueryAsync<T>($"SELECT * FROM {table}")).ToList();
             }
         }
 
@@ -136,11 +123,13 @@ namespace Library
             List<string> properties = new List<string>();
             foreach (var prop in t.GetType().GetProperties())
             {
-                if (prop.GetValue(t, null) != null)
+                if (prop.GetValue(t, null) != null && prop.Name.Contains("_id") == false)
+                {
                     properties.Add(prop.Name);
-
+                }
             }
-            properties.ForEach(prop => {
+            properties.ForEach(prop =>
+            {
                 insertQuery.Append($"[{prop}],");
             });
 

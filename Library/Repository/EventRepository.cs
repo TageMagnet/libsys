@@ -7,6 +7,10 @@ namespace Library
 {
     public class EventRepository : GenericRepository<Event>
     {
-        public EventRepository() => table = "event";
+        public EventRepository()
+        {
+            table = "event";
+            tableIdName = "event_id";
+        }
     }
 }

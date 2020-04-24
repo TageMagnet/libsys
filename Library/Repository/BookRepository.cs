@@ -7,6 +7,10 @@ namespace Library
 {
     public class BookRepository : GenericRepository<Book>
     {
-        public BookRepository() => table = "books";
+        public BookRepository()
+        {
+            table = "books";
+            tableIdName = "book_id";
+        }
     }
 }
