@@ -27,7 +27,7 @@ namespace LIBSYS.ViewModels
                 case "admin":
                     CurrentView.Content = new AdminView();
                     break;
-                case "Librarian":
+                case "librarian":
                     CurrentView.Content = new LibrarianView();
                     break;
                 case "customer":
