@@ -8,9 +8,9 @@ namespace LIBSYS.Models
     {
         public int member_ID { get; set; }
         public string email { get; set; }
-        public string nickName { get; set; }
+        public string nickname { get; set; }
         public string pwd { get; set; }
-        public string role { get; set; }
+        public List<string> roles { get; set; } = new List<string>();
         public DateTime createdAt { get; set; }
     }
 }
