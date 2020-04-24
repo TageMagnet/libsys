@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 
@@ -30,14 +32,20 @@ namespace Library
             connection.Open();
         }
 
-        public Task Create(T t)
+        public async Task Create(T t)
         {
-            throw new NotImplementedException();
+            using (var connection = Connection)
+            {
+                await connection.QuerySingleAsync<T>($"INSERT INTO {table} VALUES (@value);", new { value = t });
+            }
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            using (var connection = Connection)
+            {
+                await connection.QuerySingleAsync<T>($"DELETE FROM {table} WHERE {table + "_id"} = @id;", new { id = id });
+            }
         }
 
         public async Task<T> Read(int id)
@@ -52,6 +60,15 @@ namespace Library
         public Task Update(T t)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<T>> ReadAll()
+        {
+            using (var connection = Connection)
+            {
+                var res = await connection.QueryAsync<T>($"SELECT * FROM {table}");
+                return res.ToList();
+            }
         }
     }
 }

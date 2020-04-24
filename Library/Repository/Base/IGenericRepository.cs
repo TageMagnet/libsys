@@ -13,5 +13,6 @@ namespace Library
         Task Update(T t);
         Task Delete(int id);
         //... extra
+        Task<List<T>> ReadAll();
     }
 }

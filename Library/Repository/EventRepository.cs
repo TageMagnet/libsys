@@ -1,10 +1,12 @@
-﻿using System;
+﻿using LIBSYS.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Library
 {
-    class EventRepository
+    public class EventRepository : GenericRepository<Event>
     {
+        public EventRepository() => table = "event";
     }
 }

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using LIBSYS.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Library
 {
-    class BookRepository
+    public class BookRepository : GenericRepository<Book>
     {
+        public BookRepository() => table = "books";
     }
 }
