@@ -35,15 +35,15 @@ namespace LIBSYS.ViewModels
         }
         public void LoginMethod()
         {
-<<<<<<< HEAD
+
             // Metoden ska ta in användarnamn / lösen  från LoginView. kontrollera? samt returnera den användarens roll :)
-=======
+
             //Använda denna för att sätta in en ny user. Men ändra på namn m.m eftersom min redan finns
-            //repo.CreateMember("Jonathan.harlin@hotmail.com", "Golden", "123", "Admin");
+            repo.CreateMember("pontus.pettsson@hotmail.com", "inte_golden", "1234", "librarian");
 
             //Använd denna för att skapa seminarium
             //int id = repo.CreateEvent("Seminarie", new DateTime(2020, 04, 05), new DateTime(2020, 05, 06), "StatsBiblioteket", 3);
->>>>>>> master
+
             
         }
 
