@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using Library.Extensions;
 
 namespace Library
 {
@@ -102,7 +103,7 @@ namespace Library
         }
 
         /// <summary>
-        /// 
+        /// Return a list of all rows
         /// </summary>
         /// <returns></returns>
         public async Task<List<T>> ReadAll()
@@ -113,13 +114,17 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Create generic SQL-query for INSERT based on <see cref="T"> properties
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public string GenerateInsertQuery(T t)
         {
             var insertQuery = new StringBuilder($"INSERT INTO {table} ");
 
             insertQuery.Append("(");
 
-            //var properties = GenerateListOfProperties(GetProperties)
             List<string> properties = new List<string>();
             foreach (var prop in t.GetType().GetProperties())
             {
@@ -143,6 +148,63 @@ namespace Library
                 .Remove(insertQuery.Length - 1, 1)
                 .Append(")");
             return insertQuery.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public string GenerateUpdateQuery(T t)
+        {
+            var sqlQuery = new StringBuilder($"UPDATE {table} ");
+            // todo; add error check for int
+            int objectID = -999;
+            // name of id column
+            string idRowName = "";
+
+            List<string> properties = new List<string>();
+
+            // Loop all the properties in supplied class
+            foreach (var prop in t.GetType().GetProperties())
+            {
+                // ..
+                bool isNull = prop.GetValue(t, null) != null ? false : true;
+                // ..
+                bool isID = prop.Name.Contains("_id") == false ? false : true;
+                // ..
+                //bool isInteger =  prop.GetValue(t, null).GetType() == Int32;
+
+                // property value is not null nor name contains '_id' 
+                if (!isNull && !isID)
+                {
+                    properties.Add(prop.Name);
+                }
+                // not null && isID == true
+                else if(!isNull && isID)
+                {
+                    // Store the id for WHERE clause, since we are updating an existing row
+                    // todo; fail-check
+                    idRowName = prop.Name;
+                    Int32.TryParse(prop.ToString(), out objectID);
+                }
+            }
+            properties.ForEach(prop =>
+            {
+                sqlQuery.Append($"[{prop}],");
+            });
+
+            sqlQuery
+                .Remove(sqlQuery.Length - 1, 1)
+                .Append("SET");
+
+            properties.ForEach(prop => { sqlQuery.Append($"@{prop},"); });
+
+            sqlQuery
+                .Remove(sqlQuery.Length - 1, 1)
+                .Append($"WHERE {idRowName} = {objectID.ToString()}");
+
+            return sqlQuery.ToString();
         }
     }
 }

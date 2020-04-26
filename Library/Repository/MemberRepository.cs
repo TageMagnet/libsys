@@ -27,7 +27,7 @@ namespace Library
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    System.Diagnostics.Trace.WriteLine(e.Message);
                     return 0;
                 }
 

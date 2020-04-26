@@ -15,6 +15,9 @@ namespace LIBSYS.Models
         public string url { get; set; }
         public string content { get; set; }
 
-        public int condition { get; set; }
+        /// <summary>
+        /// Current condition of physical; book from 0 to 255
+        /// </summary>
+        public byte condition { get; set; }
     }
 }
