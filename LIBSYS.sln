@@ -5,9 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIBSYS", "LIBSYS\LIBSYS.csproj", "{B816F091-6636-4C87-A7D5-1BE6784BD8A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Library\Library.csproj", "{07FFA33B-B586-4CBC-8B31-B5A76BED3304}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTestThingy", "ConsoleTestThingy\ConsoleTestThingy.csproj", "{AF119836-4CD7-4B1C-A417-EB4F39AD55C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTestThingy", "ConsoleTestThingy\ConsoleTestThingy.csproj", "{AF119836-4CD7-4B1C-A417-EB4F39AD55C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{B816F091-6636-4C87-A7D5-1BE6784BD8A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B816F091-6636-4C87-A7D5-1BE6784BD8A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B816F091-6636-4C87-A7D5-1BE6784BD8A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07FFA33B-B586-4CBC-8B31-B5A76BED3304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07FFA33B-B586-4CBC-8B31-B5A76BED3304}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07FFA33B-B586-4CBC-8B31-B5A76BED3304}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07FFA33B-B586-4CBC-8B31-B5A76BED3304}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF119836-4CD7-4B1C-A417-EB4F39AD55C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF119836-4CD7-4B1C-A417-EB4F39AD55C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF119836-4CD7-4B1C-A417-EB4F39AD55C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
