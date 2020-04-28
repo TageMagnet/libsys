@@ -13,11 +13,14 @@
           <Button Margin="5,0" Content="Lägg till bok"/>
           <Button Margin="5,0" Content="Ta bort bok"/>
           <Button Margin="5,0" Content="Ändra bok"/>
-          <ListBox Margin="5,0">
-            <StackPanel>
-              <TextBlock Text="Harry Potter"/>
-            </StackPanel>
-          </ListBox>
+          <Viewbox Margin="5,0">
+            <ItemsControl x:Name="Control" Items="{Binding Books}">
+              <StackPanel>
+                <TextBlock Text="{Binding title}"></TextBlock>
+                <TextBlock Text="{Binding description}"></TextBlock>
+              </StackPanel>
+            </ItemsControl>
+          </Viewbox>
         </StackPanel>
       </Grid>
     </TabItem>
