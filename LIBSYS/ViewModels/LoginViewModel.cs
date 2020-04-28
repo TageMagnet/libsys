@@ -8,6 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Library;
 using Avalonia.Controls;
+using MessageBox.Avalonia.DTO;
+using MessageBox.Avalonia;
+using Avalonia.Styling;
 
 namespace LIBSYS.ViewModels
 {
@@ -41,17 +44,47 @@ namespace LIBSYS.ViewModels
         }
         public void LoginMethod()
         {
-            if (!String.IsNullOrWhiteSpace(username) || !String.IsNullOrWhiteSpace(password))
+            var member = new Member();
+
+            var config = new MessageBoxCustomParams { ShowInCenter = true, Style = MessageBox.Avalonia.Enums.Style.DarkMode, ContentTitle="Error",
+                ContentMessage= "Fel Lösenord eller användarnamn", };
+
+            var wrongMemberMessage = MessageBoxManager.GetMessageBoxCustomWindow(config);
+
+            if (String.IsNullOrWhiteSpace(username))
+                return;
+
+            if (String.IsNullOrWhiteSpace(password))
+                return;
+
+            var user = memberList.Find(x => x.email == username);
+
+            if (user == null)
             {
-                var user = memberList.Find(x => x.email == username);
-                if (user.pwd == password)
-                {
-                    MainWindowViewModel.ChangeView(user.role);
-                }
-                
-                //ShowMessageBox()
-                
+                wrongMemberMessage.Show();
+                return;
             }
+
+            if (user.pwd != password)
+            {
+                wrongMemberMessage.Show();
+                return;
+            }
+            MainWindowViewModel.ChangeView(user.role);
+            //if (!String.IsNullOrWhiteSpace(username) && !String.IsNullOrWhiteSpace(password))
+            //{
+            //    var user = memberList.Find(x => x.email == username);
+            //    if (true)
+            //    {
+
+            //    }
+            //    if (user.pwd == password)
+            //    {
+            //        MainWindowViewModel.ChangeView(user.role);
+            //    }
+
+            //    
+            //}
         }
 
     }
