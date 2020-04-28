@@ -7,12 +7,13 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using Library;
+using Avalonia.Controls;
 
 namespace LIBSYS.ViewModels
 {
     public class LoginViewModel: ViewModelBase
     {
-        public MemberRepository repo = new MemberRepository();
+        //public MemberRepository repo = new MemberRepository();
         public List<Member> memberList;
         public string username { get; set; }
         public string password { get; set; }
@@ -20,8 +21,12 @@ namespace LIBSYS.ViewModels
         public ReactiveCommand<Unit, Unit> LoginCommand { get; set; }
         public LoginViewModel()
         {
-            LoadDataAsync();
+            //LoadDataAsync();
             LoginCommand = ReactiveCommand.Create(() => LoginMethod());
+            memberList = new List<Member>();
+            memberList.Add(new Member { nickname = "Jonathan", email = "jh@email.com", pwd = "jh123", role="admin" });
+            memberList.Add(new Member { nickname = "Pontus", email = "pp@email.com", pwd = "pp123", role="librarian" });
+            memberList.Add(new Member { nickname = "Thomas", email = "tc@email.com", pwd = "tc123", role="customer" });
         }
 
         //Skapa loginmetod
@@ -32,21 +37,21 @@ namespace LIBSYS.ViewModels
 
         public async Task GetMembers()
         {
-            memberList = new List<Member>(await repo.ReadAll());
+            //memberList = new List<Member>(await repo.ReadAll());
         }
         public void LoginMethod()
         {
-
-            // Metoden ska ta in användarnamn / lösen  från LoginView. kontrollera? samt returnera den användarens roll :)
-
-            //Använda denna för att sätta in en ny user. Men ändra på namn m.m eftersom min redan finns
-            var newMember = new Member { email = "pontus.pettsson@hotmail.com", nickname = "inte_golden", pwd = "1234", role = "librarian" };
-            repo.Create(newMember);
-
-            //Använd denna för att skapa seminarium
-            //int id = repo.CreateEvent("Seminarie", new DateTime(2020, 04, 05), new DateTime(2020, 05, 06), "StatsBiblioteket", 3);
-
-            
+            if (!String.IsNullOrWhiteSpace(username) || !String.IsNullOrWhiteSpace(password))
+            {
+                var user = memberList.Find(x => x.email == username);
+                if (user.pwd == password)
+                {
+                    MainWindowViewModel.ChangeView(user.role);
+                }
+                
+                //ShowMessageBox()
+                
+            }
         }
 
     }
