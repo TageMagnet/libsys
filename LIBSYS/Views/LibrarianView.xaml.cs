@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-
+using LIBSYS.ViewModels;
 
 namespace LIBSYS.Views
 {
@@ -10,7 +10,7 @@ namespace LIBSYS.Views
         public LibrarianView()
         {
             this.InitializeComponent();
-            
+            this.DataContext = new LibrarianViewModel();
         }
 
         private void InitializeComponent()
