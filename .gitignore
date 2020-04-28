@@ -232,3 +232,5 @@ _Pvt_Extensions
 /.dotnet
 /PizzaPalatsetWpf/.env
 *.env
+# Annoying folder wont go away
+/TestWithConsole 

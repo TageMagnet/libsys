@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
+
 namespace LIBSYS.Views
 {
     public class LibrarianView : UserControl
@@ -9,6 +10,7 @@ namespace LIBSYS.Views
         public LibrarianView()
         {
             this.InitializeComponent();
+            
         }
 
         private void InitializeComponent()
