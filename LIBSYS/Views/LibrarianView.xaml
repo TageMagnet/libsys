@@ -3,6 +3,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             FontSize="20" FontWeight="DemiBold" Foreground="#344955"
              x:Class="LIBSYS.Views.LibrarianView">
-    Welcome to Avalonia!
+
+  <TabControl>
+    <TabItem Margin="20,0" Grid.Column="0" Header="Böcker" Background="#F9AA33">
+      <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="*,*,*,*,*,*">
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+          <Button Margin="5,0" Content="Lägg till bok"/>
+          <Button Margin="5,0" Content="Ta bort bok"/>
+          <Button Margin="5,0" Content="Ändra bok"/>
+          <ListBox Margin="5,0">
+            <StackPanel>
+              <TextBlock Text="Harry Potter"/>
+            </StackPanel>
+          </ListBox>
+        </StackPanel>
+      </Grid>
+    </TabItem>
+    <TabItem Margin="20,0" Header="E-böcker" Background="#F9AA33">
+      <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="*,*,*,*,*">
+        <Button Margin="0,5" Foreground="#344955" Background="#F9AA33" Grid.Column="2" Grid.Row="1" Content="Lägg till ny E-bok"/>
+        <Button Margin="0,5" Foreground="#344955" Background="#F9AA33" Grid.Column="2" Grid.Row="2" Content="Ta bort bok"/>
+        <Button Margin="0,5" Foreground="#344955" Background="#F9AA33" Grid.Column="2" Grid.Row="3" Content="Ändra bok"/>
+      </Grid>
+    </TabItem>
+    <TabItem Margin="20,0" Header="Seminarier" Background="#F9AA33">
+      <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="*,*,*,*,*">
+        <Grid Margin="10">
+          <ListBox>
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Grid Margin="0,2">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="{Binding Title}" />
+                  <ProgressBar Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding Completion}" />
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </Grid>
+        <Button Margin="0,5" Background="#F9AA33" Grid.Column="2" Grid.Row="1" Content="Lägg till"/>
+        <Button Margin="0,5" Background="#F9AA33" Grid.Column="2" Grid.Row="2" Content="Ta bort"/>
+        <Button Margin="0,5" Background="#F9AA33" Grid.Column="2" Grid.Row="3" Content="Ändra"/>
+      </Grid>
+    </TabItem>
+  </TabControl>
+
 </UserControl>
