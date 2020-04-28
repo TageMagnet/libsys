@@ -11,6 +11,8 @@ using Avalonia.Controls;
 using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia;
 using Avalonia.Styling;
+using MessageBox.Avalonia.Models;
+using MessageBox.Avalonia.Enums;
 
 namespace LIBSYS.ViewModels
 {
@@ -46,8 +48,10 @@ namespace LIBSYS.ViewModels
         {
             var member = new Member();
 
-            var config = new MessageBoxCustomParams { ShowInCenter = true, Style = MessageBox.Avalonia.Enums.Style.DarkMode, ContentTitle="Error",
-                ContentMessage= "Fel Lösenord eller användarnamn", };
+            var config = new MessageBoxCustomParams { ShowInCenter = true, Style = MessageBox.Avalonia.Enums.Style.DarkMode, ContentTitle = "Error",
+                ContentMessage = "Fel Lösenord eller användarnamn", WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                ButtonDefinitions = new[] { new ButtonDefinition { Name = "Ok", Type = ButtonType.Colored } }
+            };
 
             var wrongMemberMessage = MessageBoxManager.GetMessageBoxCustomWindow(config);
 
