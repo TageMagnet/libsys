@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LibSys2._0.Models
+namespace LibrarySystem.Models
 {
     public class Book
     {

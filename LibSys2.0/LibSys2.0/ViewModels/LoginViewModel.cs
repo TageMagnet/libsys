@@ -1,4 +1,4 @@
-﻿using LibSys2._0.Models;
+﻿using LibrarySystem.Models;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibSys2._0.ViewModels
+namespace LibrarySystem.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {

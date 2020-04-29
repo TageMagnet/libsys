@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace LibSys2._0
+namespace LibrarySystem
 {
     /// <summary>
     /// Interaction logic for App.xaml

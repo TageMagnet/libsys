@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>LibSys2._0</RootNamespace>
+    <RootNamespace>LibrarySystem</RootNamespace>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
@@ -21,6 +21,10 @@
 
   <ItemGroup>
     <Resource Include="Assets\LibSysWhite.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Library\" />
   </ItemGroup>
 
 </Project>

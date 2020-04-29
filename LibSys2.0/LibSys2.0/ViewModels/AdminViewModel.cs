@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LibSys2._0.ViewModels
+namespace LibrarySystem.ViewModels
 {
     public class AdminViewModel
     {

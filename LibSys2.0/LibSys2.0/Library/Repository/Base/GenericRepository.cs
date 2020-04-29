@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 
+
 namespace Library
 {
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -172,8 +173,6 @@ namespace Library
                 // ..
                 bool isID = prop.Name.Contains("_id") == false ? false : true;
                 // ..
-                bool isRefID = prop.Name.Contains("_id") && prop.Name.Contains("ref_") == false ? false : true;
-                // ..
                 //bool isInteger =  prop.GetValue(t, null).GetType() == Int32;
 
                 // property value is not null nor name contains '_id' 
@@ -182,7 +181,7 @@ namespace Library
                     properties.Add(prop.Name);
                 }
                 // not null && isID == true
-                else if(!isNull && !isRefID && isID)
+                else if(!isNull && isID)
                 {
                     // Store the id for WHERE clause, since we are updating an existing row
                     // todo; fail-check
@@ -197,13 +196,13 @@ namespace Library
 
             sqlQuery
                 .Remove(sqlQuery.Length - 1, 1)
-                .Append(" SET ");
+                .Append("SET");
 
             properties.ForEach(prop => { sqlQuery.Append($"@{prop},"); });
 
             sqlQuery
                 .Remove(sqlQuery.Length - 1, 1)
-                .Append($" WHERE {idRowName} = {objectID.ToString()}");
+                .Append($"WHERE {idRowName} = {objectID.ToString()}");
 
             return sqlQuery.ToString();
         }

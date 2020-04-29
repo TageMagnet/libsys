@@ -4,7 +4,6 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
-using LIBSYS.Models;
 
 namespace Library
 {

@@ -1,4 +1,4 @@
-﻿using LibSys2._0.ViewModels;
+﻿using LibrarySystem.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LibSys2._0.Views
+namespace LibrarySystem.Views
 {
     /// <summary>
     /// Interaction logic for LibrarianView.xaml

@@ -1,10 +1,10 @@
-﻿using LibSys2._0.Views;
+﻿using LibrarySystem.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 
-namespace LibSys2._0.ViewModels
+namespace LibrarySystem.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
