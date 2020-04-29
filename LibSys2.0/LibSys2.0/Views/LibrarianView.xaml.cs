@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LibSys2._0.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +23,7 @@ namespace LibSys2._0.Views
         public LibrarianView()
         {
             InitializeComponent();
+            this.DataContext = new LibrarianViewModel();
         }
     }
 }

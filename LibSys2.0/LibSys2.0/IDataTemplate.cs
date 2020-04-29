@@ -24,4 +24,4 @@ namespace LibSys2._0
     //    //     True if the data template can build a control for the data, otherwise false.
     //    bool Match(object data);
     }
-}
+    

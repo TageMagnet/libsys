@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibSys2._0.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,6 +22,7 @@ namespace LibSys2._0.Views
         public HomeView()
         {
             InitializeComponent();
+            this.DataContext = new HomeViewModel();
         }
     }
 }
