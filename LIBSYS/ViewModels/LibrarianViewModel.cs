@@ -23,6 +23,15 @@ namespace LIBSYS.ViewModels
             Books.Add(new Book { title = "Harry Potter", description = "HARRY BECOMES A WIZZARD YO!" });
             Books.Add(new Book { title = "Harry Potter 2", description = "HARRY IS NOW A WIZZARD" });
             Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
+            Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
+            Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
+            Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
+            Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
+            Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
+            Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
+            Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
+            Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
+            Books.Add(new Book { title = "Harry Potter 3", description = "HARRY LOST HIS WAND" });
         }
 
         //private ObservableCollection<Event> events;

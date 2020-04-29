@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:LIBSYS.ViewModels;assembly=LIBSYS"
              mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="450"
+             
              x:Class="LIBSYS.Views.HomeView" FontWeight="DemiBold" Foreground="#344955">
   
   
