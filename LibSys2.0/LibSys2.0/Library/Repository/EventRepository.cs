@@ -9,7 +9,7 @@ namespace Library
     {
         public EventRepository()
         {
-            table = "event";
+            table = "events";
             tableIdName = "event_id";
         }
     }
