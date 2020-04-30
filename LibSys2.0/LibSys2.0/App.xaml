@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:LibrarySystem"
              xmlns:v="clr-namespace:LibrarySystem.Views"
              xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             StartupUri="/Views/MainWindow.xaml">
+             StartupUri="/Views/LibrarianView.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
