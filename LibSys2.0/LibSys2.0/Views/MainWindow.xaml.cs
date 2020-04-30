@@ -23,5 +23,10 @@ namespace LibrarySystem.Views
             InitializeComponent();
             this.DataContext = new MainWindowViewModel();
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }

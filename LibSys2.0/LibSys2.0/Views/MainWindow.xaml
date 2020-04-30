@@ -6,26 +6,24 @@
         xmlns:local="clr-namespace:LibrarySystem.Views"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-          
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto"
-
-        Title="MainWindow" Height="540" Width="920">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="1*"/>
-      <RowDefinition Height="4*"/>
-    </Grid.RowDefinitions>
+        TextOptions.TextRenderingMode="Auto" Height="940" Width="1080" WindowStyle="None" WindowStartupLocation="CenterScreen" Visibility="Visible" AllowsTransparency="True"
+        MouseDown="Window_MouseDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
 
 
         <Grid Grid.Row="0" Background="#4A6572">
             <Image Source="/Assets/LibSysWhite.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
 
-      <!--#region Ta Bort sen-->
+        <!--#region Ta Bort sen-->
         <!--<Button Grid.Row="1" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
             <Button.Content>
                 <StackPanel Orientation="Vertical">
@@ -44,5 +42,5 @@
         <!--#endregion-->
 
         <UserControl Grid.Row="1" Content="{Binding CurrentView}"/>
-  </Grid>
+    </Grid>
 </Window>

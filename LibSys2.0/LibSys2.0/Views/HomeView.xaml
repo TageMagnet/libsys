@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LibrarySystem.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
+             Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
     
     <Grid>
@@ -21,14 +23,31 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--#endregion-->
-
-        <TextBox  Grid.Column="1" Grid.Row="0"  Height="30" VerticalAlignment="Top" Margin="0 30 0 0" MinWidth="200" MaxWidth="500" BorderBrush="#F9AA33" BorderThickness="2"/>
-
-
-
-        <StackPanel Grid.Column="2" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20">
-            <Button Command="{Binding LoginCommand}" Content="Login" Width="100" Height="50" Margin="5" Background="#F9AA33" Foreground="#344955"/>
-            <Button Command="{Binding RegisterCommand}" Content="Register" Width="100" Height="50" Margin="5" Background="#F9AA33" Foreground="#344955"/>
+        <Viewbox Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 15 0 0">
+                <TextBlock Text="Sök: " FontSize="15" FontWeight="DemiBold" Margin="0 0 0 0"/>
+                <TextBox    Height="30" Margin="0 0 0 0" MinWidth="200" MaxWidth="500" FontSize="15"/>
+            </StackPanel>
+        </Viewbox>
+        
+        
+        <StackPanel Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20" Grid.RowSpan="2">
+            <Button Command="{Binding LoginCommand}"  Width="100" Height="60" Margin="5" Foreground="#F9AA33">
+                <Button.Content>
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:PackIcon Kind="Login" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <TextBlock Text="Logga in" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{Binding RegisterCommand}" Width="100" Height="60" Margin="5" Foreground="#F9AA33">
+                <Button.Content>
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:PackIcon Kind="Register" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <TextBlock Text="Registrera" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
         </StackPanel>
 
     </Grid>
