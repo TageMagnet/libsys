@@ -19,6 +19,9 @@ namespace LibrarySystem.ViewModels
         {
             switch (view)
             {
+                case "home":
+                    CurrentView.Content = new HomeView();
+                    break;
                 case "login":
                     CurrentView.Content = new LoginView();
                     break;

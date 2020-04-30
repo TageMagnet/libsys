@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LibrarySystem.ViewModels
 {
@@ -16,10 +17,12 @@ namespace LibrarySystem.ViewModels
         public string password { get; set; }
 
         public ReactiveCommand<Unit, Unit> LoginCommand { get; set; }
+        public ReactiveCommand<Unit, Unit> GoBackCommand { get; set; }
         public LoginViewModel()
         {
             //LoadDataAsync();
             LoginCommand = ReactiveCommand.Create(() => LoginMethod());
+            GoBackCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("home"));
             memberList = new List<Member>();
             memberList.Add(new Member { nickname = "Jonathan", email = "jh@email.com", pwd = "jh123", role = "admin" });
             memberList.Add(new Member { nickname = "Pontus", email = "pp@email.com", pwd = "pp123", role = "librarian" });
@@ -40,18 +43,6 @@ namespace LibrarySystem.ViewModels
         {
             var member = new Member();
 
-            //GÖR OM!
-            //var config = new MessageBoxCustomParams
-            //{
-            //    ShowInCenter = true,
-            //    Style = MessageBox.Avalonia.Enums.Style.DarkMode,
-            //    ContentTitle = "Error",
-            //    ContentMessage = "Fel Lösenord eller användarnamn",
-            //    WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            //    ButtonDefinitions = new[] { new ButtonDefinition { Name = "Ok", Type = ButtonType.Colored } }
-            //};
-
-            //var wrongMemberMessage = MessageBoxManager.GetMessageBoxCustomWindow(config);
 
             if (String.IsNullOrWhiteSpace(username))
                 return;
@@ -63,30 +54,16 @@ namespace LibrarySystem.ViewModels
 
             if (user == null)
             {
-                //wrongMemberMessage.Show();
+                MessageBox.Show("Fel Lösenord eller användarnamn");
                 return;
             }
 
             if (user.pwd != password)
             {
-                //wrongMemberMessage.Show();
+                MessageBox.Show("Fel Lösenord eller användarnamn");
                 return;
             }
             MainWindowViewModel.ChangeView(user.role);
-            //if (!String.IsNullOrWhiteSpace(username) && !String.IsNullOrWhiteSpace(password))
-            //{
-            //    var user = memberList.Find(x => x.email == username);
-            //    if (true)
-            //    {
-
-            //    }
-            //    if (user.pwd == password)
-            //    {
-            //        MainWindowViewModel.ChangeView(user.role);
-            //    }
-
-            //    
-            //}
         }
 
     }
