@@ -6,14 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using MySql.Data.MySqlClient;
 
 
 namespace Library
 {
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private string ConnectionString { get; set; }
-        private IDbConnection connection { get; }
+        //private IDbConnection connection { get; }
+        //private MySqlConnection client;
 
         /// <summary>
         /// Name of SQL table
@@ -25,11 +26,27 @@ namespace Library
         /// </summary>
         protected string tableIdName;
 
-
-        protected IDbConnection CreateConnection()
+        /// <summary>
+        /// MySQL
+        /// </summary>
+        /// <returns></returns>
+        protected MySqlConnection CreateConnection()
         {
-            ConnectionString = "Data Source=syss3-grupp1.database.windows.net;Initial Catalog=libsys;User Id=Grupp1;Password=Hunter12;";
-            IDbConnection con = new SqlConnection(ConnectionString);
+            string connectionString = "server=tjackobacco.com;port=23006;database=libsys;uid=guest;pwd=hunter12;";
+            MySqlConnection con = new MySqlConnection(connectionString);
+            con.Open();
+            return con;
+        }
+
+        /// <summary>
+        /// Microsoft SQL Server
+        /// </summary>
+        /// <param name="s">add a string to use MSSQL instead</param>
+        /// <returns></returns>
+        protected IDbConnection CreateConnection(string s)
+        {
+            string connectionString = "Data Source=syss3-grupp1.database.windows.net;Initial Catalog=libsys;User Id=Grupp1;Password=Hunter12;";
+            IDbConnection con = new SqlConnection(connectionString);
             con.Open();
             return con;
         }
