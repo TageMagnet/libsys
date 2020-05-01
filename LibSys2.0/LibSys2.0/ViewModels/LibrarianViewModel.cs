@@ -3,6 +3,7 @@ using LibrarySystem.Models;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,14 +21,15 @@ namespace LibrarySystem.ViewModels
         public Book SelectedBook { get; set; }
 
         public List<Event> ListOfEvents { get; set; }
-        public List<Book> Books { get; set; }
-        public List<eBook> eBooks { get; set; }
-        public List<Event> Event { get; set; }
+        public ObservableCollection<Book> Books { get; set; }
+        public ObservableCollection<eBook> eBooks { get; set; }
+        public ObservableCollection<Event> Events { get; set; }
 
         #endregion
 
         #region Commands
         public ReactiveCommand<Unit,Unit> AddBookCommand { get; set; }
+        public ReactiveCommand<Book, Unit> RemoveBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
 
@@ -35,7 +37,12 @@ namespace LibrarySystem.ViewModels
         public LibrarianViewModel()
         {
             SelectedBook = new Book();
+            Books = new ObservableCollection<Book>();
+            eBooks = new ObservableCollection<eBook>();
+            Events = new ObservableCollection<Event>();
+
             AddBookCommand = ReactiveCommand.CreateFromTask(() => AddBookCommandMethod());
+            //RemoveBookCommand = ReactiveCommand.CreateFromTask(() => RemoveBookCommandMethod(object param));
             AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
             LoadDataAsync();
@@ -65,8 +72,13 @@ namespace LibrarySystem.ViewModels
                 return;
             }
             await bookRepo.Create(SelectedBook);
+            await LoadBooks();
 
         }
+        //public async Task RemoveBookCommandmethod(object param)
+        //{
+        //    await bookRepo.Delete();
+        //}
 
         public async Task AddeBookCommandMethod()
         {
@@ -88,17 +100,31 @@ namespace LibrarySystem.ViewModels
         // Hämtar hem böcker
         public async Task LoadBooks()
         {
-            Books = new List<Book>(await bookRepo.ReadAll());
+            Books.Clear();
+            foreach(var book in await bookRepo.ReadAll())
+            {
+                Books.Add(book);
+            }
+            //Books.Add( await bookRepo.ReadAll());
+            
         }
         // Hämtar hem e-böcker
         public async Task LoadEbooks()
         {
-            eBooks = new List<eBook>(await eBookRepo.ReadAll());
+            eBooks.Clear();
+            foreach (var ebook in await eBookRepo.ReadAll())
+            {
+                eBooks.Add(ebook);
+            }
         }
         // Hämtar hem events
         public async Task LoadEvents()
         {
-            Event = new List<Event>(await eventRepo.ReadAll());
+            Events.Clear();
+            foreach (var _event in await eventRepo.ReadAll())
+            {
+                Events.Add(_event);
+            }
         }
         //private ObservableCollection<Event> events;
         //public ObservableCollection<Event> Events
