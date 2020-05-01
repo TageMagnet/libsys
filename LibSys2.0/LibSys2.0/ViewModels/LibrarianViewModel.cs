@@ -28,12 +28,12 @@ namespace LibrarySystem.ViewModels
             {
                 Books = new List<Book>();
             }
-            
+            LoadDataAsync();
         }
 
         public async void LoadDataAsync()
         {
-
+            await Task.Run(() => LoadBooks());
         }
 
         public async Task LoadBooks()
