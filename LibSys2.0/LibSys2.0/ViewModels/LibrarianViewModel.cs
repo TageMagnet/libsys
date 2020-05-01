@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LibrarySystem.ViewModels
 {
@@ -16,10 +17,7 @@ namespace LibrarySystem.ViewModels
         public eBookRepository eBookRepo = new eBookRepository();
         public EventRepository eventRepo = new EventRepository();
 
-        public string Author { get; set; }
-        public string Description { get; set; }
-        public string Title { get; set; }
-        public double Completion { get; set; }
+        public Book SelectedBook { get; set; }
 
         public List<Event> ListOfEvents { get; set; }
         public List<Book> Books { get; set; }
@@ -36,14 +34,37 @@ namespace LibrarySystem.ViewModels
         #endregion
         public LibrarianViewModel()
         {
+            SelectedBook = new Book();
             AddBookCommand = ReactiveCommand.CreateFromTask(() => AddBookCommandMethod());
             AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
             LoadDataAsync();
         }
 
+        #region Command Methods
         public async Task AddBookCommandMethod()
         {
+            if (SelectedBook.title == null)
+            {
+                MessageBox.Show("Lägg till titel!");
+                return;
+            }
+            //if (SelectedBook.author == null)
+            //{
+            //    MessageBox.Show("Lägg till författare!");
+            //    return;
+            //}
+            if (SelectedBook.description == null)
+            {
+                MessageBox.Show("Lägg till beskrivning!");
+                return;
+            }
+            if (SelectedBook.isbn == null)
+            {
+                MessageBox.Show("Lägg till isbn!");
+                return;
+            }
+            await bookRepo.Create(SelectedBook);
 
         }
 
@@ -56,6 +77,7 @@ namespace LibrarySystem.ViewModels
 
         }
 
+        #endregion
         public async void LoadDataAsync()
         {
             await LoadBooks();

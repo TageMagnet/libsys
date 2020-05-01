@@ -44,7 +44,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Row="0" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookTitle" Margin="5"/>
+                    <TextBox Text="{Binding SelectedBook.title, Mode=TwoWay}" Grid.Row="0" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookTitle" Margin="5"/>
                     <TextBlock Grid.Row="0" IsHitTestVisible="False" Text="Titel" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -58,7 +58,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                     <!--Author-->
-                    <TextBox Grid.Row="1" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookAuthor" Margin="5"/>
+                    <TextBox Text="{Binding SelectedBook.author, Mode=TwoWay}" Grid.Row="1" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookAuthor" Margin="5"/>
                     <TextBlock Grid.Row="1" IsHitTestVisible="False" Text="Författare" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -72,7 +72,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                     <!--Description-->
-                    <TextBox Grid.Row="2" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookDescription" Margin="5"/>
+                    <TextBox Text="{Binding SelectedBook.description, Mode=TwoWay}" Grid.Row="2" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookDescription" Margin="5"/>
                     <TextBlock Grid.Row="2" IsHitTestVisible="False" Text="Beskrivning" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -86,7 +86,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                     <!--ISBN-->
-                    <TextBox Grid.Row="3" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5"/>
+                    <TextBox Text="{Binding SelectedBook.isbn, Mode=TwoWay}" Grid.Row="3" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5"/>
                     <TextBlock Grid.Row="3" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">

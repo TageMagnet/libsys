@@ -12,12 +12,12 @@ namespace LibrarySystem.Models
         public string isbn { get; set; }
         public string title { get; set; }
         public string description { get; set; }
-        public string url { get; set; }
-        public string content { get; set; }
+        public string url { get; set; } = "/";
+        public string content { get; set; } = "Deafault Content";
 
         /// <summary>
         /// Current condition of physical; book from 0 to 255
         /// </summary>
-        public byte condition { get; set; }
+        public byte condition { get; set; } = 100;
     }
 }
