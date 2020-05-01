@@ -15,6 +15,9 @@ namespace LibrarySystem.ViewModels
         public BookRepository bookRepo = new BookRepository();
         public eBookRepository eBookRepo = new eBookRepository();
         public EventRepository eventRepo = new EventRepository();
+
+        public string Author { get; set; }
+        public string Description { get; set; }
         public string Title { get; set; }
         public double Completion { get; set; }
 
@@ -25,9 +28,14 @@ namespace LibrarySystem.ViewModels
         public ReactiveCommand<Unit,Unit> AddBook { get; set; }
         public LibrarianViewModel()
         {
+            AddBook = ReactiveCommand.Create(() => AddBookMethod());
             LoadDataAsync();
         }
 
+        public void AddBookMethod()
+        {
+
+        }
         public async void LoadDataAsync()
         {
             await LoadBooks();
@@ -35,14 +43,17 @@ namespace LibrarySystem.ViewModels
             await LoadEvents();
         }
 
+        // Hämtar hem böcker
         public async Task LoadBooks()
         {
             Books = new List<Book>(await bookRepo.ReadAll());
         }
+        // Hämtar hem e-böcker
         public async Task LoadEbooks()
         {
             eBooks = new List<eBook>(await eBookRepo.ReadAll());
         }
+        // Hämtar hem events
         public async Task LoadEvents()
         {
             Event = new List<Event>(await eventRepo.ReadAll());
