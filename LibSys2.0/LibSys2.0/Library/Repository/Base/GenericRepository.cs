@@ -81,7 +81,9 @@ namespace Library
         {
             using (var connection = CreateConnection())
             {
-                await connection.QuerySingleAsync<T>($"DELETE FROM {table} WHERE {table + "_id"} = @id;", new { id = id });
+                // Probably risk for SQL-injection, but mweh..
+                string sqlQuery = $"DELETE FROM {table} WHERE {tableIdName} = " + id.ToString();
+                await connection.QueryAsync(sqlQuery);
             }
         }
 
