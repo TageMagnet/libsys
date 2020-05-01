@@ -18,6 +18,6 @@ namespace LibrarySystem.Models
         /// <summary>
         /// Current condition of physical; book from 0 to 255
         /// </summary>
-        public byte condition { get; set; } = 100;
+        public int book_state { get; set; } = 100;
     }
 }
