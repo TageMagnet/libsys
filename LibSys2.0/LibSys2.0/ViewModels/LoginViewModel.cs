@@ -14,8 +14,19 @@ namespace LibrarySystem.ViewModels
     {
         public MemberRepository memberRepo = new MemberRepository();
         public List<Member> memberList;
-        public string username { get; set; }
-        public string password { get; set; }
+        public string Username { get; set; }
+
+        // Backing field
+        private string password;
+        public string Password
+        {
+            get => password;
+            set
+            {
+                password = value;
+                OnPropertyChanged("Password");
+            }
+        }
 
         public ReactiveCommand<Unit, Unit> LoginCommand { get; set; }
         public ReactiveCommand<Unit, Unit> GoBackCommand { get; set; }
@@ -42,29 +53,31 @@ namespace LibrarySystem.ViewModels
             var member = new Member();
 
 
-            if (String.IsNullOrWhiteSpace(username))
+            if (String.IsNullOrWhiteSpace(Username))
             {
                 MessageBox.Show("Fyll i användarnamn");
                 return;
             }
 
-            if (String.IsNullOrWhiteSpace(password))
+            if (String.IsNullOrWhiteSpace(Password))
             {
                 MessageBox.Show("Fyll i lösenord");
                 return;
             }
 
-            var user = memberList.Find(x => x.email == username);
+            var user = memberList.Find(x => x.email == Username);
 
             if (user == null)
             {
                 MessageBox.Show("Fel Lösenord eller användarnamn");
+                Password = "";
                 return;
             }
 
-            if (user.pwd != password)
+            if (user.pwd != Password)
             {
                 MessageBox.Show("Fel Lösenord eller användarnamn");
+                Password = "";
                 return;
             }
             MainWindowViewModel.ChangeView(user.role);

@@ -49,7 +49,7 @@
         <!--#endregion-->
         
         <!--#region Login and Password boxes-->
-        <TextBox Grid.Column="3" Grid.ColumnSpan="4" Grid.Row="3" Text="{Binding username, Mode=TwoWay}"  MinWidth="350"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="SearchTermTextBox" Margin="5"/>
+        <TextBox Grid.Column="3" Grid.ColumnSpan="4" Grid.Row="3" Text="{Binding Username, Mode=TwoWay}"  MinWidth="350"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="SearchTermTextBox" Margin="5"/>
         <TextBlock Grid.Column="3" Grid.ColumnSpan="4" Grid.Row="3" IsHitTestVisible="False" Text="Användarnamn" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="DarkGray" FontSize="15">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
@@ -63,7 +63,7 @@
             </TextBlock.Style>
         </TextBlock>
 
-        <TextBox Grid.Column="3" Grid.ColumnSpan="4" Grid.Row="4" Text="{Binding password, Mode=TwoWay}"  MinWidth="350"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="SearchTermPasswordBox" Margin="5"/>
+        <TextBox Grid.Column="3" Grid.ColumnSpan="4" Grid.Row="4" Text="{Binding Password, Mode=TwoWay}"  MinWidth="350"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="SearchTermPasswordBox" Margin="5"/>
         <TextBlock Grid.Column="3" Grid.ColumnSpan="4" Grid.Row="4" IsHitTestVisible="False" Text="Lösenord" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="DarkGray" FontSize="15">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
