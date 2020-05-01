@@ -15,8 +15,7 @@ namespace LibrarySystem.ViewModels
 
         public HomeViewModel()
         {
-
-            LoginCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("login"));
+            LoginCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("librarian"));
             RegisterCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("register"));
         }
 

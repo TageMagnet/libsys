@@ -24,10 +24,7 @@ namespace LibrarySystem.ViewModels
         public ReactiveCommand<Unit,Unit> AddBook { get; set; }
         public LibrarianViewModel()
         {
-            if (Books == null)
-            {
-                Books = new List<Book>();
-            }
+            
             
         }
 

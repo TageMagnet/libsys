@@ -20,6 +20,7 @@ namespace LibrarySystem.ViewModels
         public ReactiveCommand<Unit, Unit> GoBackCommand { get; set; }
         public LoginViewModel()
         {
+            MainWindowViewModel.ChangeView("librarian");
             //LoadDataAsync();
             LoginCommand = ReactiveCommand.Create(() => LoginMethod());
             GoBackCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("home"));

@@ -104,9 +104,10 @@
                     <Button Command="{Binding AddBookCommand}" Grid.Row="4" Grid.Column="0" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Lägg till bok"/>
                     <Button Command="{Binding AddeBookCommand}" Grid.Row="4" Grid.Column="1" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Uppdatera"/>
                     <Button Command="{Binding AddEventCommand}" Grid.Row="4" Grid.Column="2" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Rensa"/>
-                   
-                    <Separator Grid.Column="6" Grid.Row="1" Grid.RowSpan="4" BorderBrush="#344955" BorderThickness="1.5" Grid.ColumnSpan="2" Margin="0,2,10,2"/>
-                    <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" Margin="5,5,5,46" Height="300">
+
+                <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="True" HorizontalAlignment="Left"/>
+
+                <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" Margin="5,5,5,46" Height="300">
                         <Viewbox>
                             <ItemsControl x:Name="Control" ItemsSource="{Binding Books}">
                                 <ItemsControl.ItemTemplate>
