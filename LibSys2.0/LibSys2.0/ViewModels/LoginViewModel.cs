@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace LibrarySystem.ViewModels
 {
-    public class LoginViewModel : ViewModelBase
+    public class LoginViewModel : BaseViewModel
     {
         public MemberRepository memberRepo = new MemberRepository();
         public List<Member> memberList;

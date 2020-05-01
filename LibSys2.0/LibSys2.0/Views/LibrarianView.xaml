@@ -14,7 +14,10 @@
              TextOptions.TextRenderingMode="Auto">
 
     <TabControl>
-        <!--Böcker-->
+        
+        <!---->
+        
+        <!--#region Böcker -->
         <TabItem Margin="0,0,5,0" Header="Böcker" Background="#4A6572" Foreground="#F9AA33">
             <Grid>
                 <!--#region Grid Definitions-->
@@ -35,7 +38,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <!--#endregion-->
-                
+
                 <!--#region Textbox and textblock-->
                 <!-- Title-->
                 <Grid Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="2">
@@ -102,20 +105,20 @@
                     </TextBlock>
                     <!--#endregion-->
                 </Grid>
-                    <Button Command="{Binding AddBookCommand}" Grid.Row="4" Grid.Column="0" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Lägg till bok"/>
-                    <Button Command="{Binding AddeBookCommand}" Grid.Row="4" Grid.Column="1" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Uppdatera"/>
-                    <Button Command="{Binding AddEventCommand}" Grid.Row="4" Grid.Column="2" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Rensa"/>
+                <Button Command="{Binding AddBookCommand}" Grid.Row="4" Grid.Column="0" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Lägg till bok"/>
+                <Button Command="{Binding AddeBookCommand}" Grid.Row="4" Grid.Column="1" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Uppdatera"/>
+                <Button Command="{Binding AddEventCommand}" Grid.Row="4" Grid.Column="2" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Rensa"/>
 
                 <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
 
                 <ScrollViewer x:Name="FindDataContext" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
-                        <Viewbox>
-                            <ItemsControl x:Name="Control" ItemsSource="{Binding Books, Mode=TwoWay}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5">
-                                            <Grid Margin="5">
-                                                <!--#region Grid Definitions-->
+                    <Viewbox>
+                        <ItemsControl x:Name="Control" ItemsSource="{Binding Books, Mode=TwoWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5">
+                                        <Grid Margin="5">
+                                            <!--#region Grid Definitions-->
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
@@ -125,7 +128,7 @@
                                             </Grid.ColumnDefinitions>
                                             <!--#endregion-->
                                             <TextBlock Text="{Binding title}" FontSize="15" FontWeight="DemiBold" VerticalAlignment="Center" Margin="5"/>
-                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3" Text="{Binding description}" FontSize="10" FontWeight="DemiBold"
+                                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3" Text="{Binding description}" FontSize="10" FontWeight="DemiBold"
                                                            Margin="5"/>
                                             <Button Command="{Binding Path=DataContext.RemoveBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding book_id}" Grid.Column="5" Foreground="#F9AA33" Margin="5">
                                                 <StackPanel Orientation="Horizontal">
@@ -133,17 +136,19 @@
                                                     <materialDesign:PackIcon Kind="RemoveCircle" Padding="3" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </Button>
-                                            </Grid>
-                                        </materialDesign:Card>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Viewbox>
-                    </ScrollViewer>
-                    <!--</Border>-->
-                </Grid>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Viewbox>
+                </ScrollViewer>
+                <!--</Border>-->
+            </Grid>
         </TabItem>
-        <!--E-Böcker-->
+        <!--#endregion-->
+
+        <!--#region E-Böcker -->
         <TabItem Margin="5,0" Header="E-böcker" Background="#4A6572" Foreground="#F9AA33">
             <Grid>
                 <!--#region Grid Definitions-->
@@ -272,7 +277,9 @@
                 <!--</Border>-->
             </Grid>
         </TabItem>
-        <!--Seminarier-->
+        <!--#endregion-->
+
+        <!--#region Seminarier -->
         <TabItem Margin="5,0" Header="Seminarier" Background="#4A6572" Foreground="#F9AA33">
             <Grid>
                 <!--#region Grid Definitions-->
@@ -313,5 +320,7 @@
                 <Button Margin="0,5" Background="#F9AA33" Grid.Column="2" Grid.Row="3" Content="Ändra"/>
             </Grid>
         </TabItem>
+        <!--#endregion-->
+        
     </TabControl>
 </UserControl>

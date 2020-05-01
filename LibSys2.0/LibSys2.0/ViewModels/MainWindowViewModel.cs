@@ -6,8 +6,11 @@ using System.Windows.Controls;
 
 namespace LibrarySystem.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : BaseViewModel
     {
+        /// <summary>
+        /// Current View/ViewModel
+        /// </summary>
         public static UserControl CurrentView { get; set; }
         public MainWindowViewModel()
         {
@@ -15,6 +18,10 @@ namespace LibrarySystem.ViewModels
             //this.RaisePropertyChanged(nameof(CurrentView));
         }
 
+        /// <summary>
+        /// Metod för att byta viewmodel/datacontext som "UserControl" hänger ihop med
+        /// </summary>
+        /// <param name="view"></param>
         public static void ChangeView(string view)
         {
             switch (view)
