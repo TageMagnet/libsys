@@ -1,4 +1,5 @@
-﻿using LibrarySystem.Models;
+﻿using Library;
+using LibrarySystem.Models;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace LibrarySystem.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
-        //public MemberRepository repo = new MemberRepository();
+        public MemberRepository memberRepo = new MemberRepository();
         public List<Member> memberList;
         public string username { get; set; }
         public string password { get; set; }
@@ -20,14 +21,10 @@ namespace LibrarySystem.ViewModels
         public ReactiveCommand<Unit, Unit> GoBackCommand { get; set; }
         public LoginViewModel()
         {
-            MainWindowViewModel.ChangeView("librarian");
-            //LoadDataAsync();
+            LoadDataAsync();
+
             LoginCommand = ReactiveCommand.Create(() => LoginMethod());
             GoBackCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("home"));
-            memberList = new List<Member>();
-            memberList.Add(new Member { nickname = "Jonathan", email = "jh@email.com", pwd = "jh123", role = "admin" });
-            memberList.Add(new Member { nickname = "Pontus", email = "pp@email.com", pwd = "pp123", role = "librarian" });
-            memberList.Add(new Member { nickname = "Thomas", email = "tc@email.com", pwd = "tc123", role = "customer" });
         }
 
         //Skapa loginmetod
@@ -38,7 +35,7 @@ namespace LibrarySystem.ViewModels
 
         public async Task GetMembers()
         {
-            //memberList = new List<Member>(await repo.ReadAll());
+            memberList = new List<Member>(await memberRepo.ReadAll());
         }
         public void LoginMethod()
         {
@@ -46,10 +43,16 @@ namespace LibrarySystem.ViewModels
 
 
             if (String.IsNullOrWhiteSpace(username))
+            {
+                MessageBox.Show("Fyll i användarnamn");
                 return;
+            }
 
             if (String.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Fyll i lösenord");
                 return;
+            }
 
             var user = memberList.Find(x => x.email == username);
 
