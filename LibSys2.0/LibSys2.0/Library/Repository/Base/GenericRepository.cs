@@ -69,7 +69,6 @@ namespace Library
                 {
                     System.Diagnostics.Trace.WriteLine(e.Message);
                 }
-
             }
         }
 
