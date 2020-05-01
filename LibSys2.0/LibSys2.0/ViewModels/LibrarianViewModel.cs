@@ -24,21 +24,14 @@ namespace LibrarySystem.ViewModels
         public ReactiveCommand<Unit,Unit> AddBook { get; set; }
         public LibrarianViewModel()
         {
-<<<<<<< HEAD
-            if (Books == null)
-            {
-                Books = new List<Book>();
-            }
             LoadDataAsync();
-=======
-            
-            
->>>>>>> af041bc2d08f787e1503e7d6d95cb5de95678236
         }
 
         public async void LoadDataAsync()
         {
-            await Task.Run(() => LoadBooks());
+            await LoadBooks();
+            await LoadEbooks();
+            await LoadEvents();
         }
 
         public async Task LoadBooks()
