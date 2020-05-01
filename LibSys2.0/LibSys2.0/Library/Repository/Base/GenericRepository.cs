@@ -152,7 +152,8 @@ namespace Library
             }
             properties.ForEach(prop =>
             {
-                insertQuery.Append($"[{prop}],");
+                //insertQuery.Append($"[{prop}],");
+                insertQuery.Append($"{prop},");
             });
 
             insertQuery
