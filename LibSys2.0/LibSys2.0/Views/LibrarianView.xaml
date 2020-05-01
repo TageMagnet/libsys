@@ -14,6 +14,7 @@
              TextOptions.TextRenderingMode="Auto">
 
     <TabControl>
+        <!--Böcker-->
         <TabItem Margin="0,0,5,0" Header="Böcker" Background="#4A6572" Foreground="#F9AA33">
             <Grid>
                 <!--#region Grid Definitions-->
@@ -44,7 +45,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Row="0" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookTitle" Margin="5"/>
+                    <TextBox Text="{Binding SelectedBook.title, Mode=TwoWay}" Grid.Row="0" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookTitle" Margin="5"/>
                     <TextBlock Grid.Row="0" IsHitTestVisible="False" Text="Titel" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -58,7 +59,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                     <!--Author-->
-                    <TextBox Grid.Row="1" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookAuthor" Margin="5"/>
+                    <TextBox Text="{Binding SelectedBook.author, Mode=TwoWay}" Grid.Row="1" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookAuthor" Margin="5"/>
                     <TextBlock Grid.Row="1" IsHitTestVisible="False" Text="Författare" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -72,7 +73,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                     <!--Description-->
-                    <TextBox Grid.Row="2" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookDescription" Margin="5"/>
+                    <TextBox Text="{Binding SelectedBook.description, Mode=TwoWay}" Grid.Row="2" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookDescription" Margin="5"/>
                     <TextBlock Grid.Row="2" IsHitTestVisible="False" Text="Beskrivning" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -86,7 +87,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                     <!--ISBN-->
-                    <TextBox Grid.Row="3" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5"/>
+                    <TextBox Text="{Binding SelectedBook.isbn, Mode=TwoWay}" Grid.Row="3" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5"/>
                     <TextBlock Grid.Row="3" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -101,17 +102,18 @@
                     </TextBlock>
                     <!--#endregion-->
                 </Grid>
-                    <Button Grid.Row="4" Grid.Column="0" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Lägg till bok"/>
-                    <Button Grid.Row="4" Grid.Column="1" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Uppdatera"/>
-                    <Button Grid.Row="4" Grid.Column="2" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Rensa"/>
-                   
-                    <Separator Grid.Column="6" Grid.Row="1" Grid.RowSpan="4" BorderBrush="#344955" BorderThickness="1.5" Grid.ColumnSpan="2" Margin="0,2,10,2"/>
-                    <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" Margin="5,5,5,46" Height="300">
+                    <Button Command="{Binding AddBookCommand}" Grid.Row="4" Grid.Column="0" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Lägg till bok"/>
+                    <Button Command="{Binding AddeBookCommand}" Grid.Row="4" Grid.Column="1" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Uppdatera"/>
+                    <Button Command="{Binding AddEventCommand}" Grid.Row="4" Grid.Column="2" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Rensa"/>
+
+                <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
+
+                <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
                         <Viewbox>
-                            <ItemsControl x:Name="Control" ItemsSource="{Binding Books}">
+                            <ItemsControl x:Name="Control" ItemsSource="{Binding Books, Mode=TwoWay}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <materialDesign:Card BorderThickness="20">
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5">
                                             <Grid Margin="5">
                                                 <!--#region Grid Definitions-->
                                             <Grid.ColumnDefinitions>
@@ -125,7 +127,7 @@
                                             <TextBlock Text="{Binding title}" FontSize="15" FontWeight="DemiBold" VerticalAlignment="Center" Margin="5"/>
                                                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3" Text="{Binding description}" FontSize="10" FontWeight="DemiBold"
                                                            Margin="5"/>
-                                            <Button Grid.Column="5" Foreground="#F9AA33" Margin="5">
+                                            <Button Command="{Binding RemoveBookCommand}" CommandParameter="{Binding}" Grid.Column="5" Foreground="#F9AA33" Margin="5">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="Ta bort" Padding="3"/>
                                                     <materialDesign:PackIcon Kind="RemoveCircle" Padding="3" VerticalAlignment="Center"/>
@@ -141,10 +143,12 @@
                     <!--</Border>-->
                 </Grid>
         </TabItem>
+        <!--E-Böcker-->
         <TabItem Margin="5,0" Header="E-böcker" Background="#4A6572" Foreground="#F9AA33">
-            <Grid >
+            <Grid>
                 <!--#region Grid Definitions-->
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -157,13 +161,118 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <!--#endregion-->
-                <Button Margin="0,5" Foreground="#344955" Background="#F9AA33" Grid.Column="2" Grid.Row="1" Content="Lägg till ny E-bok"/>
-                <Button Margin="0,5" Foreground="#344955" Background="#F9AA33" Grid.Column="2" Grid.Row="2" Content="Ta bort bok"/>
-                <Button Margin="0,5" Foreground="#344955" Background="#F9AA33" Grid.Column="2" Grid.Row="3" Content="Ändra bok"/>
+
+                <!--#region Textbox and textblock-->
+                <!-- Title-->
+                <Grid Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Row="0" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookTitle" Margin="5"/>
+                    <TextBlock Grid.Row="0" IsHitTestVisible="False" Text="Titel" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=eBookTitle}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!--Author-->
+                    <TextBox Grid.Row="1" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookAuthor" Margin="5"/>
+                    <TextBlock Grid.Row="1" IsHitTestVisible="False" Text="Författare" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=eBookAuthor}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!--Description-->
+                    <TextBox Grid.Row="2" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookDescription" Margin="5"/>
+                    <TextBlock Grid.Row="2" IsHitTestVisible="False" Text="Beskrivning" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=eBookDescription}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!--ISBN-->
+                    <TextBox Grid.Row="3" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookIsbn" Margin="5"/>
+                    <TextBlock Grid.Row="3" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=eBookIsbn}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!--#endregion-->
+                </Grid>
+                <Button Command="{Binding AddBookCommand}" Grid.Row="4" Grid.Column="0" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Lägg till bok"/>
+                <Button Command="{Binding AddeBookCommand}" Grid.Row="4" Grid.Column="1" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Uppdatera"/>
+                <Button Command="{Binding AddEventCommand}" Grid.Row="4" Grid.Column="2" MaxHeight="40" Foreground="#F9AA33" Margin="5,20,5,19" Content="Rensa"/>
+
+                <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
+
+                <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
+                    <Viewbox>
+                        <ItemsControl x:Name="eControl" ItemsSource="{Binding eBooks}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5">
+                                        <Grid Margin="5">
+                                            <!--#region Grid Definitions-->
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <!--#endregion-->
+                                            <TextBlock Text="{Binding title}" FontSize="15" FontWeight="DemiBold" VerticalAlignment="Center" Margin="5"/>
+                                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3" Text="{Binding description}" FontSize="10" FontWeight="DemiBold"
+                                                           Margin="5"/>
+                                            <Button Grid.Column="5" Foreground="#F9AA33" Margin="5">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Ta bort" Padding="3"/>
+                                                    <materialDesign:PackIcon Kind="RemoveCircle" Padding="3" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Viewbox>
+                </ScrollViewer>
+                <!--</Border>-->
             </Grid>
         </TabItem>
+        <!--Seminarier-->
         <TabItem Margin="5,0" Header="Seminarier" Background="#4A6572" Foreground="#F9AA33">
             <Grid>
                 <!--#region Grid Definitions-->

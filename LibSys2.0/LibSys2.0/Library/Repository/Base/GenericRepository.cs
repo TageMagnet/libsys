@@ -63,13 +63,12 @@ namespace Library
                 try
                 {
                     string query = GenerateInsertQuery(t);
-                    var res = (await connection.QueryAsync<int>(query, t)).Single();
+                    await connection.QueryAsync<int>(query, t);
                 }
                 catch (Exception e)
                 {
                     System.Diagnostics.Trace.WriteLine(e.Message);
                 }
-
             }
         }
 
