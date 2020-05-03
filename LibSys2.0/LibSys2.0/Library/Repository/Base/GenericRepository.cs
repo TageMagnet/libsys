@@ -115,9 +115,21 @@ namespace Library
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public Task Update(T t)
+        public async Task Update(T t)
         {
-            throw new NotImplementedException();
+            using (var connection = CreateConnection())
+            {
+                try
+                {
+                    string query = GenerateUpdateQuery(t);
+                    await connection.QueryAsync(query, t);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Trace.WriteLine(e.Message);
+                    throw;
+                }
+            }
         }
 
         /// <summary>
@@ -176,52 +188,32 @@ namespace Library
         /// <returns></returns>
         public string GenerateUpdateQuery(T t)
         {
-            var sqlQuery = new StringBuilder($"UPDATE {table} ");
-            // todo; add error check for int
-            int objectID = -999;
-            // name of id column
-            string idRowName = "";
-
+            var sqlQuery = new StringBuilder($"UPDATE {table} SET ");
             List<string> properties = new List<string>();
+            var tableId = t.GetType().GetProperty(tableIdName).GetValue(t, null);
 
             // Loop all the properties in supplied class
             foreach (var prop in t.GetType().GetProperties())
             {
-                // ..
+                // Is null check
                 bool isNull = prop.GetValue(t, null) != null ? false : true;
-                // ..
-                bool isID = prop.Name.Contains("_id") == false ? false : true;
-                // ..
-                //bool isInteger =  prop.GetValue(t, null).GetType() == Int32;
+                // Is is or reference id check
+                bool isID = prop.Name.Contains("_id") || prop.Name.Contains("ref_") ? true : false;
 
                 // property value is not null nor name contains '_id' 
                 if (!isNull && !isID)
                 {
                     properties.Add(prop.Name);
                 }
-                // not null && isID == true
-                else if(!isNull && isID)
-                {
-                    // Store the id for WHERE clause, since we are updating an existing row
-                    // todo; fail-check
-                    idRowName = prop.Name;
-                    Int32.TryParse(prop.ToString(), out objectID);
-                }
             }
             properties.ForEach(prop =>
             {
-                sqlQuery.Append($"[{prop}],");
+                sqlQuery.Append($"`{prop}` = @{prop},");
             });
 
             sqlQuery
                 .Remove(sqlQuery.Length - 1, 1)
-                .Append("SET");
-
-            properties.ForEach(prop => { sqlQuery.Append($"@{prop},"); });
-
-            sqlQuery
-                .Remove(sqlQuery.Length - 1, 1)
-                .Append($"WHERE {idRowName} = {objectID.ToString()}");
+                .Append($" WHERE {tableIdName} = {tableId.ToString()}");
 
             return sqlQuery.ToString();
         }

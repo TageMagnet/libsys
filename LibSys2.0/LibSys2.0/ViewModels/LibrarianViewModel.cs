@@ -31,6 +31,7 @@ namespace LibrarySystem.ViewModels
         #region Commands
         public ReactiveCommand<Unit,Unit> AddBookCommand { get; set; }
 
+        public ReactiveCommand<Book, Unit> UpdateBook { get; set; }
         public ReactiveCommand<int, Unit> RemoveBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
@@ -45,6 +46,7 @@ namespace LibrarySystem.ViewModels
             Events = new ObservableCollection<Event>();
 
             AddBookCommand = ReactiveCommand.CreateFromTask(() => AddBookCommandMethod());
+            UpdateBook = ReactiveCommand.CreateFromTask((Book book) => UpdateBookCommandMethod(book));
             RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
             AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
@@ -78,6 +80,12 @@ namespace LibrarySystem.ViewModels
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
 
+        }
+
+        public async Task UpdateBookCommandMethod(Book book)
+        {
+            await bookRepo.Update(book);
+            await LoadBooks();
         }
         public async Task RemoveBookCommandMethod(int id)
         {

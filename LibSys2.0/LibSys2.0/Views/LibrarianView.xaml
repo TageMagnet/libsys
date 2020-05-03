@@ -212,7 +212,8 @@
                                                             </EventTrigger>
                                                         </Button.Triggers>
                                                     </Button>
-                                                    <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
+                                                    <Button Command="{Binding Path=DataContext.UpdateBook, ElementName=FindDataContext}" CommandParameter="{Binding}"
+                                                            Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
                                                 </StackPanel>
                                             <!--#endregion-->
 
