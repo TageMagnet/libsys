@@ -115,9 +115,20 @@ namespace Library
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public Task Update(T t)
+        public async Task Update(T t)
         {
-            throw new NotImplementedException();
+            using (var connection = CreateConnection())
+            {
+                try
+                {
+                    //(await connection.QueryAsync($"UPDATE {table} WHERE ")
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
+            }
         }
 
         /// <summary>
