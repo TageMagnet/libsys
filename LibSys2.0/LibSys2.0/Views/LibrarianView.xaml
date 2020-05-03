@@ -25,6 +25,11 @@
                     <PowerEase Power="2" EasingMode="EaseInOut"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
+            <!--<DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Opacity)" From="0.0" To="1.0">
+                <DoubleAnimation.EasingFunction>
+                    
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>-->
         </Storyboard>
         <Storyboard x:Key="CloseCard">
             <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Opacity)" From="1.0" To="0.0">
@@ -161,7 +166,8 @@
                                             <!--#endregion-->
                                             
                                             <!--#region Deafult Card-->
-                                            <Button Grid.Column="0" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowDown, Size=15}" Foreground="#F9AA33">
+                                            <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}"
+                                                    x:Name="DownButton" Grid.Column="0" Grid.RowSpan="2" Padding="1" IsEnabled="True" Content="{materialDesign:PackIcon Kind=ArrowDown, Size=15}" Foreground="#F9AA33">
                                                 <Button.Triggers>
                                                     <EventTrigger RoutedEvent="ButtonBase.Click">
                                                         <BeginStoryboard  Storyboard="{StaticResource OpenCard}"/>
@@ -199,14 +205,14 @@
                                                     <TextBox Text="{Binding year}" Width="200" Margin="2"/>
                                                 </StackPanel>
                                                 <StackPanel Orientation="Horizontal" Margin="5">
-                                                    <Button Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
+                                                    <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
                                                         <Button.Triggers>
                                                             <EventTrigger RoutedEvent="ButtonBase.Click">
                                                                 <BeginStoryboard Storyboard="{StaticResource CloseCard}"/>
                                                             </EventTrigger>
                                                         </Button.Triggers>
                                                     </Button>
-                                                    <Button Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
+                                                    <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
                                                 </StackPanel>
                                             <!--#endregion-->
 
