@@ -11,7 +11,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto" Height="940" Width="1080" WindowStyle="None" WindowStartupLocation="CenterScreen" Visibility="Visible" AllowsTransparency="True"
-        MouseDown="Window_MouseDown">
+        MouseLeftButtonDown="Window_MouseDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>

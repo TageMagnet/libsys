@@ -8,6 +8,7 @@ using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace LibrarySystem.ViewModels
 {
@@ -29,9 +30,11 @@ namespace LibrarySystem.ViewModels
 
         #region Commands
         public ReactiveCommand<Unit,Unit> AddBookCommand { get; set; }
+
         public ReactiveCommand<int, Unit> RemoveBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
+        public ReactiveCommand<object, Unit> ToggleHidden { get; set; }
 
         #endregion
         public LibrarianViewModel()
@@ -45,6 +48,7 @@ namespace LibrarySystem.ViewModels
             RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
             AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
+            ToggleHidden = ReactiveCommand.CreateFromTask((object param) => ToggleHiddenCommandMethod(param));
             LoadDataAsync();
         }
 
@@ -90,6 +94,11 @@ namespace LibrarySystem.ViewModels
 
         }
 
+        public async Task ToggleHiddenCommandMethod(object arg)
+        {
+            var button = (Button)arg;
+            button.IsEnabled = button.IsEnabled ? false : true;
+        } 
         #endregion
         public async void LoadDataAsync()
         {
