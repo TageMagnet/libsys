@@ -116,28 +116,42 @@
                         <ItemsControl x:Name="Control" ItemsSource="{Binding Books, Mode=TwoWay}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5">
-                                        <Grid Margin="5">
-                                            <!--#region Grid Definitions-->
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <!--#endregion-->
-                                            <TextBlock Text="{Binding title}" FontSize="15" FontWeight="DemiBold" VerticalAlignment="Center" Margin="5"/>
-                                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3" Text="{Binding description}" FontSize="10" FontWeight="DemiBold"
-                                                           Margin="5"/>
-                                            <Button Command="{Binding Path=DataContext.RemoveBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding book_id}" Grid.Column="5" Foreground="#F9AA33" Margin="5">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Ta bort" Padding="3"/>
-                                                    <materialDesign:PackIcon Kind="RemoveCircle" Padding="3" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </Grid>
-                                    </materialDesign:Card>
+                                    <materialDesign:Transitioner SelectedIndex="0">
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5">
+                                            <Grid Margin="2">
+                                                <!--#region Grid Definitions-->
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.1*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="0.5*"/>
+                                                </Grid.RowDefinitions>
+                                                <!--#endregion-->
+                                                <!--<Viewbox Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Left">-->
+                                                <Button Grid.Column="0" Grid.RowSpan="2" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F9AA33">
+                                                        <Button.Content>
+                                                            <materialDesign:PackIcon Kind="ArrowDown" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                <!--</Viewbox>-->
+                                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding title}" FontSize="15" FontWeight="DemiBold" VerticalAlignment="Center" Margin="5"/>
+                                                <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3" Text="{Binding description}" FontSize="10" FontWeight="DemiBold"
+                                                               Margin="5"/>
+                                                <Button Grid.RowSpan="2" Command="{Binding Path=DataContext.RemoveBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding book_id}" Grid.Column="5" Foreground="#F9AA33" Margin="5">
+                                                    <StackPanel Orientation="Vertical">
+                                                        <materialDesign:PackIcon Kind="RemoveCircle"  VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                                        <TextBlock Text="Ta bort" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                                                    </StackPanel>
+                                                </Button>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                    </materialDesign:Transitioner>
+                                    
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
