@@ -121,11 +121,12 @@ namespace Library
             {
                 try
                 {
-                    //(await connection.QueryAsync($"UPDATE {table} WHERE ")
+                    string query = GenerateUpdateQuery(t);
+                    await connection.QueryAsync(query, t);
                 }
                 catch (Exception e)
                 {
-
+                    System.Diagnostics.Trace.WriteLine(e.Message);
                     throw;
                 }
             }
@@ -188,35 +189,21 @@ namespace Library
         public string GenerateUpdateQuery(T t)
         {
             var sqlQuery = new StringBuilder($"UPDATE {table} SET ");
-            // todo; add error check for int
-            int tableId = -999;
-            // name of id column
-            string idRowName = "";
-
             List<string> properties = new List<string>();
+            var tableId = t.GetType().GetProperty(tableIdName).GetValue(t, null);
 
             // Loop all the properties in supplied class
             foreach (var prop in t.GetType().GetProperties())
             {
-                // ..
+                // Is null check
                 bool isNull = prop.GetValue(t, null) != null ? false : true;
-                // ..
-                bool isID = prop.Name.Contains("_id") == false ? false : true;
-                // ..
-                //bool isInteger =  prop.GetValue(t, null).GetType() == Int32;
+                // Is is or reference id check
+                bool isID = prop.Name.Contains("_id") || prop.Name.Contains("ref_") ? true : false;
 
                 // property value is not null nor name contains '_id' 
                 if (!isNull && !isID)
                 {
                     properties.Add(prop.Name);
-                }
-                // not null && isID == true
-                else if (!isNull && isID)
-                {
-                    // Store the id for WHERE clause, since we are updating an existing row
-                    // todo; fail-check
-                    idRowName = prop.Name;
-                    Int32.TryParse(prop.ToString(), out tableId);
                 }
             }
             properties.ForEach(prop =>
@@ -226,7 +213,7 @@ namespace Library
 
             sqlQuery
                 .Remove(sqlQuery.Length - 1, 1)
-                .Append($" WHERE {idRowName} = {tableId.ToString()}");
+                .Append($" WHERE {tableIdName} = {tableId.ToString()}");
 
             return sqlQuery.ToString();
         }
