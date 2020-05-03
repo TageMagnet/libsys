@@ -187,9 +187,9 @@ namespace Library
         /// <returns></returns>
         public string GenerateUpdateQuery(T t)
         {
-            var sqlQuery = new StringBuilder($"UPDATE {table} ");
+            var sqlQuery = new StringBuilder($"UPDATE {table} SET ");
             // todo; add error check for int
-            int objectID = -999;
+            int tableId = -999;
             // name of id column
             string idRowName = "";
 
@@ -211,28 +211,22 @@ namespace Library
                     properties.Add(prop.Name);
                 }
                 // not null && isID == true
-                else if(!isNull && isID)
+                else if (!isNull && isID)
                 {
                     // Store the id for WHERE clause, since we are updating an existing row
                     // todo; fail-check
                     idRowName = prop.Name;
-                    Int32.TryParse(prop.ToString(), out objectID);
+                    Int32.TryParse(prop.ToString(), out tableId);
                 }
             }
             properties.ForEach(prop =>
             {
-                sqlQuery.Append($"[{prop}],");
+                sqlQuery.Append($"`{prop}` = @{prop},");
             });
 
             sqlQuery
                 .Remove(sqlQuery.Length - 1, 1)
-                .Append("SET");
-
-            properties.ForEach(prop => { sqlQuery.Append($"@{prop},"); });
-
-            sqlQuery
-                .Remove(sqlQuery.Length - 1, 1)
-                .Append($"WHERE {idRowName} = {objectID.ToString()}");
+                .Append($" WHERE {idRowName} = {tableId.ToString()}");
 
             return sqlQuery.ToString();
         }
