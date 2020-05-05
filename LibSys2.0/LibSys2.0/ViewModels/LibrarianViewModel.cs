@@ -21,6 +21,7 @@ namespace LibrarySystem.ViewModels
         public EventRepository eventRepo = new EventRepository();
 
         public Book SelectedBook { get; set; }
+        public eBook SelectedeBook { get; set; }
 
         public List<Event> ListOfEvents { get; set; }
         public ObservableCollection<Book> Books { get; set; }
