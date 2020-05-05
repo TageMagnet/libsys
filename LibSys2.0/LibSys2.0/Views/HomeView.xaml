@@ -49,8 +49,8 @@
                 </Button.Content>
             </Button>
             <!--För att visa updatenotify fungerar, kan tas bort-->
-            <Button Content="Test" Command="{Binding TestChange}"/>
-            <TextBlock Text="{Binding Text, FallbackValue=asdas}"/>
+            <!--<Button Content="Test" Command="{Binding TestChange}"/>
+            <TextBlock Text="{Binding Text, FallbackValue=asdas}"/>-->
         </StackPanel>
 
     </Grid>
