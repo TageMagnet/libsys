@@ -41,14 +41,14 @@
         <!--#endregion-->
 
         <!--#region Go Back Button -->
-        <Button Command="{Binding GoBackCommand}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Width="70" Height="40" Foreground="#F9AA33">
+        <!--<Button Command="{Binding GoBackCommand}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Width="70" Height="40" Foreground="#F9AA33">
             <Button.Content>
                 <StackPanel Orientation="Vertical">
                     <materialDesign:PackIcon Kind="ArrowBack" Width="30" Height="30"/>
                 </StackPanel>
             </Button.Content>
             
-        </Button>
+        </Button>-->
         <!--#endregion-->
         
         <!--#region Login and Password boxes-->

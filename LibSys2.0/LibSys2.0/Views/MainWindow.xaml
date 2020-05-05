@@ -29,7 +29,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--Go Home Button-->
-            <Button Content="[Home]" Command="{Binding GoHomeCommand}" CommandParameter="home" MaxWidth="80" HorizontalAlignment="Left" Margin="20,0"/>
+            <Button Content="{materialDesign:PackIcon Kind=Home,Size=30}" Command="{Binding GoHomeCommand}" CommandParameter="home" Width="60" Height="60" HorizontalAlignment="Left" Margin="20,0" Foreground="#F9AA33"/>
             <!--Image-->
             <Image Grid.Column="1" Source="/Assets/LibSysWhite.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
