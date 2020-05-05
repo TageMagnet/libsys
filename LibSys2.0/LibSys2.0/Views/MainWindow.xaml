@@ -10,7 +10,11 @@
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto" Height="940" Width="1080" WindowStyle="None" WindowStartupLocation="CenterScreen" Visibility="Visible" AllowsTransparency="True"
+        TextOptions.TextRenderingMode="Auto" 
+        Height="768" 
+        Width="1080" 
+        WindowStartupLocation="CenterScreen"
+        Visibility="Visible"
         MouseLeftButtonDown="Window_MouseDown">
     <Grid>
         <Grid.RowDefinitions>
