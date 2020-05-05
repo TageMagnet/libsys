@@ -178,7 +178,8 @@
                                             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding title}" FontSize="15" FontWeight="DemiBold" Margin="5,0"/>
                                             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding description}" FontSize="10" FontWeight="DemiBold" Margin="5,0"/>
 
-                                            <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=RemoveCircle, Size=15}" Command="{Binding Path=DataContext.RemoveBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding book_id}" Background="DarkRed"  Foreground="White" Margin="5,0"/>
+                                            <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}" BorderBrush="{x:Null}"
+                                                    Command="{Binding Path=DataContext.RemoveBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding book_id}" Background="{x:Null}"  Foreground="DarkRed" Margin="5,0"/>
 
                                             <!--#endregion-->
                                             
