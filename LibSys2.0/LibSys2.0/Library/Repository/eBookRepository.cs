@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Library
 {
@@ -11,6 +12,11 @@ namespace Library
         {
             table = "ebooks";
             tableIdName = "ebook_id";
+        }
+
+        public async Task<List<eBook>> SearchByTitle(string searchString)
+        {
+            return new List<eBook>();
         }
     }
 }
