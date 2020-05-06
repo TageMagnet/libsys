@@ -6,7 +6,7 @@ namespace LibrarySystem.Models
 {
     public class eBook : IArticle
     {
-        public int book_id { get; set; }
+        public int ebook_id { get; set; }
         public int ref_author_id { get; set; }
         public int year { get; set; }
         public string isbn { get; set; }
