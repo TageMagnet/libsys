@@ -85,7 +85,31 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
-        
+
+        <Storyboard x:Key="OpenRemove">
+            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="0" To="1">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="2" EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+                <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Height)" From="0" To="100">
+                    <DoubleAnimation.EasingFunction>
+                        <PowerEase Power="2" EasingMode="EaseInOut"/>
+                    </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="CloseRemove">
+            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="1" To="0">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="2" EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Height)" From="100" To="0">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="2" EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </UserControl.Resources>
         <!--#endregion-->
 
@@ -390,8 +414,38 @@
                                                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding description}" FontSize="10" FontWeight="DemiBold" Margin="5,0"/>
 
                                                 <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}" BorderBrush="{x:Null}"
-                                                        Command="{Binding Path=DataContext.RemoveBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding book_id}" Background="{x:Null}"  Foreground="DarkRed" Margin="5,0"/>
+                                                        Background="{x:Null}" Foreground="DarkRed" Margin="5,0" Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}">
+                                                    <Button.Triggers>
+                                                        <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                            <BeginStoryboard Storyboard="{StaticResource OpenRemove}"/>
+                                                        </EventTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
 
+                                                <!--#region Expaned Remove book-->
+                                                <StackPanel Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="2" Height="0" x:Name="OpenRemoveBook" Orientation="Vertical">
+                                                    <TextBlock Text="Anledning :" Margin="0,5,0,0"/>
+                                                    <TextBox x:Name="ReasonBox" Margin="0,0,0,5" Text="{Binding Path=DataContext.ReasonToDelete, ElementName=FindDataContext}"/>
+                                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                                        <Button x:Name="Remove" Margin="5" Width="65" Content="Radera" Padding="1"
+                                                                Command="{Binding Path=DataContext.RemoveBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding book_id}">
+                                                            <Button.Triggers>
+                                                                <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                                    <BeginStoryboard Storyboard="{StaticResource CloseRemove}"/>
+                                                                </EventTrigger>
+                                                            </Button.Triggers>
+                                                        </Button>
+                                                        <Button x:Name="Abort"  Margin="5" Width="65" Content="Avbryt" Padding="1" 
+                                                                 Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}">
+                                                            <Button.Triggers>
+                                                                <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                                    <BeginStoryboard Storyboard="{StaticResource CloseRemove}"/>
+                                                                </EventTrigger>
+                                                            </Button.Triggers>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <!--#endregion-->
 
                                                 <!--#region Expanded Card-->
                                                 <StackPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Height="0" x:Name="HiddenStuff" Orientation="Vertical">
@@ -420,7 +474,7 @@
                                                         <TextBox Text="{Binding category}" Width="200" Margin="2"/>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal" Margin="5">
-                                                        <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
+                                                        <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
                                                             <Button.Triggers>
                                                                 <EventTrigger RoutedEvent="ButtonBase.Click">
                                                                     <BeginStoryboard Storyboard="{StaticResource CloseCard}"/>
