@@ -13,7 +13,7 @@ using System.Windows.Controls;
 
 namespace LibrarySystem.ViewModels
 {
-    public class LibrarianViewModel
+    public class LibrarianViewModel : BaseViewModel
     {
         #region Properties
         public BookRepository bookRepo = new BookRepository();
@@ -22,6 +22,8 @@ namespace LibrarySystem.ViewModels
 
         public Book SelectedBook { get; set; }
         public eBook SelectedeBook { get; set; }
+
+        public string ReasonToDelete { get; set; }
 
         public List<Event> ListOfEvents { get; set; }
         public ObservableCollection<Book> Books { get; set; }
@@ -38,6 +40,8 @@ namespace LibrarySystem.ViewModels
         public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
         public ReactiveCommand<object, Unit> ToggleHidden { get; set; }
+        public ReactiveCommand<object, Unit> ToggleVisible { get; set; }
+
 
         #endregion
         public LibrarianViewModel()
@@ -52,7 +56,8 @@ namespace LibrarySystem.ViewModels
             RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
             AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
-            ToggleHidden = ReactiveCommand.CreateFromTask((object param) => ToggleHiddenCommandMethod(param));
+            ToggleHidden = ReactiveCommand.CreateFromTask((object param) => HiddenCommandMethod(param));
+            ToggleVisible = ReactiveCommand.CreateFromTask((object param) => VisibleCommandMethod(param));
             LoadDataAsync();
         }
 
@@ -91,6 +96,11 @@ namespace LibrarySystem.ViewModels
         }
         public async Task RemoveBookCommandMethod(int id)
         {
+            if(ReasonToDelete == null)
+            {
+                MessageBox.Show("Fyll i anledning!");
+                return;
+            }
             await bookRepo.Delete(id);
             await LoadBooks();
         }
@@ -104,11 +114,19 @@ namespace LibrarySystem.ViewModels
 
         }
 
-        public async Task ToggleHiddenCommandMethod(object arg)
+        public async Task VisibleCommandMethod(object arg)
         {
             var button = (Button)arg;
-            button.IsEnabled = button.IsEnabled ? false : true;
-        } 
+            button.IsEnabled = true;
+            ReasonToDelete = "";
+            this.OnPropertyChanged(nameof(ReasonToDelete));
+        }
+        public async Task HiddenCommandMethod(object arg)
+        {
+            var button = (Button)arg;
+            button.IsEnabled = false;
+        }
+
         #endregion
         public async void LoadDataAsync()
         {
