@@ -94,7 +94,7 @@ namespace LibrarySystem.ViewModels
             await ClearBookLines("books");
 
         }
-
+        #endregion
         public async Task UpdateBookCommandMethod(Book book)
         #region ...
         {
@@ -113,6 +113,7 @@ namespace LibrarySystem.ViewModels
             await bookRepo.Delete(id);
             await LoadBooks();
         }
+        #endregion
         /// <summary>
         /// Checks and adds a E-Book to the database
         /// </summary>
@@ -149,12 +150,13 @@ namespace LibrarySystem.ViewModels
             await LoadEbooks();
             await ClearBookLines("ebooks");
         }
+        #endregion
         public async Task AddEventCommandMethod()
         #region ...
         {
 
         }
-<<<<<<< HEAD
+
 
         public async Task VisibleCommandMethod(object arg)
         {
@@ -169,16 +171,14 @@ namespace LibrarySystem.ViewModels
             button.IsEnabled = false;
         }
 
-=======
+
         #endregion
-        public async Task ToggleHiddenCommandMethod(object arg)
-        #region ...
-        {
-            var button = (Button)arg;
-            button.IsEnabled = button.IsEnabled ? false : true;
-        }
->>>>>>> master
-        #endregion
+        //public async Task ToggleHiddenCommandMethod(object arg)
+        
+        //{
+        //    var button = (Button)arg;
+        //    button.IsEnabled = button.IsEnabled ? false : true;
+        //}
 
         public async void LoadDataAsync()
         {
@@ -257,5 +257,6 @@ namespace LibrarySystem.ViewModels
         //        events = new ObservableCollection<Event>(eventIE.ToList());
         //    }
         //}
+        
     }
 }
