@@ -34,7 +34,8 @@ namespace LibrarySystem.ViewModels
         #region Commands
         public ReactiveCommand<Unit,Unit> AddBookCommand { get; set; }
 
-        public ReactiveCommand<Book, Unit> UpdateBook { get; set; }
+        public ReactiveCommand<Book, Unit> UpdateBookCommand { get; set; }
+        public ReactiveCommand<eBook, Unit> UpdateeBookCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
@@ -52,7 +53,8 @@ namespace LibrarySystem.ViewModels
             Events = new ObservableCollection<Event>();
 
             AddBookCommand = ReactiveCommand.CreateFromTask(() => AddBookCommandMethod());
-            UpdateBook = ReactiveCommand.CreateFromTask((Book book) => UpdateBookCommandMethod(book));
+            UpdateBookCommand = ReactiveCommand.CreateFromTask((Book book) => UpdateBookCommandMethod(book));
+            UpdateeBookCommand = ReactiveCommand.CreateFromTask((eBook ebook) => UpdateeBookCommandMethod(ebook));
             RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
             AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
@@ -61,6 +63,10 @@ namespace LibrarySystem.ViewModels
             LoadDataAsync();
         }
 
+        /// <summary>
+        /// Checks and adds a Book to DB
+        /// </summary>
+        /// <returns></returns>
         public async Task AddBookCommandMethod()
         #region ...
         {
@@ -95,6 +101,12 @@ namespace LibrarySystem.ViewModels
 
         }
         #endregion
+
+        /// <summary>
+        /// Updates a Book in DB
+        /// </summary>
+        /// <param name="book"></param>
+        /// <returns></returns>
         public async Task UpdateBookCommandMethod(Book book)
         #region ...
         {
@@ -102,6 +114,20 @@ namespace LibrarySystem.ViewModels
             await LoadBooks();
         }
         #endregion
+
+        public async Task UpdateeBookCommandMethod(eBook ebook)
+        #region ...
+        {
+            await eBookRepo.Update(ebook);
+            await LoadBooks();
+        }
+        #endregion
+
+        /// <summary>
+        /// Removes Book From DB
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task RemoveBookCommandMethod(int id)
         #region ...
         {
@@ -114,6 +140,7 @@ namespace LibrarySystem.ViewModels
             await LoadBooks();
         }
         #endregion
+
         /// <summary>
         /// Checks and adds a E-Book to the database
         /// </summary>
@@ -151,55 +178,78 @@ namespace LibrarySystem.ViewModels
             await ClearBookLines("ebooks");
         }
         #endregion
+
         public async Task AddEventCommandMethod()
         #region ...
         {
 
         }
+        #endregion
 
-
+        /// <summary>
+        /// Makes Arrow down button Visible
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         public async Task VisibleCommandMethod(object arg)
+        #region ...
         {
+
             var button = (Button)arg;
             button.IsEnabled = true;
             ReasonToDelete = "";
             this.OnPropertyChanged(nameof(ReasonToDelete));
+            
         }
+        #endregion
+
+        /// <summary>
+        /// Makes arrow down button Hidden
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         public async Task HiddenCommandMethod(object arg)
+        #region ...
         {
             var button = (Button)arg;
             button.IsEnabled = false;
         }
-
-
         #endregion
-        //public async Task ToggleHiddenCommandMethod(object arg)
-        
-        //{
-        //    var button = (Button)arg;
-        //    button.IsEnabled = button.IsEnabled ? false : true;
-        //}
 
+        /// <summary>
+        /// Loads all the data from DB
+        /// </summary>
         public async void LoadDataAsync()
+        #region ...
         {
             await LoadBooks();
             await LoadEbooks();
             await LoadEvents();
         }
+        #endregion
 
-        // Hämtar hem böcker
+        /// <summary>
+        /// Reloads books from DB
+        /// </summary>
+        /// <returns></returns>
         public async Task LoadBooks()
+        #region ...
         {
             Books.Clear();
-            foreach(var book in await bookRepo.ReadAll())
+            foreach (var book in await bookRepo.ReadAll())
             {
                 Books.Add(book);
             }
-            //Books.Add( await bookRepo.ReadAll());
-
         }
-        // Hämtar hem e-böcker
+        #endregion
+
+
+        /// <summary>
+        /// Reloads E-Books From DB
+        /// </summary>
+        /// <returns></returns>
         public async Task LoadEbooks()
+        #region ...
         {
             eBooks.Clear();
             foreach (var ebook in await eBookRepo.ReadAll())
@@ -207,8 +257,14 @@ namespace LibrarySystem.ViewModels
                 eBooks.Add(ebook);
             }
         }
-        // Hämtar hem events
+        #endregion
+
+        /// <summary>
+        /// Reloads all the Events from DB
+        /// </summary>
+        /// <returns></returns>
         public async Task LoadEvents()
+        #region ...
         {
             Events.Clear();
             foreach (var _event in await eventRepo.ReadAll())
@@ -216,11 +272,14 @@ namespace LibrarySystem.ViewModels
                 Events.Add(_event);
             }
         }
+        #endregion
+
         /// <summary>
         /// Method to clear the lines after you added a book.
         /// </summary>
         /// <returns></returns>
         public async Task ClearBookLines(string sender)
+        #region ...
         {
 
             //Clear Books
@@ -243,20 +302,8 @@ namespace LibrarySystem.ViewModels
                 SelectedeBook.category = "";
                 this.OnPropertyChanged(nameof(SelectedeBook));
             }
-
-
-
         }
-        //private ObservableCollection<Event> events;
-        //public ObservableCollection<Event> Events
-        //{
-        //    get { return events; }
-        //    set
-        //    {
-        //        var eventIE = repo.ReadEvents();
-        //        events = new ObservableCollection<Event>(eventIE.ToList());
-        //    }
-        //}
-        
+        #endregion
+
     }
 }
