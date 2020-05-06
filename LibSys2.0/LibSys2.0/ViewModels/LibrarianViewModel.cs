@@ -154,6 +154,7 @@ namespace LibrarySystem.ViewModels
         {
 
         }
+<<<<<<< HEAD
 
         public async Task VisibleCommandMethod(object arg)
         {
@@ -168,6 +169,15 @@ namespace LibrarySystem.ViewModels
             button.IsEnabled = false;
         }
 
+=======
+        #endregion
+        public async Task ToggleHiddenCommandMethod(object arg)
+        #region ...
+        {
+            var button = (Button)arg;
+            button.IsEnabled = button.IsEnabled ? false : true;
+        }
+>>>>>>> master
         #endregion
 
         public async void LoadDataAsync()
