@@ -563,14 +563,14 @@
                                                     <TextBox Text="{Binding category}" Width="200" Margin="2"/>
                                                 </StackPanel>
                                                     <StackPanel Orientation="Horizontal" Margin="5">
-                                                    <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
+                                                    <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
                                                         <Button.Triggers>
                                                             <EventTrigger RoutedEvent="ButtonBase.Click">
                                                                 <BeginStoryboard Storyboard="{StaticResource CloseCard}"/>
                                                             </EventTrigger>
                                                         </Button.Triggers>
                                                     </Button>
-                                                    <Button Command="{Binding Path=DataContext.UpdateBook, ElementName=FindDataContext}" CommandParameter="{Binding}"
+                                                        <Button Command="{Binding Path=DataContext.UpdateeBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding}"
                                                             Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
                                                 </StackPanel>
                                             <!--#endregion-->
