@@ -32,11 +32,27 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public ReactiveCommand<string, Unit> SetSearchColumn { get; set; }
         /// <summary>
+        /// Paste autocomplete click into searchbox
+        /// </summary>
+        public ReactiveCommand<string, Unit> PasteToSearchBox { get; set; }
+        /// <summary>
         /// 
         /// </summary>
         public ObservableCollection<IArticle> SearchResults { get; set; } = new ObservableCollection<IArticle>();
         // Defaulted to 'title'
-        public string SearchColumn { get; set; } = "title";
+        private string searchColumn { get; set; } = "title";
+        public string SearchColumn
+        {
+            get 
+            {
+                return searchColumn;
+            }
+            set
+            {
+                searchColumn = value;
+                OnPropertyChanged("SearchColumn");
+            }
+        }
         /// <summary>
         /// Simple counter return for list
         /// </summary>
@@ -52,16 +68,18 @@ namespace LibrarySystem.ViewModels
             {
                 searchFieldText = value;
                 // Make autocomplete query if letters are more or equal to number
-                if(searchFieldText.Length >= 2)
+                AutoCompleteList.Clear();
+                if (searchFieldText.Length >= 2)
                 {
-                    // Do code
+                    LoadAutoCompleteResults();
                 }
+                OnPropertyChanged("SearchFieldText");
             }
         }
         /// <summary>
         /// Sets when x:Name SearchField is filled in, limited to 3 for now
         /// </summary>
-        public ObservableCollection<string> AutoCompleteList = new ObservableCollection<string>();
+        public ObservableCollection<string> AutoCompleteList { get; set; } = new ObservableCollection<string>();
 
         public string Text { get; set; } = "Hello world";
 
@@ -79,6 +97,10 @@ namespace LibrarySystem.ViewModels
             {
                 SearchColumn = value;
             });
+            PasteToSearchBox = ReactiveCommand.Create((string value) =>
+            {
+                SearchFieldText = value;
+            });
         }
 
         private void SearchCommandAction(string arg)
@@ -87,6 +109,37 @@ namespace LibrarySystem.ViewModels
             SearchResults.Clear();
             // Load new
             LoadSearchResults(arg);
+        }
+
+        private async void LoadAutoCompleteResults()
+        {
+            AutoCompleteList.Clear();
+            // Load repos
+            var repo = new Library.BookRepository();
+            var repo2 = new Library.eBookRepository();
+            // Do the search queries
+            var books = await repo.SearchByColumn(SearchColumn, SearchFieldText, 3);
+            var eBooks = await repo2.SearchByColumn(SearchColumn, SearchFieldText, 3);
+            // The first 3
+            int j = 0;
+            int max = 3;
+            foreach (Book book in books)
+            {
+                if (j >= max)
+                    break;
+                AutoCompleteList.Add(book.title);
+                j++;
+            }
+            foreach (eBook ebook in eBooks)
+            {
+                if (j >= max)
+                    break;
+                AutoCompleteList.Add(ebook.title);
+                j++;
+            }
+
+            // Notify autocomplete
+            //NotifyPropertyChanged("AutoCompleteList");
         }
 
         private async void LoadSearchResults(string arg)

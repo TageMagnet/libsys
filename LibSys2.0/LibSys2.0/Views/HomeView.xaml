@@ -37,7 +37,13 @@
                     <ListView ItemsSource="{Binding AutoCompleteList}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}"/>
+                                <WrapPanel>
+                                    <TextBlock Text="{Binding}">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding Command="{Binding DataContext.SearchField}" CommandParameter="{Binding Path=Text,ElementName=SearchField}"></MouseBinding>
+                                        </TextBlock.InputBindings>
+                                    </TextBlock>
+                                </WrapPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -46,7 +52,7 @@
 
 
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top">
-                <TextBlock Text="{Binding SearchColumn, FallbackValue='SearchColumn'}" FontSize="8" Padding="0"/>
+                <TextBlock Text="{Binding SearchColumn,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='[SearchColumn]'}" FontSize="8" Padding="0"/>
                 <materialDesign:Chip Content="title" FontSize="8" Padding="0" Command="{Binding SetSearchColumn}" CommandParameter="title"></materialDesign:Chip>
                 <materialDesign:Chip FontSize="8" Padding="0">
                     <materialDesign:Chip.Content>
