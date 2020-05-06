@@ -33,45 +33,44 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top">
-                <materialDesign:Chip Content="title" FontSize="8" Padding="0" IconBackground="{StaticResource MaterialDesignLightForeground}"/>
-                <materialDesign:Chip Content="author" FontSize="8" Padding="0"/>
-                <materialDesign:Chip Content="isbn" FontSize="8" Padding="0"/>
-                <materialDesign:Chip Content="year" FontSize="8" Padding="0"/>
+                <materialDesign:Chip Content="title" FontSize="8" Padding="0" Command="{Binding SetSearchColumn}" CommandParameter="title" IconBackground="{StaticResource MaterialDesignLightForeground}"/>
+                <materialDesign:Chip FontSize="8" Padding="0">
+                    <materialDesign:Chip.Content>
+                        <TextBlock Text="author" TextDecorations="Strikethrough"/>
+                    </materialDesign:Chip.Content>
+                </materialDesign:Chip>
+                <materialDesign:Chip Content="isbn" FontSize="8" Padding="0" Command="{Binding SetSearchColumn}" CommandParameter="isbn"/>
+                <materialDesign:Chip Content="year" FontSize="8" Padding="0" Command="{Binding SetSearchColumn}" CommandParameter="year"/>
             </StackPanel>
         </StackPanel>
 
 
 
         <!--SearchResults-->
-        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center">
 
-            <!--Book results-->
+            <!--Counter-->
             <WrapPanel>
                 <TextBlock Text="Your search returned " FontSize="10"/>
-                <TextBlock Text="{Binding BookSearchResultCount, FallbackValue='[0]'}" FontSize="10"/>
+                <TextBlock Text="{Binding SearchResultCount, FallbackValue='[0]'}" FontSize="10"/>
                 <TextBlock Text=" results" FontSize="10"/>
             </WrapPanel>
-            <ListView  ItemsSource="{Binding BookSearchResults}" >
+            <!--Item list-->
+            <ListView  ItemsSource="{Binding SearchResults}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding title}" FontSize="10"/>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding title}" FontSize="10"/>
+                            <TextBlock Text=" (" FontSize="10"/>
+                            <TextBlock Text="{Binding year}" FontSize="10"/>
+                            <TextBlock Text=") " FontSize="10"/>
+                            <TextBlock Text="{Binding author}" FontSize="10"/>
+                            <TextBlock Text="{Binding isbn}" FontSize="10"/>
+                        </WrapPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
-            <!--eBook results-->
-            <WrapPanel>
-                <TextBlock Text="Your search returned " FontSize="10"/>
-                <TextBlock Text="{Binding eBookSearchResultCount, FallbackValue='[0]'}" FontSize="10"/>
-                <TextBlock Text=" results" FontSize="10"/>
-            </WrapPanel>
-            <ListView  ItemsSource="{Binding eBookSearchResults}" >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding title}" FontSize="10"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
         </StackPanel>
 
 

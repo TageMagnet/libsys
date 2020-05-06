@@ -19,9 +19,7 @@ namespace LibrarySystem.ViewModels
         public BookRepository bookRepo = new BookRepository();
         public eBookRepository eBookRepo = new eBookRepository();
         public EventRepository eventRepo = new EventRepository();
-
         public Book SelectedBook { get; set; }
-
         public List<Event> ListOfEvents { get; set; }
         public ObservableCollection<Book> Books { get; set; }
         public ObservableCollection<eBook> eBooks { get; set; }
@@ -55,8 +53,8 @@ namespace LibrarySystem.ViewModels
             LoadDataAsync();
         }
 
-        #region Command Methods
         public async Task AddBookCommandMethod()
+        #region ...
         {
             if (SelectedBook.title == null)
             {
@@ -81,34 +79,42 @@ namespace LibrarySystem.ViewModels
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
 
-        }
-
+        } 
+        #endregion
         public async Task UpdateBookCommandMethod(Book book)
+        #region ...
         {
             await bookRepo.Update(book);
             await LoadBooks();
-        }
+        } 
+        #endregion
         public async Task RemoveBookCommandMethod(int id)
+        #region ...
         {
             await bookRepo.Delete(id);
             await LoadBooks();
-        }
-
+        } 
+        #endregion
         public async Task AddeBookCommandMethod()
+        #region ...
         {
 
-        }
+        } 
+        #endregion
         public async Task AddEventCommandMethod()
+        #region ...
         {
 
-        }
-
+        } 
+        #endregion
         public async Task ToggleHiddenCommandMethod(object arg)
+        #region ...
         {
             var button = (Button)arg;
             button.IsEnabled = button.IsEnabled ? false : true;
-        } 
+        }  
         #endregion
+
         public async void LoadDataAsync()
         {
             await LoadBooks();

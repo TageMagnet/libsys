@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LibrarySystem.Models
 {
-    public class eBook
+    public class eBook : IArticle
     {
         public int book_id { get; set; }
         public int ref_author_id { get; set; }
