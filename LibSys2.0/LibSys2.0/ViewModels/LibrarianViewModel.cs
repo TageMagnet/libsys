@@ -133,11 +133,16 @@ namespace LibrarySystem.ViewModels
         public async Task RemoveBookCommandMethod(int id)
         #region ...
         {
-            if(ReasonToDelete == null)
+            if(string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
             {
                 MessageBox.Show("Fyll i anledning!");
+                ReasonToDelete = "";
+                this.NotifyPropertyChanged(nameof(ReasonToDelete));
                 return;
             }
+            
+            ReasonToDelete = "";
+            this.NotifyPropertyChanged(nameof(ReasonToDelete));
             await bookRepo.Delete(id);
             await LoadBooks();
         }
@@ -145,11 +150,15 @@ namespace LibrarySystem.ViewModels
 
         public async Task RemoveeBookCommandMethod(int id)
         {
-            if(ReasonToDelete == null)
+            if(string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
             {
                 MessageBox.Show("Fyll i anledning!");
+                ReasonToDelete = "";
+                this.NotifyPropertyChanged(nameof(ReasonToDelete));
                 return;
             }
+            ReasonToDelete = "";
+            this.NotifyPropertyChanged(nameof(ReasonToDelete));
             await eBookRepo.Delete(id);
             await LoadeBooks();
         }
