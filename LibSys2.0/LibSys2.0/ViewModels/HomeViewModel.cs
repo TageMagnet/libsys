@@ -100,6 +100,8 @@ namespace LibrarySystem.ViewModels
             PasteToSearchBox = ReactiveCommand.Create((string value) =>
             {
                 SearchFieldText = value;
+                SearchCommandAction(SearchFieldText);
+                //this.OnPropertyChanged(nameof(value));
             });
         }
 
