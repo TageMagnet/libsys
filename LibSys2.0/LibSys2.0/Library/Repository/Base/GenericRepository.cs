@@ -150,15 +150,24 @@ namespace Library
         /// <param name="column">The SQL-table column you want to target</param>
         /// <param name="text">Search string</param>
         /// <returns></returns>
-        public async Task<List<T>> SearchByColumn(string column, string searchString)
+        public async Task<List<T>> SearchByColumn(string column, string searchString) => await SearchByColumn(column, searchString, 99);
+
+        /// <summary>
+        /// Make a search with set LIMIT
+        /// </summary>
+        /// <param name="column">The SQL-table column you want to target</param>
+        /// <param name="searchString">Search string</param>
+        /// <param name="limit">Limited row return, defaulted to 99</param>
+        /// <returns></returns>
+        public async Task<List<T>> SearchByColumn(string column, string searchString, int limit)
         #region ..
         {
             using (var connection = CreateConnection())
             {
                 // This strange thingy is because table and column  parameters are not really supported
                 // Concat is a semi-protection against SQL-injection, like a broken condom
-                string sql = string.Format("SELECT * FROM {0} WHERE {1} LIKE CONCAT('%',@searchQuery,'%');", table, column, searchString);
-                var result = connection.Query<T>(sql, new { searchQuery = searchString});
+                string sql = string.Format("SELECT * FROM {0} WHERE {1} LIKE CONCAT('%',@searchQuery,'%') LIMIT @limit;", table, column, searchString);
+                var result = await connection.QueryAsync<T>(sql, new { searchQuery = searchString, limit = limit });
                 return result.ToList();
             }
         }

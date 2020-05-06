@@ -41,6 +41,27 @@ namespace LibrarySystem.ViewModels
         /// Simple counter return for list
         /// </summary>
         public int SearchResultCount { get => SearchResults.Count; }
+        // Private holder
+        private string  searchFieldText { get; set; }
+        /// <summary>
+        /// x:Name SearchField Text
+        /// </summary>
+        public string SearchFieldText { 
+            get => searchFieldText;
+            set
+            {
+                searchFieldText = value;
+                // Make autocomplete query if letters are more or equal to number
+                if(searchFieldText.Length >= 2)
+                {
+                    // Do code
+                }
+            }
+        }
+        /// <summary>
+        /// Sets when x:Name SearchField is filled in, limited to 3 for now
+        /// </summary>
+        public ObservableCollection<string> AutoCompleteList = new ObservableCollection<string>();
 
         public string Text { get; set; } = "Hello world";
 

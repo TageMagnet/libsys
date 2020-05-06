@@ -23,17 +23,31 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--#endregion-->
-        <!--<Viewbox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top">
-        </Viewbox>-->
+
+        <!--SearchBox stuff-->
         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Vertical">
-            <StackPanel  Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 10, 0 ,0">
-                <!--<TextBlock Text="Sök: " FontSize="15" FontWeight="DemiBold" Margin="0 0 0 0"/>-->
-                <TextBox x:Name="SearchField" Height="30" Margin="0 0 0 0" MinWidth="200" MaxWidth="500" FontSize="15"/>
-                <Button Name="SearchButton" Command="{Binding SearchCommand}" CommandParameter="{Binding Path=Text, ElementName=SearchField}" Content="{materialDesign:PackIcon Search}" ToolTip="Search"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 10, 0 ,0">
+                <StackPanel  Orientation="Horizontal" >
+                    <!--<TextBlock Text="Sök: " FontSize="15" FontWeight="DemiBold" Margin="0 0 0 0"/>-->
+                    <TextBox x:Name="SearchField" Text="{Binding SearchFieldText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Margin="0 0 0 0" MinWidth="200" MaxWidth="500" FontSize="15"/>
+                    <Button Name="SearchButton" Command="{Binding SearchCommand}" CommandParameter="{Binding Path=Text, ElementName=SearchField}" Content="{materialDesign:PackIcon Search}" ToolTip="Search"/>
+                </StackPanel>
+                <!--AutoComplete-->
+                <StackPanel>
+                    <ListView ItemsSource="{Binding AutoCompleteList}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
             </StackPanel>
 
+
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top">
-                <materialDesign:Chip Content="title" FontSize="8" Padding="0" Command="{Binding SetSearchColumn}" CommandParameter="title" IconBackground="{StaticResource MaterialDesignLightForeground}"/>
+                <TextBlock Text="{Binding SearchColumn, FallbackValue='SearchColumn'}" FontSize="8" Padding="0"/>
+                <materialDesign:Chip Content="title" FontSize="8" Padding="0" Command="{Binding SetSearchColumn}" CommandParameter="title"></materialDesign:Chip>
                 <materialDesign:Chip FontSize="8" Padding="0">
                     <materialDesign:Chip.Content>
                         <TextBlock Text="author" TextDecorations="Strikethrough"/>
@@ -47,7 +61,7 @@
 
 
         <!--SearchResults-->
-        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center">
+        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" >
 
             <!--Counter-->
             <WrapPanel>
