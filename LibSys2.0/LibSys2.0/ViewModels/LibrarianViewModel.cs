@@ -13,7 +13,7 @@ using System.Windows.Controls;
 
 namespace LibrarySystem.ViewModels
 {
-    public class LibrarianViewModel
+    public class LibrarianViewModel : BaseViewModel
     {
         #region Properties
         public BookRepository bookRepo = new BookRepository();
@@ -42,6 +42,7 @@ namespace LibrarySystem.ViewModels
         public LibrarianViewModel()
         {
             SelectedBook = new Book();
+            SelectedeBook = new eBook();
             Books = new ObservableCollection<Book>();
             eBooks = new ObservableCollection<eBook>();
             Events = new ObservableCollection<Event>();
@@ -78,43 +79,78 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till isbn!");
                 return;
             }
+            if (SelectedBook.category == null)
+            {
+                MessageBox.Show("Lägg till kategori!");
+                return;
+            }
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
+            await ClearBookLines("books");
 
-        } 
-        #endregion
+        }
+
         public async Task UpdateBookCommandMethod(Book book)
         #region ...
         {
             await bookRepo.Update(book);
             await LoadBooks();
-        } 
+        }
         #endregion
         public async Task RemoveBookCommandMethod(int id)
         #region ...
         {
             await bookRepo.Delete(id);
             await LoadBooks();
-        } 
-        #endregion
+        }
+        /// <summary>
+        /// Checks and adds a E-Book to the database
+        /// </summary>
+        /// <returns></returns>
         public async Task AddeBookCommandMethod()
         #region ...
         {
-
-        } 
-        #endregion
+            if (SelectedeBook.title == null)
+            {
+                MessageBox.Show("Lägg till titel!");
+                return;
+            }
+            //if (SelectedBook.author == null)
+            //{
+            //    MessageBox.Show("Lägg till författare!");
+            //    return;
+            //}
+            if (SelectedeBook.description == null)
+            {
+                MessageBox.Show("Lägg till beskrivning!");
+                return;
+            }
+            if (SelectedeBook.isbn == null)
+            {
+                MessageBox.Show("Lägg till isbn!");
+                return;
+            }
+            if (SelectedeBook.category == null)
+            {
+                MessageBox.Show("Lägg till kategori!");
+                return;
+            }
+            await eBookRepo.Create(SelectedeBook);
+            await LoadEbooks();
+            await ClearBookLines("ebooks");
+        }
         public async Task AddEventCommandMethod()
         #region ...
         {
 
-        } 
+        }
         #endregion
         public async Task ToggleHiddenCommandMethod(object arg)
         #region ...
         {
             var button = (Button)arg;
             button.IsEnabled = button.IsEnabled ? false : true;
-        }  
+        }
         #endregion
 
         public async void LoadDataAsync()
@@ -133,7 +169,7 @@ namespace LibrarySystem.ViewModels
                 Books.Add(book);
             }
             //Books.Add( await bookRepo.ReadAll());
-            
+
         }
         // Hämtar hem e-böcker
         public async Task LoadEbooks()
@@ -152,6 +188,37 @@ namespace LibrarySystem.ViewModels
             {
                 Events.Add(_event);
             }
+        }
+        /// <summary>
+        /// Method to clear the lines after you added a book.
+        /// </summary>
+        /// <returns></returns>
+        public async Task ClearBookLines(string sender)
+        {
+
+            //Clear Books
+            if (sender == "books")
+            {
+                SelectedBook.title = "";
+                SelectedBook.description = "";
+                SelectedBook.isbn = "";
+                SelectedBook.category = "";
+                this.OnPropertyChanged(nameof(SelectedBook));
+
+            }
+
+            //Clear E-Books
+            else if (sender == "ebooks")
+            {
+                SelectedeBook.title = "";
+                SelectedeBook.description = "";
+                SelectedeBook.isbn = "";
+                SelectedeBook.category = "";
+                this.OnPropertyChanged(nameof(SelectedeBook));
+            }
+
+
+
         }
         //private ObservableCollection<Event> events;
         //public ObservableCollection<Event> Events
