@@ -23,28 +23,24 @@ namespace LibrarySystem.ViewModels
         /// Demo för propertychanged, kan tas bort
         /// </summary>
         public ReactiveCommand<Unit, Unit> TestChange { get; set; }
-
         /// <summary>
         /// Search for book using string from search-field
         /// </summary>
         public ReactiveCommand<string, Unit> SearchCommand { get; set; }
-
         /// <summary>
-        /// Returned results from SearchCommand
+        /// Which database column to search in
         /// </summary>
-        public ObservableCollection<Book> BookSearchResults { get; set; } = new ObservableCollection<Book>();
+        public ReactiveCommand<string, Unit> SetSearchColumn { get; set; }
         /// <summary>
-        /// -//-
+        /// 
         /// </summary>
-        public ObservableCollection<eBook> eBookSearchResults { get; set; } = new ObservableCollection<eBook>();
+        public ObservableCollection<IArticle> SearchResults { get; set; } = new ObservableCollection<IArticle>();
+        // Defaulted to 'title'
+        public string SearchColumn { get; set; } = "title";
         /// <summary>
         /// Simple counter return for list
         /// </summary>
-        public int eBookSearchResultCount{get => eBookSearchResults.Count;}
-        /// <summary>
-        /// -//-
-        /// </summary>
-        public int BookSearchResultCount { get => BookSearchResults.Count; }
+        public int SearchResultCount { get => SearchResults.Count; }
 
         public string Text { get; set; } = "Hello world";
 
@@ -52,20 +48,23 @@ namespace LibrarySystem.ViewModels
         {
             LoginCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("librarian"));
             RegisterCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("register"));
-            TestChange = ReactiveCommand.Create(() => {
+            TestChange = ReactiveCommand.Create(() =>
+            {
                 Text = "I WAS UPDATED";
                 OnPropertyChanged("Text");
             });
             SearchCommand = ReactiveCommand.Create((string value) => SearchCommandAction(value));
-
+            SetSearchColumn = ReactiveCommand.Create((string value) =>
+            {
+                SearchColumn = value;
+            });
         }
 
         private void SearchCommandAction(string arg)
         {
             // Clear old search
-            BookSearchResults.Clear();
-            eBookSearchResults.Clear();
-
+            SearchResults.Clear();
+            // Load new
             LoadSearchResults(arg);
         }
 
@@ -75,22 +74,21 @@ namespace LibrarySystem.ViewModels
             var repo = new Library.BookRepository();
             var repo2 = new Library.eBookRepository();
             // Do the search queries
-            var books = await repo.SearchByTitle(arg);
-            var eBooks = await repo2.SearchByTitle(arg);
+            var books = await repo.SearchByColumn(SearchColumn, arg);
+            var eBooks = await repo2.SearchByColumn(SearchColumn, arg);
 
             // Loop and add them into the view
             foreach (Book book in books)
             {
-                BookSearchResults.Add(book);
+                SearchResults.Add(book);
             }
             foreach (eBook ebook in eBooks)
             {
-                eBookSearchResults.Add(ebook);
+                SearchResults.Add(ebook);
             }
 
             // Notify the counters
-            NotifyPropertyChanged("BookSearchResultCount");
-            NotifyPropertyChanged("eBookSearchResultCount");
+            NotifyPropertyChanged("SearchResultCount");
         }
     }
 }

@@ -31,12 +31,14 @@ namespace Library
         /// </summary>
         /// <returns></returns>
         protected MySqlConnection CreateConnection()
+        #region ..
         {
             string connectionString = "server=tjackobacco.com;port=23006;database=libsys;uid=guest;pwd=hunter12;";
             MySqlConnection con = new MySqlConnection(connectionString);
             con.Open();
             return con;
         }
+        #endregion
 
         /// <summary>
         /// Microsoft SQL Server
@@ -44,12 +46,14 @@ namespace Library
         /// <param name="s">add a string to use MSSQL instead</param>
         /// <returns></returns>
         protected IDbConnection CreateConnection(string s)
+        #region ..
         {
             string connectionString = "Data Source=syss3-grupp1.database.windows.net;Initial Catalog=libsys;User Id=Grupp1;Password=Hunter12;";
             IDbConnection con = new SqlConnection(connectionString);
             con.Open();
             return con;
         }
+        #endregion
 
         /// <summary>
         /// 
@@ -57,6 +61,7 @@ namespace Library
         /// <param name="t"></param>
         /// <returns></returns>
         public async Task Create(T t)
+        #region ..
         {
             using (var connection = CreateConnection())
             {
@@ -71,6 +76,7 @@ namespace Library
                 }
             }
         }
+        #endregion
 
         /// <summary>
         /// 
@@ -78,6 +84,7 @@ namespace Library
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task Delete(int id)
+        #region ..
         {
             using (var connection = CreateConnection())
             {
@@ -86,6 +93,7 @@ namespace Library
                 await connection.QueryAsync(sqlQuery);
             }
         }
+        #endregion
 
         /// <summary>
         /// 
@@ -93,6 +101,7 @@ namespace Library
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task<T> Read(int id)
+        #region ..
         {
             using (var connection = CreateConnection())
             {
@@ -109,6 +118,7 @@ namespace Library
 
             }
         }
+        #endregion
 
         /// <summary>
         /// 
@@ -116,6 +126,7 @@ namespace Library
         /// <param name="t"></param>
         /// <returns></returns>
         public async Task Update(T t)
+        #region ..
         {
             using (var connection = CreateConnection())
             {
@@ -131,18 +142,41 @@ namespace Library
                 }
             }
         }
+        #endregion
+
+        /// <summary>
+        /// Make a search
+        /// </summary>
+        /// <param name="column">The SQL-table column you want to target</param>
+        /// <param name="text">Search string</param>
+        /// <returns></returns>
+        public async Task<List<T>> SearchByColumn(string column, string searchString)
+        #region ..
+        {
+            using (var connection = CreateConnection())
+            {
+                // This strange thingy is because table and column  parameters are not really supported
+                // Concat is a semi-protection against SQL-injection, like a broken condom
+                string sql = string.Format("SELECT * FROM {0} WHERE {1} LIKE CONCAT('%',@searchQuery,'%');", table, column, searchString);
+                var result = connection.Query<T>(sql, new { searchQuery = searchString});
+                return result.ToList();
+            }
+        }
+        #endregion
 
         /// <summary>
         /// Return a list of all rows
         /// </summary>
         /// <returns></returns>
         public async Task<List<T>> ReadAll()
+        #region ..
         {
             using (var connection = CreateConnection())
             {
                 return (await connection.QueryAsync<T>($"SELECT * FROM {table}")).ToList();
             }
         }
+        #endregion
 
         /// <summary>
         /// Create generic SQL-query for INSERT based on <see cref="T"> properties
@@ -150,6 +184,7 @@ namespace Library
         /// <param name="t"></param>
         /// <returns></returns>
         public string GenerateInsertQuery(T t)
+        #region ..
         {
             var insertQuery = new StringBuilder($"INSERT INTO {table} ");
 
@@ -180,6 +215,7 @@ namespace Library
                 .Append(")");
             return insertQuery.ToString();
         }
+        #endregion
 
         /// <summary>
         /// 
@@ -187,6 +223,7 @@ namespace Library
         /// <param name="t"></param>
         /// <returns></returns>
         public string GenerateUpdateQuery(T t)
+        #region ..
         {
             var sqlQuery = new StringBuilder($"UPDATE {table} SET ");
             List<string> properties = new List<string>();
@@ -217,6 +254,7 @@ namespace Library
 
             return sqlQuery.ToString();
         }
+        #endregion
     }
 }
 
