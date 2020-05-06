@@ -12,6 +12,7 @@ namespace Library
         Task<T> Read(int id);
         Task Update(T t);
         Task Delete(int id);
+        Task<List<T>> SearchByColumn(string column, string searchString);
         //... extra
         Task<List<T>> ReadAll();
     }

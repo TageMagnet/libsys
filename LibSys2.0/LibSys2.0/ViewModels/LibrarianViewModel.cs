@@ -19,7 +19,6 @@ namespace LibrarySystem.ViewModels
         public BookRepository bookRepo = new BookRepository();
         public eBookRepository eBookRepo = new eBookRepository();
         public EventRepository eventRepo = new EventRepository();
-
         public Book SelectedBook { get; set; }
         public eBook SelectedeBook { get; set; }
 
@@ -57,8 +56,8 @@ namespace LibrarySystem.ViewModels
             LoadDataAsync();
         }
 
-        #region Command Methods
         public async Task AddBookCommandMethod()
+        #region ...
         {
             if (SelectedBook.title == null)
             {
@@ -88,15 +87,18 @@ namespace LibrarySystem.ViewModels
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
             await ClearBookLines("books");
-            
+
         }
 
         public async Task UpdateBookCommandMethod(Book book)
+        #region ...
         {
             await bookRepo.Update(book);
             await LoadBooks();
         }
+        #endregion
         public async Task RemoveBookCommandMethod(int id)
+        #region ...
         {
             await bookRepo.Delete(id);
             await LoadBooks();
@@ -106,6 +108,7 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         /// <returns></returns>
         public async Task AddeBookCommandMethod()
+        #region ...
         {
             if (SelectedeBook.title == null)
             {
@@ -137,16 +140,19 @@ namespace LibrarySystem.ViewModels
             await ClearBookLines("ebooks");
         }
         public async Task AddEventCommandMethod()
+        #region ...
         {
 
         }
-
+        #endregion
         public async Task ToggleHiddenCommandMethod(object arg)
+        #region ...
         {
             var button = (Button)arg;
             button.IsEnabled = button.IsEnabled ? false : true;
-        } 
+        }
         #endregion
+
         public async void LoadDataAsync()
         {
             await LoadBooks();
@@ -163,7 +169,7 @@ namespace LibrarySystem.ViewModels
                 Books.Add(book);
             }
             //Books.Add( await bookRepo.ReadAll());
-            
+
         }
         // Hämtar hem e-böcker
         public async Task LoadEbooks()
@@ -198,7 +204,7 @@ namespace LibrarySystem.ViewModels
                 SelectedBook.isbn = "";
                 SelectedBook.category = "";
                 this.OnPropertyChanged(nameof(SelectedBook));
-                
+
             }
 
             //Clear E-Books
@@ -211,8 +217,8 @@ namespace LibrarySystem.ViewModels
                 this.OnPropertyChanged(nameof(SelectedeBook));
             }
 
-            
-            
+
+
         }
         //private ObservableCollection<Event> events;
         //public ObservableCollection<Event> Events
