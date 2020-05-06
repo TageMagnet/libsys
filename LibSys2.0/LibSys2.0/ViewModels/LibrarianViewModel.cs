@@ -37,6 +37,7 @@ namespace LibrarySystem.ViewModels
         public ReactiveCommand<Book, Unit> UpdateBookCommand { get; set; }
         public ReactiveCommand<eBook, Unit> UpdateeBookCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveBookCommand { get; set; }
+        public ReactiveCommand<int, Unit> RemoveeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
         public ReactiveCommand<object, Unit> ToggleHidden { get; set; }
@@ -56,6 +57,7 @@ namespace LibrarySystem.ViewModels
             UpdateBookCommand = ReactiveCommand.CreateFromTask((Book book) => UpdateBookCommandMethod(book));
             UpdateeBookCommand = ReactiveCommand.CreateFromTask((eBook ebook) => UpdateeBookCommandMethod(ebook));
             RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
+            RemoveeBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveeBookCommandMethod(id));
             AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
             ToggleHidden = ReactiveCommand.CreateFromTask((object param) => HiddenCommandMethod(param));
@@ -141,6 +143,16 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+        public async Task RemoveeBookCommandMethod(int id)
+        {
+            if(ReasonToDelete == null)
+            {
+                MessageBox.Show("Fyll i anledning!");
+                return;
+            }
+            await eBookRepo.Delete(id);
+            await LoadeBooks();
+        }
         /// <summary>
         /// Checks and adds a E-Book to the database
         /// </summary>
@@ -174,7 +186,7 @@ namespace LibrarySystem.ViewModels
                 return;
             }
             await eBookRepo.Create(SelectedeBook);
-            await LoadEbooks();
+            await LoadeBooks();
             await ClearBookLines("ebooks");
         }
         #endregion
@@ -186,6 +198,7 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+
         /// <summary>
         /// Makes Arrow down button Visible
         /// </summary>
@@ -194,15 +207,12 @@ namespace LibrarySystem.ViewModels
         public async Task VisibleCommandMethod(object arg)
         #region ...
         {
-
             var button = (Button)arg;
             button.IsEnabled = true;
             ReasonToDelete = "";
-            this.OnPropertyChanged(nameof(ReasonToDelete));
-            
+            this.OnPropertyChanged(nameof(ReasonToDelete));     
         }
         #endregion
-
         /// <summary>
         /// Makes arrow down button Hidden
         /// </summary>
@@ -216,6 +226,7 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+
         /// <summary>
         /// Loads all the data from DB
         /// </summary>
@@ -223,7 +234,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             await LoadBooks();
-            await LoadEbooks();
+            await LoadeBooks();
             await LoadEvents();
         }
         #endregion
@@ -241,6 +252,7 @@ namespace LibrarySystem.ViewModels
                 Books.Add(book);
             }
         }
+
         #endregion
 
 
@@ -248,7 +260,7 @@ namespace LibrarySystem.ViewModels
         /// Reloads E-Books From DB
         /// </summary>
         /// <returns></returns>
-        public async Task LoadEbooks()
+        public async Task LoadeBooks()
         #region ...
         {
             eBooks.Clear();
