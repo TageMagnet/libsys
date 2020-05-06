@@ -40,7 +40,9 @@
                                 <WrapPanel>
                                     <TextBlock Text="{Binding}">
                                         <TextBlock.InputBindings>
-                                            <MouseBinding Command="{Binding DataContext.SearchField}" CommandParameter="{Binding Path=Text,ElementName=SearchField}"></MouseBinding>
+                                            <MouseBinding MouseAction="LeftClick"
+                                                Command="{Binding Path=DataContext.PasteToSearchBox, ElementName=SearchField}" 
+                                                          CommandParameter="{Binding}"></MouseBinding>
                                         </TextBlock.InputBindings>
                                     </TextBlock>
                                 </WrapPanel>
