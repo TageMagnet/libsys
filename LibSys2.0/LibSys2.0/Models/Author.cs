@@ -12,5 +12,7 @@ namespace LibrarySystem.Models
         public int author_id { get; set; }
         public string firstname { get; set; }
         public string surname { get; set; }
+
+        public string nickname { get; set; }
     }
 }

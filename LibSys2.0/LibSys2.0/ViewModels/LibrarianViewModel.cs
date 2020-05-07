@@ -19,15 +19,18 @@ namespace LibrarySystem.ViewModels
         public BookRepository bookRepo = new BookRepository();
         public eBookRepository eBookRepo = new eBookRepository();
         public EventRepository eventRepo = new EventRepository();
+        public AuthorRepository authorRepo = new AuthorRepository();
         public Book SelectedBook { get; set; }
         public eBook SelectedeBook { get; set; }
 
+        public Author SelectedAuthor { get; set; }
         public string ReasonToDelete { get; set; }
 
         public List<Event> ListOfEvents { get; set; }
         public ObservableCollection<Book> Books { get; set; }
         public ObservableCollection<eBook> eBooks { get; set; }
         public ObservableCollection<Event> Events { get; set; }
+        public ObservableCollection<Author> Authors { get; set; }
 
         #endregion
 
@@ -43,15 +46,20 @@ namespace LibrarySystem.ViewModels
         public ReactiveCommand<object, Unit> ToggleHidden { get; set; }
         public ReactiveCommand<object, Unit> ToggleVisible { get; set; }
 
+        public ReactiveCommand<Unit, Unit> AddAuthorCommand { get; set; }
+
 
         #endregion
         public LibrarianViewModel()
         {
             SelectedBook = new Book();
             SelectedeBook = new eBook();
+            SelectedAuthor = new Author();
+
             Books = new ObservableCollection<Book>();
             eBooks = new ObservableCollection<eBook>();
             Events = new ObservableCollection<Event>();
+            Authors = new ObservableCollection<Author>();
 
             AddBookCommand = ReactiveCommand.CreateFromTask(() => AddBookCommandMethod());
             UpdateBookCommand = ReactiveCommand.CreateFromTask((Book book) => UpdateBookCommandMethod(book));
@@ -62,6 +70,7 @@ namespace LibrarySystem.ViewModels
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
             ToggleHidden = ReactiveCommand.CreateFromTask((object param) => HiddenCommandMethod(param));
             ToggleVisible = ReactiveCommand.CreateFromTask((object param) => VisibleCommandMethod(param));
+            AddAuthorCommand = ReactiveCommand.CreateFromTask(() => AddAuthorCommandMethod());
             LoadDataAsync();
         }
 
@@ -149,8 +158,9 @@ namespace LibrarySystem.ViewModels
         #endregion
 
         public async Task RemoveeBookCommandMethod(int id)
+        #region ...
         {
-            if(string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
+            if (string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
             {
                 MessageBox.Show("Fyll i anledning!");
                 ReasonToDelete = "";
@@ -162,6 +172,7 @@ namespace LibrarySystem.ViewModels
             await eBookRepo.Delete(id);
             await LoadeBooks();
         }
+        #endregion
         /// <summary>
         /// Checks and adds a E-Book to the database
         /// </summary>
@@ -235,7 +246,33 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+        /// <summary>
+        /// Method to add author to DB
+        /// </summary>
+        /// <returns></returns>
+        public async Task AddAuthorCommandMethod()
+        #region ...
+        {
+            if (SelectedAuthor.firstname == null)
+            {
+                MessageBox.Show("Lägg till Förnamn!");
+                return;
+            }
+            if (SelectedAuthor.surname == null)
+            {
+                MessageBox.Show("Lägg till efternamn!");
+                return;
+            }
+            if (SelectedAuthor.nickname == null)
+            {
+                MessageBox.Show("Lägg till smeknamn!");
+                return;
+            }
 
+            await authorRepo.Create(SelectedAuthor);
+
+        }
+        #endregion
         /// <summary>
         /// Loads all the data from DB
         /// </summary>
@@ -245,6 +282,7 @@ namespace LibrarySystem.ViewModels
             await LoadBooks();
             await LoadeBooks();
             await LoadEvents();
+            await LoadAuthors();
         }
         #endregion
 
@@ -291,6 +329,21 @@ namespace LibrarySystem.ViewModels
             foreach (var _event in await eventRepo.ReadAll())
             {
                 Events.Add(_event);
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Reloads all the Authors from DB
+        /// </summary>
+        /// <returns></returns>
+        public async Task LoadAuthors()
+        #region ...
+        {
+            Authors.Clear();
+            foreach (var author in await authorRepo.ReadAll())
+            {
+                Authors.Add(author);
             }
         }
         #endregion
