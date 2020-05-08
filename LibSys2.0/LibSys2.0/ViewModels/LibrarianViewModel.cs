@@ -200,6 +200,19 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+        /// <summary>
+        /// Updates a author to db.
+        /// </summary>
+        /// <param name="author"></param>
+        /// <returns></returns>
+        public async Task UpdateAuthorCommandMethod(Author author)
+        #region ...
+        {
+            await authorRepo.Update(author);
+            await LoadAuthors();
+        }
+        #endregion
+
         public async Task UpdateeBookCommandMethod(eBook ebook)
         #region ...
         {
@@ -230,6 +243,43 @@ namespace LibrarySystem.ViewModels
             await LoadBooks();
         }
         #endregion
+
+        /// <summary>
+        /// Removes/delete a author from DB
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task RemoveAuthorCommandMethod(int id)
+        #region ...
+        {
+            int numberOfAuthorBooks = 0;
+
+            foreach (var book in Books)
+            {
+                if (book.ref_author_id == id)
+                {
+                    numberOfAuthorBooks++;
+                }
+            }
+            foreach (var ebok in eBooks)
+            {
+                if (ebok.ref_author_id == id)
+                {
+                    numberOfAuthorBooks++;
+                }
+            }
+
+            if (numberOfAuthorBooks > 0)
+            {
+                MessageBox.Show($"Denna författare är bunden till {numberOfAuthorBooks}st böcker. Och kan därför inte tas bort");
+                return;
+            }
+
+            await authorRepo.Delete(id);
+            await LoadAuthors();
+        }
+        #endregion
+
         /// <summary>
         /// Changes status on eBook from 1(active) to 0(inactive)
         /// </summary>
