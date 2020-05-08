@@ -318,8 +318,6 @@
 
                 <!--#endregion-->
 
-
-
                 <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
 
                 <ScrollViewer x:Name="FindDataContext" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
@@ -399,7 +397,7 @@
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="Författare: " Width="70" FontSize="12"/>
                                                         <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Path=DataContext.Authors, ElementName=FindDataContext}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
-                                                                      SelectedValue="{Binding SelectedAuthor, Mode=TwoWay, FallbackValue=Author.nickname}">
+                                                                      SelectedValue="{Binding Path=Authors, Mode=TwoWay}"  SelectedIndex="{Binding GetIndex}">
                                                                  <ComboBox.ItemTemplate>
                                                                     <DataTemplate>
                                                                         <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
