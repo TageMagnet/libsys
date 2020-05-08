@@ -822,43 +822,48 @@
 
                 <!-- Display members -->
                 <Border Grid.Column="2">
-                    <StackPanel>
-                        <ListBox ItemsSource="{Binding Members}" Background="Beige">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Padding="6,6">
-                                        <WrapPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="ID: " />
-                                                <TextBlock Text="{Binding member_id}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="email: " />
-                                                <TextBlock Text="{Binding email}"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="användarnamn: " />
-                                                <TextBlock Text="{Binding nickname}"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="lösenord: " />
-                                                <TextBlock Text="{Binding pwd}"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="roll: " />
-                                                <TextBlock Text="{Binding role}"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="skapad: " />
-                                                <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
-                                            </StackPanel>
-
-                                        </WrapPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <ListBox ItemsSource="{Binding Members}"
+                                     Background="Beige">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="6,6">
+                                            <Border BorderBrush="Blue"
+                                                    BorderThickness="5">
+                                                <WrapPanel Orientation="Vertical" Width="400">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="ID: " />
+                                                        <TextBlock Text="{Binding member_id}" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="E-mail: " />
+                                                        <TextBlock Text="{Binding email}" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Användarnamn: " />
+                                                        <TextBlock Text="{Binding nickname}" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Lösenord: " />
+                                                        <TextBlock Text="{Binding pwd}" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Roll: " />
+                                                        <TextBlock Text="{Binding role}" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Skapad: " />
+                                                        <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
+                                                    </StackPanel>
+                                                </WrapPanel>
+                                            </Border>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Border>
             </Grid>
         </TabItem>
