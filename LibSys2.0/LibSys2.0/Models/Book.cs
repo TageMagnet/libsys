@@ -20,6 +20,8 @@ namespace LibrarySystem.Models
         /// </summary>
         public int book_state { get; set; } = 100;
 
+        public Author Author { get; set; }
+
         public string category { get; set; }
     }
 }

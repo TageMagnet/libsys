@@ -10,7 +10,8 @@ using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
 
 namespace LibrarySystem.ViewModels
 {
@@ -46,7 +47,7 @@ namespace LibrarySystem.ViewModels
 
             }
         }
-
+        
         public Member NewMember { get; set; }
 
         public BookRepository bookRepo = new BookRepository();
@@ -319,7 +320,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             var button = (Button)arg;
-            button.IsEnabled = true;
+            button.Enabled = true;
             ReasonToDelete = "";
             this.OnPropertyChanged(nameof(ReasonToDelete));
         }
@@ -335,7 +336,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             var button = (Button)arg;
-            button.IsEnabled = false;
+            button.Enabled = false;
         }
         #endregion
 

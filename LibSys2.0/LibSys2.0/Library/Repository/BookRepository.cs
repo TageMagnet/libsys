@@ -29,11 +29,34 @@ namespace Library
                 await connection.QueryAsync(sqlQuery);
             }
         }
+
+
+
+
         public async Task<List<Book>> ReadAllActiveBooks()
         {
             using (var connection = CreateConnection())
             {
-                return (await connection.QueryAsync<Book>($"SELECT * FROM {table} WHERE is_active=1")).ToList();
+                List<Book> books = new List<Book>();
+
+                // Get all books from repo
+                books = (await connection.QueryAsync<Book>($"SELECT * FROM {table} WHERE is_active=1")).ToList();
+
+                // Check all books and match ref_author_id against authors.id
+                foreach (Book book in books)
+                {
+                    if (book.ref_author_id == 0)
+                    {
+                        continue;
+                    }
+                    Author author = await connection.QuerySingleAsync<Author>("SELECT * FROM `books` RIGHT JOIN authors ON books.ref_author_id = authors.author_id  WHERE is_active=1 AND book_id = @bookId", new { bookId = book.book_id });
+                    book.Author = author;
+                }
+
+
+                connection.Close();
+                return books;
+
             }
         }
         /// <summary>
