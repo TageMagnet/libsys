@@ -826,67 +826,59 @@
                         <StackPanel>
                             <ListBox 
                                     x:Name="MemberList"
-                                    ItemsSource="{Binding Members}"
-                                     Background="Beige">
+                                    ItemsSource="{Binding Members}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border
-                                            Padding="6,6" 
-                                            BorderBrush="LightGray"
-                                            BorderThickness="1">
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                                             Margin="5"
+                                                             x:Name="Card1">
                                             <WrapPanel Orientation="Vertical">
                                                 <StackPanel Orientation="Horizontal">
-                                                     <TextBlock Text="E-mail:"
-                                                                Width="70"
-                                                                FontSize="12"/>
-                                                     <TextBlock Text="{Binding email}"
-                                                                Width="200"
-                                                                Margin="2" />
-                                                 </StackPanel>
-                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Användarnamn:"
-                                                               Width="70"
-                                                               FontSize="12" />
+                                                    <Label Content="E-mail:"
+                                                           Width="200" />
+                                                    <TextBlock Text="{Binding email}"
+                                                               Width="200"
+                                                               Margin="2" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Användarnamn:"
+                                                           Width="200" />
                                                     <TextBlock Text="{Binding nickname}"
                                                                Width="200"
                                                                Margin="2" />
-                                                 </StackPanel>
-                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Lösenord:"
-                                                               Width="70"
-                                                               FontSize="12" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Lösenord:"
+                                                           Width="200" />
                                                     <TextBlock Text="{Binding pwd}"
                                                                Width="200"
                                                                Margin="2" />
-                                                 </StackPanel>
-                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Roll:"
-                                                               Width="70"
-                                                               FontSize="12" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Roll:"
+                                                           Width="200"
+                                                           FontSize="12" />
                                                     <TextBlock Text="{Binding role}"
                                                                Width="200"
                                                                Margin="2" />
-                                                 </StackPanel>
-                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Skapad:"
-                                                               Width="70"
-                                                               FontSize="12" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Skapad:"
+                                                           Width="200" />
                                                     <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"
                                                                Width="200"
                                                                Margin="2" />
-                                                 </StackPanel>
+                                                </StackPanel>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="ID:"
-                                                               Width="70"
-                                                               FontSize="12" />
+                                                    <Label Content="ID:"
+                                                           Width="200" />
                                                     <TextBlock Text="{Binding member_id}"
                                                                Width="200"
                                                                Margin="2" />
                                                 </StackPanel>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Är aktiv:"
-                                                               Width="70"
-                                                               FontSize="12" />
+                                                    <Label Content="Är aktiv:"
+                                                           Width="200" />
                                                     <TextBlock Text="{Binding is_active}"
                                                                Width="200"
                                                                Margin="2" />
@@ -898,9 +890,9 @@
                                                         BorderBrush="{x:Null}"
                                                         Background="{x:Null}"
                                                         Foreground="DarkRed">
-                                                    </Button>
+                                                </Button>
                                             </WrapPanel>
-                                        </Border>
+                                        </materialDesign:Card>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
