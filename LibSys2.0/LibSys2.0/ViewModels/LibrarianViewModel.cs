@@ -1,5 +1,6 @@
 ﻿using Library;
 using LibrarySystem.Models;
+using Org.BouncyCastle.Bcpg;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -74,8 +75,10 @@ namespace LibrarySystem.ViewModels
 
         public ReactiveCommand<Book, Unit> UpdateBookCommand { get; set; }
         public ReactiveCommand<eBook, Unit> UpdateeBookCommand { get; set; }
+        public ReactiveCommand<Author, Unit> UpdateAuthorCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveBookCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveeBookCommand { get; set; }
+        public ReactiveCommand<int, Unit> RemoveAuthorCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
         public ReactiveCommand<object, Unit> ToggleHidden { get; set; }
@@ -93,11 +96,14 @@ namespace LibrarySystem.ViewModels
             UpdateeBookCommand = ReactiveCommand.CreateFromTask((eBook ebook) => UpdateeBookCommandMethod(ebook));
             RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
             RemoveeBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveeBookCommandMethod(id));
+            RemoveAuthorCommand = ReactiveCommand.CreateFromTask((int id) => RemoveAuthorCommandMethod(id));
             AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
             ToggleHidden = ReactiveCommand.CreateFromTask((object param) => HiddenCommandMethod(param));
             ToggleVisible = ReactiveCommand.CreateFromTask((object param) => VisibleCommandMethod(param));
             AddAuthorCommand = ReactiveCommand.CreateFromTask(() => AddAuthorCommandMethod());
+            UpdateAuthorCommand = ReactiveCommand.CreateFromTask((Author author) => UpdateAuthorCommandMethod(author));
+
             AddNewMember = ReactiveCommand.CreateFromTask(() => AddNewMemberCommand());
             LoadDataAsync();
         }
@@ -163,6 +169,19 @@ namespace LibrarySystem.ViewModels
         #endregion
 
         /// <summary>
+        /// Updates a author to db.
+        /// </summary>
+        /// <param name="author"></param>
+        /// <returns></returns>
+        public async Task UpdateAuthorCommandMethod(Author author)
+        #region ...
+        {
+            await authorRepo.Update(author);
+            await LoadAuthors();
+        }
+        #endregion
+
+        /// <summary>
         /// Removes Book From DB
         /// </summary>
         /// <param name="id"></param>
@@ -201,6 +220,44 @@ namespace LibrarySystem.ViewModels
             await LoadeBooks();
         }
         #endregion
+
+        /// <summary>
+        /// Removes/delete a author from DB
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task RemoveAuthorCommandMethod(int id)
+        #region ...
+        {
+            int numberOfAuthorBooks = 0;
+
+            foreach (var book in Books)
+            {
+                if (book.ref_author_id == id)
+                {
+                    numberOfAuthorBooks++;
+                }
+            }
+            foreach (var ebok in eBooks)
+            {
+                if (ebok.ref_author_id == id)
+                {
+                    numberOfAuthorBooks++;
+                }
+            }
+
+            if(numberOfAuthorBooks > 0)
+            {
+                MessageBox.Show($"Denna författare är bunden till {numberOfAuthorBooks}st böcker. Och kan därför inte tas bort");
+                return;
+            }
+
+            await authorRepo.Delete(id);
+            await LoadAuthors();
+        }
+        #endregion
+
+
         /// <summary>
         /// Checks and adds a E-Book to the database
         /// </summary>
@@ -261,6 +318,8 @@ namespace LibrarySystem.ViewModels
             this.OnPropertyChanged(nameof(ReasonToDelete));
         }
         #endregion
+
+
         /// <summary>
         /// Makes arrow down button Hidden
         /// </summary>
@@ -273,6 +332,7 @@ namespace LibrarySystem.ViewModels
             button.IsEnabled = false;
         }
         #endregion
+
 
         /// <summary>
         /// Method to add author to DB
@@ -298,9 +358,11 @@ namespace LibrarySystem.ViewModels
             }
 
             await authorRepo.Create(SelectedAuthor);
-
+            await LoadAuthors();
         }
         #endregion
+
+
         /// <summary>
         /// Loads all the data from DB
         /// </summary>
@@ -313,6 +375,7 @@ namespace LibrarySystem.ViewModels
             await LoadAuthors();
         }
         #endregion
+
 
         /// <summary>
         /// Reloads books from DB
@@ -346,6 +409,7 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+
         /// <summary>
         /// Reloads all the Events from DB
         /// </summary>
@@ -360,6 +424,7 @@ namespace LibrarySystem.ViewModels
             }
         }
         #endregion
+
 
         /// <summary>
         /// Reloads all the Authors from DB
