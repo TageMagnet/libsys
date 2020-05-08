@@ -829,9 +829,9 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Border Padding="6,6">
-                                            <Border BorderBrush="Blue"
-                                                    BorderThickness="5">
-                                                <WrapPanel Orientation="Vertical" Width="400">
+                                            <Border BorderBrush="LightGray"
+                                                    BorderThickness="1">
+                                                <WrapPanel Orientation="Horizontal">
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="ID: " />
                                                         <TextBlock Text="{Binding member_id}" />
@@ -856,6 +856,13 @@
                                                         <TextBlock Text="Skapad: " />
                                                         <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
                                                     </StackPanel>
+                                                    <Button 
+                                                        Padding="1"
+                                                        Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}"
+                                                        BorderBrush="{x:Null}"
+                                                        Background="{x:Null}"
+                                                        Foreground="DarkRed">
+                                                    </Button>
                                                 </WrapPanel>
                                             </Border>
                                         </Border>
