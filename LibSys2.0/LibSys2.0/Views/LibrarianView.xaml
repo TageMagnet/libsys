@@ -1,5 +1,4 @@
-﻿
-    <UserControl x:Class="LibrarySystem.Views.LibrarianView"
+﻿<UserControl x:Class="LibrarySystem.Views.LibrarianView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +12,11 @@
              TextElement.FontSize="13"
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto">
+<<<<<<< HEAD
+
+=======
         <!--#region StoryBoards-->
+>>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
     <UserControl.Resources>
 
         <Style TargetType="{x:Type TabItem}">
@@ -23,6 +26,32 @@
             <Setter Property="Foreground" Value="#F9AA33"/>
         </Style>
 
+<<<<<<< HEAD
+        <Style x:Key="InputBox" TargetType="{x:Type StackPanel}">
+            <Setter Property="Orientation" Value="Horizontal"/>
+
+
+            <Style.Resources>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Orientation" Value="Vertical"/>
+                    <Setter Property="Margin" Value="0, 0, 0, 12"/>
+                </Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                    <Setter Property="FontSize" Value="18"/>
+                    <Setter Property="Foreground" Value="{StaticResource MaterialDesignShadowBrush}"/>
+                </Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Background" Value="{StaticResource MaterialDesignLightBackground}"/>
+                    <Setter Property="MinWidth" Value="200" />
+                </Style>
+            </Style.Resources>
+
+        </Style>
+
+        
+    </UserControl.Resources>
+=======
         <Storyboard x:Key="OpeneBooks">
             <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="0">
                 <DoubleAnimation.EasingFunction>
@@ -80,8 +109,10 @@
         </Storyboard>
     </UserControl.Resources>
 
+>>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
 
-    <TabControl>
+
+    <TabControl SelectedIndex="{Binding TabControlSelectedIndex}">
         <TabItem Header="Böcker">
             <Grid>
                 <!--#region Grid Definitions-->
@@ -233,7 +264,7 @@
                             </StackPanel>
 
                             <!--#endregion-->
-                <!--#region Add E-Books-->
+                            <!--#region Add E-Books-->
                             <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="5" x:Name="OpenAddeBooks" Height="0" VerticalAlignment="Top">
                                 <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Grid>
@@ -470,6 +501,28 @@
                             <TextBlock Text="E-Böcker" FontSize="15" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 2 0 0"/>
                             <!--E books-->
                             <ItemsControl x:Name="eBookControl" ItemsSource="{Binding eBooks, Mode=TwoWay}">
+<<<<<<< HEAD
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <!--#region Datatemplate -->
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" x:Name="Card1" Background="LightBlue" >
+                                            <Grid Margin="2">
+                                                <!--#region Grid Definitions-->
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="20"/>
+                                                    <ColumnDefinition Width="250"/>
+                                                    <ColumnDefinition Width="40"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="0.5*"/>
+                                                    <RowDefinition Height="3*"/>
+                                                </Grid.RowDefinitions>
+                                                <!--#endregion-->
+
+                                                <!--#region Deafult Card-->
+                                                <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}"
+=======
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <!--#region Datatemplate -->
@@ -490,16 +543,17 @@
 
                                             <!--#region Deafult Card-->
                                             <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}"
+>>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
                                                     x:Name="DownButton" Grid.Column="0" Grid.RowSpan="2" Padding="1" IsEnabled="True" Content="{materialDesign:PackIcon Kind=ArrowDown, Size=15}" Foreground="#F9AA33">
-                                                <Button.Triggers>
-                                                    <EventTrigger RoutedEvent="ButtonBase.Click">
-                                                        <BeginStoryboard  Storyboard="{StaticResource OpenCard}"/>
-                                                    </EventTrigger>
-                                                </Button.Triggers>
-                                            </Button>
-                                            <!--</Viewbox>-->
-                                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding title}" FontSize="15" FontWeight="DemiBold" Margin="5,0"/>
-                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding description}" FontSize="10" FontWeight="DemiBold" Margin="5,0"/>
+                                                    <Button.Triggers>
+                                                        <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                            <BeginStoryboard  Storyboard="{StaticResource OpenCard}"/>
+                                                        </EventTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
+                                                <!--</Viewbox>-->
+                                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding title}" FontSize="15" FontWeight="DemiBold" Margin="5,0"/>
+                                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding description}" FontSize="10" FontWeight="DemiBold" Margin="5,0"/>
 
                                                 <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}" BorderBrush="{x:Null}"
                                                     Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Background="{x:Null}"  Foreground="DarkRed" Margin="5,0">
@@ -510,8 +564,8 @@
                                                     </Button.Triggers>
                                                 </Button>
 
-                                            <!--#endregion-->
-                                            <!--#region Expand RemoveEBook-->
+                                                <!--#endregion-->
+                                                <!--#region Expand RemoveEBook-->
                                                 <StackPanel Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="2" Height="0" x:Name="OpenRemoveBook" Orientation="Vertical">
                                                     <TextBlock Text="Anledning :" Margin="0,5,0,0"/>
                                                     <TextBox x:Name="ReasonBox" Margin="0,0,0,5" Text="{Binding Path=DataContext.ReasonToDelete, ElementName=FindDataContext}"/>
@@ -534,52 +588,52 @@
                                                         </Button>
                                                     </StackPanel>
                                                 </StackPanel>
-                                            <!--#endregion-->
+                                                <!--#endregion-->
                                                 <!--#region Expanded Card-->
-                                            <StackPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Height="0" x:Name="HiddenStuff" Orientation="Vertical">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Titel: " Width="70" FontSize="12"/>
-                                                    <TextBox Text="{Binding title}" Width="200" Margin="2"/>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Författare: " Width="70" FontSize="12"/>
-                                                    <TextBox Text="{Binding author}" Width="200" Margin="2"/>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Beskrivning: " Width="70" FontSize="12"/>
-                                                    <TextBox Text="{Binding description}"  Width="200" Margin="2"/>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="ISBN: " Width="70" FontSize="12"/>
-                                                    <TextBox Text="{Binding isbn}" Width="200" Margin="2"/>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="År: " Width="70" FontSize="12"/>
-                                                    <TextBox Text="{Binding year}" Width="200" Margin="2"/>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Kategori: " Width="70" FontSize="12"/>
-                                                    <TextBox Text="{Binding category}" Width="200" Margin="2"/>
-                                                </StackPanel>
+                                                <StackPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Height="0" x:Name="HiddenStuff" Orientation="Vertical">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Titel: " Width="70" FontSize="12"/>
+                                                        <TextBox Text="{Binding title}" Width="200" Margin="2"/>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Författare: " Width="70" FontSize="12"/>
+                                                        <TextBox Text="{Binding author}" Width="200" Margin="2"/>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Beskrivning: " Width="70" FontSize="12"/>
+                                                        <TextBox Text="{Binding description}"  Width="200" Margin="2"/>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="ISBN: " Width="70" FontSize="12"/>
+                                                        <TextBox Text="{Binding isbn}" Width="200" Margin="2"/>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="År: " Width="70" FontSize="12"/>
+                                                        <TextBox Text="{Binding year}" Width="200" Margin="2"/>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Kategori: " Width="70" FontSize="12"/>
+                                                        <TextBox Text="{Binding category}" Width="200" Margin="2"/>
+                                                    </StackPanel>
                                                     <StackPanel Orientation="Horizontal" Margin="5">
-                                                    <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
-                                                        <Button.Triggers>
-                                                            <EventTrigger RoutedEvent="ButtonBase.Click">
-                                                                <BeginStoryboard Storyboard="{StaticResource CloseCard}"/>
-                                                            </EventTrigger>
-                                                        </Button.Triggers>
-                                                    </Button>
+                                                        <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
+                                                            <Button.Triggers>
+                                                                <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                                    <BeginStoryboard Storyboard="{StaticResource CloseCard}"/>
+                                                                </EventTrigger>
+                                                            </Button.Triggers>
+                                                        </Button>
                                                         <Button Command="{Binding Path=DataContext.UpdateeBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding}"
                                                             Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
-                                                </StackPanel>
-                                            <!--#endregion-->
+                                                    </StackPanel>
+                                                    <!--#endregion-->
 
-                                            </StackPanel>
-                                        </Grid>
-                                    </materialDesign:Card>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                                </StackPanel>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>
                     </Viewbox>
                 </ScrollViewer>
@@ -588,8 +642,11 @@
         </TabItem>
         <!--#endregion-->
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
         <!--#region Seminarier -->
         <TabItem Header="Seminarier">
             <Grid>
@@ -631,6 +688,7 @@
                 <Button Margin="0,5" Background="#F9AA33" Grid.Column="2" Grid.Row="3" Content="Ändra"/>
             </Grid>
         </TabItem>
+
         <TabItem Header="Författare">
             <Grid>
                 <!--#region Grid Definitions-->
@@ -703,6 +761,11 @@
 
                 </Button>
                 <!--</StackPanel>-->
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
 
                 <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
 
@@ -817,6 +880,78 @@
             </Grid>
 
 
+<<<<<<< HEAD
+        </TabItem>
+
+        <TabItem Header="Member">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="2px" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <!-- Add member -->
+                <Border Grid.Column="0" Padding="18, 18">
+                    <WrapPanel Orientation="Vertical">
+                        <StackPanel Style="{StaticResource InputBox}">
+                            <StackPanel>
+                                <TextBlock Text="Email"/>
+                                <TextBox Text="{Binding NewMember.email, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource InputBox}">
+                            <StackPanel>
+                                <TextBlock Text="Nickname"/>
+                                <TextBox Text="{Binding NewMember.nickname, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource InputBox}">
+                            <StackPanel>
+                                <TextBlock Text="Password"/>
+                                <TextBox Text="{Binding NewMember.pwd, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource InputBox}">
+                            <StackPanel>
+                                <ComboBox IsReadOnly="True" MinWidth="100" SelectedIndex="2" ItemsSource="{Binding AvailableRoles}" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel>
+                            <Button Command="{Binding AddNewMember}" Content="Lägg till member"/>
+                        </StackPanel>
+                    </WrapPanel>
+                </Border>
+        
+                <!-- Border -->
+                <Border Background="#F9AA33"
+                Grid.Column="1"
+                Grid.RowSpan="6" />
+
+                <!-- Display members -->
+                <Border Grid.Column="2">
+                    <StackPanel>
+                        <ListBox ItemsSource="{Binding Members}" Background="Beige">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="6,6">
+                                        <WrapPanel>
+                                            <TextBlock Text="{Binding member_id}"/>
+                                            <TextBlock Text="{Binding email}"/>
+                                            <TextBlock Text="{Binding nickname}"/>
+                                            <TextBlock Text="{Binding pwd}"/>
+                                            <TextBlock Text="{Binding role}"/>
+                                            <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
+                                        </WrapPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+            </Grid>
+=======
+>>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
         </TabItem>
     </TabControl>
 </UserControl>
