@@ -86,11 +86,11 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till titel!");
                 return;
             }
-            //if (SelectedBook.author == null)
-            //{
-            //    MessageBox.Show("Lägg till författare!");
-            //    return;
-            //}
+            if (SelectedAuthor.author_id == 0)
+            {
+                MessageBox.Show("Lägg till författare!");
+                return;
+            }
             if (SelectedBook.description == null)
             {
                 MessageBox.Show("Lägg till beskrivning!");
@@ -106,12 +106,52 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till kategori!");
                 return;
             }
+            SelectedBook.ref_author_id = SelectedAuthor.author_id;
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
             await ClearBookLines("books");
 
         }
         #endregion
+        /// <summary>
+        /// Checks and adds a E-Book to the database
+        /// </summary>
+        /// <returns></returns>
+        public async Task AddeBookCommandMethod()
+        #region ...
+        {
+            if (SelectedeBook.title == null)
+            {
+                MessageBox.Show("Lägg till titel!");
+                return;
+            }
+            if (SelectedAuthor.author_id == 0)
+            {
+                MessageBox.Show("Lägg till författare!");
+                return;
+            }
+            if (SelectedeBook.description == null)
+            {
+                MessageBox.Show("Lägg till beskrivning!");
+                return;
+            }
+            if (SelectedeBook.isbn == null)
+            {
+                MessageBox.Show("Lägg till isbn!");
+                return;
+            }
+            if (SelectedeBook.category == null)
+            {
+                MessageBox.Show("Lägg till kategori!");
+                return;
+            }
+            SelectedeBook.ref_author_id = SelectedAuthor.author_id;
+            await eBookRepo.Create(SelectedeBook);
+            await LoadeBooks();
+            await ClearBookLines("ebooks");
+        }
+        #endregion
+
 
         /// <summary>
         /// Updates a Book in DB
@@ -135,7 +175,7 @@ namespace LibrarySystem.ViewModels
         #endregion
 
         /// <summary>
-        /// Removes Book From DB
+        /// Changes status on Book from 1(active) to 0(inactive)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -156,7 +196,11 @@ namespace LibrarySystem.ViewModels
             await LoadBooks();
         }
         #endregion
-
+        /// <summary>
+        /// Changes status on eBook from 1(active) to 0(inactive) 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task RemoveeBookCommandMethod(int id)
         #region ...
         {
@@ -171,43 +215,6 @@ namespace LibrarySystem.ViewModels
             this.NotifyPropertyChanged(nameof(ReasonToDelete));
             await eBookRepo.ChangeStatuseBook(id);
             await LoadeBooks();
-        }
-        #endregion
-        /// <summary>
-        /// Checks and adds a E-Book to the database
-        /// </summary>
-        /// <returns></returns>
-        public async Task AddeBookCommandMethod()
-        #region ...
-        {
-            if (SelectedeBook.title == null)
-            {
-                MessageBox.Show("Lägg till titel!");
-                return;
-            }
-            //if (SelectedBook.author == null)
-            //{
-            //    MessageBox.Show("Lägg till författare!");
-            //    return;
-            //}
-            if (SelectedeBook.description == null)
-            {
-                MessageBox.Show("Lägg till beskrivning!");
-                return;
-            }
-            if (SelectedeBook.isbn == null)
-            {
-                MessageBox.Show("Lägg till isbn!");
-                return;
-            }
-            if (SelectedeBook.category == null)
-            {
-                MessageBox.Show("Lägg till kategori!");
-                return;
-            }
-            await eBookRepo.Create(SelectedeBook);
-            await LoadeBooks();
-            await ClearBookLines("ebooks");
         }
         #endregion
 

@@ -202,7 +202,7 @@ namespace Library
             List<string> properties = new List<string>();
             foreach (var prop in t.GetType().GetProperties())
             {
-                if (prop.GetValue(t, null) != null && prop.Name.Contains("_id") == false)
+                if (prop.GetValue(t, null) != null && prop.Name.Contains(tableIdName) == false)
                 {
                     properties.Add(prop.Name);
                 }
