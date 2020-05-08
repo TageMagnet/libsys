@@ -12,25 +12,15 @@
              TextElement.FontSize="13"
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto">
-<<<<<<< HEAD
 
-=======
-        <!--#region StoryBoards-->
->>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
     <UserControl.Resources>
 
         <Style TargetType="{x:Type TabItem}">
-            <Setter Property="Margin" Value="1,0"/>
-            <Setter Property="Padding" Value="4,4"/>
-            <Setter Property="Background" Value="#4A6572"/>
             <Setter Property="Foreground" Value="#F9AA33"/>
         </Style>
 
-<<<<<<< HEAD
         <Style x:Key="InputBox" TargetType="{x:Type StackPanel}">
             <Setter Property="Orientation" Value="Horizontal"/>
-
-
             <Style.Resources>
                 <Style TargetType="{x:Type StackPanel}">
                     <Setter Property="Orientation" Value="Vertical"/>
@@ -46,70 +36,9 @@
                     <Setter Property="MinWidth" Value="200" />
                 </Style>
             </Style.Resources>
-
         </Style>
-
-        
-    </UserControl.Resources>
-=======
-        <Storyboard x:Key="OpeneBooks">
-            <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Height)" From="0" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="1.0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Height)" From="0" To="350">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-
-        <Storyboard x:Key="OpenRemove">
-            <DoubleAnimation Duration="0:0:0" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Height)" From="0" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="0" To="1">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-                <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Height)" From="0" To="100">
-                    <DoubleAnimation.EasingFunction>
-                        <PowerEase Power="2" EasingMode="EaseInOut"/>
-                    </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-        <Storyboard x:Key="CloseRemove">
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="1" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Height)" From="100" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-            </ObjectAnimationUsingKeyFrames>-->
-        </Storyboard>
     </UserControl.Resources>
 
->>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
 
 
     <TabControl SelectedIndex="{Binding TabControlSelectedIndex}">
@@ -524,7 +453,6 @@
                             <TextBlock Text="E-Böcker" FontSize="15" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 2 0 0"/>
                             <!--E books-->
                             <ItemsControl x:Name="eBookControl" ItemsSource="{Binding eBooks, Mode=TwoWay}">
-<<<<<<< HEAD
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <!--#region Datatemplate -->
@@ -545,29 +473,7 @@
 
                                                 <!--#region Deafult Card-->
                                                 <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}"
-=======
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <!--#region Datatemplate -->
-                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" x:Name="Card1" Background="LightBlue" >
-                                        <Grid Margin="2">
-                                            <!--#region Grid Definitions-->
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="20"/>
-                                                <ColumnDefinition Width="250"/>
-                                                <ColumnDefinition Width="40"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="0.5*"/>
-                                                <RowDefinition Height="3*"/>
-                                            </Grid.RowDefinitions>
-                                            <!--#endregion-->
-
-                                            <!--#region Deafult Card-->
-                                            <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}"
->>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
-                                                    x:Name="DownButton" Grid.Column="0" Grid.RowSpan="2" Padding="1" IsEnabled="True" Content="{materialDesign:PackIcon Kind=ArrowDown, Size=15}" Foreground="#F9AA33">
+                                                                    x:Name="DownButton" Grid.Column="0" Grid.RowSpan="2" Padding="1" IsEnabled="True" Content="{materialDesign:PackIcon Kind=ArrowDown, Size=15}" Foreground="#F9AA33">
                                                     <Button.Triggers>
                                                         <EventTrigger RoutedEvent="ButtonBase.Click">
                                                             <BeginStoryboard  Storyboard="{StaticResource OpenCard}"/>
@@ -665,11 +571,6 @@
         </TabItem>
         <!--#endregion-->
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
         <!--#region Seminarier -->
         <TabItem Header="Seminarier">
             <Grid>
@@ -784,12 +685,6 @@
 
                 </Button>
                 <!--</StackPanel>-->
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
-
                 <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
 
                 <ScrollViewer x:Name="FindData" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
@@ -901,9 +796,6 @@
                     </Viewbox>
                 </ScrollViewer>
             </Grid>
-
-
-<<<<<<< HEAD
         </TabItem>
 
         <TabItem Header="Member">
@@ -945,7 +837,7 @@
                         </StackPanel>
                     </WrapPanel>
                 </Border>
-        
+
                 <!-- Border -->
                 <Border Background="#F9AA33"
                 Grid.Column="1"
@@ -958,13 +850,32 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border Padding="6,6">
-                                        <WrapPanel>
-                                            <TextBlock Text="{Binding member_id}"/>
-                                            <TextBlock Text="{Binding email}"/>
-                                            <TextBlock Text="{Binding nickname}"/>
-                                            <TextBlock Text="{Binding pwd}"/>
-                                            <TextBlock Text="{Binding role}"/>
-                                            <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
+                                        <WrapPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="ID: " />
+                                                <TextBlock Text="{Binding member_id}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="email: " />
+                                                <TextBlock Text="{Binding email}"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="användarnamn: " />
+                                                <TextBlock Text="{Binding nickname}"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="lösenord: " />
+                                                <TextBlock Text="{Binding pwd}"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="roll: " />
+                                                <TextBlock Text="{Binding role}"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="skapad: " />
+                                                <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
+                                            </StackPanel>
+
                                         </WrapPanel>
                                     </Border>
                                 </DataTemplate>
@@ -973,8 +884,6 @@
                     </StackPanel>
                 </Border>
             </Grid>
-=======
->>>>>>> 9fe2bfd226a4b4f1820c79d346c4651c1c3d5abe
         </TabItem>
     </TabControl>
 </UserControl>
