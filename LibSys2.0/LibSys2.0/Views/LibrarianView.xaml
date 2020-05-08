@@ -13,108 +13,11 @@
              TextElement.FontSize="13"
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto">
-        <!--#region StroyBoards-->
-    <UserControl.Resources>
-        <Storyboard x:Key="OpenCard">
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Opacity)" From="0.0" To="1.0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Height)" From="0" To="250">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-        <Storyboard x:Key="CloseCard">
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Opacity)" From="1.0" To="0.0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Height)" From="250" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
+    
+    <!--<UserControl.Resources>
         
-        <Storyboard x:Key="OpenBooks">
-            <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Height)" From="0" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="1.0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Height)" From="0" To="350">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-        
-        <Storyboard x:Key="OpeneBooks">
-            <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Height)" From="0" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="1.0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Height)" From="0" To="350">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-
-        <Storyboard x:Key="OpenRemove">
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="0" To="1">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-                <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Height)" From="0" To="100">
-                    <DoubleAnimation.EasingFunction>
-                        <PowerEase Power="2" EasingMode="EaseInOut"/>
-                    </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-        <Storyboard x:Key="CloseRemove">
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="1" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Height)" From="100" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase Power="2" EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-            </ObjectAnimationUsingKeyFrames>-->  
-        </Storyboard>
-    </UserControl.Resources>
-        <!--#endregion-->
+    </UserControl.Resources>-->
+ 
 
     <TabControl>
         <TabItem Margin="1,0" Header="Böcker" Background="#4A6572" Foreground="#F9AA33">
