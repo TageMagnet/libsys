@@ -836,32 +836,60 @@
                                             BorderThickness="1">
                                             <WrapPanel Orientation="Vertical">
                                                 <StackPanel Orientation="Horizontal">
-                                                     <TextBlock Text="E-mail:" />
-                                                     <TextBlock Text="{Binding email}" />
+                                                     <TextBlock Text="E-mail:"
+                                                                Width="70"
+                                                                FontSize="12"/>
+                                                     <TextBlock Text="{Binding email}"
+                                                                Width="200"
+                                                                Margin="2" />
                                                  </StackPanel>
                                                  <StackPanel Orientation="Horizontal">
-                                                     <TextBlock Text="Användarnamn:" />
-                                                     <TextBlock Text="{Binding nickname}" />
+                                                    <TextBlock Text="Användarnamn:"
+                                                               Width="70"
+                                                               FontSize="12" />
+                                                    <TextBlock Text="{Binding nickname}"
+                                                               Width="200"
+                                                               Margin="2" />
                                                  </StackPanel>
                                                  <StackPanel Orientation="Horizontal">
-                                                     <TextBlock Text="Lösenord:" />
-                                                     <TextBlock Text="{Binding pwd}" />
+                                                    <TextBlock Text="Lösenord:"
+                                                               Width="70"
+                                                               FontSize="12" />
+                                                    <TextBlock Text="{Binding pwd}"
+                                                               Width="200"
+                                                               Margin="2" />
                                                  </StackPanel>
                                                  <StackPanel Orientation="Horizontal">
-                                                     <TextBlock Text="Roll:" />
-                                                     <TextBlock Text="{Binding role}" />
+                                                    <TextBlock Text="Roll:"
+                                                               Width="70"
+                                                               FontSize="12" />
+                                                    <TextBlock Text="{Binding role}"
+                                                               Width="200"
+                                                               Margin="2" />
                                                  </StackPanel>
                                                  <StackPanel Orientation="Horizontal">
-                                                     <TextBlock Text="Skapad:" />
-                                                     <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
+                                                    <TextBlock Text="Skapad:"
+                                                               Width="70"
+                                                               FontSize="12" />
+                                                    <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"
+                                                               Width="200"
+                                                               Margin="2" />
                                                  </StackPanel>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="ID:" />
-                                                    <TextBlock Text="{Binding member_id}" />
+                                                    <TextBlock Text="ID:"
+                                                               Width="70"
+                                                               FontSize="12" />
+                                                    <TextBlock Text="{Binding member_id}"
+                                                               Width="200"
+                                                               Margin="2" />
                                                 </StackPanel>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Är aktiv:" />
-                                                    <TextBlock Text="{Binding is_active}" />
+                                                    <TextBlock Text="Är aktiv:"
+                                                               Width="70"
+                                                               FontSize="12" />
+                                                    <TextBlock Text="{Binding is_active}"
+                                                               Width="200"
+                                                               Margin="2" />
                                                 </StackPanel>
                                                 <Button Command="{Binding ElementName=MemberList, Path=DataContext.DeleteMember}"
                                                         CommandParameter="{Binding}"
