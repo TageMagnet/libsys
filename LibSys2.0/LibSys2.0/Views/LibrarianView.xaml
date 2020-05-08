@@ -111,7 +111,7 @@
                                         </Grid.RowDefinitions>
                                         <!--#endregion -->
 
-                                        <TextBox Text="{Binding SelectedBook.title, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookTitle" Margin="5"/>
+                                        <TextBox Text="{Binding SelectedBook.title, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookTitle" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="0" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Titel" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -124,15 +124,22 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
-
+                                        <!--Text="{Binding SelectedBook.author, Mode=TwoWay}"-->
                                         <!--Author-->
-                                        <TextBox Text="{Binding SelectedBook.author, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookAuthor" Margin="5"/>
+                                        <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Authors}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                  SelectedValue="{Binding SelectedAuthor, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
                                         <TextBlock Grid.Row="1" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Författare" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Text, ElementName=BookAuthor}" Value="">
+                                                        <DataTrigger Binding="{Binding Text, ElementName=Authorbox}" Value="">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -141,7 +148,7 @@
                                         </TextBlock>
 
                                         <!--Description-->
-                                        <TextBox Text="{Binding SelectedBook.description, Mode=TwoWay}" Grid.Row="2" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookDescription" Margin="5"/>
+                                        <TextBox Text="{Binding SelectedBook.description, Mode=TwoWay}" Grid.Row="2" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookDescription" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="2" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Beskrivning" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -156,7 +163,7 @@
                                         </TextBlock>
 
                                         <!--ISBN-->
-                                        <TextBox Text="{Binding SelectedBook.isbn, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5"/>
+                                        <TextBox Text="{Binding SelectedBook.isbn, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="3" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -171,7 +178,7 @@
                                         </TextBlock>
 
                                         <!-- Category-->
-                                        <TextBox Text="{Binding SelectedBook.category, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5"/>
+                                        <TextBox Text="{Binding SelectedBook.category, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -215,7 +222,8 @@
                                         </Grid.RowDefinitions>
                                         <!--#endregion -->
 
-                                        <TextBox Text="{Binding SelectedeBook.title, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookTitle" Margin="5"/>
+                                        <!--Title-->
+                                        <TextBox Text="{Binding SelectedeBook.title, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookTitle" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="0" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Titel" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -230,13 +238,20 @@
                                         </TextBlock>
 
                                         <!--Author-->
-                                        <TextBox Text="{Binding SelectedeBook.author, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookAuthor" Margin="5"/>
+                                        <ComboBox x:Name="eAuthorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Authors}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                  SelectedValue="{Binding SelectedAuthor, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
                                         <TextBlock Grid.Row="1" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Författare" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Text, ElementName=eBookAuthor}" Value="">
+                                                        <DataTrigger Binding="{Binding Text, ElementName=eAuthorbox}" Value="">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -245,7 +260,7 @@
                                         </TextBlock>
 
                                         <!--Description-->
-                                        <TextBox Text="{Binding SelectedeBook.description, Mode=TwoWay}" Grid.Row="2" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookDescription" Margin="5"/>
+                                        <TextBox Text="{Binding SelectedeBook.description, Mode=TwoWay}" Grid.Row="2" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookDescription" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="2" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Beskrivning" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -260,7 +275,7 @@
                                         </TextBlock>
 
                                         <!--ISBN-->
-                                        <TextBox Text="{Binding SelectedeBook.isbn, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookIsbn" Margin="5"/>
+                                        <TextBox Text="{Binding SelectedeBook.isbn, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookIsbn" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="3" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -275,7 +290,7 @@
                                         </TextBlock>
 
                                         <!-- Category-->
-                                        <TextBox Text="{Binding SelectedeBook.category, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookcategory" Margin="5"/>
+                                        <TextBox Text="{Binding SelectedeBook.category, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookcategory" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -383,7 +398,15 @@
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="Författare: " Width="70" FontSize="12"/>
-                                                        <TextBox Text="{Binding Author}" Width="200" Margin="2"/>
+                                                        <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Path=DataContext.Authors, ElementName=FindDataContext}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                                      SelectedValue="{Binding SelectedAuthor, Mode=TwoWay, FallbackValue=Author.nickname}">
+                                                                 <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
+                                                                    </DataTemplate>
+                                                                 </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+                                                        <!--<TextBox Text="" Width="200" Margin="2"/>-->
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="Beskrivning: " Width="70" FontSize="12"/>
