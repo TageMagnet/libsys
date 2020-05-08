@@ -824,15 +824,18 @@
                 <Border Grid.Column="2">
                     <ScrollViewer>
                         <StackPanel>
-                            <ListBox ItemsSource="{Binding Members}"
+                            <ListBox 
+                                    x:Name="MemberList"
+                                    ItemsSource="{Binding Members}"
                                      Background="Beige">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Padding="6,6">
-                                            <Border BorderBrush="LightGray"
-                                                    BorderThickness="1">
-                                                <WrapPanel Orientation="Horizontal">
-                                                    <StackPanel Orientation="Horizontal">
+                                        <Border
+                                            Padding="6,6" 
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1">
+                                            <WrapPanel Orientation="Horizontal">
+                                                 <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="ID: " />
                                                         <TextBlock Text="{Binding member_id}" />
                                                     </StackPanel>
@@ -856,15 +859,25 @@
                                                         <TextBlock Text="Skapad: " />
                                                         <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
                                                     </StackPanel>
-                                                    <Button 
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Är aktiv: " />
+                                                    <TextBlock Text="{Binding is_active}" />
+                                                </StackPanel>
+                                                <Button 
+                                                        
+                                                        Content="HELLLO"
+                                                        Foreground="DarkRed">
+                                                </Button>
+                                                <Button 
+                                                        Command="{Binding ElementName=MemberList, Path=DataContext.DeleteMember}"
+                                                        CommandParameter="{Binding}"
                                                         Padding="1"
                                                         Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}"
                                                         BorderBrush="{x:Null}"
                                                         Background="{x:Null}"
                                                         Foreground="DarkRed">
                                                     </Button>
-                                                </WrapPanel>
-                                            </Border>
+                                            </WrapPanel>
                                         </Border>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>

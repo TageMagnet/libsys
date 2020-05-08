@@ -86,6 +86,7 @@ namespace LibrarySystem.ViewModels
 
         public ReactiveCommand<Unit, Unit> AddAuthorCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddNewMember { get; set; }
+        public ReactiveCommand<object, Unit> DeleteMember { get; set; }
 
         #endregion
         public LibrarianViewModel()
@@ -105,6 +106,8 @@ namespace LibrarySystem.ViewModels
             UpdateAuthorCommand = ReactiveCommand.CreateFromTask((Author author) => UpdateAuthorCommandMethod(author));
 
             AddNewMember = ReactiveCommand.CreateFromTask(() => AddNewMemberCommand());
+            DeleteMember = ReactiveCommand.CreateFromTask((object obj) => DeleteMemberCommand(obj));
+
             LoadDataAsync();
         }
 
@@ -455,6 +458,14 @@ namespace LibrarySystem.ViewModels
             // Timestamp, since now is creation date
             NewMember.created_at = DateTime.Now;
             await memberRepo.Create(NewMember);
+            await LoadMembers();
+        }
+
+        public async Task DeleteMemberCommand(object obj)
+        {
+            Member member = (Member)obj;
+            member.is_active = 0;
+            await memberRepo.Update(member);
             await LoadMembers();
         }
 
