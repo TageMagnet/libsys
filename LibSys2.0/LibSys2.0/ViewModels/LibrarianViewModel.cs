@@ -170,7 +170,7 @@ namespace LibrarySystem.ViewModels
             
             ReasonToDelete = "";
             this.NotifyPropertyChanged(nameof(ReasonToDelete));
-            await bookRepo.Delete(id);
+            await bookRepo.ChangeStatusBook(id);
             await LoadBooks();
         }
         #endregion
@@ -187,7 +187,7 @@ namespace LibrarySystem.ViewModels
             }
             ReasonToDelete = "";
             this.NotifyPropertyChanged(nameof(ReasonToDelete));
-            await eBookRepo.Delete(id);
+            await eBookRepo.ChangeStatuseBook(id);
             await LoadeBooks();
         }
         #endregion
@@ -356,7 +356,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             Books.Clear();
-            foreach (var book in await bookRepo.ReadAll())
+            foreach (var book in await bookRepo.ReadAllActiveBooks())
             {
                 Books.Add(book);
             }
@@ -373,7 +373,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             eBooks.Clear();
-            foreach (var ebook in await eBookRepo.ReadAll())
+            foreach (var ebook in await eBookRepo.ReadAllActiveeBooks())
             {
                 eBooks.Add(ebook);
             }
