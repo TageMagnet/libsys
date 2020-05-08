@@ -656,5 +656,29 @@
             
             
         </TabItem>
+        <TabItem Header="Member">
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="2px" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <!-- Add member -->
+                <Border>
+                    
+                </Border>
+                
+                <!-- Border -->
+                <Border>
+
+                </Border>
+                
+                <!-- Display members -->
+                <Border>
+
+                </Border>
+            </Grid>
+        </TabItem>
     </TabControl>
 </UserControl>
