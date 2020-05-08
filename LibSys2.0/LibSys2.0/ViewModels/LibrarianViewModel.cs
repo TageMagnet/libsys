@@ -1,5 +1,6 @@
 ﻿using Library;
 using LibrarySystem.Models;
+using Org.BouncyCastle.Bcpg;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -16,61 +17,94 @@ namespace LibrarySystem.ViewModels
     public class LibrarianViewModel : BaseViewModel
     {
         #region Properties
+
+        // Private holder
+        private int tabControlSelectedIndex { get; set; } = 0;
+
+        /// <summary>
+        /// Trigggers when tab item is changed
+        /// </summary>
+        public int TabControlSelectedIndex
+        {
+            get
+            {
+                return tabControlSelectedIndex;
+            }
+            set
+            {
+                tabControlSelectedIndex = value;
+                OnPropertyChanged("TabControlSelectedIndex");
+
+                switch ((int)value)
+                {
+                    case 3:
+                        NewMember = new Member();
+                        // Ladda members när tab control bytts till rätt sida
+                        _ = LoadMembers();
+                        break;
+                }
+
+            }
+        }
+
+        public Member NewMember { get; set; }
+
         public BookRepository bookRepo = new BookRepository();
         public eBookRepository eBookRepo = new eBookRepository();
         public EventRepository eventRepo = new EventRepository();
         public AuthorRepository authorRepo = new AuthorRepository();
-        public Book SelectedBook { get; set; }
-        public eBook SelectedeBook { get; set; }
+        public MemberRepository memberRepo = new MemberRepository();
+        public Book SelectedBook { get; set; } = new Book();
+        public eBook SelectedeBook { get; set; } = new eBook();
 
-        public Author SelectedAuthor { get; set; }
+        public Author SelectedAuthor { get; set; } = new Author();
         public string ReasonToDelete { get; set; }
 
-        public List<Event> ListOfEvents { get; set; }
-        public ObservableCollection<Book> Books { get; set; }
-        public ObservableCollection<eBook> eBooks { get; set; }
-        public ObservableCollection<Event> Events { get; set; }
-        public ObservableCollection<Author> Authors { get; set; }
+        public ObservableCollection<Book> Books { get; set; } = new ObservableCollection<Book>();
+        public ObservableCollection<eBook> eBooks { get; set; } = new ObservableCollection<eBook>();
+        public ObservableCollection<Event> Events { get; set; } = new ObservableCollection<Event>();
+        public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
+        public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
+
+        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "user" };
 
         #endregion
 
         #region Commands
-        public ReactiveCommand<Unit,Unit> AddBookCommand { get; set; }
+        public ReactiveCommand<Unit, Unit> AddBookCommand { get; set; }
 
         public ReactiveCommand<Book, Unit> UpdateBookCommand { get; set; }
         public ReactiveCommand<eBook, Unit> UpdateeBookCommand { get; set; }
+        public ReactiveCommand<Author, Unit> UpdateAuthorCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveBookCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveeBookCommand { get; set; }
+        public ReactiveCommand<int, Unit> RemoveAuthorCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
         public ReactiveCommand<object, Unit> ToggleHidden { get; set; }
         public ReactiveCommand<object, Unit> ToggleVisible { get; set; }
 
         public ReactiveCommand<Unit, Unit> AddAuthorCommand { get; set; }
-
+        public ReactiveCommand<Unit, Unit> AddNewMember { get; set; }
 
         #endregion
         public LibrarianViewModel()
         {
-            SelectedBook = new Book();
-            SelectedeBook = new eBook();
-            SelectedAuthor = new Author();
-
-            Books = new ObservableCollection<Book>();
-            eBooks = new ObservableCollection<eBook>();
-            Events = new ObservableCollection<Event>();
-            Authors = new ObservableCollection<Author>();
 
             AddBookCommand = ReactiveCommand.CreateFromTask(() => AddBookCommandMethod());
             UpdateBookCommand = ReactiveCommand.CreateFromTask((Book book) => UpdateBookCommandMethod(book));
             UpdateeBookCommand = ReactiveCommand.CreateFromTask((eBook ebook) => UpdateeBookCommandMethod(ebook));
             RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
             RemoveeBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveeBookCommandMethod(id));
+            RemoveAuthorCommand = ReactiveCommand.CreateFromTask((int id) => RemoveAuthorCommandMethod(id));
             AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
             ToggleHidden = ReactiveCommand.CreateFromTask((object param) => HiddenCommandMethod(param));
             ToggleVisible = ReactiveCommand.CreateFromTask((object param) => VisibleCommandMethod(param));
             AddAuthorCommand = ReactiveCommand.CreateFromTask(() => AddAuthorCommandMethod());
+            UpdateAuthorCommand = ReactiveCommand.CreateFromTask((Author author) => UpdateAuthorCommandMethod(author));
+
+            AddNewMember = ReactiveCommand.CreateFromTask(() => AddNewMemberCommand());
             LoadDataAsync();
         }
 
@@ -182,14 +216,14 @@ namespace LibrarySystem.ViewModels
         public async Task RemoveBookCommandMethod(int id)
         #region ...
         {
-            if(string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
+            if (string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
             {
                 MessageBox.Show("Fyll i anledning!");
                 ReasonToDelete = "";
                 this.NotifyPropertyChanged(nameof(ReasonToDelete));
                 return;
             }
-            
+
             ReasonToDelete = "";
             this.NotifyPropertyChanged(nameof(ReasonToDelete));
             await bookRepo.ChangeStatusBook(id);
@@ -197,7 +231,7 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
         /// <summary>
-        /// Changes status on eBook from 1(active) to 0(inactive) 
+        /// Changes status on eBook from 1(active) to 0(inactive)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -237,9 +271,11 @@ namespace LibrarySystem.ViewModels
             var button = (Button)arg;
             button.IsEnabled = true;
             ReasonToDelete = "";
-            this.OnPropertyChanged(nameof(ReasonToDelete));     
+            this.OnPropertyChanged(nameof(ReasonToDelete));
         }
         #endregion
+
+
         /// <summary>
         /// Makes arrow down button Hidden
         /// </summary>
@@ -252,6 +288,7 @@ namespace LibrarySystem.ViewModels
             button.IsEnabled = false;
         }
         #endregion
+
 
         /// <summary>
         /// Method to add author to DB
@@ -277,9 +314,11 @@ namespace LibrarySystem.ViewModels
             }
 
             await authorRepo.Create(SelectedAuthor);
-
+            await LoadAuthors();
         }
         #endregion
+
+
         /// <summary>
         /// Loads all the data from DB
         /// </summary>
@@ -292,6 +331,7 @@ namespace LibrarySystem.ViewModels
             await LoadAuthors();
         }
         #endregion
+
 
         /// <summary>
         /// Reloads books from DB
@@ -325,6 +365,7 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+
         /// <summary>
         /// Reloads all the Events from DB
         /// </summary>
@@ -340,6 +381,7 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+
         /// <summary>
         /// Reloads all the Authors from DB
         /// </summary>
@@ -354,6 +396,23 @@ namespace LibrarySystem.ViewModels
             }
         }
         #endregion
+
+        public async Task LoadMembers()
+        {
+            Members.Clear();
+            foreach (Member member in await memberRepo.ReadAll())
+            {
+                Members.Add(member);
+            }
+        }
+
+        public async Task AddNewMemberCommand()
+        {
+            // Timestamp, since now is creation date
+            NewMember.created_at = DateTime.Now;
+            await memberRepo.Create(NewMember);
+            await LoadMembers();
+        }
 
         /// <summary>
         /// Method to clear the lines after you added a book.

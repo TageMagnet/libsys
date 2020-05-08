@@ -89,8 +89,17 @@ namespace Library
             using (var connection = CreateConnection())
             {
                 // Probably risk for SQL-injection, but mweh..
-                string sqlQuery = $"DELETE FROM {table} WHERE {tableIdName} = " + id.ToString();
-                await connection.QueryAsync(sqlQuery);
+                try
+                {
+                    string sqlQuery = $"DELETE FROM {table} WHERE {tableIdName} = " + id.ToString();
+                    await connection.QueryAsync(sqlQuery);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Trace.WriteLine(e.Message);
+                    throw;
+                }
+                
             }
         }
         #endregion
