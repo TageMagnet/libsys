@@ -834,42 +834,36 @@
                                             Padding="6,6" 
                                             BorderBrush="LightGray"
                                             BorderThickness="1">
-                                            <WrapPanel Orientation="Horizontal">
-                                                 <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="ID: " />
-                                                        <TextBlock Text="{Binding member_id}" />
-                                                    </StackPanel>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="E-mail: " />
-                                                        <TextBlock Text="{Binding email}" />
-                                                    </StackPanel>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="Användarnamn: " />
-                                                        <TextBlock Text="{Binding nickname}" />
-                                                    </StackPanel>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="Lösenord: " />
-                                                        <TextBlock Text="{Binding pwd}" />
-                                                    </StackPanel>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="Roll: " />
-                                                        <TextBlock Text="{Binding role}" />
-                                                    </StackPanel>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="Skapad: " />
-                                                        <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
-                                                    </StackPanel>
+                                            <WrapPanel Orientation="Vertical">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Är aktiv: " />
+                                                     <TextBlock Text="E-mail:" />
+                                                     <TextBlock Text="{Binding email}" />
+                                                 </StackPanel>
+                                                 <StackPanel Orientation="Horizontal">
+                                                     <TextBlock Text="Användarnamn:" />
+                                                     <TextBlock Text="{Binding nickname}" />
+                                                 </StackPanel>
+                                                 <StackPanel Orientation="Horizontal">
+                                                     <TextBlock Text="Lösenord:" />
+                                                     <TextBlock Text="{Binding pwd}" />
+                                                 </StackPanel>
+                                                 <StackPanel Orientation="Horizontal">
+                                                     <TextBlock Text="Roll:" />
+                                                     <TextBlock Text="{Binding role}" />
+                                                 </StackPanel>
+                                                 <StackPanel Orientation="Horizontal">
+                                                     <TextBlock Text="Skapad:" />
+                                                     <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
+                                                 </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="ID:" />
+                                                    <TextBlock Text="{Binding member_id}" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Är aktiv:" />
                                                     <TextBlock Text="{Binding is_active}" />
                                                 </StackPanel>
-                                                <Button 
-                                                        
-                                                        Content="HELLLO"
-                                                        Foreground="DarkRed">
-                                                </Button>
-                                                <Button 
-                                                        Command="{Binding ElementName=MemberList, Path=DataContext.DeleteMember}"
+                                                <Button Command="{Binding ElementName=MemberList, Path=DataContext.DeleteMember}"
                                                         CommandParameter="{Binding}"
                                                         Padding="1"
                                                         Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}"
