@@ -14,13 +14,20 @@
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto">
     
-    <!--<UserControl.Resources>
+    <UserControl.Resources>
+
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Margin" Value="1,0"/>
+            <Setter Property="Padding" Value="4,4"/>
+            <Setter Property="Background" Value="#4A6572"/>
+            <Setter Property="Foreground" Value="#F9AA33"/>
+        </Style>
         
-    </UserControl.Resources>-->
+    </UserControl.Resources>
  
 
     <TabControl>
-        <TabItem Margin="1,0" Header="Böcker" Background="#4A6572" Foreground="#F9AA33">
+        <TabItem Header="Böcker">
             <Grid>
                 <!--#region Grid Definitions-->
                 <Grid.ColumnDefinitions>
@@ -529,7 +536,7 @@
         
 
         <!--#region Seminarier -->
-        <TabItem Margin="1,0" Header="Seminarier" Background="#4A6572" Foreground="#F9AA33">
+        <TabItem Header="Seminarier">
             <Grid>
                 <!--#region Grid Definitions-->
                 <Grid.ColumnDefinitions>
@@ -569,7 +576,7 @@
                 <Button Margin="0,5" Background="#F9AA33" Grid.Column="2" Grid.Row="3" Content="Ändra"/>
             </Grid>
         </TabItem>
-        <TabItem Margin="1,0" Header="Författare" Background="#4A6572" Foreground="#F9AA33">
+        <TabItem Header="Författare">
             <Grid>
                 <!--#region Grid Definitions-->
                 <Grid.ColumnDefinitions>
