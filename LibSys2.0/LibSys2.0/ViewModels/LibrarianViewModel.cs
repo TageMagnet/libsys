@@ -10,7 +10,7 @@ using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Controls;
 using MessageBox = System.Windows.MessageBox;
 
 namespace LibrarySystem.ViewModels
@@ -47,7 +47,7 @@ namespace LibrarySystem.ViewModels
 
             }
         }
-        
+
         public Member NewMember { get; set; }
 
         public BookRepository bookRepo = new BookRepository();
@@ -65,6 +65,8 @@ namespace LibrarySystem.ViewModels
         public ObservableCollection<eBook> eBooks { get; set; } = new ObservableCollection<eBook>();
         public ObservableCollection<Event> Events { get; set; } = new ObservableCollection<Event>();
         public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
+        /// <summary>Index storage when updating</summary>
+        public int SelectedAuthorIndex { get; set; } = -1;
         public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
 
         public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "user" };
@@ -196,6 +198,16 @@ namespace LibrarySystem.ViewModels
         public async Task UpdateBookCommandMethod(Book book)
         #region ...
         {
+            // Retrieve the stored index
+            if (SelectedAuthorIndex > 0)
+            {
+                book.ref_author_id = Authors[SelectedAuthorIndex].author_id;
+                // reset
+                SelectedAuthorIndex = -1;
+            }
+
+            // Dapper does not like uninvited variables
+            book.Author = null;
             await bookRepo.Update(book);
             await LoadBooks();
         }
@@ -320,7 +332,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             var button = (Button)arg;
-            button.Enabled = true;
+            button.IsEnabled = true;
             ReasonToDelete = "";
             this.OnPropertyChanged(nameof(ReasonToDelete));
         }
@@ -336,7 +348,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             var button = (Button)arg;
-            button.Enabled = false;
+            button.IsEnabled = false;
         }
         #endregion
 

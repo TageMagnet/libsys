@@ -396,14 +396,20 @@
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="Författare: " Width="70" FontSize="12"/>
-                                                        <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Path=DataContext.Authors, ElementName=FindDataContext}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
-                                                                      SelectedValue="{Binding Path=Authors, Mode=TwoWay}"  SelectedIndex="{Binding GetIndex}">
-                                                                 <ComboBox.ItemTemplate>
+                                                        <TextBlock Text="{Binding Author.nickname, FallbackValue='[]'}"/>
+                                                        <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                                ItemsSource="{Binding Path=DataContext.Authors, ElementName=FindDataContext, UpdateSourceTrigger=PropertyChanged}"
+                                                                SelectedIndex="{Binding Path=DataContext.SelectedAuthorIndex, ElementName=FindDataContext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                                                                  >
+                                                                <!--SelectedValue="{Binding Path=Authors, Mode=TwoWay}"  
+                                                            SelectedItem="{Binding Path=DataContext.NewAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                SelectedIndex="{Binding GetIndex, UpdateSourceTrigger=PropertyChanged}"-->
+                                                            <ComboBox.ItemTemplate>
                                                                     <DataTemplate>
                                                                         <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
                                                                     </DataTemplate>
-                                                                 </ComboBox.ItemTemplate>
-                                                            </ComboBox>
+                                                            </ComboBox.ItemTemplate>
+                                                        </ComboBox>
                                                         <!--<TextBox Text="" Width="200" Margin="2"/>-->
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
@@ -430,7 +436,7 @@
                                                                 </EventTrigger>
                                                             </Button.Triggers>
                                                         </Button>
-                                                        <Button Command="{Binding Path=DataContext.UpdateBook, ElementName=FindDataContext}" CommandParameter="{Binding}"
+                                                        <Button Command="{Binding Path=DataContext.UpdateBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding}"
                                                                 Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
                                                     </StackPanel>
                                                     <!--#endregion-->
