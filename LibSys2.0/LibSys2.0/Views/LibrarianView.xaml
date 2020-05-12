@@ -883,13 +883,14 @@
                                                                Width="200"
                                                                Margin="2" />
                                                 </StackPanel>
-                                                <Button Command="{Binding ElementName=MemberList, Path=DataContext.DeleteMember}"
-                                                        CommandParameter="{Binding}"
-                                                        Padding="1"
-                                                        Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}"
-                                                        BorderBrush="{x:Null}"
-                                                        Background="{x:Null}"
-                                                        Foreground="DarkRed">
+                                                <Button x:Name="RemoveMember"
+                                                    Command="{Binding ElementName=MemberList, Path=DataContext.DeleteMember}"
+                                                    CommandParameter="{Binding}"
+                                                    Padding="1"
+                                                    Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}"
+                                                    BorderBrush="{x:Null}"
+                                                    Background="{x:Null}"
+                                                    Foreground="DarkRed">
                                                 </Button>
                                             </WrapPanel>
                                         </materialDesign:Card>

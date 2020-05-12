@@ -447,6 +447,7 @@ namespace LibrarySystem.ViewModels
         public async Task LoadMembers()
         {
             Members.Clear();
+            
             foreach (Member member in await memberRepo.ReadAll())
             {
                 Members.Add(member);
