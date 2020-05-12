@@ -6,17 +6,25 @@
         xmlns:local="clr-namespace:LibrarySystem.Views"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto" 
         Height="768" 
         Width="1080" 
         WindowStartupLocation="CenterScreen"
         Visibility="Visible"
         MouseLeftButtonDown="Window_MouseDown"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="{materialDesign:MaterialDesignFont}"
         >
+    
+        <!--Tog bort dem här design-grejerna så länge, är osäker på vad de exakt påverkar-->
+    
+        <!--TextElement.Foreground="{StaticResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

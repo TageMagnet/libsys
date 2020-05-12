@@ -98,5 +98,44 @@ namespace Library
                 return (await connection.QueryAsync<Book>("SELECT * FROM books WHERE title LIKE @title", new { title = searchString })).ToList();
             }
         }
+
+        /// <summary>
+        /// ...
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
+        public async Task<List<Book>> SearchQuery(string searchString)
+        {
+            List<Book> books = new List<Book>();
+            List<Author> authors = new List<Author>();
+            using (var connection = CreateConnection())
+            {
+                //Add %-wildcard operator to the end
+                searchString += '%';
+                string query = string.Join(" ", new string[] {
+                    "SELECT * FROM books JOIN authors A ON ref_author_id = A.author_id",
+                    "WHERE title LIKE @Q",
+                    "OR A.firstname LIKE @Q",
+                    "OR A.surname LIKE @Q",
+                    "OR A.nickname LIKE @Q"
+                });
+
+                //
+                books = (await connection.QueryAsync<Book>(query, new { Q = searchString })).ToList();
+
+                // run the query again but collect authors this time
+                authors = (await connection.QueryAsync<Author>(query, new { Q = searchString })).ToList();
+
+                foreach (Book book in books)
+                {
+                    // Insert the Author object into books
+                    Author a = authors.First(x => x.author_id == book.ref_author_id);
+                    book.Author = a;
+                }
+
+                connection.Close();
+                return books;
+            }
+        }
     }
 }
