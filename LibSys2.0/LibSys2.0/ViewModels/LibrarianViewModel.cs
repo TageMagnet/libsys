@@ -47,6 +47,7 @@ namespace LibrarySystem.ViewModels
 
             }
         }
+        
 
         public Member NewMember { get; set; }
 
@@ -55,17 +56,20 @@ namespace LibrarySystem.ViewModels
         public EventRepository eventRepo = new EventRepository();
         public AuthorRepository authorRepo = new AuthorRepository();
         public MemberRepository memberRepo = new MemberRepository();
+        public CategoryRepository categoryRepo = new CategoryRepository();
         public Book SelectedBook { get; set; } = new Book();
         public eBook SelectedeBook { get; set; } = new eBook();
 
         public Author SelectedAuthor { get; set; } = new Author();
-<<<<<<< HEAD
-        public string BookCategory { get; set; }
 
-=======
+        public Category BookCategory { get; set; } = new Category();
+
+
         public Member SelectedMember { get; set; } = new Member();
->>>>>>> master
+
         public string ReasonToDelete { get; set; }
+        public string InputCategory { get; set; }
+
 
         public ObservableCollection<Book> Books { get; set; } = new ObservableCollection<Book>();
         public ObservableCollection<eBook> eBooks { get; set; } = new ObservableCollection<eBook>();
@@ -150,12 +154,13 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till isbn!");
                 return;
             }
-            if (SelectedBook.category == null)
+            if (InputCategory == null)
             {
                 MessageBox.Show("Lägg till kategori!");
                 return;
             }
             SelectedBook.ref_author_id = SelectedAuthor.author_id;
+            await GetCategory(InputCategory);
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
             await ClearBookLines("books");
@@ -224,7 +229,11 @@ namespace LibrarySystem.ViewModels
             await LoadBooks();
         }
         #endregion
-
+        public async Task GetCategory(string category)
+        {
+            BookCategory = await categoryRepo.GetCategory(category);
+            SelectedBook.category = BookCategory.category;
+        }
         public async Task UpdateeBookCommandMethod(eBook ebook)
         #region ...
         {

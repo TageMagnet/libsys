@@ -16,11 +16,11 @@ namespace Library
             tableIdName = "category_id";
         }
 
-        public async Task<Category> GetCategory(string category)
+        public async Task<Category> GetCategory(string cat)
         {
             using (var connection = CreateConnection())
             {
-                var result = await connection.QuerySingleAsync<Category>("SELECT FROM categories WHERE code = @category", new { category = category });
+                var result = await connection.QuerySingleAsync<Category>($"SELECT FROM {table} WHERE code = @category", new { category = cat });
                 return result;
             }
         }

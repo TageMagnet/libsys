@@ -178,7 +178,7 @@
                                         </TextBlock>
 
                                         <!-- Category-->
-                                        <TextBox Text="{Binding SelectedBook.category, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5" Padding="2,0,0,0"/>
+                                        <TextBox Text="{Binding InputCategory, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
