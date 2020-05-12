@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using MessageBox = System.Windows.MessageBox;
 
 namespace LibrarySystem.ViewModels
 {
@@ -65,6 +66,8 @@ namespace LibrarySystem.ViewModels
         public ObservableCollection<eBook> eBooks { get; set; } = new ObservableCollection<eBook>();
         public ObservableCollection<Event> Events { get; set; } = new ObservableCollection<Event>();
         public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
+        /// <summary>Index storage when updating</summary>
+        public int SelectedAuthorIndex { get; set; } = -1;
         public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
 
         public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "user" };
@@ -127,11 +130,11 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till titel!");
                 return;
             }
-            //if (SelectedBook.author == null)
-            //{
-            //    MessageBox.Show("Lägg till författare!");
-            //    return;
-            //}
+            if (SelectedAuthor.author_id == 0)
+            {
+                MessageBox.Show("Lägg till författare!");
+                return;
+            }
             if (SelectedBook.description == null)
             {
                 MessageBox.Show("Lägg till beskrivning!");
@@ -147,12 +150,52 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till kategori!");
                 return;
             }
+            SelectedBook.ref_author_id = SelectedAuthor.author_id;
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
             await ClearBookLines("books");
 
         }
         #endregion
+        /// <summary>
+        /// Checks and adds a E-Book to the database
+        /// </summary>
+        /// <returns></returns>
+        public async Task AddeBookCommandMethod()
+        #region ...
+        {
+            if (SelectedeBook.title == null)
+            {
+                MessageBox.Show("Lägg till titel!");
+                return;
+            }
+            if (SelectedAuthor.author_id == 0)
+            {
+                MessageBox.Show("Lägg till författare!");
+                return;
+            }
+            if (SelectedeBook.description == null)
+            {
+                MessageBox.Show("Lägg till beskrivning!");
+                return;
+            }
+            if (SelectedeBook.isbn == null)
+            {
+                MessageBox.Show("Lägg till isbn!");
+                return;
+            }
+            if (SelectedeBook.category == null)
+            {
+                MessageBox.Show("Lägg till kategori!");
+                return;
+            }
+            SelectedeBook.ref_author_id = SelectedAuthor.author_id;
+            await eBookRepo.Create(SelectedeBook);
+            await LoadeBooks();
+            await ClearBookLines("ebooks");
+        }
+        #endregion
+
 
         /// <summary>
         /// Updates a Book in DB
@@ -162,6 +205,16 @@ namespace LibrarySystem.ViewModels
         public async Task UpdateBookCommandMethod(Book book)
         #region ...
         {
+            // Retrieve the stored index
+            if (SelectedAuthorIndex >= 0)
+            {
+                book.ref_author_id = Authors[SelectedAuthorIndex].author_id;
+                // reset
+                SelectedAuthorIndex = -1;
+            }
+
+            // Dapper does not like uninvited variables
+            book.Author = null;
             await bookRepo.Update(book);
             await LoadBooks();
         }
@@ -170,8 +223,16 @@ namespace LibrarySystem.ViewModels
         public async Task UpdateeBookCommandMethod(eBook ebook)
         #region ...
         {
+            if (SelectedAuthorIndex >= 0)
+            {
+                ebook.ref_author_id = Authors[SelectedAuthorIndex].author_id;
+                // reset
+                SelectedAuthorIndex = -1;
+            }
+
+            ebook.Author = null;
             await eBookRepo.Update(ebook);
-            await LoadBooks();
+            await LoadeBooks();
         }
         #endregion
 
@@ -198,7 +259,7 @@ namespace LibrarySystem.ViewModels
         #endregion
 
         /// <summary>
-        /// Removes Book From DB
+        /// Changes status on Book from 1(active) to 0(inactive)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -217,23 +278,6 @@ namespace LibrarySystem.ViewModels
             this.NotifyPropertyChanged(nameof(ReasonToDelete));
             await bookRepo.ChangeStatusBook(id);
             await LoadBooks();
-        }
-        #endregion
-
-        public async Task RemoveeBookCommandMethod(int id)
-        #region ...
-        {
-            if (string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
-            {
-                MessageBox.Show("Fyll i anledning!");
-                ReasonToDelete = "";
-                this.NotifyPropertyChanged(nameof(ReasonToDelete));
-                return;
-            }
-            ReasonToDelete = "";
-            this.NotifyPropertyChanged(nameof(ReasonToDelete));
-            await eBookRepo.ChangeStatuseBook(id);
-            await LoadeBooks();
         }
         #endregion
 
@@ -262,7 +306,7 @@ namespace LibrarySystem.ViewModels
                 }
             }
 
-            if(numberOfAuthorBooks > 0)
+            if (numberOfAuthorBooks > 0)
             {
                 MessageBox.Show($"Denna författare är bunden till {numberOfAuthorBooks}st böcker. Och kan därför inte tas bort");
                 return;
@@ -273,42 +317,25 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
-
         /// <summary>
-        /// Checks and adds a E-Book to the database
+        /// Changes status on eBook from 1(active) to 0(inactive)
         /// </summary>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public async Task AddeBookCommandMethod()
+        public async Task RemoveeBookCommandMethod(int id)
         #region ...
         {
-            if (SelectedeBook.title == null)
+            if (string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
             {
-                MessageBox.Show("Lägg till titel!");
+                MessageBox.Show("Fyll i anledning!");
+                ReasonToDelete = "";
+                this.NotifyPropertyChanged(nameof(ReasonToDelete));
                 return;
             }
-            //if (SelectedBook.author == null)
-            //{
-            //    MessageBox.Show("Lägg till författare!");
-            //    return;
-            //}
-            if (SelectedeBook.description == null)
-            {
-                MessageBox.Show("Lägg till beskrivning!");
-                return;
-            }
-            if (SelectedeBook.isbn == null)
-            {
-                MessageBox.Show("Lägg till isbn!");
-                return;
-            }
-            if (SelectedeBook.category == null)
-            {
-                MessageBox.Show("Lägg till kategori!");
-                return;
-            }
-            await eBookRepo.Create(SelectedeBook);
+            ReasonToDelete = "";
+            this.NotifyPropertyChanged(nameof(ReasonToDelete));
+            await eBookRepo.ChangeStatuseBook(id);
             await LoadeBooks();
-            await ClearBookLines("ebooks");
         }
         #endregion
 
@@ -460,7 +487,7 @@ namespace LibrarySystem.ViewModels
         public async Task LoadMembers()
         {
             Members.Clear();
-            
+
             foreach (Member member in await memberRepo.ReadAllActive())
             {
                 Members.Add(member);
@@ -514,7 +541,7 @@ namespace LibrarySystem.ViewModels
             NewMember.pwd = "";
             NewMember.role = "";
             this.OnPropertyChanged(nameof(NewMember));
-           
+
         }
 
         /// <summary>

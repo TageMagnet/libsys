@@ -29,13 +29,60 @@ namespace Library
                 await connection.QueryAsync(sqlQuery);
             }
         }
+
         public async Task<List<Book>> ReadAllActiveBooks()
         {
             using (var connection = CreateConnection())
             {
-                return (await connection.QueryAsync<Book>($"SELECT * FROM {table} WHERE is_active=1")).ToList();
+                List<Book> books = new List<Book>();
+                List<Author> authors = new List<Author>();
+
+                // From `books`-table get all active that has a reference to an author id
+                var query = string.Join(" ", new string[]{
+                    "SELECT * FROM `books`",
+                    "LEFT JOIN authors ON books.ref_author_id = authors.author_id",
+                    "WHERE is_active = 1"
+                });
+
+                books = (await connection.QueryAsync<Book>(query)).ToList();
+                authors = (await connection.QueryAsync<Author>(query)).ToList();
+
+                foreach (Book book in books)
+                {
+                    // Insert the Author object into books
+                    Author a = authors.First(x => x.author_id == book.ref_author_id);
+                    book.Author = a;
+                }
+
+                connection.Close();
+                return books;
+
             }
         }
+
+        public new async Task Update(Book book)
+        {
+            using (var connection = CreateConnection())
+            {
+                string query = string.Join(" ", new string[]{
+                    "UPDATE books SET",
+                    "`ref_author_id` = @ref_author_id,",
+                    "`year` = @year,",
+                    "`isbn` = @isbn,",
+                    "`title` = @title,",
+                    "`description` = @description,",
+                    "`url` = @url,",
+                    "`content` = @content,",
+                    "`book_state` = @book_state,",
+                    "`category` = @category",
+                    "WHERE book_id = @book_id"
+                });
+
+                await connection.QueryAsync(query, book);
+                connection.Close();
+            }
+        }
+
         /// <summary>
         /// Return a list of rows matching the searchString
         /// </summary>

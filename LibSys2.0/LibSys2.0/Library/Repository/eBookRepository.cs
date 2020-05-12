@@ -28,16 +28,61 @@ namespace Library
                 await connection.QueryAsync(sqlQuery);
             }
         }
+        public async Task<List<eBook>> SearchByTitle(string searchString)
+        {
+            return new List<eBook>();
+        }
+
         public async Task<List<eBook>> ReadAllActiveeBooks()
         {
             using (var connection = CreateConnection())
             {
-                return (await connection.QueryAsync<eBook>($"SELECT * FROM {table} WHERE is_active=1")).ToList();
+                List<eBook> ebooks = new List<eBook>();
+                List<Author> authors = new List<Author>();
+
+                // From `books`-table get all active that has a reference to an author id
+                var query = string.Join(" ", new string[]{
+                    "SELECT * FROM `ebooks`",
+                    "LEFT JOIN authors ON ebooks.ref_author_id = authors.author_id",
+                    "WHERE is_active = 1"
+                });
+
+                ebooks = (await connection.QueryAsync<eBook>(query)).ToList();
+                authors = (await connection.QueryAsync<Author>(query)).ToList();
+
+                foreach (eBook ebook in ebooks)
+                {
+                    // Insert the Author object into books
+                    Author a = authors.First(x => x.author_id == ebook.ref_author_id);
+                    ebook.Author = a;
+                }
+
+                connection.Close();
+                return ebooks;
+
             }
         }
-        public async Task<List<eBook>> SearchByTitle(string searchString)
+
+        public new async Task Update(eBook ebook)
         {
-            return new List<eBook>();
+            using (var connection = CreateConnection())
+            {
+                string query = string.Join(" ", new string[]{
+                    "UPDATE ebooks SET",
+                    "`ref_author_id` = @ref_author_id,",
+                    "`year` = @year,",
+                    "`isbn` = @isbn,",
+                    "`title` = @title,",
+                    "`description` = @description,",
+                    "`url` = @url,",
+                    "`content` = @content,",
+                    "`category` = @category",
+                    "WHERE ebook_id = @ebook_id"
+                });
+
+                await connection.QueryAsync(query, ebook);
+                connection.Close();
+            }
         }
     }
 }
