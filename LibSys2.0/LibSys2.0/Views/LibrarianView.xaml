@@ -192,8 +192,17 @@
                                             </TextBlock.Style>
                                         </TextBlock>
 
+                                        <StackPanel Grid.Row="5" Grid.ColumnSpan="4">
+                                            <Button Content="Upload file" Command="{Binding FileUploadCommand}" CommandParameter="cover"/>
+                                            <TextBox Text="{Binding SelectedBook.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                                            <Button Content="Upload file" Command="{Binding FileUploadCommand}" CommandParameter="url"/>
+                                            <TextBox Text="{Binding SelectedBook.url, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                                        </StackPanel>
+                                        
+                                        <!-- Cover Image -->
+                                               
                                         <!--Add Button-->
-                                        <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till Bok" Width="110" Padding="1"
+                                        <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till Bok" Width="110" Padding="1"
                                     HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" Foreground="#F9AA33"/>
                                     </Grid>
                                 </Viewbox>

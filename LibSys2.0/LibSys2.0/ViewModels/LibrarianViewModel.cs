@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,6 +95,8 @@ namespace LibrarySystem.ViewModels
 
         public ReactiveCommand<Member, Unit> UpdateMemberCommand { get; set; }
 
+        public ReactiveCommand<Unit, Unit> FileUploadCommand { get; set; }
+
         #endregion
         public LibrarianViewModel()
         {
@@ -114,6 +117,8 @@ namespace LibrarySystem.ViewModels
             AddNewMember = ReactiveCommand.CreateFromTask(() => AddNewMemberCommand());
             DeleteMemberCommand = ReactiveCommand.CreateFromTask((object obj) => DeleteMemberCommandMethod(obj));
             UpdateMemberCommand = ReactiveCommand.CreateFromTask((Member member) => UpdateMemberCommandMethod(member));
+
+            FileUploadCommand = ReactiveCommand.CreateFromTask(() => UploadFile());
 
             LoadDataAsync();
         }
@@ -576,5 +581,51 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+        /// <summary>
+        /// Puttin' da file on da server
+        /// </summary>
+        /// <returns></returns>
+        private async Task UploadFile()
+        {
+            // Open up file dialog for selection
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+
+            // Multiple files allowed
+            dialog.Multiselect = true;
+
+            // List of file paths
+            List<string> filenames = new List<string>();
+
+            if (dialog.ShowDialog() == true)
+            {
+                foreach(string filename in dialog.FileNames.ToList())
+                {
+                    System.IO.FileInfo info = new System.IO.FileInfo(filename);
+
+                    long len = info.Length;
+
+                    // If exceds 10 MB (mebibyte)
+                    if (len > 10490000)
+                    {
+                        MessageBox.Show("Kan ej ladda upp över 10MB");
+                        continue;
+                        //throw new Exception("Not so large files plz, todo; display error here instead of exception");
+                    }
+                        
+
+                    var JSONresponseObject = await Etc.WebHelper.UploadCoverImage(filename);
+
+                    // Raise failure if error
+                    if (!JSONresponseObject.Value<bool>("success"))
+                    {
+                        MessageBox.Show(JSONresponseObject.Value<string>("message"));
+                        continue;
+                    }
+
+                    // Do something with the response
+                    MessageBox.Show("Laddade upp! Pleäse tryck på uppdatera nu");
+                }
+            }
+        }
     }
 }
