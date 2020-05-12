@@ -58,6 +58,7 @@ namespace LibrarySystem.ViewModels
         public eBook SelectedeBook { get; set; } = new eBook();
 
         public Author SelectedAuthor { get; set; } = new Author();
+        public Member SelectedMember { get; set; } = new Member();
         public string ReasonToDelete { get; set; }
 
         public ObservableCollection<Book> Books { get; set; } = new ObservableCollection<Book>();
@@ -460,6 +461,7 @@ namespace LibrarySystem.ViewModels
             NewMember.created_at = DateTime.Now;
             await memberRepo.Create(NewMember);
             await LoadMembers();
+            await ClearMemberLines("members");
         }
 
         public async Task DeleteMemberCommand(object obj)
@@ -468,6 +470,22 @@ namespace LibrarySystem.ViewModels
             member.is_active = 0;
             await memberRepo.Update(member);
             await LoadMembers();
+        }
+
+        public async Task ClearMemberLines(string sender)
+        {
+            //Clear Members
+            if (sender == "members")
+            {
+                SelectedMember.member_id = 0;
+                SelectedMember.email = "";
+                SelectedMember.nickname = "";
+                SelectedMember.pwd = "";
+                SelectedMember.role = "";
+                SelectedMember.created_at = DateTime.Now;
+                SelectedMember.is_active = 0;
+                this.OnPropertyChanged(nameof(SelectedMember));
+            }
         }
 
         /// <summary>
