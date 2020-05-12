@@ -59,6 +59,8 @@ namespace LibrarySystem.ViewModels
         public eBook SelectedeBook { get; set; } = new eBook();
 
         public Author SelectedAuthor { get; set; } = new Author();
+        public string BookCategory { get; set; }
+
         public string ReasonToDelete { get; set; }
 
         public ObservableCollection<Book> Books { get; set; } = new ObservableCollection<Book>();
@@ -189,7 +191,7 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
-
+  
         /// <summary>
         /// Updates a Book in DB
         /// </summary>
@@ -508,5 +510,6 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+        
     }
 }
