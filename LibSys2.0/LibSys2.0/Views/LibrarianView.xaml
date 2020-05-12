@@ -395,22 +395,28 @@
                                                         <TextBox Text="{Binding title}" Width="200" Margin="2"/>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Content="Författare: " Width="70" FontSize="12"/>
-                                                        <TextBlock Text="{Binding Author.nickname, FallbackValue='[]'}"/>
-                                                        <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Content="Författare: " Width="70" FontSize="12"/>
+                                                            <TextBlock Grid.Column="1" Text="{Binding Author.nickname, FallbackValue='[]'}"/>
+                                                            <ComboBox Grid.Column="1" x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" Height="35" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
                                                                 ItemsSource="{Binding Path=DataContext.Authors, ElementName=FindDataContext, UpdateSourceTrigger=PropertyChanged}"
                                                                 SelectedIndex="{Binding Path=DataContext.SelectedAuthorIndex, ElementName=FindDataContext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                                                                   >
                                                                 <!--SelectedValue="{Binding Path=Authors, Mode=TwoWay}"  
                                                             SelectedItem="{Binding Path=DataContext.NewAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 SelectedIndex="{Binding GetIndex, UpdateSourceTrigger=PropertyChanged}"-->
-                                                            <ComboBox.ItemTemplate>
+                                                                <ComboBox.ItemTemplate>
                                                                     <DataTemplate>
                                                                         <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
                                                                     </DataTemplate>
-                                                            </ComboBox.ItemTemplate>
-                                                        </ComboBox>
-                                                        <!--<TextBox Text="" Width="200" Margin="2"/>-->
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+
+                                                        </Grid>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="Beskrivning: " Width="70" FontSize="12"/>
@@ -529,8 +535,24 @@
                                                         <TextBox Text="{Binding title}" Width="200" Margin="2"/>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Content="Författare: " Width="70" FontSize="12"/>
-                                                        <TextBox Text="{Binding author}" Width="200" Margin="2"/>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Content="Författare: " Width="70" FontSize="12"/>
+                                                            <TextBlock Grid.Column="1" Text="{Binding Author.nickname, FallbackValue='[]'}"/>
+                                                            <ComboBox Grid.Column="1" x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" Height="35" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                                ItemsSource="{Binding Path=DataContext.Authors, ElementName=FindDataContext, UpdateSourceTrigger=PropertyChanged}"
+                                                                SelectedIndex="{Binding Path=DataContext.SelectedAuthorIndex, ElementName=FindDataContext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                                                                  >
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+                                                        </Grid>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="Beskrivning: " Width="70" FontSize="12"/>

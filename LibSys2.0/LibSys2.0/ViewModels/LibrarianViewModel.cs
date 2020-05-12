@@ -199,7 +199,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             // Retrieve the stored index
-            if (SelectedAuthorIndex > 0)
+            if (SelectedAuthorIndex >= 0)
             {
                 book.ref_author_id = Authors[SelectedAuthorIndex].author_id;
                 // reset
@@ -210,6 +210,22 @@ namespace LibrarySystem.ViewModels
             book.Author = null;
             await bookRepo.Update(book);
             await LoadBooks();
+        }
+        #endregion
+
+        public async Task UpdateeBookCommandMethod(eBook ebook)
+        #region ...
+        {
+            if (SelectedAuthorIndex >= 0)
+            {
+                ebook.ref_author_id = Authors[SelectedAuthorIndex].author_id;
+                // reset
+                SelectedAuthorIndex = -1;
+            }
+
+            ebook.Author = null;
+            await eBookRepo.Update(ebook);
+            await LoadeBooks();
         }
         #endregion
 
@@ -226,13 +242,6 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
-        public async Task UpdateeBookCommandMethod(eBook ebook)
-        #region ...
-        {
-            await eBookRepo.Update(ebook);
-            await LoadBooks();
-        }
-        #endregion
 
         /// <summary>
         /// Changes status on Book from 1(active) to 0(inactive)
