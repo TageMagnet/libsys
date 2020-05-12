@@ -824,7 +824,7 @@
             </Grid>
         </TabItem>
 
-        <TabItem Header="Member">
+        <TabItem Header="Användare">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -843,23 +843,23 @@
                         </StackPanel>
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
-                                <TextBlock Text="Nickname"/>
+                                <TextBlock Text="Smeknamn"/>
                                 <TextBox Text="{Binding NewMember.nickname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
-                                <TextBlock Text="Password"/>
+                                <TextBlock Text="Lösenord"/>
                                 <TextBox Text="{Binding NewMember.pwd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
-                                <ComboBox IsReadOnly="True" MinWidth="100"  ItemsSource="{Binding AvailableRoles}" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <ComboBox IsReadOnly="True" MinWidth="100" ItemsSource="{Binding AvailableRoles}" SelectedIndex="{Binding AvailableRoles, FallbackValue=2}" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel>
-                            <Button Command="{Binding AddNewMember}" Content="Lägg till member"/>
+                            <Button Command="{Binding AddNewMember}" Content="Lägg till användare"/>
                         </StackPanel>
                     </WrapPanel>
                 </Border>
@@ -920,7 +920,7 @@
                                                             <TextBlock Text="Vill du verkligen ta bort: " FontSize="15" FontWeight="DemiBold" Margin="5 0 0 0"/>
                                                             <TextBlock Text="{Binding email}" FontSize="15" FontWeight="DemiBold" Margin="5 0 0 0"/>
                                                         </StackPanel>
-                                                        
+
                                                         <!--<TextBox x:Name="ReasonBox" Margin="0,0,0,5" Text="{Binding Path=DataContext.ReasonToDelete, ElementName=FindDataContext}"/>-->
                                                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                                             <Button x:Name="Remove" Margin="5" Width="65" Content="Radera" Padding="1" Foreground="#F9AA33"
@@ -946,7 +946,7 @@
                                                     <!--#region Expanded Card-->
                                                     <StackPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Height="0" x:Name="HiddenStuff" Orientation="Vertical">
                                                         <StackPanel Orientation="Horizontal">
-                                                            <Label Content="E-Post: " Width="70" FontSize="12"/>
+                                                            <Label Content="Email: " Width="70" FontSize="12"/>
                                                             <TextBox Text="{Binding email}" Width="200" Margin="2"/>
                                                         </StackPanel>
                                                         <StackPanel Orientation="Horizontal">
@@ -965,7 +965,7 @@
                                                             <Label Content="Skapad: " Width="70" FontSize="12"/>
                                                             <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="200" Margin="2"/>
                                                         </StackPanel>
-                                                        
+
                                                         <StackPanel Orientation="Horizontal" Margin="5">
                                                             <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
                                                                 <Button.Triggers>
@@ -987,89 +987,6 @@
                             </StackPanel>
                         </Viewbox>
                     </ScrollViewer>
-
-
-
-
-
-
-                    <!--<ScrollViewer>
-                        <StackPanel>
-                            <ListBox 
-                                    x:Name="MemberList"
-                                    ItemsSource="{Binding Members}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                                             Margin="5"
-                                                             x:Name="Card1">
-                                            <WrapPanel Orientation="Vertical">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="E-mail:"
-                                                           Width="200" />
-                                                    <TextBlock Text="{Binding email}"
-                                                               Width="200"
-                                                               Margin="2" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Användarnamn:"
-                                                           Width="200" />
-                                                    <TextBlock Text="{Binding nickname}"
-                                                               Width="200"
-                                                               Margin="2" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Lösenord:"
-                                                           Width="200" />
-                                                    <TextBlock Text="{Binding pwd}"
-                                                               Width="200"
-                                                               Margin="2" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Roll:"
-                                                           Width="200"
-                                                           FontSize="12" />
-                                                    <TextBlock Text="{Binding role}"
-                                                               Width="200"
-                                                               Margin="2" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Skapad:"
-                                                           Width="200" />
-                                                    <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"
-                                                               Width="200"
-                                                               Margin="2" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="ID:"
-                                                           Width="200" />
-                                                    <TextBlock Text="{Binding member_id}"
-                                                               Width="200"
-                                                               Margin="2" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Är aktiv:"
-                                                           Width="200" />
-                                                    <TextBlock Text="{Binding is_active}"
-                                                               Width="200"
-                                                               Margin="2" />
-                                                </StackPanel>
-                                                <Button x:Name="RemoveMember"
-                                                    Command="{Binding ElementName=MemberList, Path=DataContext.DeleteMember}"
-                                                    CommandParameter="{Binding}"
-                                                    Padding="1"
-                                                    Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=30}"
-                                                    BorderBrush="{x:Null}"
-                                                    Background="{x:Null}"
-                                                    Foreground="DarkRed">
-                                                </Button>
-                                            </WrapPanel>
-                                        </materialDesign:Card>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </StackPanel>
-                    </ScrollViewer>-->
                 </Border>
             </Grid>
         </TabItem>

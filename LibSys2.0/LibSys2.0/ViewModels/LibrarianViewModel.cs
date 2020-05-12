@@ -70,7 +70,7 @@ namespace LibrarySystem.ViewModels
         public int SelectedAuthorIndex { get; set; } = -1;
         public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
 
-        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "user" };
+        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "Admin", "Bibliotekarie", "Besökare" };
 
         #endregion
 
@@ -520,6 +520,7 @@ namespace LibrarySystem.ViewModels
 
             // Timestamp, since now is creation date
             NewMember.created_at = DateTime.Now;
+            NewMember.is_active = 1;
             await memberRepo.Create(NewMember);
             await LoadMembers();
             await ClearMemberLines("members");
