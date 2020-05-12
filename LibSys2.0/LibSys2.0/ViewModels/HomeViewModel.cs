@@ -41,28 +41,21 @@ namespace LibrarySystem.ViewModels
         public ObservableCollection<IArticle> SearchResults { get; set; } = new ObservableCollection<IArticle>();
         // Defaulted to 'title'
         private string searchColumn { get; set; } = "title";
-        public string SearchColumn
-        {
-            get 
-            {
-                return searchColumn;
-            }
-            set
-            {
-                searchColumn = value;
-                OnPropertyChanged("SearchColumn");
-            }
-        }
+        /// <summary>
+        /// Todo; do something better
+        /// </summary>
+        public string SearchColumn { get => searchColumn; set { searchColumn = value; OnPropertyChanged("SearchColumn"); } }
         /// <summary>
         /// Simple counter return for list
         /// </summary>
         public int SearchResultCount { get => SearchResults.Count; }
         // Private holder
-        private string  searchFieldText { get; set; }
+        private string searchFieldText { get; set; }
         /// <summary>
         /// x:Name SearchField Text
         /// </summary>
-        public string SearchFieldText { 
+        public string SearchFieldText
+        {
             get => searchFieldText;
             set
             {

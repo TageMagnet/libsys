@@ -67,7 +67,6 @@
         </StackPanel>
 
 
-
         <!--SearchResults-->
         <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" >
 
@@ -92,32 +91,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
         </StackPanel>
-
-
-
-        <StackPanel Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20" Grid.RowSpan="2">
-            <Button Command="{Binding LoginCommand}"  Width="100" Height="60" Margin="5" Foreground="#F9AA33">
-                <Button.Content>
-                    <StackPanel Orientation="Vertical">
-                        <materialDesign:PackIcon Kind="Login" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                        <TextBlock Text="Logga in" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-            <Button Command="{Binding RegisterCommand}" Width="100" Height="60" Margin="5" Foreground="#F9AA33">
-                <Button.Content>
-                    <StackPanel Orientation="Vertical">
-                        <materialDesign:PackIcon Kind="Register" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                        <TextBlock Text="Registrera" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-            <!--För att visa updatenotify fungerar, kan tas bort-->
-            <!--<Button Content="Test" Command="{Binding TestChange}"/>
-            <TextBlock Text="{Binding Text, FallbackValue=asdas}"/>-->
-        </StackPanel>
-
     </Grid>
 </UserControl>
