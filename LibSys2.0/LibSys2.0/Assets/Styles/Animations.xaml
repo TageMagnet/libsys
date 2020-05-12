@@ -73,6 +73,17 @@
     </Storyboard>
 
     <Storyboard x:Key="OpenRemove">
+        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Opacity)" From="0.0" To="0.0">
+            <DoubleAnimation.EasingFunction>
+                <PowerEase Power="2" EasingMode="EaseInOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Height)" From="0" To="0">
+            <DoubleAnimation.EasingFunction>
+                <PowerEase Power="2" EasingMode="EaseInOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+        
         <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="0" To="1">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseOut"/>

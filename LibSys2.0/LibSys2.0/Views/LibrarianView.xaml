@@ -395,22 +395,28 @@
                                                         <TextBox Text="{Binding title}" Width="200" Margin="2"/>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Content="Författare: " Width="70" FontSize="12"/>
-                                                        <TextBlock Text="{Binding Author.nickname, FallbackValue='[]'}"/>
-                                                        <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Content="Författare: " Width="70" FontSize="12"/>
+                                                            <TextBlock Grid.Column="1" Text="{Binding Author.nickname, FallbackValue='[]'}"/>
+                                                            <ComboBox Grid.Column="1" x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" Height="35" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
                                                                 ItemsSource="{Binding Path=DataContext.Authors, ElementName=FindDataContext, UpdateSourceTrigger=PropertyChanged}"
                                                                 SelectedIndex="{Binding Path=DataContext.SelectedAuthorIndex, ElementName=FindDataContext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                                                                   >
                                                                 <!--SelectedValue="{Binding Path=Authors, Mode=TwoWay}"  
                                                             SelectedItem="{Binding Path=DataContext.NewAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 SelectedIndex="{Binding GetIndex, UpdateSourceTrigger=PropertyChanged}"-->
-                                                            <ComboBox.ItemTemplate>
+                                                                <ComboBox.ItemTemplate>
                                                                     <DataTemplate>
                                                                         <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
                                                                     </DataTemplate>
-                                                            </ComboBox.ItemTemplate>
-                                                        </ComboBox>
-                                                        <!--<TextBox Text="" Width="200" Margin="2"/>-->
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+
+                                                        </Grid>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="Beskrivning: " Width="70" FontSize="12"/>
@@ -529,8 +535,24 @@
                                                         <TextBox Text="{Binding title}" Width="200" Margin="2"/>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Content="Författare: " Width="70" FontSize="12"/>
-                                                        <TextBox Text="{Binding author}" Width="200" Margin="2"/>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Content="Författare: " Width="70" FontSize="12"/>
+                                                            <TextBlock Grid.Column="1" Text="{Binding Author.nickname, FallbackValue='[]'}"/>
+                                                            <ComboBox Grid.Column="1" x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" Height="35" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                                ItemsSource="{Binding Path=DataContext.Authors, ElementName=FindDataContext, UpdateSourceTrigger=PropertyChanged}"
+                                                                SelectedIndex="{Binding Path=DataContext.SelectedAuthorIndex, ElementName=FindDataContext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                                                                  >
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+                                                        </Grid>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="Beskrivning: " Width="70" FontSize="12"/>
@@ -802,7 +824,7 @@
             </Grid>
         </TabItem>
 
-        <TabItem Header="Member">
+        <TabItem Header="Användare">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -816,28 +838,28 @@
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
                                 <TextBlock Text="Email"/>
-                                <TextBox Text="{Binding NewMember.email, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Text="{Binding NewMember.email, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
-                                <TextBlock Text="Nickname"/>
-                                <TextBox Text="{Binding NewMember.nickname, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Text="Smeknamn"/>
+                                <TextBox Text="{Binding NewMember.nickname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
-                                <TextBlock Text="Password"/>
-                                <TextBox Text="{Binding NewMember.pwd, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Text="Lösenord"/>
+                                <TextBox Text="{Binding NewMember.pwd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
-                                <ComboBox IsReadOnly="True" MinWidth="100" SelectedIndex="2" ItemsSource="{Binding AvailableRoles}" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged}"/>
+                                <ComboBox IsReadOnly="True" MinWidth="100" ItemsSource="{Binding AvailableRoles}" SelectedIndex="{Binding AvailableRoles, FallbackValue=2}" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel>
-                            <Button Command="{Binding AddNewMember}" Content="Lägg till member"/>
+                            <Button Command="{Binding AddNewMember}" Content="Lägg till användare"/>
                         </StackPanel>
                     </WrapPanel>
                 </Border>
@@ -849,43 +871,122 @@
 
                 <!-- Display members -->
                 <Border Grid.Column="2">
-                    <StackPanel>
-                        <ListBox ItemsSource="{Binding Members}" Background="Beige">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Padding="6,6">
-                                        <WrapPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="ID: " />
-                                                <TextBlock Text="{Binding member_id}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="email: " />
-                                                <TextBlock Text="{Binding email}"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="användarnamn: " />
-                                                <TextBlock Text="{Binding nickname}"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="lösenord: " />
-                                                <TextBlock Text="{Binding pwd}"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="roll: " />
-                                                <TextBlock Text="{Binding role}"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="skapad: " />
-                                                <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
-                                            </StackPanel>
+                    <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
+                        <Viewbox>
+                            <StackPanel Orientation="Vertical">
+                                <!--#region Books-->
+                                <ItemsControl x:Name="MemberControl" ItemsSource="{Binding Members, Mode=TwoWay}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" x:Name="Card1" >
+                                                <Grid Margin="2">
+                                                    <!--#region Grid Definitions-->
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="20"/>
+                                                        <ColumnDefinition Width="250"/>
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="0.5*"/>
+                                                        <RowDefinition Height="3*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <!--#endregion-->
 
-                                        </WrapPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
+                                                    <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}"
+                                                        x:Name="DownButton" Grid.Column="0" Grid.RowSpan="2" Padding="1" IsEnabled="True" Content="{materialDesign:PackIcon Kind=ArrowDown, Size=15}" Foreground="#F9AA33">
+                                                        <Button.Triggers>
+                                                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                                <BeginStoryboard  Storyboard="{StaticResource OpenCard}"/>
+                                                            </EventTrigger>
+                                                        </Button.Triggers>
+                                                    </Button>
+
+                                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding email}" FontSize="15" FontWeight="DemiBold" Margin="5,0"/>
+                                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding role}" FontSize="10" FontWeight="DemiBold" Margin="5,0"/>
+
+                                                    <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}" BorderBrush="{x:Null}"
+                                                        Background="{x:Null}" Foreground="DarkRed" Margin="5,0" Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}">
+                                                        <Button.Triggers>
+                                                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                                <BeginStoryboard Storyboard="{StaticResource OpenRemove}"/>
+                                                            </EventTrigger>
+                                                        </Button.Triggers>
+                                                    </Button>
+
+                                                    <!--#region Expaned Remove Member-->
+                                                    <StackPanel Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="2" Height="0" x:Name="OpenRemoveBook" Orientation="Vertical">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="Vill du verkligen ta bort: " FontSize="15" FontWeight="DemiBold" Margin="5 0 0 0"/>
+                                                            <TextBlock Text="{Binding email}" FontSize="15" FontWeight="DemiBold" Margin="5 0 0 0"/>
+                                                        </StackPanel>
+
+                                                        <!--<TextBox x:Name="ReasonBox" Margin="0,0,0,5" Text="{Binding Path=DataContext.ReasonToDelete, ElementName=FindDataContext}"/>-->
+                                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                                            <Button x:Name="Remove" Margin="5" Width="65" Content="Radera" Padding="1" Foreground="#F9AA33"
+                                                                Command="{Binding Path=DataContext.DeleteMemberCommand, ElementName=FindDataContext}" CommandParameter="{Binding}">
+                                                                <Button.Triggers>
+                                                                    <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                                        <BeginStoryboard Storyboard="{StaticResource CloseRemove}"/>
+                                                                    </EventTrigger>
+                                                                </Button.Triggers>
+                                                            </Button>
+                                                            <Button x:Name="Abort"  Margin="5" Width="65" Content="Avbryt" Padding="1" Foreground="#F9AA33"
+                                                                 Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}">
+                                                                <Button.Triggers>
+                                                                    <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                                        <BeginStoryboard Storyboard="{StaticResource CloseRemove}"/>
+                                                                    </EventTrigger>
+                                                                </Button.Triggers>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <!--#endregion-->
+
+                                                    <!--#region Expanded Card-->
+                                                    <StackPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Height="0" x:Name="HiddenStuff" Orientation="Vertical">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Label Content="Email: " Width="70" FontSize="12"/>
+                                                            <TextBox Text="{Binding email}" Width="200" Margin="2"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Label Content="Smeknamn: " Width="70" FontSize="12"/>
+                                                            <TextBox Text="{Binding nickname}" Width="200" Margin="2"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Label Content="Lösenord: " Width="70" FontSize="12"/>
+                                                            <TextBox Text="{Binding pwd}"  Width="200" Margin="2"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Label Content="Roll: " Width="70" FontSize="12"/>
+                                                            <TextBox Text="{Binding role}" Width="200" Margin="2"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Label Content="Skapad: " Width="70" FontSize="12"/>
+                                                            <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="200" Margin="2"/>
+                                                        </StackPanel>
+
+                                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                                            <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
+                                                                <Button.Triggers>
+                                                                    <EventTrigger RoutedEvent="ButtonBase.Click">
+                                                                        <BeginStoryboard Storyboard="{StaticResource CloseCard}"/>
+                                                                    </EventTrigger>
+                                                                </Button.Triggers>
+                                                            </Button>
+                                                            <Button Command="{Binding Path=DataContext.UpdateMemberCommand, ElementName=FindDataContext}" CommandParameter="{Binding}"
+                                                                Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
+                                                        </StackPanel>
+                                                        <!--#endregion-->
+                                                    </StackPanel>
+                                                </Grid>
+                                            </materialDesign:Card>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Viewbox>
+                    </ScrollViewer>
                 </Border>
             </Grid>
         </TabItem>

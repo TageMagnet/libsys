@@ -15,6 +15,7 @@ namespace LibrarySystem.Models
         public string url { get; set; }
         public string content { get; set; }
         public string category { get; set; }
+        public Author Author { get; set; }
         public string cover { get; set; }
     }
 }

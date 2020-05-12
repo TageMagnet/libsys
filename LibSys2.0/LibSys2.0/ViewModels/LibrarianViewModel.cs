@@ -59,6 +59,7 @@ namespace LibrarySystem.ViewModels
         public eBook SelectedeBook { get; set; } = new eBook();
 
         public Author SelectedAuthor { get; set; } = new Author();
+        public Member SelectedMember { get; set; } = new Member();
         public string ReasonToDelete { get; set; }
 
         public ObservableCollection<Book> Books { get; set; } = new ObservableCollection<Book>();
@@ -69,7 +70,7 @@ namespace LibrarySystem.ViewModels
         public int SelectedAuthorIndex { get; set; } = -1;
         public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
 
-        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "user" };
+        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "Admin", "Bibliotekarie", "Besökare" };
 
         #endregion
 
@@ -89,6 +90,9 @@ namespace LibrarySystem.ViewModels
 
         public ReactiveCommand<Unit, Unit> AddAuthorCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddNewMember { get; set; }
+        public ReactiveCommand<object, Unit> DeleteMemberCommand { get; set; }
+
+        public ReactiveCommand<Member, Unit> UpdateMemberCommand { get; set; }
 
         #endregion
         public LibrarianViewModel()
@@ -108,6 +112,9 @@ namespace LibrarySystem.ViewModels
             UpdateAuthorCommand = ReactiveCommand.CreateFromTask((Author author) => UpdateAuthorCommandMethod(author));
 
             AddNewMember = ReactiveCommand.CreateFromTask(() => AddNewMemberCommand());
+            DeleteMemberCommand = ReactiveCommand.CreateFromTask((object obj) => DeleteMemberCommandMethod(obj));
+            UpdateMemberCommand = ReactiveCommand.CreateFromTask((Member member) => UpdateMemberCommandMethod(member));
+
             LoadDataAsync();
         }
 
@@ -199,7 +206,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             // Retrieve the stored index
-            if (SelectedAuthorIndex > 0)
+            if (SelectedAuthorIndex >= 0)
             {
                 book.ref_author_id = Authors[SelectedAuthorIndex].author_id;
                 // reset
@@ -210,6 +217,22 @@ namespace LibrarySystem.ViewModels
             book.Author = null;
             await bookRepo.Update(book);
             await LoadBooks();
+        }
+        #endregion
+
+        public async Task UpdateeBookCommandMethod(eBook ebook)
+        #region ...
+        {
+            if (SelectedAuthorIndex >= 0)
+            {
+                ebook.ref_author_id = Authors[SelectedAuthorIndex].author_id;
+                // reset
+                SelectedAuthorIndex = -1;
+            }
+
+            ebook.Author = null;
+            await eBookRepo.Update(ebook);
+            await LoadeBooks();
         }
         #endregion
 
@@ -226,11 +249,12 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
-        public async Task UpdateeBookCommandMethod(eBook ebook)
+        public async Task UpdateMemberCommandMethod(Member member)
         #region ...
         {
-            await eBookRepo.Update(ebook);
-            await LoadBooks();
+            await memberRepo.Update(member);
+            await LoadMembers();
+
         }
         #endregion
 
@@ -463,7 +487,8 @@ namespace LibrarySystem.ViewModels
         public async Task LoadMembers()
         {
             Members.Clear();
-            foreach (Member member in await memberRepo.ReadAll())
+
+            foreach (Member member in await memberRepo.ReadAllActive())
             {
                 Members.Add(member);
             }
@@ -471,10 +496,53 @@ namespace LibrarySystem.ViewModels
 
         public async Task AddNewMemberCommand()
         {
+            if (NewMember.email == null)
+            {
+                MessageBox.Show("Lägg till E-Post");
+                return;
+            }
+
+            if (NewMember.nickname == null)
+            {
+                MessageBox.Show("Lägg till smeknamn");
+                return;
+            }
+            if (NewMember.pwd == null)
+            {
+                MessageBox.Show("Lägg till lösenord");
+                return;
+            }
+            if (NewMember.role == null)
+            {
+                MessageBox.Show("Lägg till roll");
+                return;
+            }
+
             // Timestamp, since now is creation date
             NewMember.created_at = DateTime.Now;
+            NewMember.is_active = 1;
             await memberRepo.Create(NewMember);
             await LoadMembers();
+            await ClearMemberLines("members");
+        }
+
+        public async Task DeleteMemberCommandMethod(object obj)
+        {
+            Member member = (Member)obj;
+            member.is_active = 0;
+            await memberRepo.Update(member);
+            await LoadMembers();
+        }
+
+        public async Task ClearMemberLines(string sender)
+        {
+            //Clear Members
+            NewMember.email = "";
+            NewMember.nickname = "";
+            NewMember.pwd = "";
+            NewMember.role = "";
+            this.OnPropertyChanged(nameof(NewMember));
+
         }
 
         /// <summary>
