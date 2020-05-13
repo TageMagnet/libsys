@@ -12,10 +12,6 @@ namespace LibrarySystem.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         /// <summary>
-        /// Demo för propertychanged, kan tas bort
-        /// </summary>
-        public ReactiveCommand<Unit, Unit> TestChange { get; set; }
-        /// <summary>
         /// Search for book using string from search-field
         /// </summary>
         public ReactiveCommand<string, Unit> SearchCommand { get; set; }
@@ -41,6 +37,19 @@ namespace LibrarySystem.ViewModels
         /// Simple counter return for list
         /// </summary>
         public int SearchResultCount { get => SearchResults.Count; }
+        /// <summary>
+        /// Antal <see cref="SearchResults"></see> per page
+        /// </summary>
+        public int ResultsPerPage { get; set; } = 5;
+        // Private holder
+        private double resultsDividedPerPage { get; set; }
+        public double ResultsDividedPerPage
+        {
+            get => Math.Ceiling(Convert.ToDouble(SearchResultCount) / Convert.ToDouble(ResultsPerPage));
+            set { resultsDividedPerPage = value; }
+        }
+
+        public ViewModels.Components.SearchPageControl SearchPageControl { get; set; } = new ViewModels.Components.SearchPageControl();
         // Private holder
         private string searchFieldText { get; set; }
         /// <summary>
@@ -66,8 +75,6 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public ObservableCollection<string> AutoCompleteList { get; set; } = new ObservableCollection<string>();
 
-        public string Text { get; set; } = "Hello world";
-
         public HomeViewModel()
         {
             SearchCommand = ReactiveCommand.Create((string value) => SearchCommandAction(value));
@@ -89,6 +96,7 @@ namespace LibrarySystem.ViewModels
             SearchResults.Clear();
             // Load new
             LoadSearchResults(arg);
+
         }
 
         private async void LoadAutoCompleteResults()
@@ -143,6 +151,7 @@ namespace LibrarySystem.ViewModels
 
             // Notify the counters
             NotifyPropertyChanged("SearchResultCount");
+            NotifyPropertyChanged("ResultsDividedPerPage");
         }
     }
 }

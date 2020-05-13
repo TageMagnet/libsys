@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <UserControl.Resources>
         <Style x:Key="CustomButton" TargetType="Button">
             <Setter Property="Padding" Value="4,4"/>
@@ -23,7 +23,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid>
 
         <!--#region Grid Definitions-->
@@ -93,7 +93,7 @@
                 <TextBlock Text="{Binding SearchResultCount, FallbackValue='[0]'}" FontSize="10"/>
                 <TextBlock Text=" results" FontSize="10"/>
             </WrapPanel>
-            
+
             <!--#region Old -->
             <!--<ListView  ItemsSource="{Binding SearchResults}" >
                 <ListView.ItemTemplate>
@@ -114,57 +114,57 @@
             <!--#region Search Results -->
             <ScrollViewer>
                 <ListBox x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults}" ScrollViewer.CanContentScroll="True" MinHeight="300">
-                <ListBox.ItemTemplate>
-                    <!--#region DataTemplate -->
-                    <DataTemplate>
-                        <Border Margin="0,0,0,0"
+                    <ListBox.ItemTemplate>
+                        <!--#region DataTemplate -->
+                        <DataTemplate>
+                            <Border Margin="0,0,0,0"
                         MinWidth="560"
                         Padding="6,4"
                         BorderBrush="Black"
                         BorderThickness="0.15"
                         CornerRadius="2"
                         Background="{StaticResource WhiteBrush}">
-                            <Border.Effect>
-                                <DropShadowEffect ShadowDepth="1" BlurRadius="2" Opacity="0.35"/>
-                            </Border.Effect>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                </Grid.RowDefinitions>
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="1" BlurRadius="2" Opacity="0.35"/>
+                                </Border.Effect>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
 
-                                <Image Grid.Column="0" Grid.RowSpan="3" MaxWidth="86" Margin="5,0" Source="{Binding cover, FallbackValue='https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg'}"/>
+                                    <Image Grid.Column="0" Grid.RowSpan="3" MaxWidth="86" Margin="5,0" Source="{Binding cover, FallbackValue='https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg'}"/>
 
-                                <TextBlock Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" Text="{Binding title, FallbackValue='Harry Potter J.K Rowlings 1998'}" FontSize="18">
+                                    <TextBlock Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" Text="{Binding title, FallbackValue='Harry Potter J.K Rowlings 1998'}" FontSize="18">
                                     <Run Text="{Binding Author.firstname}"/>
                                     <Run Text="{Binding Author.surname}"/>
-                                </TextBlock>
+                                    </TextBlock>
 
-                                <Button Grid.Column="1" Grid.Row="2"  Content="Låna" Margin="0,0,0,0"/>
+                                    <Button Grid.Column="1" Grid.Row="2"  Content="Låna" Margin="0,0,0,0"/>
 
-                                <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
+                                    <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
                                     <Span FontSize="12" FontWeight="Light">Ebook/Book</Span>
                                     <Span FontSize="12" FontWeight="Black">Ulånade</Span>
                                     <Span FontSize="12" FontWeight="Bold">0</Span>
                                     <Span FontSize="12" FontWeight="Thin">Tillgängliga</Span>
                                     <Span FontSize="12" FontWeight="Regular">0</Span>
-                                </TextBlock>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                    <!--#endregion-->
-                </ListBox.ItemTemplate>
-                
-            </ListBox>
+                                    </TextBlock>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                        <!--#endregion-->
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
             </ScrollViewer>
             <!--#endregion-->
             <!--#region Visible Copy -->
@@ -215,19 +215,32 @@
                 </Border>
             </ListBox>-->
             <!--#endregion-->
-            
+
         </StackPanel>
 
-        <ListBox>
+        <!--#region Pages -->
+        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                    Margin="0,12,0,0">
+            <materialDesign:PackIcon Kind="ArrowLeft" Foreground="Red"/>
+            <TextBlock>
+                <Run Text="{Binding xx,FallbackValue='0'}"/>
+                <Span>/</Span>
+                <Run Text="{Binding ResultsDividedPerPage,FallbackValue='0',UpdateSourceTrigger=PropertyChanged}"/>
+             
+            </TextBlock>
+            <materialDesign:PackIcon Kind="ArrowRightBold" Foreground="Red"/>
             
-        </ListBox>
-        
-        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Content="1" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
-            <Button Content="2" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
-            <Button Content="3" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
-            <Button Content="4" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
         </StackPanel>
+        <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
+                   VerticalAlignment="Bottom" 
+                   HorizontalAlignment="Center"
+                   FontSize="8"
+                   Opacity="0.5"
+                   Text="todo; filter search results with X number per page"/>
+        <!--#endregion-->
 
     </Grid>
 </UserControl>

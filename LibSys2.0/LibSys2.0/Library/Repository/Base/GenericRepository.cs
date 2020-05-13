@@ -197,6 +197,18 @@ namespace Library
         #endregion
 
         /// <summary>
+        /// Count the total number of rows in repo table
+        /// </summary>
+        /// <returns></returns>
+        public async Task<int> CountTotalRows()
+        {
+            using (var connection = CreateConnection())
+            {
+                return await connection.ExecuteScalarAsync<int>($"SELECT COUNT({tableIdName}) FROM {table};");
+            }
+        }
+
+        /// <summary>
         /// Create generic SQL-query for INSERT based on <see cref="T"> properties
         /// </summary>
         /// <param name="t"></param>

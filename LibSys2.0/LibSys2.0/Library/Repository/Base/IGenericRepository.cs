@@ -15,5 +15,6 @@ namespace Library
         Task<List<T>> SearchByColumn(string column, string searchString);
         //... extra
         Task<List<T>> ReadAll();
+        Task<int> CountTotalRows();
     }
 }
