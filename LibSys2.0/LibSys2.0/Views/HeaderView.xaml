@@ -24,7 +24,7 @@
 
             <!--#region Go Home Button -->
             <Button Grid.Column="0" Grid.Row="1" Name="BtnIcon" 
-                    Command="{Binding GoHomeCommand}"
+                    Command="{Binding GoHome}"
                     CommandParameter="home"
                     Width="36" 
                     Padding="6,6" 
@@ -71,14 +71,19 @@
                     </TextBlock>
                 </DockPanel>
 
-
-                <Button Command="{Binding LoginCommand}" 
+                <Button Command="{Binding ByPassIntoBackend}" 
+                        Content="{materialDesign:PackIcon Kind=SmileyDevil}"
+                        Width="36"
+                        Margin="0,0,12,0"
+                        Padding="6,6"
+                        />
+                <Button Command="{Binding GoToLogin}" 
                         Content="{materialDesign:PackIcon Login}"
                         Width="36"
                         Margin="0,0,12,0"
                         Padding="6,6"
                         />
-                <Button Command="{Binding RegisterCommand}" 
+                <Button Command="{Binding GoToRegister}" 
                         Content="{materialDesign:PackIcon Register}" 
                         Width="36"
                         Margin="0,0,12,0"
