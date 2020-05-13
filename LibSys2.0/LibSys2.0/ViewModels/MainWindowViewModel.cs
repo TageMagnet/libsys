@@ -1,9 +1,4 @@
 ﻿using LibrarySystem.Views;
-using ReactiveUI;
-using System;
-using System.Collections.Generic;
-using System.Reactive;
-using System.Text;
 using System.Windows.Controls;
 
 namespace LibrarySystem.ViewModels
@@ -14,6 +9,11 @@ namespace LibrarySystem.ViewModels
         /// Current View/ViewModel
         /// </summary>
         public static UserControl CurrentView { get; set; }
+
+        /// <summary>
+        /// Currently logged in member
+        /// </summary>
+        public static Models.Member CurrentLoggedInMember { get; set; } = new Models.Member();
 
         public MainWindowViewModel()
         {
