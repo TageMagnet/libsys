@@ -13,9 +13,11 @@ namespace LibrarySystem.Models
         /// <summary>
         /// Temporary string for insert into SQL
         /// </summary>
-        public string role { get; set; } = "guest";
+        public string role { get; set; }
 
         public int ref_member_role_id { get; set; }
+
+
 
         public DateTime created_at { get; set; }
         public Int16 is_active { get; set; }

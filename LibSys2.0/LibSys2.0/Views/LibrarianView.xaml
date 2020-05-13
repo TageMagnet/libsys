@@ -855,7 +855,7 @@
                         </StackPanel>
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
-                                <ComboBox IsReadOnly="True" MinWidth="100" ItemsSource="{Binding AvailableRoles}" SelectedIndex="{Binding AvailableRoles, FallbackValue=2}" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <ComboBox IsReadOnly="True" MinWidth="100" ItemsSource="{Binding AvailableRoles}" SelectedIndex="3" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel>
@@ -960,7 +960,7 @@
                                                         <StackPanel Orientation="Horizontal" Margin="0 3 0 0">
                                                             <Label Content="Roll: " Width="70" FontSize="12" />
                                                             <ComboBox ItemsSource="{Binding Path=DataContext.AvailableRoles, ElementName=FindDataContext, UpdateSourceTrigger=PropertyChanged}"
-                                                                      SelectedIndex="{Binding Path=DataContext.SelectedRoleIndex, ElementName=FindDataContext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                      SelectedIndex="{Binding ref_member_role_id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                       Width="200" Margin="2" Padding="4 2 0 0">
                                                             </ComboBox>
                                                         </StackPanel>

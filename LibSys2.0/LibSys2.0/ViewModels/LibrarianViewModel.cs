@@ -71,7 +71,7 @@ namespace LibrarySystem.ViewModels
         public int SelectedRoleIndex { get; set; }
         public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
 
-        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "guest" };
+        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "user", "guest" };
 
         #endregion
 
@@ -263,8 +263,8 @@ namespace LibrarySystem.ViewModels
 
             //member.role = null;
 
-            SelectedRoleIndex = AvailableRoles.IndexOf(member.role);
-
+            //SelectedRoleIndex = AvailableRoles.IndexOf(member.role);
+            member.ref_member_role_id++;
             await memberRepo.Update(member);
             await LoadMembers();
 
@@ -503,6 +503,7 @@ namespace LibrarySystem.ViewModels
 
             foreach (Member member in await memberRepo.ReadAllActive())
             {
+                member.ref_member_role_id--;
                 Members.Add(member);
             }
         }
@@ -534,7 +535,8 @@ namespace LibrarySystem.ViewModels
             // Timestamp, since now is creation date
             NewMember.created_at = DateTime.Now;
             NewMember.is_active = 1;
-            //NewMember.SelectedIndex = AvailableRoles.IndexOf(NewMember.role);
+            NewMember.ref_member_role_id = AvailableRoles.IndexOf(NewMember.role);
+            NewMember.ref_member_role_id++;
             await memberRepo.Create(NewMember);
             await LoadMembers();
             await ClearMemberLines("members");
