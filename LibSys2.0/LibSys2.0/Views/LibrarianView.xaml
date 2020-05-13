@@ -193,9 +193,10 @@
                                         </TextBlock>
 
                                         <StackPanel Grid.Row="5" Grid.ColumnSpan="4">
-                                            <Button Content="Upload file" Command="{Binding FileUploadCommand}" CommandParameter="cover"/>
+                                            <Button Content="Upload Cover img" FontSize="8" Width="99" Command="{Binding FileUploadCommand}" CommandParameter="book_cover"/>
                                             <TextBox Text="{Binding SelectedBook.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                                            <Button Content="Upload file" Command="{Binding FileUploadCommand}" CommandParameter="url"/>
+
+                                            <Button Content="Upload file" FontSize="8" Width="99" Command="{Binding FileUploadCommand}" CommandParameter="book_url"/>
                                             <TextBox Text="{Binding SelectedBook.url, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                                         </StackPanel>
                                         

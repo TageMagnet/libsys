@@ -55,9 +55,7 @@
                                 <WrapPanel>
                                     <TextBlock Text="{Binding}">
                                         <TextBlock.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick"
-                                                Command="{Binding Path=DataContext.PasteToSearchBox, ElementName=SearchField}" 
-                                                          CommandParameter="{Binding}"></MouseBinding>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding Path=DataContext.PasteToSearchBox, ElementName=SearchField}" CommandParameter="{Binding}"></MouseBinding>
                                         </TextBlock.InputBindings>
                                     </TextBlock>
                                 </WrapPanel>
@@ -166,7 +164,7 @@
 
 
             <!--#region Visible Copy -->
-            <ListBox HorizontalContentAlignment="Center">
+            <!--<ListBox HorizontalContentAlignment="Center">
                 <Border Margin="0,0,0,0"
                         MinWidth="360"
                         Padding="6,4"
@@ -211,7 +209,7 @@
                         </TextBlock>
                     </Grid>
                 </Border>
-            </ListBox>
+            </ListBox>-->
             <!--#endregion-->
         </StackPanel>
     </Grid>

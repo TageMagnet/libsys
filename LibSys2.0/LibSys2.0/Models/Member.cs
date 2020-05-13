@@ -17,5 +17,6 @@ namespace LibrarySystem.Models
         //public List<string> roles { get; set; } = new List<string>();
         public DateTime created_at { get; set; }
         public Int16 is_active { get; set; }
+        public int ref_roles_id = 0;
     }
 }

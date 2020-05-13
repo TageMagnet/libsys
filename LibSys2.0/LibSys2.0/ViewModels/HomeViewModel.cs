@@ -99,7 +99,7 @@ namespace LibrarySystem.ViewModels
             var repo2 = new Library.eBookRepository();
             // Do the search queries
             var books = await repo.SearchQuery(SearchFieldText);
-            var eBooks = await repo2.SearchByColumn(SearchColumn, SearchFieldText, 3);
+            var eBooks = await repo2.SearchQuery(SearchFieldText);
             // The first 3
             int j = 0;
             int max = 3;
@@ -129,7 +129,7 @@ namespace LibrarySystem.ViewModels
             var repo2 = new Library.eBookRepository();
             // Do the search queries
             var books = await repo.SearchQuery(arg);
-            var eBooks = await repo2.SearchByColumn(SearchColumn, arg);
+            var eBooks = await repo2.SearchQuery(arg);
 
             // Loop and add them into the view
             foreach (Book book in books)
