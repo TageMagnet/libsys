@@ -629,13 +629,15 @@ namespace LibrarySystem.ViewModels
                         continue;
                     }
 
+                    LibrarySystem.Etc.JkbZoneFile parsedObj = new LibrarySystem.Etc.JkbZoneFile(JSONresponseObject.Value<string>("location"));
+
                     if (arg == "book_cover")
                     {
-                        SelectedBook.cover = JSONresponseObject.Value<string>("location");
+                        SelectedBook.cover = parsedObj.Location;
                     }
                     else if (arg == "book_url")
                     {
-                        SelectedBook.url = JSONresponseObject.Value<string>("location");
+                        SelectedBook.url = parsedObj.Location;
                     }
                     OnPropertyChanged("SelectedBook");
 

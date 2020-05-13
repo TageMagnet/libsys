@@ -31,16 +31,20 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--#endregion-->
 
         <!--SearchBox stuff-->
-        <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Vertical">
+        <StackPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Vertical">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 10, 0 ,0">
                 <StackPanel  Orientation="Horizontal" >
                     <!--<TextBlock Text="Sök: " FontSize="15" FontWeight="DemiBold" Margin="0 0 0 0"/>-->
@@ -81,7 +85,7 @@
 
 
         <!--SearchResults-->
-        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" >
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,0,0,60" HorizontalAlignment="Center" >
 
             <!--Counter-->
             <WrapPanel>
@@ -108,7 +112,8 @@
             <!--#endregion-->
 
             <!--#region Search Results -->
-            <ListBox x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults}">
+            <ScrollViewer>
+                <ListBox x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults}" ScrollViewer.CanContentScroll="True" MinHeight="300">
                 <ListBox.ItemTemplate>
                     <!--#region DataTemplate -->
                     <DataTemplate>
@@ -137,7 +142,7 @@
                                     <RowDefinition Height="1*"/>
                                 </Grid.RowDefinitions>
 
-                                <Image Grid.Column="0" Grid.RowSpan="3" MaxWidth="86" Margin="5,0" Source="https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg"/>
+                                <Image Grid.Column="0" Grid.RowSpan="3" MaxWidth="86" Margin="5,0" Source="{Binding cover, FallbackValue='https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg'}"/>
 
                                 <TextBlock Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" Text="{Binding title, FallbackValue='Harry Potter J.K Rowlings 1998'}" FontSize="18">
                                     <Run Text="{Binding Author.firstname}"/>
@@ -160,9 +165,8 @@
                 </ListBox.ItemTemplate>
                 
             </ListBox>
+            </ScrollViewer>
             <!--#endregion-->
-
-
             <!--#region Visible Copy -->
             <!--<ListBox HorizontalContentAlignment="Center">
                 <Border Margin="0,0,0,0"
@@ -211,6 +215,19 @@
                 </Border>
             </ListBox>-->
             <!--#endregion-->
+            
         </StackPanel>
+
+        <ListBox>
+            
+        </ListBox>
+        
+        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Content="1" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
+            <Button Content="2" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
+            <Button Content="3" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
+            <Button Content="4" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
+        </StackPanel>
+
     </Grid>
 </UserControl>
