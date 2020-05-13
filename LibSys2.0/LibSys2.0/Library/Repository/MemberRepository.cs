@@ -22,9 +22,50 @@ namespace Library
         {
             using (var connection = CreateConnection())
             {
-                return (await connection.QueryAsync<Member>($"SELECT * FROM {table} WHERE is_active = 1")).ToList();
+                try
+                {
+                    var query = string.Join(" ",
+                    "SELECT member_id,",
+                        "email,",
+                        "nickname,",
+                        "pwd,",
+                        "role_name as 'role',",
+                        "created_at,",
+                        "is_active,",
+                        "ref_member_role_id",
+                    "FROM members M INNER JOIN member_roles MR ",
+                    "ON M.ref_member_role_id = MR.member_role_id ",
+                    "WHERE M.is_active = 1");
+                        
+                    return (await connection.QueryAsync<Member>(query)).ToList();
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
             }
         }
         #endregion
+
+        public new async Task Update(Member member)
+        {
+            using (var connection = CreateConnection())
+            {
+                string query = string.Join(" ", new string[]{
+                    "UPDATE members SET",
+                    "`email` = @email,",
+                    "`nickname` = @nickname,",
+                    "`pwd` = @pwd,",
+                    "`role` = @role,",
+                    "`ref_member_role_id` = @ref_member_role_id,",
+                    "`is_active` = @is_active",
+                    "WHERE member_id = @member_id"
+                });
+
+                await connection.QueryAsync(query, member);
+                connection.Close();
+            }
+        }
     }
 }
