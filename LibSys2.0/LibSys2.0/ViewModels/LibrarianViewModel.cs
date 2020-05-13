@@ -68,9 +68,10 @@ namespace LibrarySystem.ViewModels
         public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
         /// <summary>Index storage when updating</summary>
         public int SelectedAuthorIndex { get; set; } = -1;
+        public int SelectedRoleIndex { get; set; }
         public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
 
-        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "Admin", "Bibliotekarie", "Besökare" };
+        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "guest" };
 
         #endregion
 
@@ -252,6 +253,18 @@ namespace LibrarySystem.ViewModels
         public async Task UpdateMemberCommandMethod(Member member)
         #region ...
         {
+
+            //if (SelectedRoleIndex >= 0)
+            //{
+            //    member.member_id = Members[SelectedRoleIndex].member_id;
+            //    // reset
+            //    SelectedRoleIndex = -1;
+            //}
+
+            //member.role = null;
+
+            SelectedRoleIndex = AvailableRoles.IndexOf(member.role);
+
             await memberRepo.Update(member);
             await LoadMembers();
 
@@ -521,6 +534,7 @@ namespace LibrarySystem.ViewModels
             // Timestamp, since now is creation date
             NewMember.created_at = DateTime.Now;
             NewMember.is_active = 1;
+            NewMember.SelectedIndex = AvailableRoles.IndexOf(NewMember.role);
             await memberRepo.Create(NewMember);
             await LoadMembers();
             await ClearMemberLines("members");
