@@ -20,8 +20,7 @@ namespace Library
         {
             using (var connection = CreateConnection())
             {
-                var result = await connection.QuerySingleAsync<Category>($"SELECT FROM {table} WHERE code = @category", new { category = cat });
-                return result;
+                return await connection.QuerySingleAsync<Category>($"SELECT * FROM {table} WHERE code = @category", new { category = cat });
             }
         }
     }

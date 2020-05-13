@@ -160,7 +160,7 @@ namespace LibrarySystem.ViewModels
                 return;
             }
             SelectedBook.ref_author_id = SelectedAuthor.author_id;
-            await GetCategory(InputCategory);
+            await GetBookCategory(InputCategory);
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
             await ClearBookLines("books");
@@ -194,12 +194,13 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till isbn!");
                 return;
             }
-            if (SelectedeBook.category == null)
+            if (InputCategory == null)
             {
                 MessageBox.Show("Lägg till kategori!");
                 return;
             }
             SelectedeBook.ref_author_id = SelectedAuthor.author_id;
+            await GeteBookCategory(InputCategory);
             await eBookRepo.Create(SelectedeBook);
             await LoadeBooks();
             await ClearBookLines("ebooks");
@@ -229,10 +230,20 @@ namespace LibrarySystem.ViewModels
             await LoadBooks();
         }
         #endregion
-        public async Task GetCategory(string category)
+        /// <summary>
+        /// Gets the books Category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public async Task GetBookCategory(string category)
         {
             BookCategory = await categoryRepo.GetCategory(category);
             SelectedBook.category = BookCategory.category;
+        }
+        public async Task GeteBookCategory(string category)
+        {
+            BookCategory = await categoryRepo.GetCategory(category);
+            SelectedeBook.category = BookCategory.category;
         }
         public async Task UpdateeBookCommandMethod(eBook ebook)
         #region ...
@@ -573,7 +584,7 @@ namespace LibrarySystem.ViewModels
                 SelectedBook.title = "";
                 SelectedBook.description = "";
                 SelectedBook.isbn = "";
-                SelectedBook.category = "";
+                InputCategory = "";
                 this.OnPropertyChanged(nameof(SelectedBook));
 
             }
@@ -584,7 +595,7 @@ namespace LibrarySystem.ViewModels
                 SelectedeBook.title = "";
                 SelectedeBook.description = "";
                 SelectedeBook.isbn = "";
-                SelectedeBook.category = "";
+                InputCategory = "";
                 this.OnPropertyChanged(nameof(SelectedeBook));
             }
         }
