@@ -48,6 +48,7 @@ namespace LibrarySystem.ViewModels
 
             }
         }
+        
 
         public Member NewMember { get; set; }
 
@@ -56,12 +57,20 @@ namespace LibrarySystem.ViewModels
         public EventRepository eventRepo = new EventRepository();
         public AuthorRepository authorRepo = new AuthorRepository();
         public MemberRepository memberRepo = new MemberRepository();
+        public CategoryRepository categoryRepo = new CategoryRepository();
         public Book SelectedBook { get; set; } = new Book();
         public eBook SelectedeBook { get; set; } = new eBook();
 
         public Author SelectedAuthor { get; set; } = new Author();
+
+        public Category BookCategory { get; set; } = new Category();
+
+
         public Member SelectedMember { get; set; } = new Member();
+
         public string ReasonToDelete { get; set; }
+        public string InputCategory { get; set; }
+
 
         public ObservableCollection<Book> Books { get; set; } = new ObservableCollection<Book>();
         public ObservableCollection<eBook> eBooks { get; set; } = new ObservableCollection<eBook>();
@@ -69,9 +78,10 @@ namespace LibrarySystem.ViewModels
         public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
         /// <summary>Index storage when updating</summary>
         public int SelectedAuthorIndex { get; set; } = -1;
+        public int SelectedRoleIndex { get; set; }
         public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
 
-        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "Admin", "Bibliotekarie", "Besökare" };
+        public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "user", "guest" };
 
         #endregion
 
@@ -150,12 +160,13 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till isbn!");
                 return;
             }
-            if (SelectedBook.category == null)
+            if (InputCategory == null)
             {
                 MessageBox.Show("Lägg till kategori!");
                 return;
             }
             SelectedBook.ref_author_id = SelectedAuthor.author_id;
+            await GetBookCategory(InputCategory);
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
             await ClearBookLines("books");
@@ -189,19 +200,20 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till isbn!");
                 return;
             }
-            if (SelectedeBook.category == null)
+            if (InputCategory == null)
             {
                 MessageBox.Show("Lägg till kategori!");
                 return;
             }
             SelectedeBook.ref_author_id = SelectedAuthor.author_id;
+            await GeteBookCategory(InputCategory);
             await eBookRepo.Create(SelectedeBook);
             await LoadeBooks();
             await ClearBookLines("ebooks");
         }
         #endregion
 
-
+  
         /// <summary>
         /// Updates a Book in DB
         /// </summary>
@@ -224,7 +236,21 @@ namespace LibrarySystem.ViewModels
             await LoadBooks();
         }
         #endregion
-
+        /// <summary>
+        /// Gets the books Category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public async Task GetBookCategory(string category)
+        {
+            BookCategory = await categoryRepo.GetCategory(category);
+            SelectedBook.category = BookCategory.category;
+        }
+        public async Task GeteBookCategory(string category)
+        {
+            BookCategory = await categoryRepo.GetCategory(category);
+            SelectedeBook.category = BookCategory.category;
+        }
         public async Task UpdateeBookCommandMethod(eBook ebook)
         #region ...
         {
@@ -257,6 +283,18 @@ namespace LibrarySystem.ViewModels
         public async Task UpdateMemberCommandMethod(Member member)
         #region ...
         {
+
+            //if (SelectedRoleIndex >= 0)
+            //{
+            //    member.member_id = Members[SelectedRoleIndex].member_id;
+            //    // reset
+            //    SelectedRoleIndex = -1;
+            //}
+
+            //member.role = null;
+
+            //SelectedRoleIndex = AvailableRoles.IndexOf(member.role);
+            member.ref_member_role_id++;
             await memberRepo.Update(member);
             await LoadMembers();
 
@@ -495,6 +533,7 @@ namespace LibrarySystem.ViewModels
 
             foreach (Member member in await memberRepo.ReadAllActive())
             {
+                member.ref_member_role_id--;
                 Members.Add(member);
             }
         }
@@ -526,6 +565,8 @@ namespace LibrarySystem.ViewModels
             // Timestamp, since now is creation date
             NewMember.created_at = DateTime.Now;
             NewMember.is_active = 1;
+            NewMember.ref_member_role_id = AvailableRoles.IndexOf(NewMember.role);
+            NewMember.ref_member_role_id++;
             await memberRepo.Create(NewMember);
             await LoadMembers();
             await ClearMemberLines("members");
@@ -564,7 +605,7 @@ namespace LibrarySystem.ViewModels
                 SelectedBook.title = "";
                 SelectedBook.description = "";
                 SelectedBook.isbn = "";
-                SelectedBook.category = "";
+                InputCategory = "";
                 this.OnPropertyChanged(nameof(SelectedBook));
 
             }
@@ -575,7 +616,7 @@ namespace LibrarySystem.ViewModels
                 SelectedeBook.title = "";
                 SelectedeBook.description = "";
                 SelectedeBook.isbn = "";
-                SelectedeBook.category = "";
+                InputCategory = "";
                 this.OnPropertyChanged(nameof(SelectedeBook));
             }
         }

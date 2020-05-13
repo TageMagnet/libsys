@@ -178,7 +178,7 @@
                                         </TextBlock>
 
                                         <!-- Category-->
-                                        <TextBox Text="{Binding SelectedBook.category, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5" Padding="2,0,0,0"/>
+                                        <TextBox Text="{Binding InputCategory, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -300,7 +300,7 @@
                                         </TextBlock>
 
                                         <!-- Category-->
-                                        <TextBox Text="{Binding SelectedeBook.category, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookcategory" Margin="5" Padding="2,0,0,0"/>
+                                        <TextBox Text="{Binding InputCategory, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookcategory" Margin="5" Padding="2,0,0,0"/>
                                         <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
@@ -865,7 +865,7 @@
                         </StackPanel>
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
-                                <ComboBox IsReadOnly="True" MinWidth="100" ItemsSource="{Binding AvailableRoles}" SelectedIndex="{Binding AvailableRoles, FallbackValue=2}" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <ComboBox IsReadOnly="True" MinWidth="100" ItemsSource="{Binding AvailableRoles}" SelectedIndex="3" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel>
@@ -957,23 +957,27 @@
                                                     <StackPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Height="0" x:Name="HiddenStuff" Orientation="Vertical">
                                                         <StackPanel Orientation="Horizontal">
                                                             <Label Content="Email: " Width="70" FontSize="12"/>
-                                                            <TextBox Text="{Binding email}" Width="200" Margin="2"/>
+                                                            <TextBox Text="{Binding email}" Width="200"  Margin="2" Padding="2 0 0 0" />
                                                         </StackPanel>
                                                         <StackPanel Orientation="Horizontal">
                                                             <Label Content="Smeknamn: " Width="70" FontSize="12"/>
-                                                            <TextBox Text="{Binding nickname}" Width="200" Margin="2"/>
+                                                            <TextBox Text="{Binding nickname}" Width="200" Margin="2" Padding="2 0 0 0" />
                                                         </StackPanel>
                                                         <StackPanel Orientation="Horizontal">
                                                             <Label Content="Lösenord: " Width="70" FontSize="12"/>
-                                                            <TextBox Text="{Binding pwd}"  Width="200" Margin="2"/>
+                                                            <TextBox Text="{Binding pwd}"  Width="200" Margin="2" Padding="2 0 0 0"/>
                                                         </StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Label Content="Roll: " Width="70" FontSize="12"/>
-                                                            <TextBox Text="{Binding role}" Width="200" Margin="2"/>
+                                                        <StackPanel Orientation="Horizontal" Margin="0 3 0 0">
+                                                            <Label Content="Roll: " Width="70" FontSize="12" />
+                                                            <ComboBox ItemsSource="{Binding Path=DataContext.AvailableRoles, ElementName=FindDataContext, UpdateSourceTrigger=PropertyChanged}"
+                                                                      SelectedIndex="{Binding ref_member_role_id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                      Width="200" Margin="2" Padding="4 2 0 0">
+                                                            </ComboBox>
                                                         </StackPanel>
+                                                        
                                                         <StackPanel Orientation="Horizontal">
                                                             <Label Content="Skapad: " Width="70" FontSize="12"/>
-                                                            <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="200" Margin="2"/>
+                                                            <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="200" Margin="2" Padding="2 0 0 0" />
                                                         </StackPanel>
 
                                                         <StackPanel Orientation="Horizontal" Margin="5">
