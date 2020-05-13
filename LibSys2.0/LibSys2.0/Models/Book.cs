@@ -18,10 +18,11 @@ namespace LibrarySystem.Models
         /// <summary>
         /// Current condition of physical; book from 0 to 255
         /// </summary>
-        public int book_state { get; set; } = 100;
+        public short book_state { get; set; } = 100;
 
         public Author Author { get; set; }
 
         public string category { get; set; }
+        public string cover { get; set; }
     }
 }

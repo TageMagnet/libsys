@@ -8,16 +8,35 @@
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <Style x:Key="CustomButton" TargetType="Button">
+            <Setter Property="Padding" Value="4,4"/>
+            <Setter Property="Margin" Value="0"/>
 
+            <Setter Property="FontSize" Value="18"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Background" Value="#1FFFFFFF"/>
+                    <Setter Property="Foreground" Value="#42FFFFFF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
 
         <!--#region Grid Definitions-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -25,7 +44,7 @@
         <!--#endregion-->
 
         <!--SearchBox stuff-->
-        <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Vertical">
+        <StackPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Vertical">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 10, 0 ,0">
                 <StackPanel  Orientation="Horizontal" >
                     <!--<TextBlock Text="Sök: " FontSize="15" FontWeight="DemiBold" Margin="0 0 0 0"/>-->
@@ -40,9 +59,7 @@
                                 <WrapPanel>
                                     <TextBlock Text="{Binding}">
                                         <TextBlock.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick"
-                                                Command="{Binding Path=DataContext.PasteToSearchBox, ElementName=SearchField}" 
-                                                          CommandParameter="{Binding}"></MouseBinding>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding Path=DataContext.PasteToSearchBox, ElementName=SearchField}" CommandParameter="{Binding}"></MouseBinding>
                                         </TextBlock.InputBindings>
                                     </TextBlock>
                                 </WrapPanel>
@@ -67,9 +84,8 @@
         </StackPanel>
 
 
-
         <!--SearchResults-->
-        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" >
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,0,0,60" HorizontalAlignment="Center" >
 
             <!--Counter-->
             <WrapPanel>
@@ -77,8 +93,9 @@
                 <TextBlock Text="{Binding SearchResultCount, FallbackValue='[0]'}" FontSize="10"/>
                 <TextBlock Text=" results" FontSize="10"/>
             </WrapPanel>
-            <!--Item list-->
-            <ListView  ItemsSource="{Binding SearchResults}" >
+            
+            <!--#region Old -->
+            <!--<ListView  ItemsSource="{Binding SearchResults}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
@@ -91,32 +108,125 @@
                         </WrapPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
+            </ListView>-->
+            <!--#endregion-->
 
+            <!--#region Search Results -->
+            <ScrollViewer>
+                <ListBox x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults}" ScrollViewer.CanContentScroll="True" MinHeight="300">
+                <ListBox.ItemTemplate>
+                    <!--#region DataTemplate -->
+                    <DataTemplate>
+                        <Border Margin="0,0,0,0"
+                        MinWidth="560"
+                        Padding="6,4"
+                        BorderBrush="Black"
+                        BorderThickness="0.15"
+                        CornerRadius="2"
+                        Background="{StaticResource WhiteBrush}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="1" BlurRadius="2" Opacity="0.35"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <Image Grid.Column="0" Grid.RowSpan="3" MaxWidth="86" Margin="5,0" Source="{Binding cover, FallbackValue='https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg'}"/>
+
+                                <TextBlock Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" Text="{Binding title, FallbackValue='Harry Potter J.K Rowlings 1998'}" FontSize="18">
+                                    <Run Text="{Binding Author.firstname}"/>
+                                    <Run Text="{Binding Author.surname}"/>
+                                </TextBlock>
+
+                                <Button Grid.Column="1" Grid.Row="2"  Content="Låna" Margin="0,0,0,0"/>
+
+                                <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
+                                    <Span FontSize="12" FontWeight="Light">Ebook/Book</Span>
+                                    <Span FontSize="12" FontWeight="Black">Ulånade</Span>
+                                    <Span FontSize="12" FontWeight="Bold">0</Span>
+                                    <Span FontSize="12" FontWeight="Thin">Tillgängliga</Span>
+                                    <Span FontSize="12" FontWeight="Regular">0</Span>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                    <!--#endregion-->
+                </ListBox.ItemTemplate>
+                
+            </ListBox>
+            </ScrollViewer>
+            <!--#endregion-->
+            <!--#region Visible Copy -->
+            <!--<ListBox HorizontalContentAlignment="Center">
+                <Border Margin="0,0,0,0"
+                        MinWidth="360"
+                        Padding="6,4"
+                        BorderBrush="Black"
+                        BorderThickness="0.15"
+                        CornerRadius="2"
+                        Background="{StaticResource WhiteBrush}">
+                    <Border.Effect>
+                        <DropShadowEffect 
+                            ShadowDepth="1" 
+                            BlurRadius="2"
+                            Opacity="0.35"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <Image Grid.Column="0" Grid.RowSpan="3" MaxWidth="36" Margin="5,0"
+                            Source="https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg"/>
+                        
+                        <TextBlock Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" Text="{Binding title, FallbackValue='Harry Potter J.K Rowlings 1998'}" FontSize="16"/>
+
+                        <Button Grid.Column="1" Grid.Row="2" Style="{StaticResource CustomButton}" Content="Låna" Margin="0,0,0,0"/>
+
+                        <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
+                            <Span FontSize="10" FontWeight="Light">Ebook/Book</Span>
+                            <Span FontSize="10" FontWeight="Black">Ulånade</Span>
+                            <Span FontSize="10" FontWeight="Bold">0</Span>
+                            <Span FontSize="10" FontWeight="Thin">Tillgängliga</Span>
+                            <Span FontSize="10" FontWeight="Regular">0</Span>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+            </ListBox>-->
+            <!--#endregion-->
+            
         </StackPanel>
 
-
-
-        <StackPanel Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20" Grid.RowSpan="2">
-            <Button Command="{Binding LoginCommand}"  Width="100" Height="60" Margin="5" Foreground="#F9AA33">
-                <Button.Content>
-                    <StackPanel Orientation="Vertical">
-                        <materialDesign:PackIcon Kind="Login" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                        <TextBlock Text="Logga in" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-            <Button Command="{Binding RegisterCommand}" Width="100" Height="60" Margin="5" Foreground="#F9AA33">
-                <Button.Content>
-                    <StackPanel Orientation="Vertical">
-                        <materialDesign:PackIcon Kind="Register" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                        <TextBlock Text="Registrera" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-            <!--För att visa updatenotify fungerar, kan tas bort-->
-            <!--<Button Content="Test" Command="{Binding TestChange}"/>
-            <TextBlock Text="{Binding Text, FallbackValue=asdas}"/>-->
+        <ListBox>
+            
+        </ListBox>
+        
+        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Content="1" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
+            <Button Content="2" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
+            <Button Content="3" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
+            <Button Content="4" Margin="5,0" Background="Transparent" FontWeight="Bold"/>
         </StackPanel>
 
     </Grid>

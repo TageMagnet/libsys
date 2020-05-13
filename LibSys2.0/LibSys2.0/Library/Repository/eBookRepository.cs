@@ -84,5 +84,44 @@ namespace Library
                 connection.Close();
             }
         }
+
+        /// <summary>
+        /// ...
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
+        public async Task<List<eBook>> SearchQuery(string searchString)
+        {
+            List<eBook> ebooks = new List<eBook>();
+            List<Author> authors = new List<Author>();
+            using (var connection = CreateConnection())
+            {
+                //Add %-wildcard operator to the end
+                searchString += '%';
+                string query = string.Join(" ", new string[] {
+                    "SELECT * FROM ebooks JOIN authors A ON ref_author_id = A.author_id",
+                    "WHERE title LIKE @Q",
+                    "OR A.firstname LIKE @Q",
+                    "OR A.surname LIKE @Q",
+                    "OR A.nickname LIKE @Q"
+                });
+
+                //
+                ebooks = (await connection.QueryAsync<eBook>(query, new { Q = searchString })).ToList();
+
+                // run the query again but collect authors this time
+                authors = (await connection.QueryAsync<Author>(query, new { Q = searchString })).ToList();
+
+                foreach (eBook ebook in ebooks)
+                {
+                    // Insert the Author object into books
+                    Author a = authors.First(x => x.author_id == ebook.ref_author_id);
+                    ebook.Author = a;
+                }
+
+                connection.Close();
+                return ebooks;
+            }
+        }
     }
 }

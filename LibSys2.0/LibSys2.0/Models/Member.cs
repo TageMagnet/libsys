@@ -21,6 +21,6 @@ namespace LibrarySystem.Models
 
         public DateTime created_at { get; set; }
         public Int16 is_active { get; set; }
-        
+
     }
 }

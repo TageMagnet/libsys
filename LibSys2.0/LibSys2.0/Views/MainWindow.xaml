@@ -6,57 +6,31 @@
         xmlns:local="clr-namespace:LibrarySystem.Views"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto" 
         Height="768" 
         Width="1080" 
         WindowStartupLocation="CenterScreen"
         Visibility="Visible"
-        MouseLeftButtonDown="Window_MouseDown">
+        MouseLeftButtonDown="Window_MouseDown"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        >
+    
+        <!--Tog bort dem här design-grejerna så länge, är osäker på vad de exakt påverkar-->
+    
+        <!--TextElement.Foreground="{StaticResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"-->
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <!--
-            In my åpinion, this header region could be its own viewmodel
-        -->
-        <!--#region Header -->
-        <Grid Grid.Row="0" Background="#4A6572">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <!--Go Home Button-->
-            <Button Content="{materialDesign:PackIcon Kind=Home,Size=30}" Command="{Binding GoHomeCommand}" CommandParameter="home" Width="60" Height="60" HorizontalAlignment="Left" Margin="20,0" Foreground="#F9AA33"/>
-            <!--Image-->
-            <Image Grid.Column="1" Source="/Assets/LibSysWhite.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Grid>
-        <!--#endregion-->
-
-        <!--#region Ta Bort sen-->
-        <!--<Button Grid.Row="1" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
-            <Button.Content>
-                <StackPanel Orientation="Vertical">
-                    <materialDesign:PackIcon Kind="HeadAche" Width="40" Height="40"  HorizontalAlignment="Center" Foreground="#F9AA33"/>
-                    <TextBlock Text="HeadAche" />
-                </StackPanel>
-            </Button.Content>
-        </Button>
-        <StackPanel Grid.Row="1" VerticalAlignment="Top" Orientation="Horizontal" Margin=" 25" HorizontalAlignment="Center">
-            <TextBlock Text="Bara ett exempel på textbox: " />
-            <TextBox  Width="250" Height="20" />
-        </StackPanel>
-        <ProgressBar Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" Height="20"
-                   Value="50" Margin="50" Foreground="Orange"/>
-        <materialDesign:RatingBar Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Value="50" Width="250" Height="30" Foreground="Orange"/>-->
-        <!--#endregion-->
-
+        <local:HeaderView/>
         <UserControl Grid.Row="1" Content="{Binding CurrentView}"/>
     </Grid>
 </Window>

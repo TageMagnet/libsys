@@ -12,14 +12,6 @@ namespace LibrarySystem.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         /// <summary>
-        /// Kopplad till "Login"-<see cref="System.Windows.Controls.Button"/>
-        /// </summary>
-        public ReactiveCommand<Unit, Unit> LoginCommand { get; set; }
-        /// <summary>
-        /// Register -//-
-        /// </summary>
-        public ReactiveCommand<Unit, Unit> RegisterCommand { get; set; }
-        /// <summary>
         /// Demo för propertychanged, kan tas bort
         /// </summary>
         public ReactiveCommand<Unit, Unit> TestChange { get; set; }
@@ -41,28 +33,21 @@ namespace LibrarySystem.ViewModels
         public ObservableCollection<IArticle> SearchResults { get; set; } = new ObservableCollection<IArticle>();
         // Defaulted to 'title'
         private string searchColumn { get; set; } = "title";
-        public string SearchColumn
-        {
-            get 
-            {
-                return searchColumn;
-            }
-            set
-            {
-                searchColumn = value;
-                OnPropertyChanged("SearchColumn");
-            }
-        }
+        /// <summary>
+        /// Todo; do something better
+        /// </summary>
+        public string SearchColumn { get => searchColumn; set { searchColumn = value; OnPropertyChanged("SearchColumn"); } }
         /// <summary>
         /// Simple counter return for list
         /// </summary>
         public int SearchResultCount { get => SearchResults.Count; }
         // Private holder
-        private string  searchFieldText { get; set; }
+        private string searchFieldText { get; set; }
         /// <summary>
         /// x:Name SearchField Text
         /// </summary>
-        public string SearchFieldText { 
+        public string SearchFieldText
+        {
             get => searchFieldText;
             set
             {
@@ -85,13 +70,6 @@ namespace LibrarySystem.ViewModels
 
         public HomeViewModel()
         {
-            LoginCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("librarian"));
-            RegisterCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("register"));
-            TestChange = ReactiveCommand.Create(() =>
-            {
-                Text = "I WAS UPDATED";
-                OnPropertyChanged("Text");
-            });
             SearchCommand = ReactiveCommand.Create((string value) => SearchCommandAction(value));
             SetSearchColumn = ReactiveCommand.Create((string value) =>
             {
@@ -101,7 +79,7 @@ namespace LibrarySystem.ViewModels
             {
                 SearchFieldText = value;
                 SearchCommandAction(SearchFieldText);
-                //this.OnPropertyChanged(nameof(value));
+                AutoCompleteList.Clear();
             });
         }
 
@@ -120,8 +98,8 @@ namespace LibrarySystem.ViewModels
             var repo = new Library.BookRepository();
             var repo2 = new Library.eBookRepository();
             // Do the search queries
-            var books = await repo.SearchByColumn(SearchColumn, SearchFieldText, 3);
-            var eBooks = await repo2.SearchByColumn(SearchColumn, SearchFieldText, 3);
+            var books = await repo.SearchQuery(SearchFieldText);
+            var eBooks = await repo2.SearchQuery(SearchFieldText);
             // The first 3
             int j = 0;
             int max = 3;
@@ -150,8 +128,8 @@ namespace LibrarySystem.ViewModels
             var repo = new Library.BookRepository();
             var repo2 = new Library.eBookRepository();
             // Do the search queries
-            var books = await repo.SearchByColumn(SearchColumn, arg);
-            var eBooks = await repo2.SearchByColumn(SearchColumn, arg);
+            var books = await repo.SearchQuery(arg);
+            var eBooks = await repo2.SearchQuery(arg);
 
             // Loop and add them into the view
             foreach (Book book in books)

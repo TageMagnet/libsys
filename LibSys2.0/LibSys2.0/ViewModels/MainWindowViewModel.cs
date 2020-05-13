@@ -15,16 +15,9 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public static UserControl CurrentView { get; set; }
 
-        /// <summary>
-        /// ...
-        /// </summary>
-        public ReactiveCommand<string, Unit> GoHomeCommand { get; set; }
-
         public MainWindowViewModel()
         {
             CurrentView = new HomeView();
-            //this.RaisePropertyChanged(nameof(CurrentView));
-            GoHomeCommand = ReactiveCommand.Create((string vmName) => MainWindowViewModel.ChangeView(vmName));
         }
 
         /// <summary>
