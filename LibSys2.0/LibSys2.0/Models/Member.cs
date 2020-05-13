@@ -15,8 +15,10 @@ namespace LibrarySystem.Models
         /// </summary>
         public string role { get; set; } = "guest";
 
-        public int SelectedIndex { get; set; }
+        public int ref_member_role_id { get; set; }
+
         public DateTime created_at { get; set; }
         public Int16 is_active { get; set; }
+        
     }
 }

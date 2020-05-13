@@ -22,7 +22,16 @@ namespace Library
         {
             using (var connection = CreateConnection())
             {
-                return (await connection.QueryAsync<Member>($"SELECT * FROM {table} WHERE is_active = 1")).ToList();
+                try
+                {
+                    List<Member> member = (await connection.QueryAsync<Member>($"SELECT member_id, email, nickname, pwd, role_name as 'role', created_at, is_active, ref_member_role_id FROM members M INNER JOIN member_roles MR ON M.ref_member_role_id = MR.member_role_id WHERE M.is_active = 1")).ToList();
+                    return member;
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
             }
         }
         #endregion

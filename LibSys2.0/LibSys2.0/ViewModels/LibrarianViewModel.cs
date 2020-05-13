@@ -534,7 +534,7 @@ namespace LibrarySystem.ViewModels
             // Timestamp, since now is creation date
             NewMember.created_at = DateTime.Now;
             NewMember.is_active = 1;
-            NewMember.SelectedIndex = AvailableRoles.IndexOf(NewMember.role);
+            //NewMember.SelectedIndex = AvailableRoles.IndexOf(NewMember.role);
             await memberRepo.Create(NewMember);
             await LoadMembers();
             await ClearMemberLines("members");
