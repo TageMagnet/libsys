@@ -67,12 +67,12 @@ namespace LibrarySystem.ViewModels
                 return;
             }
 
-            NewMember.ref_member_role_id = 2;
+            NewMember.ref_member_role_id = 3;
             NewMember.created_at = DateTime.Now;
             NewMember.is_active = 1;
 
-            Mail mail = new Mail();
-            mail.SendTo(NewMember.email);
+            //Mail mail = new Mail();
+            //mail.SendTo(NewMember.email);
             MessageBox.Show("Välkommen! Du har fått en bekräftelse till din email.");
             MainWindowViewModel.ChangeView("home");
 
