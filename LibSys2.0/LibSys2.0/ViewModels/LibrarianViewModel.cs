@@ -2,6 +2,7 @@
 using LibrarySystem.Models;
 using Org.BouncyCastle.Bcpg;
 using ReactiveUI;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -84,6 +85,22 @@ namespace LibrarySystem.ViewModels
 
         public ObservableCollection<string> AvailableRoles { get; set; } = new ObservableCollection<string>() { "admin", "librarian", "user", "guest" };
 
+        private bool activeBookFilter = false;
+
+        public bool ActiveBookFilter
+        {
+            get { return activeBookFilter; }
+            set { activeBookFilter = value;
+                if (value == true)
+                    ActiveFilter = 0;
+                else
+                    ActiveFilter = 1;
+
+                LoadAllBooks();
+            }
+        }
+
+        public int ActiveFilter { get; set; } = 1;
         #endregion
 
         #region Commands
@@ -247,8 +264,8 @@ namespace LibrarySystem.ViewModels
         /// <param name="category"></param>
         /// <returns></returns>
         public async Task GetBookCategory(string category)
+        #region ...
         {
-            #region
             // Check if category is correct length (1 or 2)
             if (category.Length > 2)
             {
@@ -275,8 +292,9 @@ namespace LibrarySystem.ViewModels
             }
             else
             SelectedBook.category = BookCategory.category;
-            #endregion
+            
         }
+        #endregion
         /// <summary>
         /// Converts first to upper and last to lower
         /// </summary>
@@ -511,6 +529,11 @@ namespace LibrarySystem.ViewModels
         }
         #endregion
 
+        public async void LoadAllBooks()
+        {
+            await LoadBooks();
+            await LoadeBooks();
+        }
 
         /// <summary>
         /// Reloads books from DB
@@ -519,8 +542,9 @@ namespace LibrarySystem.ViewModels
         public async Task LoadBooks()
         #region ...
         {
+            
             Books.Clear();
-            foreach (var book in await bookRepo.ReadAllActiveBooks())
+            foreach (var book in await bookRepo.ReadAllBooksWithStatus(ActiveFilter))
             {
                 Books.Add(book);
             }
@@ -537,7 +561,7 @@ namespace LibrarySystem.ViewModels
         #region ...
         {
             eBooks.Clear();
-            foreach (var ebook in await eBookRepo.ReadAllActiveeBooks())
+            foreach (var ebook in await eBookRepo.ReadAlleBooksWithStatus(ActiveFilter))
             {
                 eBooks.Add(ebook);
             }

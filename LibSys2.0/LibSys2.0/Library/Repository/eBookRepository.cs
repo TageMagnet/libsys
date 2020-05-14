@@ -33,7 +33,7 @@ namespace Library
             return new List<eBook>();
         }
 
-        public async Task<List<eBook>> ReadAllActiveeBooks()
+        public async Task<List<eBook>> ReadAlleBooksWithStatus(int status)
         {
             using (var connection = CreateConnection())
             {
@@ -44,11 +44,11 @@ namespace Library
                 var query = string.Join(" ", new string[]{
                     "SELECT * FROM `ebooks`",
                     "LEFT JOIN authors ON ebooks.ref_author_id = authors.author_id",
-                    "WHERE is_active = 1"
+                    "WHERE is_active = @status"
                 });
 
-                ebooks = (await connection.QueryAsync<eBook>(query)).ToList();
-                authors = (await connection.QueryAsync<Author>(query)).ToList();
+                ebooks = (await connection.QueryAsync<eBook>(query, new { status = status })).ToList();
+                authors = (await connection.QueryAsync<Author>(query, new { status = status })).ToList();
 
                 foreach (eBook ebook in ebooks)
                 {
