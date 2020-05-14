@@ -1,4 +1,5 @@
-﻿using LibrarySystem.Views;
+﻿using System;
+using LibrarySystem.Views;
 using System.Windows.Controls;
 
 namespace LibrarySystem.ViewModels
@@ -18,6 +19,9 @@ namespace LibrarySystem.ViewModels
         public MainWindowViewModel()
         {
             CurrentView = new HomeView();
+
+            var m = new LibrarySystem.Etc.Mail();
+            m.SendActivationEmail("thomascarleberg@gmail.com");
         }
 
         /// <summary>

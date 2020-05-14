@@ -16,21 +16,66 @@ namespace LibrarySystem.Etc
         private MailMessage Message = new MailMessage();
         private SmtpClient Client = new SmtpClient("ns12.inleed.net", 587);
 
+        private string emailBody = "no body set";
+
+        /// <summary>
+        /// Constructor just to initialize some private variables
+        /// </summary>
         public Mail(){}
 
         /// <summary>
         /// Send an email to specified address
         /// </summary>
         /// <param name="email"></param>
-        public void SendTo(string email)
+        public void SendTestEmail(string email)
         {
             Message.From = new MailAddress(username);
             Message.To.Add(new MailAddress(email));
-
             Message.Subject = "Välkommen till libsys";
             Message.IsBodyHtml = true;
-            Message.Body = $"<table><tbody><tr><td>{"Klicka på länken här [] för att registera dig "}</td></tr></tbody></table>";
+            Message.Body = $"<table><tbody><tr><td>{" test email "}</td></tr></tbody></table>";
+            Send();
+        }
 
+        /// <summary>
+        /// Send activation email to adress https://api.jkb.zone/activate/:activation_code to verify new users' email
+        /// </summary>
+        /// <param name="email"></param>
+        public void SendActivationEmail(string email)
+        {
+            // Hämta .html-filen från inuti projektet
+            string imagePath = "pack://application:,,,/Assets/email-template-register.html";
+            var fileLines = new System.Collections.Generic.List<string>();
+            string htmlString = "";
+            string line;
+
+            // Some stream stuff since we are not 100% of a common file path
+            System.Windows.Resources.StreamResourceInfo info = System.Windows.Application.GetResourceStream(new Uri(imagePath));
+            System.IO.StreamReader sr = new System.IO.StreamReader(info.Stream);
+            
+            // Parse into string
+            while ((line = sr.ReadLine()) != null)
+                fileLines.Add(line);
+            sr.Close();
+            fileLines.ForEach(a => htmlString += a);
+
+            // Replacea adressen med korrekt aktiveringskod
+            htmlString = htmlString.Replace("[[link]]", "https://api.jkb.zone/activate/asdfghjklqwerty");
+
+            Message.From = new MailAddress(username);
+            Message.To.Add(new MailAddress(email));
+            Message.Subject = "Välkommen till libsys";
+            Message.IsBodyHtml = true;
+            // Shove in the HTML for a pretty looking email
+            Message.Body = htmlString;
+            Send();
+        }
+
+        /// <summary>
+        /// Private, with information from class properties
+        /// </summary>
+        private void Send()
+        {
             Client.EnableSsl = true;
             Client.UseDefaultCredentials = false;
             Client.Credentials = new NetworkCredential(username, password);

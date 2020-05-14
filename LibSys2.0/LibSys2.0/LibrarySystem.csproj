@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\email-template-register.html" />
     <None Remove="Assets\LibSysWhite.png" />
   </ItemGroup>
 
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\email-template-register.html" />
     <Resource Include="Assets\LibSysWhite.png" />
   </ItemGroup>
 
