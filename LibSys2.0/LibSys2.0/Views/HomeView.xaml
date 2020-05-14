@@ -70,7 +70,7 @@
             </StackPanel>
 
 
-            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top">
+            <!--<StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top">
                 <TextBlock Text="{Binding SearchColumn,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='[SearchColumn]'}" FontSize="8" Padding="0"/>
                 <materialDesign:Chip Content="title" FontSize="8" Padding="0" Command="{Binding SetSearchColumn}" CommandParameter="title"></materialDesign:Chip>
                 <materialDesign:Chip FontSize="8" Padding="0">
@@ -80,7 +80,7 @@
                 </materialDesign:Chip>
                 <materialDesign:Chip Content="isbn" FontSize="8" Padding="0" Command="{Binding SetSearchColumn}" CommandParameter="isbn"/>
                 <materialDesign:Chip Content="year" FontSize="8" Padding="0" Command="{Binding SetSearchColumn}" CommandParameter="year"/>
-            </StackPanel>
+            </StackPanel>-->
         </StackPanel>
 
 
