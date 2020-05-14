@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -167,6 +168,10 @@ namespace LibrarySystem.ViewModels
             }
             SelectedBook.ref_author_id = SelectedAuthor.author_id;
             await GetBookCategory(InputCategory);
+            if (SelectedBook.category == null)
+            {
+                return;
+            }
             await bookRepo.Create(SelectedBook);
             await LoadBooks();
             await ClearBookLines("books");
@@ -243,8 +248,52 @@ namespace LibrarySystem.ViewModels
         /// <returns></returns>
         public async Task GetBookCategory(string category)
         {
-            BookCategory = await categoryRepo.GetCategory(category);
+            #region
+            // Check if category is correct length (1 or 2)
+            if (category.Length > 2)
+            {
+                MessageBox.Show("Max två tecken i Kategori");
+                InputCategory = "";
+                return;
+            }
+
+            // Check if valid A-Z combination input
+            if (!new Regex(@"^[A-Za-z]{1,2}$").Match(category).Success)
+            {
+                MessageBox.Show("Endast 1 eller 2 bokstäver för kategori");
+                InputCategory = "";
+                return;
+            }
+
+            BookCategory = await categoryRepo.GetCategory(Converter(category));
+            // if GetCategory returns null return error
+            if(BookCategory == null )
+            {
+                MessageBox.Show("Felaktig inmatning i Kategori");
+                InputCategory = "";
+                return;
+            }
+            else
             SelectedBook.category = BookCategory.category;
+            #endregion
+        }
+        /// <summary>
+        /// Converts first to upper and last to lower
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public string Converter(string category)
+        {
+            string first, last, cat;
+            first = category.First().ToString();
+            if (category.Length > 1)
+            {
+               last = category.Last().ToString();
+               return cat = first.ToUpper() + last.ToLower();
+            }
+            else
+               return cat = first.ToUpper();
+            
         }
         public async Task GeteBookCategory(string category)
         {
