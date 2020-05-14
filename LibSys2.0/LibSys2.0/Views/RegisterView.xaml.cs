@@ -15,14 +15,14 @@ using System.Windows.Shapes;
 namespace LibrarySystem.Views
 {
     /// <summary>
-    /// Interaction logic for AdminView.xaml
+    /// Interaction logic for RegisterView.xaml
     /// </summary>
-    public partial class AdminView : UserControl
+    public partial class RegisterView : UserControl
     {
-        public AdminView()
+        public RegisterView()
         {
+            this.DataContext = new RegisterViewModel();
             InitializeComponent();
-            this.DataContext = new AdminViewModel();
         }
     }
 }
