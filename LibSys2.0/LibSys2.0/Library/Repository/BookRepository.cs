@@ -30,7 +30,7 @@ namespace Library
             }
         }
 
-        public async Task<List<Book>> ReadAllActiveBooks()
+        public async Task<List<Book>> ReadAllBooksWithStatus(int status)
         {
             using (var connection = CreateConnection())
             {
@@ -41,11 +41,11 @@ namespace Library
                 var query = string.Join(" ", new string[]{
                     "SELECT * FROM `books`",
                     "LEFT JOIN authors ON books.ref_author_id = authors.author_id",
-                    "WHERE is_active = 1"
+                    "WHERE is_active = @status"
                 });
 
-                books = (await connection.QueryAsync<Book>(query)).ToList();
-                authors = (await connection.QueryAsync<Author>(query)).ToList();
+                books = (await connection.QueryAsync<Book>(query, new { status = status })).ToList();
+                authors = (await connection.QueryAsync<Author>(query, new { status = status })).ToList();
 
                 foreach (Book book in books)
                 {

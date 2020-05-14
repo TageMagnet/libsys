@@ -333,6 +333,11 @@
                 <ScrollViewer x:Name="FindDataContext" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
                     <Viewbox>
                         <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Inaktiva Böcker"/>
+                                <CheckBox IsChecked="{Binding ActiveBookFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            
                             <!--#region Books-->
                             <ItemsControl x:Name="BookControl" ItemsSource="{Binding Books, Mode=TwoWay}">
                                 <ItemsControl.ItemTemplate>
