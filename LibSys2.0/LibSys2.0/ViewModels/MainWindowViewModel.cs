@@ -19,9 +19,6 @@ namespace LibrarySystem.ViewModels
         public MainWindowViewModel()
         {
             CurrentView = new HomeView();
-
-            var m = new LibrarySystem.Etc.Mail();
-            m.SendActivationEmail("thomascarleberg@gmail.com");
         }
 
         /// <summary>
