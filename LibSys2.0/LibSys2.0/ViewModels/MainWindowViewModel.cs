@@ -35,13 +35,16 @@ namespace LibrarySystem.ViewModels
                     CurrentView.Content = new LoginView();
                     break;
                 case "admin":
-                    CurrentView.Content = new AdminView();
+                    CurrentView.Content = new LibrarianView();
                     break;
                 case "librarian":
                     CurrentView.Content = new LibrarianView();
                     break;
                 case "customer":
                     CurrentView.Content = new CustomerView();
+                    break;
+                case "register":
+                    CurrentView.Content = new RegisterView();
                     break;
                 default:
                     break;
