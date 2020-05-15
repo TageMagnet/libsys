@@ -8,7 +8,7 @@ namespace LibrarySystem.Models
     {
         public int book_id { get; set; }
         public int ref_author_id { get; set; }
-        public int year { get; set; }
+        public int year { get; set; } = 0;
         public string isbn { get; set; }
         public string title { get; set; }
         public string description { get; set; }
@@ -23,8 +23,8 @@ namespace LibrarySystem.Models
         public Author Author { get; set; }
 
         public string category { get; set; }
-        public string cover { get; set; }
+        public string cover { get; set; } = null;
 
-        public int is_active { get; set; }
+        public int is_active { get; set; } = 1;
     }
 }
