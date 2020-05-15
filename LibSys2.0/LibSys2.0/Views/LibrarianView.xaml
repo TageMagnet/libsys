@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:LibrarySystem.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:LibrarySystem.Converters"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -14,7 +15,7 @@
              TextOptions.TextRenderingMode="Auto">
 
     <UserControl.Resources>
-
+        <converters:IntToEmptyConverter x:Key="IntConvert"/>
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="Foreground" Value="#F9AA33"/>
         </Style>
@@ -108,6 +109,7 @@
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <!--#endregion -->
 
@@ -124,7 +126,7 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
-                                        <!--Text="{Binding SelectedBook.author, Mode=TwoWay}"-->
+                                        
                                         <!--Author-->
                                         <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Authors}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
                                                   SelectedValue="{Binding SelectedAuthor, Mode=TwoWay}">
@@ -161,10 +163,23 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
-
+                                        <!--Year-->
+                                        <TextBox Text="{Binding SelectedBook.year, Mode=TwoWay,Converter={StaticResource IntConvert}}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookYear" Margin="5" Padding="2,0,0,0"/>
+                                        <TextBlock Grid.Row="3" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Årtal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, ElementName=BookYear}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
                                         <!--ISBN-->
-                                        <TextBox Text="{Binding SelectedBook.isbn, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5" Padding="2,0,0,0"/>
-                                        <TextBlock Grid.Row="3" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                        <TextBox Text="{Binding SelectedBook.isbn, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5" Padding="2,0,0,0"/>
+                                        <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -178,8 +193,8 @@
                                         </TextBlock>
 
                                         <!-- Category-->
-                                        <TextBox Text="{Binding InputCategory, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5" Padding="2,0,0,0"/>
-                                        <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                        <TextBox Text="{Binding InputCategory, Mode=TwoWay}" Grid.Row="5" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5" Padding="2,0,0,0"/>
+                                        <TextBlock Grid.Row="5" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -192,18 +207,13 @@
                                             </TextBlock.Style>
                                         </TextBlock>
 
-                                        <StackPanel Grid.Row="5" Grid.ColumnSpan="4">
-                                            <Button Content="Upload Cover img" FontSize="8" Width="99" Command="{Binding FileUploadCommand}" CommandParameter="book_cover"/>
-                                            <TextBox Text="{Binding SelectedBook.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-
-                                            <Button Content="Upload file" FontSize="8" Width="99" Command="{Binding FileUploadCommand}" CommandParameter="book_url"/>
-                                            <TextBox Text="{Binding SelectedBook.url, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                                        </StackPanel>
-                                        
                                         <!-- Cover Image -->
-                                               
+                                        <StackPanel Grid.Row="6" Grid.ColumnSpan="4">
+                                            <Button Content="Upload Cover img" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_cover" Padding="1" Foreground="#F9AA33"/>
+                                            <TextBox Text="{Binding SelectedBook.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                                        </StackPanel>
                                         <!--Add Button-->
-                                        <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till Bok" Width="110" Padding="1"
+                                        <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till Bok" Width="110" Padding="1"
                                     HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" Foreground="#F9AA33"/>
                                     </Grid>
                                 </Viewbox>
@@ -313,7 +323,14 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
+                                        <!--URL IMAGE-->
+                                        <StackPanel Grid.Row="6" Grid.ColumnSpan="4">
+                                            <Button Content="Upload Cover img" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="ebook_cover" Padding="1" Foreground="#F9AA33"/>
+                                            <TextBox Text="{Binding SelectedeBook.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
 
+                                            <Button Content="Upload file" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="ebook_url"  Padding="1" Foreground="#F9AA33"/>
+                                            <TextBox Text="{Binding SelectedeBook.url, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                                        </StackPanel>
                                         <!--Add Button-->
                                         <Button Command="{Binding Path=DataContext.AddeBookCommand, ElementName=FindDataContext}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till E-Bok" Width="110" Padding="1"
                                     HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" Foreground="#F9AA33"/>

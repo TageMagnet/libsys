@@ -17,5 +17,6 @@ namespace LibrarySystem.Models
         public string category { get; set; }
         public Author Author { get; set; }
         public string cover { get; set; }
+        public int is_active { get; set; } = 1;
     }
 }

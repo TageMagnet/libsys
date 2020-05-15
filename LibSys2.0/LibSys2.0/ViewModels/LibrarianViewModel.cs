@@ -183,7 +183,13 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till kategori!");
                 return;
             }
+            if(SelectedBook.year == 0)
+            {
+                MessageBox.Show("Lägg till årtal!");
+                return;
+            }
             SelectedBook.ref_author_id = SelectedAuthor.author_id;
+            
             await GetBookCategory(InputCategory);
             if (SelectedBook.category == null)
             {
