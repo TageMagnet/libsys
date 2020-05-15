@@ -99,11 +99,11 @@ namespace Library
                 //Add %-wildcard operator to the end
                 searchString += '%';
                 string query = string.Join(" ", new string[] {
-                    "SELECT * FROM ebooks JOIN authors A ON ref_author_id = A.author_id",
-                    "WHERE title LIKE @Q",
-                    "OR A.firstname LIKE @Q",
-                    "OR A.surname LIKE @Q",
-                    "OR A.nickname LIKE @Q"
+                    "SELECT * FROM ebooks E JOIN authors A ON ref_author_id = A.author_id",
+                    "WHERE (E.title LIKE @Q AND E.is_active = 1)",
+                    "OR (A.firstname LIKE @Q AND E.is_active = 1)",
+                    "OR (A.surname LIKE @Q AND E.is_active = 1)",
+                    "OR (A.nickname LIKE @Q AND E.is_active = 1)"
                 });
 
                 //
