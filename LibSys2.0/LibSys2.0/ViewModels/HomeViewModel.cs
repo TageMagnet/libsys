@@ -140,12 +140,14 @@ namespace LibrarySystem.ViewModels
             var eBooks = await repo2.SearchQuery(arg);
 
             // Loop and add them into the view
-            foreach (Book book in books)
+            foreach (IArticle book in books)
             {
+                book.IsEbook = false;
                 SearchResults.Add(book);
             }
             foreach (eBook ebook in eBooks)
             {
+                ebook.IsEbook = true;
                 SearchResults.Add(ebook);
             }
 
