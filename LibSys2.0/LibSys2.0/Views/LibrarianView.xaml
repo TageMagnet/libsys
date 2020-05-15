@@ -239,6 +239,7 @@
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <!--#endregion -->
 
@@ -293,10 +294,23 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
-
+                                        <!--Year-->
+                                        <TextBox Text="{Binding SelectedeBook.year, Mode=TwoWay,Converter={StaticResource IntConvert}}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookYear" Margin="5" Padding="2,0,0,0"/>
+                                        <TextBlock Grid.Row="3" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Årtal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, ElementName=eBookYear}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
                                         <!--ISBN-->
-                                        <TextBox Text="{Binding SelectedeBook.isbn, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookIsbn" Margin="5" Padding="2,0,0,0"/>
-                                        <TextBlock Grid.Row="3" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                        <TextBox Text="{Binding SelectedeBook.isbn, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookIsbn" Margin="5" Padding="2,0,0,0"/>
+                                        <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -310,8 +324,8 @@
                                         </TextBlock>
 
                                         <!-- Category-->
-                                        <TextBox Text="{Binding InputCategory, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookcategory" Margin="5" Padding="2,0,0,0"/>
-                                        <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                        <TextBox Text="{Binding InputCategory, Mode=TwoWay}" Grid.Row="5" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="eBookcategory" Margin="5" Padding="2,0,0,0"/>
+                                        <TextBlock Grid.Row="5" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -332,7 +346,7 @@
                                             <TextBox Text="{Binding SelectedeBook.url, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                                         </StackPanel>
                                         <!--Add Button-->
-                                        <Button Command="{Binding Path=DataContext.AddeBookCommand, ElementName=FindDataContext}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till E-Bok" Width="110" Padding="1"
+                                        <Button Command="{Binding Path=DataContext.AddeBookCommand, ElementName=FindDataContext}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till E-Bok" Width="110" Padding="1"
                                     HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" Foreground="#F9AA33"/>
                                     </Grid>
                                 </Viewbox>
