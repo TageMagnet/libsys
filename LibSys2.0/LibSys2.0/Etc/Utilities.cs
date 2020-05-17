@@ -8,6 +8,11 @@ namespace LibrarySystem.Etc
 {
     public static class Utilities
     {
+        /// <summary>
+        /// Check if provied string is a valid email adress
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public static bool IsValidEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -46,6 +51,33 @@ namespace LibrarySystem.Etc
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Generate valid [A-Za-z0-9] link URL
+        /// </summary>
+        /// <param name="Length"></param>
+        /// <returns></returns>
+        public static string GenerateLinkUrl(int Length)
+        {
+            string str = "";
+            // 48-75    0-9
+            // 65-90    A-Z
+            // 97-122   a-z
+            int[] codes = new int[] { 48,49,50,51,52,53,54,55,56,57,
+                65,66,67,68,69,70,71,72,73,74,75,76,76,78,79,80,81,82,83,84,85,86,87,88,89,90,
+                97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122};
+
+            Random r = new Random();
+
+            for (int j = 0; j < Length; j++)
+            {
+                // Get one of the specified cahracter codes
+                int code = codes[r.Next(0, codes.Length)];
+                str += (char)code;
+            }
+
+            return str;
         }
     }
 }

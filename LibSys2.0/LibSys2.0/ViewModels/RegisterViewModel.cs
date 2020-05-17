@@ -16,6 +16,7 @@ namespace LibrarySystem.ViewModels
     {
         #region Properties
         public MemberRepository memberRepo = new MemberRepository();
+        private MiscellaneousRepository miscRepo = new MiscellaneousRepository();
         public Member NewMember { get; set; }
         public string CheckPassword { get; set; }
 
@@ -69,14 +70,28 @@ namespace LibrarySystem.ViewModels
 
             NewMember.ref_member_role_id = 3;
             NewMember.created_at = DateTime.Now;
+            // todo; this should be set to 0 and later on 1 when activated through emailed registration link
             NewMember.is_active = 1;
 
-            Mail mail = new Mail();
-            mail.SendActivationEmail(NewMember.email);
-            MessageBox.Show("Välkommen! Du har fått en bekräftelse till din email.");
-            MainWindowViewModel.ChangeView("home");
-
+            // Setup in database;
             await memberRepo.Create(NewMember);
+
+            // Somewhat unique link url
+            string linkString = Utilities.GenerateLinkUrl(38);
+            
+            // 5 minutes forward
+            var d = DateTime.Now;
+            d = d.AddMinutes(5.0);
+
+            // Registeringslänk till databasen
+            string urlLink = await miscRepo.CreateRegisterLink(linkString, NewMember.member_id, d);
+
+            Mail mail = new Mail();
+            mail.SendActivationEmail(NewMember.email, urlLink);
+
+            MessageBox.Show("Välkommen! Du har fått en bekräftelse till din email.");
+
+            MainWindowViewModel.ChangeView("home");
         }
     }
 }

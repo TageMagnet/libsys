@@ -38,10 +38,11 @@ namespace LibrarySystem.Etc
         }
 
         /// <summary>
-        /// Send activation email to adress https://api.jkb.zone/activate/:activation_code to verify new users' email
+        /// Send activation email to adress http://tjackobacco.com:23080/libsys/activate?key={activation_code} to verify new users' email
         /// </summary>
-        /// <param name="email"></param>
-        public void SendActivationEmail(string email)
+        /// <param name="email">users' email adress</param>
+        /// <param name="urlLink">link activation code</param>
+        public void SendActivationEmail(string email, string urlLink)
         {
             // Hämta .html-filen från inuti projektet
             string imagePath = "pack://application:,,,/Assets/email-template-register.html";
@@ -60,7 +61,7 @@ namespace LibrarySystem.Etc
             fileLines.ForEach(a => htmlString += a);
 
             // Replacea adressen med korrekt aktiveringskod
-            htmlString = htmlString.Replace("[[link]]", "https://api.jkb.zone/activate/asdfghjklqwerty");
+            htmlString = htmlString.Replace("[[link]]", string.Format("http://tjackobacco.com:23080/libsys/activate?key={0}", urlLink));
 
             Message.From = new MailAddress(username);
             Message.To.Add(new MailAddress(email));

@@ -97,7 +97,7 @@
 
             <!--#region Search Results -->
             <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,20,0,60" HorizontalAlignment="Center" >
-                <Viewbox>
+            
                     <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults}" MinHeight="300" >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -170,7 +170,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </Viewbox>
+           
             </ScrollViewer>
             <!--#endregion-->
             <!--#region Visible Copy -->
