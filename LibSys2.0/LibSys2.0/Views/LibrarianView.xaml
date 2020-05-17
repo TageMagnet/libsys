@@ -210,7 +210,7 @@
                                         <!-- Cover Image -->
                                         <StackPanel Grid.Row="6" Grid.ColumnSpan="4">
                                             <Button Content="Upload Cover img" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_cover" Padding="1" Foreground="#F9AA33"/>
-                                            <TextBox Text="{Binding SelectedBook.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                                            <TextBox Text="{Binding SelectedBook.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
                                         </StackPanel>
                                         <!--Add Button-->
                                         <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till Bok" Width="110" Padding="1"
@@ -340,10 +340,10 @@
                                         <!--URL IMAGE-->
                                         <StackPanel Grid.Row="6" Grid.ColumnSpan="4">
                                             <Button Content="Upload Cover img" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="ebook_cover" Padding="1" Foreground="#F9AA33"/>
-                                            <TextBox Text="{Binding SelectedeBook.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                                            <TextBox Text="{Binding SelectedeBook.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
 
                                             <Button Content="Upload file" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="ebook_url"  Padding="1" Foreground="#F9AA33"/>
-                                            <TextBox Text="{Binding SelectedeBook.url, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                                            <TextBox Text="{Binding SelectedeBook.url, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
                                         </StackPanel>
                                         <!--Add Button-->
                                         <Button Command="{Binding Path=DataContext.AddeBookCommand, ElementName=FindDataContext}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till E-Bok" Width="110" Padding="1"

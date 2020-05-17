@@ -97,65 +97,65 @@
 
             <!--#region Search Results -->
             <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,20,0,60" HorizontalAlignment="Center" >
-            
-                    <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults}" MinHeight="300" >
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" Padding="3">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="1*"/>
-                                            <RowDefinition Height="0.5*"/>
-                                            <RowDefinition Height="1*"/>
-                                            <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
+            <Viewbox>
+                <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults}" MinHeight="300" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" Padding="3">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="0.5*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
 
-                                        <Image Grid.Column="0" Grid.RowSpan="4" MaxWidth="86" Margin="5,5" Width="70" Height="110" Source="{Binding cover, FallbackValue='https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg'}"/>
+                                <Image Grid.Column="0" Grid.RowSpan="4" MaxWidth="86" Margin="5,5" Width="70" Height="110" Source="{Binding cover, FallbackValue='https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg'}"/>
 
-                                        <TextBlock Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="0" Text="{Binding title}" FontSize="18"/>
+                                <TextBlock Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="0" Text="{Binding title}" FontSize="18"/>
 
-                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="1" VerticalAlignment="Top" Margin="-3 -24 0 0">
-                                            <Label Content="Av: " FontSize="14" VerticalAlignment="Top"/>
-                                            <TextBlock Text="{Binding Author.firstname}" FontSize="14" FontWeight="Light" Margin="0 5 5 0" VerticalAlignment="Top"/>
-                                            <TextBlock Text="{Binding Author.surname}" FontSize="14" FontWeight="Light" VerticalAlignment="Top" Margin="0 5 0 0"/>
-                                        </StackPanel>
-                                    
-                                        <TextBlock Text="{Binding description}" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Top"/>
-                                    
-                                    
+                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="1" VerticalAlignment="Top" Margin="-3 -24 0 0">
+                                    <Label Content="Av: " FontSize="14" VerticalAlignment="Top"/>
+                                    <TextBlock Text="{Binding Author.firstname}" FontSize="14" FontWeight="Light" Margin="0 5 5 0" VerticalAlignment="Top"/>
+                                    <TextBlock Text="{Binding Author.surname}" FontSize="14" FontWeight="Light" VerticalAlignment="Top" Margin="0 5 0 0"/>
+                                </StackPanel>
 
-                                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" VerticalAlignment="Bottom" Margin="0 0 0 5">
-                                            <Button  Content="Låna" />
-                                            
-                                            <TextBlock VerticalAlignment="Center" Margin="5 0 15 0" FontSize="12">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsEbook}" Value="False">
-                                                                <Setter Property="Text" Value="Book"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding IsEbook}" Value="True">
-                                                                <Setter Property="Text" Value="Ebook"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
+                                <TextBlock Text="{Binding description}" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Top"/>
 
-                                            <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="0 0 0 0" FontSize="10"/>
-                                            <!-- Place Holder-->
-                                            <TextBlock Text="3" Margin="0 0 0 0" FontSize="10" VerticalAlignment="Center"/>
-                                        
-                                    </StackPanel>
-                                    <!--<TextBlock  VerticalAlignment="Center" Margin="5 0 10 0">
+
+
+                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" VerticalAlignment="Bottom" Margin="0 0 0 5">
+                                    <Button  Content="Låna" />
+
+                                    <TextBlock VerticalAlignment="Center" Margin="5 0 15 0" FontSize="12">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsEbook}" Value="False">
+                                                        <Setter Property="Text" Value="Book"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsEbook}" Value="True">
+                                                        <Setter Property="Text" Value="Ebook"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                    <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="0 0 0 0" FontSize="10"/>
+                                    <!-- Place Holder-->
+                                    <TextBlock Text="3" Margin="0 0 0 0" FontSize="10" VerticalAlignment="Center"/>
+
+                                </StackPanel>
+                                <!--<TextBlock  VerticalAlignment="Center" Margin="5 0 10 0">
                                                 
                                     <Span FontSize="12" FontWeight="Light"></Span>
                                     <Span FontSize="12" FontWeight="Black">Ulånade</Span>
@@ -163,15 +163,15 @@
                                     <Span FontSize="12" FontWeight="Thin">Tillgängliga</Span>
                                     <Span FontSize="12" FontWeight="Regular">0</Span>
                                             </TextBlock>-->
-                                        
-                                        
-                                    </Grid>
-                                </materialDesign:Card>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-           
-            </ScrollViewer>
+
+
+                            </Grid>
+                        </materialDesign:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Viewbox>
+        </ScrollViewer>
             <!--#endregion-->
             <!--#region Visible Copy -->
             <!--<ListBox HorizontalContentAlignment="Center">
@@ -219,7 +219,7 @@
                         </TextBlock>
                     </Grid>
                 </Border>
-            </ListBox>-->
+       2     </ListBox>-->
             <!--#endregion-->
 
         <!--</StackPanel>-->

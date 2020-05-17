@@ -223,7 +223,7 @@ namespace Library
             List<string> properties = new List<string>();
             foreach (var prop in t.GetType().GetProperties())
             {
-                if (prop.GetValue(t, null) != null && prop.Name.Contains(tableIdName) == false)
+                if (prop.GetValue(t, null) != null && prop.Name.Contains(tableIdName) == false && prop.Name.Contains("IsEbook") == false)
                 {
                     properties.Add(prop.Name);
                 }

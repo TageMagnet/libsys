@@ -189,7 +189,7 @@ namespace LibrarySystem.ViewModels
                 return;
             }
             SelectedBook.ref_author_id = SelectedAuthor.author_id;
-            
+            SelectedBook.is_active = 1;
             await GetBookCategory(InputCategory);
             if (SelectedBook.category == null)
             {
@@ -234,6 +234,7 @@ namespace LibrarySystem.ViewModels
                 return;
             }
             SelectedeBook.ref_author_id = SelectedAuthor.author_id;
+            SelectedeBook.is_active = 1;
             await GeteBookCategory(InputCategory);
             await eBookRepo.Create(SelectedeBook);
             await LoadeBooks();
@@ -386,6 +387,7 @@ namespace LibrarySystem.ViewModels
             {
                 MessageBox.Show("Fyll i anledning!");
                 ReasonToDelete = "";
+                await LoadBooks();
                 this.NotifyPropertyChanged(nameof(ReasonToDelete));
                 return;
             }
@@ -407,14 +409,14 @@ namespace LibrarySystem.ViewModels
         {
             int numberOfAuthorBooks = 0;
 
-            foreach (var book in Books)
+            foreach (var book in await bookRepo.ReadAll())
             {
                 if (book.ref_author_id == id)
                 {
                     numberOfAuthorBooks++;
                 }
             }
-            foreach (var ebok in eBooks)
+            foreach (var ebok in await eBookRepo.ReadAll())
             {
                 if (ebok.ref_author_id == id)
                 {
@@ -425,11 +427,23 @@ namespace LibrarySystem.ViewModels
             if (numberOfAuthorBooks > 0)
             {
                 MessageBox.Show($"Denna författare är bunden till {numberOfAuthorBooks}st böcker. Och kan därför inte tas bort");
+                await LoadAuthors();
                 return;
             }
-
-            await authorRepo.Delete(id);
-            await LoadAuthors();
+            try
+            {
+                await authorRepo.Delete(id);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Författaren är bunden till en bok. Går ej att ta bort.");
+                
+            }
+            finally
+            {
+                await LoadAuthors();
+            }
+            
         }
         #endregion
 
@@ -685,6 +699,9 @@ namespace LibrarySystem.ViewModels
                 SelectedBook.description = "";
                 SelectedBook.isbn = "";
                 InputCategory = "";
+                SelectedBook.cover = "";
+                SelectedBook.year = 0;
+                SelectedAuthor = null;
                 this.OnPropertyChanged(nameof(SelectedBook));
 
             }
@@ -696,6 +713,10 @@ namespace LibrarySystem.ViewModels
                 SelectedeBook.description = "";
                 SelectedeBook.isbn = "";
                 InputCategory = "";
+                SelectedeBook.cover = "";
+                SelectedeBook.url = "";
+                SelectedeBook.year = 0;
+                SelectedAuthor = null;
                 this.OnPropertyChanged(nameof(SelectedeBook));
             }
         }
@@ -721,7 +742,7 @@ namespace LibrarySystem.ViewModels
                 foreach(string filename in dialog.FileNames.ToList())
                 {
 
-                    if(arg != "book_cover" && arg != "book_url")
+                    if(arg != "book_cover" && arg != "book_url" && arg != "ebook_cover" && arg != "ebook_url")
                     {
                         MessageBox.Show("Error, fel input");
                         return;
@@ -754,12 +775,19 @@ namespace LibrarySystem.ViewModels
                     if (arg == "book_cover")
                     {
                         SelectedBook.cover = parsedObj.Location;
+                        OnPropertyChanged("SelectedBook");
                     }
-                    else if (arg == "book_url")
+                    if (arg == "ebook_cover")
                     {
-                        SelectedBook.url = parsedObj.Location;
+                        SelectedeBook.cover = parsedObj.Location;
+                        OnPropertyChanged("SelectedeBook");
                     }
-                    OnPropertyChanged("SelectedBook");
+                    if (arg == "ebook_url")
+                    {
+                        SelectedeBook.url = parsedObj.Location;
+                        OnPropertyChanged("SelectedeBook");
+                    }
+                   
 
 
                     // Do something with the response
