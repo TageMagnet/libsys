@@ -48,6 +48,30 @@ namespace Library
         }
         #endregion
 
+        /// <summary>
+        /// Create , but also returns member
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public new async Task<Member> Create(Member member)
+        {
+            using (var connection = CreateConnection())
+            {
+                try
+                {
+                    string query = GenerateInsertQuery(member);
+                    await connection.ExecuteAsync(query, member);
+                    return (await connection.QueryAsync<Member>("SELECT * FROM members WHERE members.email = @email", new { email = member.email })).FirstOrDefault();
+                   
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Trace.WriteLine(e.Message);
+                    return member;
+                }
+            }
+        }
+
         public new async Task Update(Member member)
         {
             using (var connection = CreateConnection())

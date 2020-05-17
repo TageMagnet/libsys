@@ -74,7 +74,7 @@ namespace LibrarySystem.ViewModels
             NewMember.is_active = 1;
 
             // Setup in database;
-            await memberRepo.Create(NewMember);
+            NewMember = await memberRepo.Create(NewMember);
 
             // Somewhat unique link url
             string linkString = Utilities.GenerateLinkUrl(38);
