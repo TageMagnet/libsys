@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -8,6 +9,7 @@ namespace LibrarySystem.ViewModels
     /// Extendar till alla VMs för att slippa deklarera INotifyPropertyChanged mer än en gång
     /// Innehåller också hjälpfulla metoder
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

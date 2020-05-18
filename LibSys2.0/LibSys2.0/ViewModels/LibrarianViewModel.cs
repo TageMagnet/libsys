@@ -1,8 +1,6 @@
 ﻿using Library;
 using LibrarySystem.Models;
-using Org.BouncyCastle.Bcpg;
 using ReactiveUI;
-using Splat;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -53,29 +51,25 @@ namespace LibrarySystem.ViewModels
         
 
         public Member NewMember { get; set; }
-
-        public BookRepository bookRepo = new BookRepository();
-        public eBookRepository eBookRepo = new eBookRepository();
+        private ItemRepository itemRepo = new ItemRepository();
+        //public BookRepository bookRepo = new BookRepository();
+        //public eBookRepository eBookRepo = new eBookRepository();
         public EventRepository eventRepo = new EventRepository();
         public AuthorRepository authorRepo = new AuthorRepository();
         public MemberRepository memberRepo = new MemberRepository();
         public CategoryRepository categoryRepo = new CategoryRepository();
-        public Book SelectedBook { get; set; } = new Book();
-        public eBook SelectedeBook { get; set; } = new eBook();
-
+        public Item SelectedItem { get; set; } = new Item();
+        //public Book SelectedBook { get; set; } = new Book();
+        //public eBook SelectedeBook { get; set; } = new eBook();
         public Author SelectedAuthor { get; set; } = new Author();
-
         public Category BookCategory { get; set; } = new Category();
-
-
         public Member SelectedMember { get; set; } = new Member();
-
         public string ReasonToDelete { get; set; }
         public string InputCategory { get; set; }
 
-
-        public ObservableCollection<Book> Books { get; set; } = new ObservableCollection<Book>();
-        public ObservableCollection<eBook> eBooks { get; set; } = new ObservableCollection<eBook>();
+        public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
+        //public ObservableCollection<Book> Books { get; set; } = new ObservableCollection<Book>();
+        //public ObservableCollection<eBook> eBooks { get; set; } = new ObservableCollection<eBook>();
         public ObservableCollection<Event> Events { get; set; } = new ObservableCollection<Event>();
         public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
         /// <summary>Index storage when updating</summary>
@@ -106,13 +100,13 @@ namespace LibrarySystem.ViewModels
         #region Commands
         public ReactiveCommand<Unit, Unit> AddBookCommand { get; set; }
 
-        public ReactiveCommand<Book, Unit> UpdateBookCommand { get; set; }
-        public ReactiveCommand<eBook, Unit> UpdateeBookCommand { get; set; }
+        public ReactiveCommand<Item, Unit> UpdateBookCommand { get; set; }
+        //public ReactiveCommand<eBook, Unit> UpdateeBookCommand { get; set; }
         public ReactiveCommand<Author, Unit> UpdateAuthorCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveBookCommand { get; set; }
-        public ReactiveCommand<int, Unit> RemoveeBookCommand { get; set; }
+        //public ReactiveCommand<int, Unit> RemoveeBookCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveAuthorCommand { get; set; }
-        public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
+        //public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
         public ReactiveCommand<object, Unit> ToggleHidden { get; set; }
         public ReactiveCommand<object, Unit> ToggleVisible { get; set; }
@@ -130,12 +124,12 @@ namespace LibrarySystem.ViewModels
         {
 
             AddBookCommand = ReactiveCommand.CreateFromTask(() => AddBookCommandMethod());
-            UpdateBookCommand = ReactiveCommand.CreateFromTask((Book book) => UpdateBookCommandMethod(book));
-            UpdateeBookCommand = ReactiveCommand.CreateFromTask((eBook ebook) => UpdateeBookCommandMethod(ebook));
+            UpdateBookCommand = ReactiveCommand.CreateFromTask((Item item) => UpdateBookCommandMethod(item));
+            //UpdateeBookCommand = ReactiveCommand.CreateFromTask((eBook ebook) => UpdateeBookCommandMethod(ebook));
             RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
-            RemoveeBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveeBookCommandMethod(id));
+            //RemoveeBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveeBookCommandMethod(id));
             RemoveAuthorCommand = ReactiveCommand.CreateFromTask((int id) => RemoveAuthorCommandMethod(id));
-            AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
+            //AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
             AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
             ToggleHidden = ReactiveCommand.CreateFromTask((object param) => HiddenCommandMethod(param));
             ToggleVisible = ReactiveCommand.CreateFromTask((object param) => VisibleCommandMethod(param));
@@ -158,7 +152,7 @@ namespace LibrarySystem.ViewModels
         public async Task AddBookCommandMethod()
         #region ...
         {
-            if (SelectedBook.title == null)
+            if (SelectedItem.title == null)
             {
                 MessageBox.Show("Lägg till titel!");
                 return;
@@ -168,12 +162,12 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till författare!");
                 return;
             }
-            if (SelectedBook.description == null)
+            if (SelectedItem.description == null)
             {
                 MessageBox.Show("Lägg till beskrivning!");
                 return;
             }
-            if (SelectedBook.isbn == null)
+            if (SelectedItem.isbn == null)
             {
                 MessageBox.Show("Lägg till isbn!");
                 return;
@@ -183,19 +177,19 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till kategori!");
                 return;
             }
-            if(SelectedBook.year == 0)
+            if(SelectedItem.year == 0)
             {
                 MessageBox.Show("Lägg till årtal!");
                 return;
             }
-            SelectedBook.ref_author_id = SelectedAuthor.author_id;
-            SelectedBook.is_active = 1;
+            SelectedItem.ref_author_id = SelectedAuthor.author_id;
+            SelectedItem.is_active = 1;
             await GetBookCategory(InputCategory);
-            if (SelectedBook.category == null)
+            if (SelectedItem.category == null)
             {
                 return;
             }
-            await bookRepo.Create(SelectedBook);
+            await itemRepo.Create(SelectedItem);
             await LoadBooks();
             await ClearBookLines("books");
 
@@ -205,42 +199,40 @@ namespace LibrarySystem.ViewModels
         /// Checks and adds a E-Book to the database
         /// </summary>
         /// <returns></returns>
-        public async Task AddeBookCommandMethod()
-        #region ...
-        {
-            if (SelectedeBook.title == null)
-            {
-                MessageBox.Show("Lägg till titel!");
-                return;
-            }
-            if (SelectedAuthor.author_id == 0)
-            {
-                MessageBox.Show("Lägg till författare!");
-                return;
-            }
-            if (SelectedeBook.description == null)
-            {
-                MessageBox.Show("Lägg till beskrivning!");
-                return;
-            }
-            if (SelectedeBook.isbn == null)
-            {
-                MessageBox.Show("Lägg till isbn!");
-                return;
-            }
-            if (InputCategory == null)
-            {
-                MessageBox.Show("Lägg till kategori!");
-                return;
-            }
-            SelectedeBook.ref_author_id = SelectedAuthor.author_id;
-            SelectedeBook.is_active = 1;
-            await GeteBookCategory(InputCategory);
-            await eBookRepo.Create(SelectedeBook);
-            await LoadeBooks();
-            await ClearBookLines("ebooks");
-        }
-        #endregion
+        //public async Task AddeBookCommandMethod()
+        //{
+        //    if (SelectedeBook.title == null)
+        //    {
+        //        MessageBox.Show("Lägg till titel!");
+        //        return;
+        //    }
+        //    if (SelectedAuthor.author_id == 0)
+        //    {
+        //        MessageBox.Show("Lägg till författare!");
+        //        return;
+        //    }
+        //    if (SelectedeBook.description == null)
+        //    {
+        //        MessageBox.Show("Lägg till beskrivning!");
+        //        return;
+        //    }
+        //    if (SelectedeBook.isbn == null)
+        //    {
+        //        MessageBox.Show("Lägg till isbn!");
+        //        return;
+        //    }
+        //    if (InputCategory == null)
+        //    {
+        //        MessageBox.Show("Lägg till kategori!");
+        //        return;
+        //    }
+        //    SelectedeBook.ref_author_id = SelectedAuthor.author_id;
+        //    SelectedeBook.is_active = 1;
+        //    await GeteBookCategory(InputCategory);
+        //    await eBookRepo.Create(SelectedeBook);
+        //    await LoadeBooks();
+        //    await ClearBookLines("ebooks");
+        //}
 
   
         /// <summary>
@@ -248,30 +240,27 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         /// <param name="book"></param>
         /// <returns></returns>
-        public async Task UpdateBookCommandMethod(Book book)
-        #region ...
+        public async Task UpdateBookCommandMethod(Item item)
         {
             // Retrieve the stored index
             if (SelectedAuthorIndex >= 0)
             {
-                book.ref_author_id = Authors[SelectedAuthorIndex].author_id;
+                item.ref_author_id = Authors[SelectedAuthorIndex].author_id;
                 // reset
                 SelectedAuthorIndex = -1;
             }
 
             // Dapper does not like uninvited variables
-            book.Author = null;
-            await bookRepo.Update(book);
+            item.Author = null;
+            await itemRepo.Update(item);
             await LoadBooks();
         }
-        #endregion
         /// <summary>
         /// Gets the books Category
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
         public async Task GetBookCategory(string category)
-        #region ...
         {
             // Check if category is correct length (1 or 2)
             if (category.Length > 2)
@@ -298,10 +287,10 @@ namespace LibrarySystem.ViewModels
                 return;
             }
             else
-            SelectedBook.category = BookCategory.category;
+            SelectedItem.category = BookCategory.category;
             
         }
-        #endregion
+
         /// <summary>
         /// Converts first to upper and last to lower
         /// </summary>
@@ -320,26 +309,24 @@ namespace LibrarySystem.ViewModels
                return cat = first.ToUpper();
             
         }
-        public async Task GeteBookCategory(string category)
-        {
-            BookCategory = await categoryRepo.GetCategory(category);
-            SelectedeBook.category = BookCategory.category;
-        }
-        public async Task UpdateeBookCommandMethod(eBook ebook)
-        #region ...
-        {
-            if (SelectedAuthorIndex >= 0)
-            {
-                ebook.ref_author_id = Authors[SelectedAuthorIndex].author_id;
-                // reset
-                SelectedAuthorIndex = -1;
-            }
+        //public async Task GeteBookCategory(string category)
+        //{
+        //    BookCategory = await categoryRepo.GetCategory(category);
+        //    SelectedeBook.category = BookCategory.category;
+        //}
+        //public async Task UpdateeBookCommandMethod(eBook ebook)
+        //{
+        //    if (SelectedAuthorIndex >= 0)
+        //    {
+        //        ebook.ref_author_id = Authors[SelectedAuthorIndex].author_id;
+        //        // reset
+        //        SelectedAuthorIndex = -1;
+        //    }
 
-            ebook.Author = null;
-            await eBookRepo.Update(ebook);
-            await LoadeBooks();
-        }
-        #endregion
+        //    ebook.Author = null;
+        //    await eBookRepo.Update(ebook);
+        //    await LoadeBooks();
+        //}
 
         /// <summary>
         /// Updates a author to db.
@@ -347,15 +334,12 @@ namespace LibrarySystem.ViewModels
         /// <param name="author"></param>
         /// <returns></returns>
         public async Task UpdateAuthorCommandMethod(Author author)
-        #region ...
         {
             await authorRepo.Update(author);
             await LoadAuthors();
         }
-        #endregion
 
         public async Task UpdateMemberCommandMethod(Member member)
-        #region ...
         {
 
             //if (SelectedRoleIndex >= 0)
@@ -373,7 +357,6 @@ namespace LibrarySystem.ViewModels
             await LoadMembers();
 
         }
-        #endregion
 
         /// <summary>
         /// Changes status on Book from 1(active) to 0(inactive)
@@ -381,7 +364,6 @@ namespace LibrarySystem.ViewModels
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task RemoveBookCommandMethod(int id)
-        #region ...
         {
             if (string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
             {
@@ -394,10 +376,9 @@ namespace LibrarySystem.ViewModels
 
             ReasonToDelete = "";
             this.NotifyPropertyChanged(nameof(ReasonToDelete));
-            await bookRepo.ChangeStatusBook(id);
+            await itemRepo.ChangeStatusItem(id);
             await LoadBooks();
         }
-        #endregion
 
         /// <summary>
         /// Removes/delete a author from DB
@@ -405,24 +386,29 @@ namespace LibrarySystem.ViewModels
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task RemoveAuthorCommandMethod(int id)
-        #region ...
         {
             int numberOfAuthorBooks = 0;
 
-            foreach (var book in await bookRepo.ReadAll())
+            foreach(var item in await itemRepo.ReadAll())
             {
-                if (book.ref_author_id == id)
-                {
+                if (item.ref_author_id == id)
                     numberOfAuthorBooks++;
-                }
             }
-            foreach (var ebok in await eBookRepo.ReadAll())
-            {
-                if (ebok.ref_author_id == id)
-                {
-                    numberOfAuthorBooks++;
-                }
-            }
+
+            //foreach (var book in await bookRepo.ReadAll())
+            //{
+            //    if (book.ref_author_id == id)
+            //    {
+            //        numberOfAuthorBooks++;
+            //    }
+            //}
+            //foreach (var ebok in await eBookRepo.ReadAll())
+            //{
+            //    if (ebok.ref_author_id == id)
+            //    {
+            //        numberOfAuthorBooks++;
+            //    }
+            //}
 
             if (numberOfAuthorBooks > 0)
             {
@@ -437,7 +423,6 @@ namespace LibrarySystem.ViewModels
             catch (Exception)
             {
                 MessageBox.Show("Författaren är bunden till en bok. Går ej att ta bort.");
-                
             }
             finally
             {
@@ -445,36 +430,31 @@ namespace LibrarySystem.ViewModels
             }
             
         }
-        #endregion
 
         /// <summary>
         /// Changes status on eBook from 1(active) to 0(inactive)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task RemoveeBookCommandMethod(int id)
-        #region ...
-        {
-            if (string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
-            {
-                MessageBox.Show("Fyll i anledning!");
-                ReasonToDelete = "";
-                this.NotifyPropertyChanged(nameof(ReasonToDelete));
-                return;
-            }
-            ReasonToDelete = "";
-            this.NotifyPropertyChanged(nameof(ReasonToDelete));
-            await eBookRepo.ChangeStatuseBook(id);
-            await LoadeBooks();
-        }
-        #endregion
+        //public async Task RemoveeBookCommandMethod(int id)
+        //{
+        //    if (string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
+        //    {
+        //        MessageBox.Show("Fyll i anledning!");
+        //        ReasonToDelete = "";
+        //        this.NotifyPropertyChanged(nameof(ReasonToDelete));
+        //        return;
+        //    }
+        //    ReasonToDelete = "";
+        //    this.NotifyPropertyChanged(nameof(ReasonToDelete));
+        //    await eBookRepo.ChangeStatuseBook(id);
+        //    await LoadeBooks();
+        //}
 
         public async Task AddEventCommandMethod()
-        #region ...
         {
 
         }
-        #endregion
 
 
         /// <summary>
@@ -483,15 +463,12 @@ namespace LibrarySystem.ViewModels
         /// <param name="arg"></param>
         /// <returns></returns>
         public async Task VisibleCommandMethod(object arg)
-        #region ...
         {
             var button = (Button)arg;
             button.IsEnabled = true;
             ReasonToDelete = "";
             this.OnPropertyChanged(nameof(ReasonToDelete));
         }
-        #endregion
-
 
         /// <summary>
         /// Makes arrow down button Hidden
@@ -499,12 +476,10 @@ namespace LibrarySystem.ViewModels
         /// <param name="arg"></param>
         /// <returns></returns>
         public async Task HiddenCommandMethod(object arg)
-        #region ...
         {
             var button = (Button)arg;
             button.IsEnabled = false;
         }
-        #endregion
 
 
         /// <summary>
@@ -512,7 +487,6 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         /// <returns></returns>
         public async Task AddAuthorCommandMethod()
-        #region ...
         {
             if (SelectedAuthor.firstname == null)
             {
@@ -533,26 +507,23 @@ namespace LibrarySystem.ViewModels
             await authorRepo.Create(SelectedAuthor);
             await LoadAuthors();
         }
-        #endregion
 
 
         /// <summary>
         /// Loads all the data from DB
         /// </summary>
         public async void LoadDataAsync()
-        #region ...
         {
             await LoadBooks();
-            await LoadeBooks();
+            //await LoadeBooks();
             await LoadEvents();
             await LoadAuthors();
         }
-        #endregion
 
         public async void LoadAllBooks()
         {
             await LoadBooks();
-            await LoadeBooks();
+            //await LoadeBooks();
         }
 
         /// <summary>
@@ -560,33 +531,27 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         /// <returns></returns>
         public async Task LoadBooks()
-        #region ...
         {
             
-            Books.Clear();
-            foreach (var book in await bookRepo.ReadAllBooksWithStatus(ActiveFilter))
+            Items.Clear();
+            foreach (var item in await itemRepo.ReadAllItemsWithStatus(ActiveFilter))
             {
-                Books.Add(book);
+                Items.Add(item);
             }
         }
-
-        #endregion
-
 
         /// <summary>
         /// Reloads E-Books From DB
         /// </summary>
         /// <returns></returns>
-        public async Task LoadeBooks()
-        #region ...
-        {
-            eBooks.Clear();
-            foreach (var ebook in await eBookRepo.ReadAlleBooksWithStatus(ActiveFilter))
-            {
-                eBooks.Add(ebook);
-            }
-        }
-        #endregion
+        //public async Task LoadeBooks()
+        //{
+        //    eBooks.Clear();
+        //    foreach (var ebook in await eitemRepo.ReadAlleBooksWithStatus(ActiveFilter))
+        //    {
+        //        eBooks.Add(ebook);
+        //    }
+        //}
 
 
         /// <summary>
@@ -594,7 +559,6 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         /// <returns></returns>
         public async Task LoadEvents()
-        #region ...
         {
             Events.Clear();
             foreach (var _event in await eventRepo.ReadAll())
@@ -602,7 +566,6 @@ namespace LibrarySystem.ViewModels
                 Events.Add(_event);
             }
         }
-        #endregion
 
 
         /// <summary>
@@ -610,7 +573,6 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         /// <returns></returns>
         public async Task LoadAuthors()
-        #region ...
         {
             Authors.Clear();
             foreach (var author in await authorRepo.ReadAll())
@@ -618,7 +580,6 @@ namespace LibrarySystem.ViewModels
                 Authors.Add(author);
             }
         }
-        #endregion
 
         public async Task LoadMembers()
         {
@@ -689,38 +650,38 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         /// <returns></returns>
         public async Task ClearBookLines(string sender)
-        #region ...
         {
-
+            SelectedItem.title = "";
+            SelectedItem.description = "";
+            SelectedItem.isbn = "";
+            InputCategory = "";
+            SelectedItem.url = "";
+            SelectedItem.cover = "";
+            SelectedItem.year = 0;
+            SelectedAuthor = null;
+            this.OnPropertyChanged(nameof(SelectedItem));
             //Clear Books
-            if (sender == "books")
-            {
-                SelectedBook.title = "";
-                SelectedBook.description = "";
-                SelectedBook.isbn = "";
-                InputCategory = "";
-                SelectedBook.cover = "";
-                SelectedBook.year = 0;
-                SelectedAuthor = null;
-                this.OnPropertyChanged(nameof(SelectedBook));
+            //if (sender == "books")
+            //{
 
-            }
+
+            //}
 
             //Clear E-Books
-            else if (sender == "ebooks")
-            {
-                SelectedeBook.title = "";
-                SelectedeBook.description = "";
-                SelectedeBook.isbn = "";
-                InputCategory = "";
-                SelectedeBook.cover = "";
-                SelectedeBook.url = "";
-                SelectedeBook.year = 0;
-                SelectedAuthor = null;
-                this.OnPropertyChanged(nameof(SelectedeBook));
-            }
+            //else if (sender == "ebooks")
+            //{
+            //    SelectedeBook.title = "";
+            //    SelectedeBook.description = "";
+            //    SelectedeBook.isbn = "";
+            //    InputCategory = "";
+            //    SelectedeBook.cover = "";
+            //    SelectedeBook.url = "";
+            //    SelectedeBook.year = 0;
+            //    SelectedAuthor = null;
+            //    this.OnPropertyChanged(nameof(SelectedeBook));
+            //}
         }
-        #endregion
+
 
         /// <summary>
         /// Puttin' da file on da server
@@ -772,20 +733,15 @@ namespace LibrarySystem.ViewModels
 
                     LibrarySystem.Etc.JkbZoneFile parsedObj = new LibrarySystem.Etc.JkbZoneFile(JSONresponseObject.Value<string>("location"));
 
-                    if (arg == "book_cover")
+                    if (arg.Contains("cover"))
                     {
-                        SelectedBook.cover = parsedObj.Location;
-                        OnPropertyChanged("SelectedBook");
+                        SelectedItem.cover = parsedObj.Location;
+                        OnPropertyChanged("SelectedItem");
                     }
-                    if (arg == "ebook_cover")
+                    if (arg.Contains("url"))
                     {
-                        SelectedeBook.cover = parsedObj.Location;
-                        OnPropertyChanged("SelectedeBook");
-                    }
-                    if (arg == "ebook_url")
-                    {
-                        SelectedeBook.url = parsedObj.Location;
-                        OnPropertyChanged("SelectedeBook");
+                        SelectedItem.url = parsedObj.Location;
+                        OnPropertyChanged("SelectedItem");
                     }
                    
 
