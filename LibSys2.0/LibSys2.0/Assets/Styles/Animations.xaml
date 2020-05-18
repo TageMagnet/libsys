@@ -27,7 +27,7 @@
     </Storyboard>
 
     <Storyboard x:Key="OpenBooks">
-        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="0">
+        <!--<DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="0">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseOut"/>
             </DoubleAnimation.EasingFunction>
@@ -36,7 +36,7 @@
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseOut"/>
             </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
+        </DoubleAnimation>-->
         <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="1.0">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
@@ -60,7 +60,7 @@
                 <PowerEase Power="2" EasingMode="EaseOut"/>
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
-        <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="1.0">
+        <!--<DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="1.0">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
@@ -69,7 +69,7 @@
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
+        </DoubleAnimation>-->
     </Storyboard>
 
     <Storyboard x:Key="OpenRemove">
@@ -84,7 +84,7 @@
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
         
-        <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="0" To="1">
+        <!--<DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="0" To="1">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseOut"/>
             </DoubleAnimation.EasingFunction>
@@ -93,10 +93,10 @@
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
+        </DoubleAnimation>-->
     </Storyboard>
     <Storyboard x:Key="CloseRemove">
-        <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="1" To="0">
+        <!--<DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenRemoveBook" Storyboard.TargetProperty="(Opacity)" From="1" To="0">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseOut"/>
             </DoubleAnimation.EasingFunction>
@@ -105,7 +105,7 @@
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
+        </DoubleAnimation>-->
         <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
             </ObjectAnimationUsingKeyFrames>-->

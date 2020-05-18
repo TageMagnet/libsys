@@ -28,4 +28,8 @@
     <Resource Include="Assets\LibSysWhite.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AttachedProperties\" />
+  </ItemGroup>
+
 </Project>
