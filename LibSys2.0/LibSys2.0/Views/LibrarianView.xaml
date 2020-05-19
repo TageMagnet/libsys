@@ -167,7 +167,7 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
-                                        
+
                                         <!--Author-->
                                         <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Authors}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
                                                   SelectedValue="{Binding SelectedAuthor, Mode=TwoWay}">
@@ -262,7 +262,7 @@
 
                             <!--#endregion-->
                             <!--#region Add E-Books-->
-                           
+
                         </StackPanel>
                     </Viewbox>
                 </ScrollViewer>
@@ -280,14 +280,14 @@
                                 <Label Content="Inaktiva Böcker"/>
                                 <CheckBox IsChecked="{Binding ActiveBookFilter, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
-                            
+
                             <!--#region ITEMS-->
                             <ItemsControl x:Name="BookControl" ItemsSource="{Binding Items, Mode=TwoWay}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" x:Name="Card1" Style="{StaticResource CardBackgroundShift}">
                                             <Grid Margin="2">
-                                         
+
                                                 <!--#region Grid Definitions-->
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="20"/>
@@ -310,7 +310,7 @@
                                                     </Button.Triggers>
                                                 </Button>
 
-                                                
+
                                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding title}" FontSize="15" FontWeight="DemiBold" Margin="5,0"/>
                                                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding description}" FontSize="10" FontWeight="DemiBold" Margin="5,0"/>
 
@@ -474,12 +474,13 @@
             <Grid>
                 <!--#region Grid Definitions-->
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="97*"/>
+                    <ColumnDefinition Width="36*"/>
+                    <ColumnDefinition Width="132*"/>
+                    <ColumnDefinition Width="132*"/>
+                    <ColumnDefinition Width="132*"/>
+                    <ColumnDefinition Width="132*"/>
+                    <ColumnDefinition Width="132*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -492,7 +493,7 @@
                 <!--#endregion-->
 
                 <!--<StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="6">-->
-                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Top" Margin="0,70,0,0">
                     <TextBox Text="{Binding SelectedAuthor.firstname, Mode=TwoWay}" Width="250" x:Name="Authorfirstname" HorizontalAlignment="Center"/>
                     <TextBlock IsHitTestVisible="False" Text="Förnamn" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,195,0" Foreground="DarkGray">
                         <TextBlock.Style>
@@ -507,7 +508,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                 </Grid>
-                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Top" Margin="0,71,0,0" Grid.RowSpan="2">
                     <TextBox Text="{Binding SelectedAuthor.surname, Mode=TwoWay}" Width="250" x:Name="AuthorSurname" HorizontalAlignment="Center"/>
                     <TextBlock IsHitTestVisible="False" Text="Efternamn" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,187,0" Foreground="DarkGray">
                         <TextBlock.Style>
@@ -522,7 +523,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                 </Grid>
-                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Top" Margin="0,70,0,0">
                     <TextBox Text="{Binding SelectedAuthor.nickname, Mode=TwoWay}" Width="250" x:Name="AuthorNickname" HorizontalAlignment="Center"/>
                     <TextBlock IsHitTestVisible="False" Text="Smeknamn" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,183,0" Foreground="DarkGray">
                         <TextBlock.Style>
@@ -538,13 +539,13 @@
                     </TextBlock>
                 </Grid>
 
-                <Button Grid.Row="3" Grid.Column="1" VerticalAlignment="Bottom" Content="Lägg till" Foreground="#F9AA33" Command="{Binding AddAuthorCommand}">
+                <Button Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Content="Lägg till" Foreground="#F9AA33" Command="{Binding AddAuthorCommand}" Grid.ColumnSpan="3" Margin="35,63,132,0">
 
                 </Button>
                 <!--</StackPanel>-->
-                <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
+                <GridSplitter Grid.Column="4" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
 
-                <ScrollViewer x:Name="FindData" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
+                <ScrollViewer x:Name="FindData" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" Margin="7,7,7,7">
                     <Viewbox>
                         <StackPanel Orientation="Vertical">
                             <!--#region Authors -->
@@ -659,49 +660,109 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="2px" />
-                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 <!-- Add member -->
-                <Border Grid.Column="0" Padding="18, 18">
-                    <WrapPanel Orientation="Vertical">
-                        <StackPanel Style="{StaticResource InputBox}">
-                            <StackPanel>
-                                <TextBlock Text="Email"/>
-                                <TextBox Text="{Binding NewMember.email, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel Style="{StaticResource InputBox}">
-                            <StackPanel>
-                                <TextBlock Text="Smeknamn"/>
-                                <TextBox Text="{Binding NewMember.nickname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel Style="{StaticResource InputBox}">
-                            <StackPanel>
-                                <TextBlock Text="Lösenord"/>
-                                <TextBox Text="{Binding NewMember.pwd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay ,Converter={StaticResource PasswordMask}}"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel Style="{StaticResource InputBox}">
-                            <StackPanel>
-                                <ComboBox IsReadOnly="True" MinWidth="100" ItemsSource="{Binding AvailableRoles}" SelectedIndex="3" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel>
-                            <Button Command="{Binding AddNewMember}" Content="Lägg till användare"/>
-                        </StackPanel>
-                    </WrapPanel>
-                </Border>
+                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+                    <TextBox Text="{Binding NewMember.email, Mode=TwoWay}" Width="250" x:Name="Memberfirstname" HorizontalAlignment="Center"/>
+                    <TextBlock IsHitTestVisible="False" Text="Email" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,195,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=Memberfirstname}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+                    <TextBox Text="{Binding NewMember.nickname, Mode=TwoWay}" Width="250" x:Name="MemberSurname" HorizontalAlignment="Center"/>
+                    <TextBlock IsHitTestVisible="False" Text="Namn" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,187,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=MemberSurname}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+                    <TextBox Text="{Binding NewMember.pwd, Mode=TwoWay, Converter={StaticResource PasswordMask}, UpdateSourceTrigger=PropertyChanged}" Width="250" x:Name="MemberNickname" HorizontalAlignment="Center"/>
+                    <TextBlock IsHitTestVisible="False" Text="Lösenord" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,183,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=MemberNickname}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
 
+                <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+                    <ComboBox x:Name="Memberbox" Grid.Row="3" Grid.ColumnSpan="3" ItemsSource="{Binding AvailableRoles}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                  SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="3" IsReadOnly="True">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Margin="4,0,0,0"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="3" Grid.ColumnSpan="3" IsHitTestVisible="False" Text="Behörighet" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,183,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=Memberbox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+
+                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Width="200">
+                    <Button Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom" Foreground="#F9AA33" Command="{Binding AddNewMember}" Padding="1">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountAdd" Margin="3" VerticalAlignment="Center"/>
+                                <TextBlock Text="Lägg till användare" Margin="3" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button.Content>
+
+                    </Button>
+                </Grid>
+                
                 <!-- Border -->
-                <Border Background="#F9AA33"
-                Grid.Column="1"
-                Grid.RowSpan="6" />
+                <GridSplitter Grid.Column="2" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False"/>
 
                 <!-- Display members -->
-                <Border Grid.Column="2">
+                <!--<Border Grid.Column="3" >-->
                     <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
                         <Viewbox>
                             <StackPanel Orientation="Vertical">
@@ -795,7 +856,7 @@
                                                                       Width="200" Margin="2" Padding="4 2 0 0">
                                                             </ComboBox>
                                                         </StackPanel>
-                                                        
+
                                                         <StackPanel Orientation="Horizontal">
                                                             <Label Content="Skapad: " Width="70" FontSize="12"/>
                                                             <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="200" Margin="2" Padding="2 0 0 0" />
@@ -822,7 +883,7 @@
                             </StackPanel>
                         </Viewbox>
                     </ScrollViewer>
-                </Border>
+                <!--</Border>-->
             </Grid>
         </TabItem>
     </TabControl>
