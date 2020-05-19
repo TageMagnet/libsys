@@ -115,8 +115,8 @@ namespace LibrarySystem.ViewModels
 
             FileUploadCommand = new RelayCommandWithParameters(async (param) => await UploadFile((string)param));
 
-            ToggleHidden = new RelayCommandWithParameters(async (param) => await HiddenCommandMethod((string)param));
-            ToggleVisible = new RelayCommandWithParameters(async (param) => await VisibleCommandMethod((string)param));
+            ToggleHidden = new RelayCommandWithParameters(async (param) => await HiddenCommandMethod((object)param));
+            ToggleVisible = new RelayCommandWithParameters(async (param) => await VisibleCommandMethod((object)param));
 
             AddAuthorCommand = new RelayCommand(async () => await AddAuthorCommandMethod());
             UpdateAuthorCommand = new RelayCommandWithParameters(async (param) => await UpdateAuthorCommandMethod((Author)param));
