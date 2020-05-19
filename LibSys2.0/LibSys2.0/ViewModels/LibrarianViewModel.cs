@@ -1,12 +1,10 @@
 ﻿using Library;
 using LibrarySystem.Models;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reactive;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -45,10 +43,9 @@ namespace LibrarySystem.ViewModels
                         _ = LoadMembers();
                         break;
                 }
-
             }
         }
-        
+
 
         public Member NewMember { get; set; }
         private ItemRepository itemRepo = new ItemRepository();
@@ -78,7 +75,9 @@ namespace LibrarySystem.ViewModels
         public bool ActiveBookFilter
         {
             get { return activeBookFilter; }
-            set { activeBookFilter = value;
+            set
+            {
+                activeBookFilter = value;
                 if (value == true)
                     ActiveFilter = 0;
                 else
@@ -92,44 +91,44 @@ namespace LibrarySystem.ViewModels
         #endregion
 
         #region Commands
-        public ReactiveCommand<Unit, Unit> AddBookCommand { get; set; }
-        public ReactiveCommand<Item, Unit> UpdateBookCommand { get; set; }
-        public ReactiveCommand<Author, Unit> UpdateAuthorCommand { get; set; }
-        public ReactiveCommand<int, Unit> RemoveBookCommand { get; set; }
-        public ReactiveCommand<int, Unit> RemoveAuthorCommand { get; set; }
-        public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
-        public ReactiveCommand<object, Unit> ToggleHidden { get; set; }
-        public ReactiveCommand<object, Unit> ToggleVisible { get; set; }
-        public ReactiveCommand<Unit, Unit> AddAuthorCommand { get; set; }
-        public ReactiveCommand<Unit, Unit> AddNewMember { get; set; }
-        public ReactiveCommand<object, Unit> DeleteMemberCommand { get; set; }
-        public ReactiveCommand<Member, Unit> UpdateMemberCommand { get; set; }
-        public ReactiveCommand<string, Unit> FileUploadCommand { get; set; }
+        public RelayCommand AddBookCommand { get; set; }
+        public RelayCommandWithParameters UpdateBookCommand { get; set; }
+        public RelayCommandWithParameters UpdateAuthorCommand { get; set; }
+        public RelayCommandWithParameters RemoveBookCommand { get; set; }
+        public RelayCommandWithParameters RemoveAuthorCommand { get; set; }
+        public RelayCommand AddEventCommand { get; set; }
+        public RelayCommandWithParameters ToggleHidden { get; set; }
+        public RelayCommandWithParameters ToggleVisible { get; set; }
+        public RelayCommand AddAuthorCommand { get; set; }
+        public RelayCommand AddNewMember { get; set; }
+        public RelayCommandWithParameters DeleteMemberCommand { get; set; }
+        public RelayCommandWithParameters UpdateMemberCommand { get; set; }
+        public RelayCommandWithParameters FileUploadCommand { get; set; }
 
         #endregion
         public LibrarianViewModel()
         {
 
-            AddBookCommand = ReactiveCommand.CreateFromTask(() => AddBookCommandMethod());
-            UpdateBookCommand = ReactiveCommand.CreateFromTask((Item item) => UpdateBookCommandMethod(item));
-            RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
+            AddBookCommand = new RelayCommand(async () => await AddBookCommandMethod());
+            UpdateBookCommand = new RelayCommandWithParameters(async (param) => await UpdateBookCommandMethod((Item)param));
+            RemoveBookCommand = new RelayCommandWithParameters(async (param) => await RemoveBookCommandMethod((int)param));
 
-            FileUploadCommand = ReactiveCommand.CreateFromTask((string arg) => UploadFile(arg));
+            FileUploadCommand = new RelayCommandWithParameters(async (param) => await UploadFile((string)param));
 
-            ToggleHidden = ReactiveCommand.CreateFromTask((object param) => HiddenCommandMethod(param));
-            ToggleVisible = ReactiveCommand.CreateFromTask((object param) => VisibleCommandMethod(param));
+            ToggleHidden = new RelayCommandWithParameters(async (param) => await HiddenCommandMethod((string)param));
+            ToggleVisible = new RelayCommandWithParameters(async (param) => await VisibleCommandMethod((string)param));
 
-            AddAuthorCommand = ReactiveCommand.CreateFromTask(() => AddAuthorCommandMethod());
-            UpdateAuthorCommand = ReactiveCommand.CreateFromTask((Author author) => UpdateAuthorCommandMethod(author));
-            RemoveAuthorCommand = ReactiveCommand.CreateFromTask((int id) => RemoveAuthorCommandMethod(id));
+            AddAuthorCommand = new RelayCommand(async () => await AddAuthorCommandMethod());
+            UpdateAuthorCommand = new RelayCommandWithParameters(async (param) => await UpdateAuthorCommandMethod((Author)param));
+            RemoveAuthorCommand = new RelayCommandWithParameters(async (param) => await RemoveAuthorCommandMethod((int)param));
 
-            AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
+            AddEventCommand = new RelayCommand(async () => await AddEventCommandMethod());
 
-            AddNewMember = ReactiveCommand.CreateFromTask(() => AddNewMemberCommand());
-            DeleteMemberCommand = ReactiveCommand.CreateFromTask((object obj) => DeleteMemberCommandMethod(obj));
-            UpdateMemberCommand = ReactiveCommand.CreateFromTask((Member member) => UpdateMemberCommandMethod(member));
+            AddNewMember = new RelayCommand(async() => await AddNewMemberCommand());
+            DeleteMemberCommand = new RelayCommandWithParameters(async (param) => await DeleteMemberCommandMethod(param));
+            UpdateMemberCommand = new RelayCommandWithParameters(async (param) => await UpdateMemberCommandMethod((Member)param));
 
-            
+
 
             LoadDataAsync();
         }
@@ -165,7 +164,7 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Lägg till kategori!");
                 return;
             }
-            if(SelectedItem.year == 0)
+            if (SelectedItem.year == 0)
             {
                 MessageBox.Show("Lägg till årtal!");
                 return;
@@ -183,7 +182,7 @@ namespace LibrarySystem.ViewModels
 
         }
 
-  
+
         /// <summary>
         /// Updates a Book in DB
         /// </summary>
@@ -229,15 +228,15 @@ namespace LibrarySystem.ViewModels
 
             BookCategory = await categoryRepo.GetCategory(Converter(category));
             // if GetCategory returns null return error
-            if(BookCategory == null )
+            if (BookCategory == null)
             {
                 MessageBox.Show("Felaktig inmatning i Kategori");
                 InputCategory = "";
                 return;
             }
             else
-            SelectedItem.category = BookCategory.category;
-            
+                SelectedItem.category = BookCategory.category;
+
         }
 
         /// <summary>
@@ -251,12 +250,12 @@ namespace LibrarySystem.ViewModels
             first = category.First().ToString();
             if (category.Length > 1)
             {
-               last = category.Last().ToString();
-               return cat = first.ToUpper() + last.ToLower();
+                last = category.Last().ToString();
+                return cat = first.ToUpper() + last.ToLower();
             }
             else
-               return cat = first.ToUpper();
-            
+                return cat = first.ToUpper();
+
         }
 
         /// <summary>
@@ -310,7 +309,7 @@ namespace LibrarySystem.ViewModels
         {
             int numberOfAuthorBooks = 0;
 
-            foreach(var item in await itemRepo.ReadAll())
+            foreach (var item in await itemRepo.ReadAll())
             {
                 if (item.ref_author_id == id)
                     numberOfAuthorBooks++;
@@ -334,7 +333,7 @@ namespace LibrarySystem.ViewModels
             {
                 await LoadAuthors();
             }
-            
+
         }
 
         public async Task AddEventCommandMethod()
@@ -417,7 +416,7 @@ namespace LibrarySystem.ViewModels
         /// <returns></returns>
         public async Task LoadBooks()
         {
-            
+
             Items.Clear();
             foreach (var item in await itemRepo.ReadAllItemsWithStatus(ActiveFilter))
             {
@@ -551,10 +550,10 @@ namespace LibrarySystem.ViewModels
 
             if (dialog.ShowDialog() == true)
             {
-                foreach(string filename in dialog.FileNames.ToList())
+                foreach (string filename in dialog.FileNames.ToList())
                 {
 
-                    if(arg != "book_cover" && arg != "book_url" && arg != "ebook_cover" && arg != "ebook_url")
+                    if (arg != "book_cover" && arg != "book_url" && arg != "ebook_cover" && arg != "ebook_url")
                     {
                         MessageBox.Show("Error, fel input");
                         return;
@@ -571,7 +570,7 @@ namespace LibrarySystem.ViewModels
                         continue;
                         //throw new Exception("Not so large files plz, todo; display error here instead of exception");
                     }
-                        
+
                     // Upload file to server
                     var JSONresponseObject = await Etc.WebHelper.UploadCoverImage(filename);
 
@@ -594,8 +593,6 @@ namespace LibrarySystem.ViewModels
                         SelectedItem.url = parsedObj.Location;
                         OnPropertyChanged("SelectedItem");
                     }
-                   
-
 
                     // Do something with the response
                     MessageBox.Show("Laddade upp! Pleäse tryck på uppdatera nu");
