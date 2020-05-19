@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
         <converters:IntToEmptyConverter x:Key="IntConvert"/>
-        
+        <converters:StringToPasswordConverter x:Key="PasswordMask"/>
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="Foreground" Value="#F9AA33"/>
         </Style>
@@ -681,7 +681,7 @@
                         <StackPanel Style="{StaticResource InputBox}">
                             <StackPanel>
                                 <TextBlock Text="Lösenord"/>
-                                <TextBox Text="{Binding NewMember.pwd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <TextBox Text="{Binding NewMember.pwd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay ,Converter={StaticResource PasswordMask}}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Style="{StaticResource InputBox}">
@@ -786,7 +786,7 @@
                                                         </StackPanel>
                                                         <StackPanel Orientation="Horizontal">
                                                             <Label Content="Lösenord: " Width="70" FontSize="12"/>
-                                                            <TextBox Text="{Binding pwd}"  Width="200" Margin="2" Padding="2 0 0 0"/>
+                                                            <TextBox Text="{Binding pwd, Converter={StaticResource PasswordMask}}" IsReadOnly="True"  Width="200" Margin="2" Padding="2 0 0 0"/>
                                                         </StackPanel>
                                                         <StackPanel Orientation="Horizontal" Margin="0 3 0 0">
                                                             <Label Content="Roll: " Width="70" FontSize="12" />
