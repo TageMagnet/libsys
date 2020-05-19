@@ -271,16 +271,6 @@ namespace LibrarySystem.ViewModels
 
         public async Task UpdateMemberCommandMethod(Member member)
         {
-
-            if (SelectedRoleIndex >= 0)
-            {
-                member.member_id = Members[SelectedRoleIndex].member_id;
-                // reset
-                SelectedRoleIndex = -1;
-            }
-
-            member.role = null;
-
             SelectedRoleIndex = AvailableRoles.IndexOf(member.role);
             member.ref_member_role_id++;
             await memberRepo.Update(member);
@@ -520,7 +510,7 @@ namespace LibrarySystem.ViewModels
             NewMember.email = "";
             NewMember.nickname = "";
             NewMember.pwd = "";
-            NewMember.role = "";
+            NewMember.role = null;
             this.OnPropertyChanged(nameof(NewMember));
 
         }
