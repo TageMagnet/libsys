@@ -1,20 +1,25 @@
-﻿using ReactiveUI;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Reactive;
 using System.Text;
 
 namespace LibrarySystem.ViewModels
 {
     public class HeaderViewModel : BaseViewModel
     {
-        public ReactiveCommand<string, Unit> GoHome { get; set; } = ReactiveCommand.Create((string vmName) => MainWindowViewModel.ChangeView(vmName));
-        public ReactiveCommand<Unit, Unit> GoToLogin { get; set; } = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("login"));
-        public ReactiveCommand<Unit, Unit> GoToRegister { get; set; } = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("register"));
-        public ReactiveCommand<Unit, Unit> ByPassIntoBackend { get; set; } = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("librarian"));
-
+        public RelayCommandWithParameters GoHome { get; set; }
+        public RelayCommand GoToLogin { get; set; }
+        public RelayCommand GoToRegister { get; set; }
+        public RelayCommand ByPassIntoBackend { get; set; }
         public bool IsLoggedIn { get => !string.IsNullOrEmpty(MainWindowViewModel.CurrentLoggedInMember.role); }
         /// <summary> Extends the currently logged in member from MainWindow </summary>
         public Models.Member CurrentLoggedInMember { get => MainWindowViewModel.CurrentLoggedInMember; set => MainWindowViewModel.CurrentLoggedInMember = value; }
+
+        public HeaderViewModel()
+        {
+            GoHome = new RelayCommandWithParameters((param) => MainWindowViewModel.ChangeView((string)param));
+            GoToLogin = new RelayCommand(() => MainWindowViewModel.ChangeView("login")); 
+            GoToRegister = new RelayCommand(() => MainWindowViewModel.ChangeView("register"));
+            ByPassIntoBackend = new RelayCommand(() => MainWindowViewModel.ChangeView("librarian"));
+        }
     }
 }

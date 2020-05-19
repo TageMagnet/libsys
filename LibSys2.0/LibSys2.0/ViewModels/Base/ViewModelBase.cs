@@ -25,12 +25,5 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         /// <param name="name"></param>
         public void NotifyPropertyChanged([CallerMemberName] String name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
-        //Nedanför är Commands som används i multipla ViewModels
-        /// <summary>
-        /// Go to specified page
-        /// </summary>
-        public ReactiveUI.ReactiveCommand<string, System.Reactive.Unit> GoToPage { get; set; } = ReactiveUI.ReactiveCommand.Create((string vmName) => MainWindowViewModel.ChangeView(vmName));
-
     }
 }

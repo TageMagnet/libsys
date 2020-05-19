@@ -1,11 +1,9 @@
 ﻿using Library;
 using LibrarySystem.Etc;
 using LibrarySystem.Models;
-using ReactiveUI;
 using Renci.SshNet.Messages;
 using System;
 using System.Collections.Generic;
-using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,7 +21,7 @@ namespace LibrarySystem.ViewModels
         #endregion
 
         #region Commands
-        public ReactiveCommand<Unit, Unit> RegisterCommand { get; set; }
+        public RelayCommand RegisterCommand { get; set; }
 
         #endregion
 
@@ -31,7 +29,7 @@ namespace LibrarySystem.ViewModels
         {
             NewMember = new Member();
 
-            RegisterCommand = ReactiveCommand.CreateFromTask(() => RegisterCommandMethod());
+            RegisterCommand = new RelayCommand(async() => await RegisterCommandMethod());
         }
 
 

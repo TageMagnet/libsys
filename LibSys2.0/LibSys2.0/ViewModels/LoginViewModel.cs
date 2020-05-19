@@ -1,9 +1,7 @@
 ﻿using Library;
 using LibrarySystem.Models;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
-using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,14 +26,14 @@ namespace LibrarySystem.ViewModels
             }
         }
 
-        public ReactiveCommand<Unit, Unit> LoginCommand { get; set; }
-        public ReactiveCommand<Unit, Unit> GoBackCommand { get; set; }
+        public RelayCommand LoginCommand { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
         public LoginViewModel()
         {
             LoadDataAsync();
 
-            LoginCommand = ReactiveCommand.Create(() => LoginMethod());
-            GoBackCommand = ReactiveCommand.Create(() => MainWindowViewModel.ChangeView("home"));
+            LoginCommand = new RelayCommand(async () => await LoginMethod());
+            GoBackCommand = new RelayCommand(() => MainWindowViewModel.ChangeView("home"));
         }
 
         //Skapa loginmetod
@@ -48,7 +46,7 @@ namespace LibrarySystem.ViewModels
         {
             memberList = new List<Member>(await memberRepo.ReadAll());
         }
-        public void LoginMethod()
+        public async Task LoginMethod()
         {
             var member = new Member();
 
@@ -80,6 +78,12 @@ namespace LibrarySystem.ViewModels
                 Password = "";
                 return;
             }
+
+            await Task.Run(async() => {
+                // Do something with loading bar here
+                await Task.Delay(1);
+            });
+
             MainWindowViewModel.ChangeView(user.role);
         }
 

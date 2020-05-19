@@ -1,9 +1,7 @@
 ﻿using LibrarySystem.Models;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using Library;
@@ -17,15 +15,15 @@ namespace LibrarySystem.ViewModels
         /// <summary>
         /// Search for book using string from search-field
         /// </summary>
-        public ReactiveCommand<string, Unit> SearchCommand { get; set; }
+        public RelayCommandWithParameters SearchCommand { get; set; }
         /// <summary>
         /// Which database column to search in
         /// </summary>
-        public ReactiveCommand<string, Unit> SetSearchColumn { get; set; }
+        public RelayCommandWithParameters SetSearchColumn { get; set; }
         /// <summary>
         /// Paste autocomplete click into searchbox
         /// </summary>
-        public ReactiveCommand<string, Unit> PasteToSearchBox { get; set; }
+        public RelayCommandWithParameters PasteToSearchBox { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -51,6 +49,7 @@ namespace LibrarySystem.ViewModels
             get => Math.Ceiling(Convert.ToDouble(SearchResultCount) / Convert.ToDouble(ResultsPerPage));
             set { resultsDividedPerPage = value; }
         }
+        public int CurrentSearchPage { get; set; } = 0;
 
         public ViewModels.Components.SearchPageControl SearchPageControl { get; set; } = new ViewModels.Components.SearchPageControl();
         // Private holder
@@ -80,26 +79,25 @@ namespace LibrarySystem.ViewModels
 
         public HomeViewModel()
         {
-            SearchCommand = ReactiveCommand.Create((string value) => SearchCommandAction(value));
-            SetSearchColumn = ReactiveCommand.Create((string value) =>
+            SearchCommand = new RelayCommandWithParameters(async (param) => await SearchCommandAction((string)param));
+            SetSearchColumn = new RelayCommandWithParameters((param)=>
             {
-                SearchColumn = value;
+                SearchColumn = (string)param;
             });
-            PasteToSearchBox = ReactiveCommand.Create((string value) =>
+            PasteToSearchBox = new RelayCommandWithParameters(async (param) =>
             {
-                SearchFieldText = value;
-                SearchCommandAction(SearchFieldText);
+                SearchFieldText = (string)param;
+                await SearchCommandAction(SearchFieldText);
                 AutoCompleteList.Clear();
             });
         }
 
-        private void SearchCommandAction(string arg)
+        private async Task SearchCommandAction(string arg)
         {
             // Clear old search
             SearchResults.Clear();
             // Load new
-            LoadSearchResults(arg);
-
+            await LoadSearchResults(arg);
         }
 
         private async void LoadAutoCompleteResults()
@@ -120,7 +118,7 @@ namespace LibrarySystem.ViewModels
             }
         }
 
-        private async void LoadSearchResults(string arg)
+        private async Task LoadSearchResults(string arg)
         {
             // Load repos
             var items = await itemRepository.SearchQuery(SearchFieldText);

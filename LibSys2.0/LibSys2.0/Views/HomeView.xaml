@@ -232,7 +232,7 @@
                     Margin="0,65,0,0">
             <materialDesign:PackIcon Kind="ArrowLeft" Foreground="Red"/>
             <TextBlock>
-                <Run Text="{Binding xx,FallbackValue='0'}"/>
+                <Run Text="{Binding CurrentSearchPage,FallbackValue='0'}"/>
                 <Span>/</Span>
                 <Run Text="{Binding ResultsDividedPerPage,FallbackValue='0',UpdateSourceTrigger=PropertyChanged}"/>
              
