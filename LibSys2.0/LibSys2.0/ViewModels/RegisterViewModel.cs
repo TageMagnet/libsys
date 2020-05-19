@@ -70,8 +70,8 @@ namespace LibrarySystem.ViewModels
 
             NewMember.ref_member_role_id = 3;
             NewMember.created_at = DateTime.Now;
-            // todo; this should be set to 0 and later on 1 when activated through emailed registration link
-            NewMember.is_active = 1;
+            // This is set to 0 and later on 1 when activated through emailed registration link
+            NewMember.is_active = 0;
 
             // Setup in database;
             NewMember = await memberRepo.Create(NewMember);

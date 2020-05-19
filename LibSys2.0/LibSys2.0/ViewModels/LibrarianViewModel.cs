@@ -52,15 +52,11 @@ namespace LibrarySystem.ViewModels
 
         public Member NewMember { get; set; }
         private ItemRepository itemRepo = new ItemRepository();
-        //public BookRepository bookRepo = new BookRepository();
-        //public eBookRepository eBookRepo = new eBookRepository();
         public EventRepository eventRepo = new EventRepository();
         public AuthorRepository authorRepo = new AuthorRepository();
         public MemberRepository memberRepo = new MemberRepository();
         public CategoryRepository categoryRepo = new CategoryRepository();
         public Item SelectedItem { get; set; } = new Item();
-        //public Book SelectedBook { get; set; } = new Book();
-        //public eBook SelectedeBook { get; set; } = new eBook();
         public Author SelectedAuthor { get; set; } = new Author();
         public Category BookCategory { get; set; } = new Category();
         public Member SelectedMember { get; set; } = new Member();
@@ -68,8 +64,6 @@ namespace LibrarySystem.ViewModels
         public string InputCategory { get; set; }
 
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
-        //public ObservableCollection<Book> Books { get; set; } = new ObservableCollection<Book>();
-        //public ObservableCollection<eBook> eBooks { get; set; } = new ObservableCollection<eBook>();
         public ObservableCollection<Event> Events { get; set; } = new ObservableCollection<Event>();
         public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
         /// <summary>Index storage when updating</summary>
@@ -264,24 +258,6 @@ namespace LibrarySystem.ViewModels
                return cat = first.ToUpper();
             
         }
-        //public async Task GeteBookCategory(string category)
-        //{
-        //    BookCategory = await categoryRepo.GetCategory(category);
-        //    SelectedeBook.category = BookCategory.category;
-        //}
-        //public async Task UpdateeBookCommandMethod(eBook ebook)
-        //{
-        //    if (SelectedAuthorIndex >= 0)
-        //    {
-        //        ebook.ref_author_id = Authors[SelectedAuthorIndex].author_id;
-        //        // reset
-        //        SelectedAuthorIndex = -1;
-        //    }
-
-        //    ebook.Author = null;
-        //    await eBookRepo.Update(ebook);
-        //    await LoadeBooks();
-        //}
 
         /// <summary>
         /// Updates a author to db.
@@ -297,16 +273,16 @@ namespace LibrarySystem.ViewModels
         public async Task UpdateMemberCommandMethod(Member member)
         {
 
-            //if (SelectedRoleIndex >= 0)
-            //{
-            //    member.member_id = Members[SelectedRoleIndex].member_id;
-            //    // reset
-            //    SelectedRoleIndex = -1;
-            //}
+            if (SelectedRoleIndex >= 0)
+            {
+                member.member_id = Members[SelectedRoleIndex].member_id;
+                // reset
+                SelectedRoleIndex = -1;
+            }
 
-            //member.role = null;
+            member.role = null;
 
-            //SelectedRoleIndex = AvailableRoles.IndexOf(member.role);
+            SelectedRoleIndex = AvailableRoles.IndexOf(member.role);
             member.ref_member_role_id++;
             await memberRepo.Update(member);
             await LoadMembers();
@@ -350,21 +326,6 @@ namespace LibrarySystem.ViewModels
                     numberOfAuthorBooks++;
             }
 
-            //foreach (var book in await bookRepo.ReadAll())
-            //{
-            //    if (book.ref_author_id == id)
-            //    {
-            //        numberOfAuthorBooks++;
-            //    }
-            //}
-            //foreach (var ebok in await eBookRepo.ReadAll())
-            //{
-            //    if (ebok.ref_author_id == id)
-            //    {
-            //        numberOfAuthorBooks++;
-            //    }
-            //}
-
             if (numberOfAuthorBooks > 0)
             {
                 MessageBox.Show($"Denna författare är bunden till {numberOfAuthorBooks}st böcker. Och kan därför inte tas bort");
@@ -386,31 +347,10 @@ namespace LibrarySystem.ViewModels
             
         }
 
-        /// <summary>
-        /// Changes status on eBook from 1(active) to 0(inactive)
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        //public async Task RemoveeBookCommandMethod(int id)
-        //{
-        //    if (string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
-        //    {
-        //        MessageBox.Show("Fyll i anledning!");
-        //        ReasonToDelete = "";
-        //        this.NotifyPropertyChanged(nameof(ReasonToDelete));
-        //        return;
-        //    }
-        //    ReasonToDelete = "";
-        //    this.NotifyPropertyChanged(nameof(ReasonToDelete));
-        //    await eBookRepo.ChangeStatuseBook(id);
-        //    await LoadeBooks();
-        //}
-
         public async Task AddEventCommandMethod()
         {
 
         }
-
 
         /// <summary>
         /// Makes Arrow down button Visible
@@ -496,20 +436,6 @@ namespace LibrarySystem.ViewModels
         }
 
         /// <summary>
-        /// Reloads E-Books From DB
-        /// </summary>
-        /// <returns></returns>
-        //public async Task LoadeBooks()
-        //{
-        //    eBooks.Clear();
-        //    foreach (var ebook in await eitemRepo.ReadAlleBooksWithStatus(ActiveFilter))
-        //    {
-        //        eBooks.Add(ebook);
-        //    }
-        //}
-
-
-        /// <summary>
         /// Reloads all the Events from DB
         /// </summary>
         /// <returns></returns>
@@ -585,7 +511,7 @@ namespace LibrarySystem.ViewModels
         {
             Member member = (Member)obj;
             member.is_active = 0;
-            await memberRepo.Update(member);
+            await UpdateMemberCommandMethod(member);
             await LoadMembers();
         }
 
@@ -615,26 +541,6 @@ namespace LibrarySystem.ViewModels
             SelectedItem.year = 0;
             SelectedAuthor = null;
             this.OnPropertyChanged(nameof(SelectedItem));
-            //Clear Books
-            //if (sender == "books")
-            //{
-
-
-            //}
-
-            //Clear E-Books
-            //else if (sender == "ebooks")
-            //{
-            //    SelectedeBook.title = "";
-            //    SelectedeBook.description = "";
-            //    SelectedeBook.isbn = "";
-            //    InputCategory = "";
-            //    SelectedeBook.cover = "";
-            //    SelectedeBook.url = "";
-            //    SelectedeBook.year = 0;
-            //    SelectedAuthor = null;
-            //    this.OnPropertyChanged(nameof(SelectedeBook));
-            //}
         }
 
 
