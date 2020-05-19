@@ -9,7 +9,5 @@ namespace LibrarySystem.Models
         public int category_id { get; set; }
         public string code { get; set; }
         public string category { get; set; }
-
-
     }
 }

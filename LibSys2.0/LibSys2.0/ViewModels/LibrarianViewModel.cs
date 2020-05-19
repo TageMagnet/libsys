@@ -99,24 +99,17 @@ namespace LibrarySystem.ViewModels
 
         #region Commands
         public ReactiveCommand<Unit, Unit> AddBookCommand { get; set; }
-
         public ReactiveCommand<Item, Unit> UpdateBookCommand { get; set; }
-        //public ReactiveCommand<eBook, Unit> UpdateeBookCommand { get; set; }
         public ReactiveCommand<Author, Unit> UpdateAuthorCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveBookCommand { get; set; }
-        //public ReactiveCommand<int, Unit> RemoveeBookCommand { get; set; }
         public ReactiveCommand<int, Unit> RemoveAuthorCommand { get; set; }
-        //public ReactiveCommand<Unit, Unit> AddeBookCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddEventCommand { get; set; }
         public ReactiveCommand<object, Unit> ToggleHidden { get; set; }
         public ReactiveCommand<object, Unit> ToggleVisible { get; set; }
-
         public ReactiveCommand<Unit, Unit> AddAuthorCommand { get; set; }
         public ReactiveCommand<Unit, Unit> AddNewMember { get; set; }
         public ReactiveCommand<object, Unit> DeleteMemberCommand { get; set; }
-
         public ReactiveCommand<Member, Unit> UpdateMemberCommand { get; set; }
-
         public ReactiveCommand<string, Unit> FileUploadCommand { get; set; }
 
         #endregion
@@ -125,22 +118,24 @@ namespace LibrarySystem.ViewModels
 
             AddBookCommand = ReactiveCommand.CreateFromTask(() => AddBookCommandMethod());
             UpdateBookCommand = ReactiveCommand.CreateFromTask((Item item) => UpdateBookCommandMethod(item));
-            //UpdateeBookCommand = ReactiveCommand.CreateFromTask((eBook ebook) => UpdateeBookCommandMethod(ebook));
             RemoveBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveBookCommandMethod(id));
-            //RemoveeBookCommand = ReactiveCommand.CreateFromTask((int id) => RemoveeBookCommandMethod(id));
-            RemoveAuthorCommand = ReactiveCommand.CreateFromTask((int id) => RemoveAuthorCommandMethod(id));
-            //AddeBookCommand = ReactiveCommand.CreateFromTask(() => AddeBookCommandMethod());
-            AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
+
+            FileUploadCommand = ReactiveCommand.CreateFromTask((string arg) => UploadFile(arg));
+
             ToggleHidden = ReactiveCommand.CreateFromTask((object param) => HiddenCommandMethod(param));
             ToggleVisible = ReactiveCommand.CreateFromTask((object param) => VisibleCommandMethod(param));
+
             AddAuthorCommand = ReactiveCommand.CreateFromTask(() => AddAuthorCommandMethod());
             UpdateAuthorCommand = ReactiveCommand.CreateFromTask((Author author) => UpdateAuthorCommandMethod(author));
+            RemoveAuthorCommand = ReactiveCommand.CreateFromTask((int id) => RemoveAuthorCommandMethod(id));
+
+            AddEventCommand = ReactiveCommand.CreateFromTask(() => AddEventCommandMethod());
 
             AddNewMember = ReactiveCommand.CreateFromTask(() => AddNewMemberCommand());
             DeleteMemberCommand = ReactiveCommand.CreateFromTask((object obj) => DeleteMemberCommandMethod(obj));
             UpdateMemberCommand = ReactiveCommand.CreateFromTask((Member member) => UpdateMemberCommandMethod(member));
 
-            FileUploadCommand = ReactiveCommand.CreateFromTask((string arg) => UploadFile(arg));
+            
 
             LoadDataAsync();
         }
@@ -150,7 +145,6 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         /// <returns></returns>
         public async Task AddBookCommandMethod()
-        #region ...
         {
             if (SelectedItem.title == null)
             {
@@ -194,45 +188,6 @@ namespace LibrarySystem.ViewModels
             await ClearBookLines("books");
 
         }
-        #endregion
-        /// <summary>
-        /// Checks and adds a E-Book to the database
-        /// </summary>
-        /// <returns></returns>
-        //public async Task AddeBookCommandMethod()
-        //{
-        //    if (SelectedeBook.title == null)
-        //    {
-        //        MessageBox.Show("Lägg till titel!");
-        //        return;
-        //    }
-        //    if (SelectedAuthor.author_id == 0)
-        //    {
-        //        MessageBox.Show("Lägg till författare!");
-        //        return;
-        //    }
-        //    if (SelectedeBook.description == null)
-        //    {
-        //        MessageBox.Show("Lägg till beskrivning!");
-        //        return;
-        //    }
-        //    if (SelectedeBook.isbn == null)
-        //    {
-        //        MessageBox.Show("Lägg till isbn!");
-        //        return;
-        //    }
-        //    if (InputCategory == null)
-        //    {
-        //        MessageBox.Show("Lägg till kategori!");
-        //        return;
-        //    }
-        //    SelectedeBook.ref_author_id = SelectedAuthor.author_id;
-        //    SelectedeBook.is_active = 1;
-        //    await GeteBookCategory(InputCategory);
-        //    await eBookRepo.Create(SelectedeBook);
-        //    await LoadeBooks();
-        //    await ClearBookLines("ebooks");
-        //}
 
   
         /// <summary>

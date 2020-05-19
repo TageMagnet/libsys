@@ -6,11 +6,14 @@ using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using Library;
 
 namespace LibrarySystem.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
+
+        private ItemRepository itemRepository = new ItemRepository();
         /// <summary>
         /// Search for book using string from search-field
         /// </summary>
@@ -26,7 +29,7 @@ namespace LibrarySystem.ViewModels
         /// <summary>
         /// 
         /// </summary>
-        public ObservableCollection<IArticle> SearchResults { get; set; } = new ObservableCollection<IArticle>();
+        public ObservableCollection<Item> SearchResults { get; set; } = new ObservableCollection<Item>();
         // Defaulted to 'title'
         private string searchColumn { get; set; } = "title";
         /// <summary>
@@ -103,52 +106,29 @@ namespace LibrarySystem.ViewModels
         {
             AutoCompleteList.Clear();
             // Load repos
-            var repo = new Library.BookRepository();
-            var repo2 = new Library.eBookRepository();
-            // Do the search queries
-            var books = await repo.SearchQuery(SearchFieldText);
-            var eBooks = await repo2.SearchQuery(SearchFieldText);
+            var items = await itemRepository.SearchQuery(SearchFieldText);
+
             // The first 3
             int j = 0;
             int max = 3;
-            foreach (Book book in books)
+            foreach (Item item in items)
             {
                 if (j >= max)
                     break;
-                AutoCompleteList.Add(book.title);
+                AutoCompleteList.Add(item.title);
                 j++;
             }
-            foreach (eBook ebook in eBooks)
-            {
-                if (j >= max)
-                    break;
-                AutoCompleteList.Add(ebook.title);
-                j++;
-            }
-
-            // Notify autocomplete
-            //NotifyPropertyChanged("AutoCompleteList");
         }
 
         private async void LoadSearchResults(string arg)
         {
             // Load repos
-            var repo = new Library.BookRepository();
-            var repo2 = new Library.eBookRepository();
-            // Do the search queries
-            var books = await repo.SearchQuery(arg);
-            var eBooks = await repo2.SearchQuery(arg);
+            var items = await itemRepository.SearchQuery(SearchFieldText);
 
             // Loop and add them into the view
-            foreach (IArticle book in books)
+            foreach (Item item in items)
             {
-                book.IsEbook = false;
-                SearchResults.Add(book);
-            }
-            foreach (eBook ebook in eBooks)
-            {
-                ebook.IsEbook = true;
-                SearchResults.Add(ebook);
+                SearchResults.Add(item);
             }
 
             // Notify the counters
