@@ -79,8 +79,9 @@ namespace LibrarySystem.ViewModels
 
         public HomeViewModel()
         {
+            // Init empty user
             SearchCommand = new RelayCommandWithParameters(async (param) => await SearchCommandAction((string)param));
-            SetSearchColumn = new RelayCommandWithParameters((param)=>
+            SetSearchColumn = new RelayCommandWithParameters((param) =>
             {
                 SearchColumn = (string)param;
             });

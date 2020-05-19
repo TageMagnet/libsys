@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using LibrarySystem.Models;
+using PropertyChanged;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

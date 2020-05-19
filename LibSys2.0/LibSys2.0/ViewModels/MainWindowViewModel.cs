@@ -11,11 +11,6 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public static UserControl CurrentView { get; set; }
 
-        /// <summary>
-        /// Currently logged in member
-        /// </summary>
-        public static Models.Member CurrentLoggedInMember { get; set; } = new Models.Member();
-
         public MainWindowViewModel()
         {
             CurrentView = new HomeView();

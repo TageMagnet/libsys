@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LibrarySystem.Views"
+             xmlns:converters="clr-namespace:LibrarySystem.Converters"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:EmptyStringConverter x:Key="EmptyString"/>
+    </UserControl.Resources>
     <Border Background="{StaticResource DarkBlueBrush}">
         <Grid>
             <!--#region Col-/Row Definintions -->
@@ -43,9 +47,30 @@
             <!--#region Navigation menu -->
             <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
 
+                <Border Padding="4" Margin="22,0">
+                    <StackPanel>
 
-                <DockPanel>
-                    <CheckBox x:Name="IsRegisteredUserCheckDummy" Visibility="Hidden" IsChecked="{Binding IsLoggedIn, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock MaxWidth="96" Text="{Binding CurrentLoggedInUserExtended.role, 
+                            FallbackValue='not logged in', 
+                            Converter={StaticResource EmptyString},
+                            ConverterParameter='not logged in',
+                            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+                        <TextBlock MaxWidth="96" Text="{Binding CurrentLoggedInUserExtended.email, 
+                            FallbackValue='-', 
+                            Converter={StaticResource EmptyString},
+                            ConverterParameter='--',
+                            UpdateSourceTrigger=PropertyChanged}"/>
+                        
+                    </StackPanel>
+                </Border>
+                <!--<DockPanel>
+                    <StackPanel>
+                        <TextBlock MaxWidth="96" Text="{Binding CurrentLoggedInMember.role, FallbackValue='not logged in'}"/>
+                        <TextBlock MaxWidth="96" Text="{Binding CurrentLoggedInMember.email, FallbackValue='-'}"/>
+                        <CheckBox IsChecked="{Binding IsLoggedIn}"/>
+                    </StackPanel>
+                    <CheckBox x:Name="IsRegisteredUserCheckDummy" IsChecked="{Binding IsLoggedIn, UpdateSourceTrigger=PropertyChanged}"/>
                     <CheckBox x:Name="IsRegisteredUserCheck" IsChecked="false"/>
                     <TextBlock Padding="12">
                         <TextBlock.Style>
@@ -65,11 +90,13 @@
                             </Style>
 
                         </TextBlock.Style>
-                    <!--<Run></Run>
+                    -->
+                <!--<Run></Run>
                     <LineBreak/>
                     in as-->
+                <!--
                     </TextBlock>
-                </DockPanel>
+                </DockPanel>-->
 
                 <Button Command="{Binding ByPassIntoBackend}" 
                         Content="{materialDesign:PackIcon Kind=SmileyDevil}"

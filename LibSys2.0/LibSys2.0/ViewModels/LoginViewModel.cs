@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Linq;
 
 namespace LibrarySystem.ViewModels
 {
@@ -48,7 +49,7 @@ namespace LibrarySystem.ViewModels
         }
         public async Task LoginMethod()
         {
-            var member = new Member();
+            Member user = new Member();
 
 
             if (String.IsNullOrWhiteSpace(Username))
@@ -63,7 +64,7 @@ namespace LibrarySystem.ViewModels
                 return;
             }
 
-            var user = memberList.Find(x => x.email == Username);
+            user = (await memberRepo.SearchByColumn("email", Username)).First(); //.Find(x => x.email == Username);
 
             if (user == null)
             {
@@ -85,6 +86,8 @@ namespace LibrarySystem.ViewModels
             });
 
             MainWindowViewModel.ChangeView(user.role);
+            Globals.LoggedInUser = user;
+            OnPropertyChanged("CurrentLoggedInMember");
         }
 
     }
