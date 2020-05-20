@@ -133,10 +133,11 @@
 
 
                                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" VerticalAlignment="Bottom" Margin="0 0 0 5">
-                                    <Button  Content="Låna" />
 
-                                    <TextBlock VerticalAlignment="Center" Margin="5 0 15 0" FontSize="12">
-                                        <TextBlock.Style>
+                                        <Button x:Name="w"  Content="Låna" Command="{Binding Path=DataContext.LoanBookCommand, ElementName=SearchResults}" CommandParameter="{Binding}" />
+                                        <Button x:Name="ww" Content="TTTTTTTTTest" Command="{Binding Path=DataContext.LoanBookCommandTest, ElementName=SearchResults}" />
+                                        <TextBlock VerticalAlignment="Center" Margin="5 0 15 0" FontSize="12" Text="{Binding type}">
+                                        <!--<TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsEbook}" Value="False">
@@ -147,7 +148,7 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </TextBlock.Style>
+                                        </TextBlock.Style>-->
                                     </TextBlock>
 
                                     <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="0 0 0 0" FontSize="10"/>
