@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Library;
+using LibrarySystem;
 using LibrarySystem.Models;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,34 @@ namespace Library
                 string sqlQuery = $"UPDATE {table} SET is_active=0 WHERE {tableIdName} = " + id.ToString();
                 await connection.QueryAsync(sqlQuery);
             }
+        }
+
+        /// <summary>Already logged in member, subscribe/loan to item</summary>
+        /// <param name="item">Selected item</param>
+        /// <param name="member">Logged in member</param>
+        public async Task SubscribeToItem(Item item, Member member)
+        {
+            using (var connection = CreateConnection())
+            {
+                string query = string.Join(" ", new string[]
+                {
+                    "INSERT INTO item_subscriptions(`ref_member_id`, `ref_book_id`, `loaned_at`, `return_at`, `status`)",
+                    "VALUES(@ref_member_id, @ref_book_id, @loaned_at, @return_at, @status);"
+                });
+
+                // Add time duration until item is to be returned
+                DateTime returnDate = DateTime.Now.Add(Globals.DefaultLoanDuration);
+                await connection.QueryAsync(query, new { ref_member_id = member.member_id, ref_book_id = item.ID, loaned_at = DateTime.Now, return_at = returnDate, status = 1 });
+            }
+            //INSERT INTO item_subscriptions(ref_member_id, ref_book_id, loaned_at, return_at, status) VALUES(1, 1, '2020-05-20 13:37', '2020-05-24 13:37', 1);
+        }
+
+        /// <summary>Return/unsubscribe to item</summary>
+        /// <param name="item">Selected item</param>
+        /// <param name="member">Logged in member</param>
+        public async Task UnSubscribeToItem(Item item, Member member)
+        {
+            //INSERT INTO item_subscriptions(ref_member_id, ref_book_id, loaned_at, return_at, status) VALUES(1, 1, '2020-05-20 13:37', '2020-05-24 13:37', 1);
         }
 
         public async Task<List<Item>> ReadAllItemsWithStatus(int status)

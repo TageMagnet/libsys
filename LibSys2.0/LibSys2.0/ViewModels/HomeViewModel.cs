@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using Library;
+using MessageBox = System.Windows.MessageBox;
 
 namespace LibrarySystem.ViewModels
 {
@@ -12,20 +13,16 @@ namespace LibrarySystem.ViewModels
     {
 
         private ItemRepository itemRepository = new ItemRepository();
-        /// <summary>
-        /// Search for book using string from search-field
-        /// </summary>
+        /// <summary>Search for book using string from search-field</summary>
         public RelayCommandWithParameters SearchCommand { get; set; }
-        /// <summary>
-        /// Which database column to search in
-        /// </summary>
+        /// <summary>Which database column to search in</summary>
         public RelayCommandWithParameters SetSearchColumn { get; set; }
-        /// <summary>
-        /// Paste autocomplete click into searchbox
-        /// </summary>
+        /// <summary>Paste autocomplete click into searchbox</summary>
         public RelayCommandWithParameters PasteToSearchBox { get; set; }
+        public RelayCommandWithParameters LoanBookCommand { get; set; }
+        public RelayCommand LoanBookCommandTest { get; set; }
         /// <summary>
-        /// 
+        /// Returnt results
         /// </summary>
         public ObservableCollection<Item> SearchResults { get; set; } = new ObservableCollection<Item>();
         // Defaulted to 'title'
@@ -91,6 +88,27 @@ namespace LibrarySystem.ViewModels
                 await SearchCommandAction(SearchFieldText);
                 AutoCompleteList.Clear();
             });
+            LoanBookCommand = new RelayCommandWithParameters(async (param) => await LoanBook((Item)param));
+            LoanBookCommandTest = new RelayCommand(() => {
+                MessageBox.Show("asdasd");
+            });
+
+        }
+
+        private async Task LoanBook(Item item)
+        {
+            if (!Globals.IsLoggedIn)
+            {
+                MessageBox.Show("Du behöver först logga in eller skapa ett konto för att låna böcker");
+                //MainWindowViewModel.ChangeView("login");
+                return;
+            }
+                
+            Member currentMember = Globals.LoggedInUser;
+            var x = item;
+
+            await itemRepository.SubscribeToItem(item, currentMember);
+            MessageBox.Show("Bok lånad!");
         }
 
         private async Task SearchCommandAction(string arg)
