@@ -86,153 +86,139 @@
                             </EventTrigger>
                         </Button.Triggers>
                     </Button>
-                    <!--<Button Grid.Column="1" Content="Lägg till E-Bok" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5">
-                        <Button.Triggers>
-                            <EventTrigger RoutedEvent="ButtonBase.Click">
-                                <BeginStoryboard Storyboard="{StaticResource OpeneBooks}"/>
-                            </EventTrigger>
-                        </Button.Triggers>
-                    </Button>-->
                 </Grid>
                 <!--#endregion-->
 
                 <!--#region Add Books-->
                 <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="5" VerticalScrollBarVisibility="Hidden">
-                    <Viewbox>
-                        <StackPanel>
-                            <StackPanel x:Name="OpenAddBooks" Height="0" VerticalAlignment="Top">
-                                <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                    <Grid>
-                                        <!--#region Grid specification -->
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <!--#endregion -->
 
-                                        <TextBox Text="{Binding SelectedItem.title, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookTitle" Margin="5" Padding="2,0,0,0"/>
-                                        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Titel" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Text, ElementName=BookTitle}" Value="">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                    <StackPanel x:Name="OpenAddBooks" Height="0" VerticalAlignment="Top">
+                        <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <!--#region Grid specification -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <!--#endregion -->
 
-                                        <!--Author-->
-                                        <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Authors}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
-                                                  SelectedValue="{Binding SelectedAuthor, Mode=TwoWay}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                        <TextBlock Grid.Row="1" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Författare" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Text, ElementName=Authorbox}" Value="">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                <TextBox Text="{Binding SelectedItem.title, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookTitle" Margin="5" Padding="2,0,0,0"/>
+                                <TextBlock Grid.Row="0" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Titel" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=BookTitle}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
 
-                                        <!--Description-->
-                                        <TextBox Text="{Binding SelectedItem.description, Mode=TwoWay}" Grid.Row="2" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookDescription" Margin="5" Padding="2,0,0,0"/>
-                                        <TextBlock Grid.Row="2" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Beskrivning" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Text, ElementName=BookDescription}" Value="">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                        <!--Year-->
-                                        <TextBox Text="{Binding SelectedItem.year, Mode=TwoWay,Converter={StaticResource IntConvert}}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookYear" Margin="5" Padding="2,0,0,0"/>
-                                        <TextBlock Grid.Row="3" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Årtal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Text, ElementName=BookYear}" Value="">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                        <!--ISBN-->
-                                        <TextBox Text="{Binding SelectedItem.isbn, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5" Padding="2,0,0,0"/>
-                                        <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Text, ElementName=BookIsbn}" Value="">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                <!--Author-->
+                                <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Authors}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                                                              SelectedValue="{Binding SelectedAuthor, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <TextBlock Grid.Row="1" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Författare" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=Authorbox}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
 
-                                        <!-- Category-->
-                                        <TextBox Text="{Binding InputCategory, Mode=TwoWay}" Grid.Row="5" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5" Padding="2,0,0,0"/>
-                                        <TextBlock Grid.Row="5" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Text, ElementName=Bookcategory}" Value="">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                <!--Description-->
+                                <TextBox Text="{Binding SelectedItem.description, Mode=TwoWay}" Grid.Row="2" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookDescription" Margin="5" Padding="2,0,0,0"/>
+                                <TextBlock Grid.Row="2" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Beskrivning" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=BookDescription}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <!--Year-->
+                                <TextBox Text="{Binding SelectedItem.year, Mode=TwoWay,Converter={StaticResource IntConvert}}" Grid.Row="3" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookYear" Margin="5" Padding="2,0,0,0"/>
+                                <TextBlock Grid.Row="3" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Årtal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=BookYear}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <!--ISBN-->
+                                <TextBox Text="{Binding SelectedItem.isbn, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="BookIsbn" Margin="5" Padding="2,0,0,0"/>
+                                <TextBlock Grid.Row="4" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="ISBN" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=BookIsbn}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
 
-                                        <!-- Cover Image -->
-                                        <StackPanel Grid.Row="6" Grid.ColumnSpan="4">
-                                            <Button Content="Upload Cover img" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_cover" Padding="1" Foreground="#F9AA33"/>
-                                            <TextBox Text="{Binding SelectedItem.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
-                                        </StackPanel>
-                                        <!--Add Button-->
-                                        <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till Bok" Width="110" Padding="1"
-                                    HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" Foreground="#F9AA33"/>
-                                    </Grid>
-                                </Viewbox>
-                            </StackPanel>
+                                <!-- Category-->
+                                <TextBox Text="{Binding InputCategory, Mode=TwoWay}" Grid.Row="5" Grid.ColumnSpan="4" Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Bookcategory" Margin="5" Padding="2,0,0,0"/>
+                                <TextBlock Grid.Row="5" Grid.ColumnSpan="4" IsHitTestVisible="False" Text="Kategori" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=Bookcategory}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
 
-                            <!--#endregion-->
-                            <!--#region Add E-Books-->
-
-                        </StackPanel>
-                    </Viewbox>
+                                <!-- Cover Image -->
+                                <StackPanel Grid.Row="6" Grid.ColumnSpan="4">
+                                    <Button Content="Upload Cover img" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_cover" Padding="1" Foreground="#F9AA33"/>
+                                    <TextBox Text="{Binding SelectedItem.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
+                                </StackPanel>
+                                <!--Add Button-->
+                                <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till Bok" Width="110" Padding="1"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" Foreground="#F9AA33"/>
+                            </Grid>
+                        </Viewbox>
+                    </StackPanel>   
                 </ScrollViewer>
 
 
