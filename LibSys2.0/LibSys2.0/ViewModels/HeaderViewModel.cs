@@ -75,6 +75,7 @@ namespace LibrarySystem.ViewModels
         private async Task LogoutCommandMethod()
         {
             Globals.LoggedInUser = new Member();
+            MainWindowViewModel.ChangeView("home");
         }
 
     }
