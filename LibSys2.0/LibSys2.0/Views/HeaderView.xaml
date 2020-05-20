@@ -27,13 +27,13 @@
             <!--#endregion-->
 
             <!--#region Go Home Button -->
-            <!--<Button Grid.Column="0" Grid.Row="1" Name="BtnIcon" 
+            <Button Grid.Column="0" Grid.Row="1" Name="BtnIcon" 
                     Command="{Binding GoHome}"
                     CommandParameter="home"
                     Width="36" 
                     Padding="6,6" 
                     Content=""
-                    ToolTip="Icon"/>-->
+                    ToolTip="Icon"/>
             <!--#endregion-->
 
             <!--#region Logotype -->

@@ -22,6 +22,8 @@ namespace LibrarySystem
         public Author SelectedAuthor { get; set; } = new Author();
         public Item SelectedItem { get; set; } = new Item();
         public Category BookCategory { get; set; } = new Category();
+        public string visible { get; set; } = "hidden";
+
         public string ReasonToDelete { get; set; }
         public string InputCategory { get; set; }
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
@@ -37,43 +39,51 @@ namespace LibrarySystem
             {
                 activeBookFilter = value;
                 if (value == true)
+                {
                     ActiveFilter = 0;
+                    visible = "visible";
+                }
                 else
+                {
                     ActiveFilter = 1;
-
-                LoadAllBooks();
+                    visible = "hidden";
+                }
+                LoadBooks();
             }
         }
         public int ActiveFilter { get; set; } = 1;
         public RelayCommand AddBookCommand { get; set; }
         public RelayCommandWithParameters UpdateBookCommand { get; set; } // item
         public RelayCommandWithParameters RemoveBookCommand { get; set; }
+        public RelayCommandWithParameters ActivateBookCommand { get; set; }
+        public RelayCommandWithParameters ToggleHidden { get; set; }
+        public RelayCommandWithParameters ToggleVisible { get; set; }
 
         public BookViewModel()
         {
             AddBookCommand = new RelayCommand(async() => await AddBookCommandMethod());
             UpdateBookCommand = new RelayCommandWithParameters(async (param) => await UpdateBookCommandMethod((Item)param));
             RemoveBookCommand = new RelayCommandWithParameters(async (param) => await RemoveBookCommandMethod((int)param));
-
-            LoadAllBooks();
+            ActivateBookCommand = new RelayCommandWithParameters(async(param) => await ActivateBook((Item)param));
+            ToggleHidden = new RelayCommandWithParameters(async (param) => await HiddenCommandMethod((Button)param));
+            ToggleVisible = new RelayCommandWithParameters(async (param) => await VisibleCommandMethod((Button)param));
+            LoadDataAsync();
         }
 
         /// <summary>Makes Arrow down button Visible</summary>
         /// <param name="arg"></param>
-        public async Task VisibleCommandMethod(object arg)
+        private async Task VisibleCommandMethod(Button arg)
         {
-            var button = (Button)arg;
-            button.IsEnabled = true;
+            arg.IsEnabled = true;
             ReasonToDelete = "";
             this.OnPropertyChanged(nameof(ReasonToDelete));
         }
 
         /// <summary>Makes arrow down button Hidden</summary>
         /// <param name="arg"></param>
-        public async Task HiddenCommandMethod(object arg)
+        private async Task HiddenCommandMethod(Button arg)
         {
-            var button = (Button)arg;
-            button.IsEnabled = false;
+            arg.IsEnabled = false;
         }
 
         /// <summary>
@@ -125,6 +135,11 @@ namespace LibrarySystem
 
         }
 
+        public async Task ActivateBook(Item arg)
+        {
+            await itemRepo.ChangeStatusItem(arg.ID, 1);
+            await LoadBooks();
+        }
         /// <summary>
         /// Changes status on Book from 1(active) to 0(inactive)
         /// </summary>
@@ -305,11 +320,11 @@ namespace LibrarySystem
             else
                 return cat = first.ToUpper();
         }
-
-        /// <summary>
-        /// Loads all the data from DB
-        /// </summary>
-        public async void LoadAllBooks() => await LoadBooks();
+        public async void LoadDataAsync()
+        {
+            await LoadAuthors();
+            await LoadBooks();
+        }
 
         /// <summary>
         /// Reloads books from DB
@@ -322,6 +337,16 @@ namespace LibrarySystem
             foreach (var item in await itemRepo.ReadAllItemsWithStatus(ActiveFilter))
             {
                 Items.Add(item);
+            }
+        }
+
+        /// <summary>Reloads all the Authors from DB</summary>
+        public async Task LoadAuthors()
+        {
+            Authors.Clear();
+            foreach (var author in await authorRepo.ReadAll())
+            {
+                Authors.Add(author);
             }
         }
     }
