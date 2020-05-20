@@ -30,6 +30,14 @@ namespace Library
                 await connection.QueryAsync(sqlQuery);
             }
         }
+        public async Task ChangeStatusItem(int id, int status)
+        {
+            using (var connection = CreateConnection())
+            {
+                string sqlQuery = $"UPDATE {table} SET is_active={status} WHERE {tableIdName} = " + id.ToString();
+                await connection.QueryAsync(sqlQuery);
+            }
+        }
 
         /// <summary>Already logged in member, subscribe/loan to item</summary>
         /// <param name="item">Selected item</param>
