@@ -44,10 +44,59 @@
                     Stretch="Fill"  MaxWidth="64"/>
             <!--#endregion-->
 
-            <!--#region Navigation menu -->
-            <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
 
-                <Border Padding="4" Margin="22,0">
+            <Grid Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" x:Name="LoggedIn">
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoggedIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" MaxWidth="300" Text="{Binding CurrentLoggedInUserExtended.nickname, 
+                            FallbackValue='Error', 
+                            Converter={StaticResource EmptyString},
+                            ConverterParameter='Jonathan JonathanJonathanJonathanJonathanJonathan',
+                            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                           VerticalAlignment="Center" Margin="10 0 0 0" FontWeight="DemiBold"/>
+                <Button Grid.Column="1" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Account,Size=25}"
+                        materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
+                        Command="{Binding GoToCustomerView}"/>
+                <Button Grid.Column="2" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Logout,Size=25}"
+                        materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
+                        Command="{Binding GoToCustomerView}"/>
+            </Grid>
+            
+            <!--#region Navigation menu not logged in -->
+            <Grid Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" x:Name="NotLoggedIn">
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoggedIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Not logged in" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <!--<Border Grid.Column="0" Padding="4" Margin="22,0">
                     <StackPanel>
 
                         <TextBlock MaxWidth="96" Text="{Binding CurrentLoggedInUserExtended.role, 
@@ -59,64 +108,34 @@
                         <TextBlock MaxWidth="96" Text="{Binding CurrentLoggedInUserExtended.email, 
                             FallbackValue='-', 
                             Converter={StaticResource EmptyString},
-                            ConverterParameter='--',
+                            ConverterParameter='-',
                             UpdateSourceTrigger=PropertyChanged}"/>
-                        
-                    </StackPanel>
-                </Border>
-                <!--<DockPanel>
-                    <StackPanel>
-                        <TextBlock MaxWidth="96" Text="{Binding CurrentLoggedInMember.role, FallbackValue='not logged in'}"/>
-                        <TextBlock MaxWidth="96" Text="{Binding CurrentLoggedInMember.email, FallbackValue='-'}"/>
-                        <CheckBox IsChecked="{Binding IsLoggedIn}"/>
-                    </StackPanel>
-                    <CheckBox x:Name="IsRegisteredUserCheckDummy" IsChecked="{Binding IsLoggedIn, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox x:Name="IsRegisteredUserCheck" IsChecked="false"/>
-                    <TextBlock Padding="12">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Text" Value="Text not shown" />
-                                <Setter Property="Foreground" Value="PaleVioletRed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=IsRegisteredUserCheck, Path=IsChecked}" Value="True">
-                                        <Setter Property="Text" Value="[Name of member]" />
-                                        <Setter Property="Foreground" Value="LightGreen" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ElementName=IsRegisteredUserCheck, Path=IsChecked}" Value="False">
-                                        <Setter Property="Text" Value="Not logged in!" />
-                                        <Setter Property="Foreground" Value="Red" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
 
-                        </TextBlock.Style>
-                    -->
-                <!--<Run></Run>
-                    <LineBreak/>
-                    in as-->
-                <!--
-                    </TextBlock>
-                </DockPanel>-->
+                    </StackPanel>
+                </Border>-->
 
-                <Button Command="{Binding ByPassIntoBackend}" 
+                <Button Grid.Column="1" 
+                        Command="{Binding ByPassIntoBackend}" 
                         Content="{materialDesign:PackIcon Kind=SmileyDevil}"
                         Width="36"
                         Margin="0,0,12,0"
                         Padding="6,6"
                         />
-                <Button Command="{Binding GoToLogin}" 
+                <Button Grid.Column="2" 
+                        Command="{Binding GoToLogin}" 
                         Content="{materialDesign:PackIcon Login}"
                         Width="36"
                         Margin="0,0,12,0"
                         Padding="6,6"
                         />
-                <Button Command="{Binding GoToRegister}" 
+                <Button Grid.Column="3" 
+                        Command="{Binding GoToRegister}" 
                         Content="{materialDesign:PackIcon Register}" 
                         Width="36"
                         Margin="0,0,12,0"
                         Padding="6,6"
                         />
-            </StackPanel>
+            </Grid>
             <!--#endregion-->
 
             <!--#region Bottom border shadow effect -->

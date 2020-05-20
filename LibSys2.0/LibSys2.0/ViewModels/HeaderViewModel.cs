@@ -13,20 +13,20 @@ namespace LibrarySystem.ViewModels
         public RelayCommand GoToLogin { get; set; }
         public RelayCommand GoToRegister { get; set; }
         public RelayCommand ByPassIntoBackend { get; set; }
-        //
-        /// <summary> Extends the currently logged in member from MainWindow </summary>
-        //public Member CurrentLoggedInMember { get => Globals.LoggedInUser; set => Globals.LoggedInUser = value; }
-        //public bool IsLoggedIn
-        //{
-        //    get => !string.IsNullOrEmpty(Globals.LoggedInUser.email) && Globals.LoggedInUser.ref_member_role_id != 0 ? true : false;
-        //    set => Globals.LoggedInUser.email = Globals.LoggedInUser.email;
-        //}
+        public RelayCommand GoToCustomerView { get; set; }
+        public RelayCommand LogoutCommand { get; set; }
+
+        public bool IsLoggedIn { get; set; } = false;
+
+
         public HeaderViewModel()
         {
             GoHome = new RelayCommandWithParameters((param) => MainWindowViewModel.ChangeView((string)param));
             GoToLogin = new RelayCommand(() => MainWindowViewModel.ChangeView("login"));
             GoToRegister = new RelayCommand(() => MainWindowViewModel.ChangeView("register"));
             ByPassIntoBackend = new RelayCommand(() => MainWindowViewModel.ChangeView("librarian"));
+            GoToCustomerView = new RelayCommand(() => MainWindowViewModel.ChangeView("customer"));
+            LogoutCommand = new RelayCommand(async() =>  await LogoutCommandMethod());
             Method1();
         }
 
@@ -42,6 +42,8 @@ namespace LibrarySystem.ViewModels
         public Member CurrentLoggedInUserExtended { get; set; } = Globals.LoggedInUser;
         static bool isRunning = true;
         static bool cancelwork2 = false;
+
+        
         private async Task DoSomeInfiniteWork1()
         {
             while (isRunning)
@@ -57,9 +59,23 @@ namespace LibrarySystem.ViewModels
             while (isRunning)
             {
                 CurrentLoggedInUserExtended = Globals.LoggedInUser;
+                if (CurrentLoggedInUserExtended.ref_member_role_id != 0)
+                {
+                    IsLoggedIn = true;
+                }
+                else
+                {
+                    IsLoggedIn = false;
+                }
                 await Task.Delay(1000);
             }
-
+            
         }
+
+        private async Task LogoutCommandMethod()
+        {
+            Globals.LoggedInUser = new Member();
+        }
+
     }
 }
