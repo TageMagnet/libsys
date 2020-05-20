@@ -40,6 +40,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
         <!--#endregion-->
 
@@ -96,141 +97,110 @@
 
 
             <!--#region Search Results -->
-            <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,20,0,60" HorizontalAlignment="Center" >
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,20,0,60" HorizontalAlignment="Center">
             <Viewbox>
                 <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults}" MinHeight="300" >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" Padding="3">
+                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" Padding="10" MaxWidth="800" Height="170" MaxHeight="170" Width="500" x:Name="CardResult">
                             <Grid>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="10"/>
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
+                                    </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="0.5*"/>
+                                    <RowDefinition Height="0.2*"/>
                                     <RowDefinition Height="1*"/>
                                     <RowDefinition Height="1*"/>
                                 </Grid.RowDefinitions>
 
-                                <Image Grid.Column="0" Grid.RowSpan="4" MaxWidth="86" Margin="5,5" Width="70" Height="110" Source="{Binding cover, FallbackValue='https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg'}"/>
+                                <Viewbox Grid.Column="0" Grid.RowSpan="4" Width="100">
+                                    <Image Source="{Binding cover, FallbackValue='https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg'}"/>
+                                </Viewbox>
 
-                                <TextBlock Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="0" Text="{Binding title}" FontSize="18"/>
+                                <TextBlock Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="0" Text="{Binding title}" FontSize="18"/>
 
-                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="1" VerticalAlignment="Top" Margin="-3 -24 0 0">
-                                    <Label Content="Av: " FontSize="14" VerticalAlignment="Top"/>
-                                    <TextBlock Text="{Binding Author.firstname}" FontSize="14" FontWeight="Light" Margin="0 5 5 0" VerticalAlignment="Top"/>
-                                    <TextBlock Text="{Binding Author.surname}" FontSize="14" FontWeight="Light" VerticalAlignment="Top" Margin="0 5 0 0"/>
+                                <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="1" VerticalAlignment="Top" Margin="-3 -24 0 0">
+                                    <Label Content="Av: " FontSize="14" VerticalAlignment="Top" Margin="0 5 0 0"/>
+                                        <TextBlock Text="{Binding Author.firstname}" FontSize="14" FontWeight="Light" Margin="0 5 5 0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Author.surname}" FontSize="14" FontWeight="Light" VerticalAlignment="Center" Margin="0 5 0 0"/>
                                 </StackPanel>
 
-                                <TextBlock Text="{Binding description}" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Top"/>
+                                <TextBlock Text="{Binding description}" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="1" VerticalAlignment="Top" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
 
 
 
-                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" VerticalAlignment="Bottom" Margin="0 0 0 5">
+                                    <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="3" VerticalAlignment="Bottom">
 
                                         <Button x:Name="w"  Content="Låna" Command="{Binding Path=DataContext.LoanBookCommand, ElementName=SearchResults}" CommandParameter="{Binding}" />
-                                        <Button x:Name="ww" Content="TTTTTTTTTest" Command="{Binding Path=DataContext.LoanBookCommandTest, ElementName=SearchResults}" />
-                                        <TextBlock VerticalAlignment="Center" Margin="5 0 15 0" FontSize="12" Text="{Binding type}">
-                                        <!--<TextBlock.Style>
-                                            <Style TargetType="TextBlock">
+                                        <!--<Button x:Name="ww" Content="TTTTTTTTTest" Command="{Binding Path=DataContext.LoanBookCommandTest, ElementName=SearchResults}" />-->
+                                        <TextBlock VerticalAlignment="Center" Margin="5 0 15 0" FontSize="12" Text="{Binding type}"/>
+
+                                        <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="0 0 0 0" FontSize="10"/>
+                                        <!-- Place Holder-->
+                                        <TextBlock Text="3" Margin="0 0 0 0" FontSize="10" VerticalAlignment="Center"/>
+
+                                    </StackPanel>
+                                    <ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}" Padding="1" Grid.Column="5" Grid.Row="0" VerticalAlignment="Top" 
+                                                  HorizontalAlignment="Right" Width="35" Height="35" materialDesign:ButtonAssist.CornerRadius="30" x:Name="ToggleButton" >
+                                        
+                                        <materialDesign:PackIcon Kind="ExpandMore"/>
+                                        <materialDesign:ToggleButtonAssist.OnContent>
+                                            <materialDesign:PackIcon Kind="ExpandLess"/>
+                                        </materialDesign:ToggleButtonAssist.OnContent>
+                                        <!--<ToggleButton.Triggers>
+                                            <EventTrigger RoutedEvent="ToggleButton.IsChecked">
+                                                <BeginStoryboard Storyboard="{StaticResource OpenResultCard}"/>
+                                            </EventTrigger>
+                                        </ToggleButton.Triggers>-->
+                                        <!--<ToggleButton.Style>
+                                            <Style TargetType="{x:Type ToggleButton}">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsEbook}" Value="False">
-                                                        <Setter Property="Text" Value="Book"/>
+                                                    <DataTrigger Binding="{Binding ToggleButton}" Value="IsChecked">
+                                                        <DataTrigger.EnterActions>
+                                                            <BeginStoryboard Storyboard="{StaticResource OpenResultCard}"/>
+                                                        </DataTrigger.EnterActions>
+                                                        <DataTrigger.ExitActions>
+                                                            <BeginStoryboard Storyboard="{StaticResource CloseResultCard}"/>
+                                                        </DataTrigger.ExitActions>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsEbook}" Value="True">
-                                                        <Setter Property="Text" Value="Ebook"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
+                                                </Style.Triggers> 
                                             </Style>
-                                        </TextBlock.Style>-->
-                                    </TextBlock>
-
-                                    <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="0 0 0 0" FontSize="10"/>
-                                    <!-- Place Holder-->
-                                    <TextBlock Text="3" Margin="0 0 0 0" FontSize="10" VerticalAlignment="Center"/>
-
-                                </StackPanel>
-                                <!--<TextBlock  VerticalAlignment="Center" Margin="5 0 10 0">
-                                                
-                                    <Span FontSize="12" FontWeight="Light"></Span>
-                                    <Span FontSize="12" FontWeight="Black">Ulånade</Span>
-                                    <Span FontSize="12" FontWeight="Bold">0</Span>
-                                    <Span FontSize="12" FontWeight="Thin">Tillgängliga</Span>
-                                    <Span FontSize="12" FontWeight="Regular">0</Span>
-                                            </TextBlock>-->
-
-
-                            </Grid>
+                                        </ToggleButton.Style>-->
+                                        <!--<ToggleButton.Template>
+                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="CardResult" Property="Height" Value="250"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </ToggleButton.Template>-->
+                                        
+                                    </ToggleButton>
+                                                  
+                                </Grid>
                         </materialDesign:Card>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Viewbox>
         </ScrollViewer>
-            <!--#endregion-->
-            <!--#region Visible Copy -->
-            <!--<ListBox HorizontalContentAlignment="Center">
-                <Border Margin="0,0,0,0"
-                        MinWidth="360"
-                        Padding="6,4"
-                        BorderBrush="Black"
-                        BorderThickness="0.15"
-                        CornerRadius="2"
-                        Background="{StaticResource WhiteBrush}">
-                    <Border.Effect>
-                        <DropShadowEffect 
-                            ShadowDepth="1" 
-                            BlurRadius="2"
-                            Opacity="0.35"/>
-                    </Border.Effect>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
-
-                        <Image Grid.Column="0" Grid.RowSpan="3" MaxWidth="36" Margin="5,0"
-                            Source="https://marketplace.canva.com/EADaiDo2aSo/1/0/251w/canva-yellow-lemon-children-book-cover-Fb1rBcVIu2U.jpg"/>
-                        
-                        <TextBlock Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" Text="{Binding title, FallbackValue='Harry Potter J.K Rowlings 1998'}" FontSize="16"/>
-
-                        <Button Grid.Column="1" Grid.Row="2" Style="{StaticResource CustomButton}" Content="Låna" Margin="0,0,0,0"/>
-
-                        <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
-                            <Span FontSize="10" FontWeight="Light">Ebook/Book</Span>
-                            <Span FontSize="10" FontWeight="Black">Ulånade</Span>
-                            <Span FontSize="10" FontWeight="Bold">0</Span>
-                            <Span FontSize="10" FontWeight="Thin">Tillgängliga</Span>
-                            <Span FontSize="10" FontWeight="Regular">0</Span>
-                        </TextBlock>
-                    </Grid>
-                </Border>
-       2     </ListBox>-->
-            <!--#endregion-->
+        <!--#endregion-->
 
         <!--</StackPanel>-->
 
         <!--#region Pages -->
-        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
+        <StackPanel Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center"
-                    Margin="0,65,0,0">
+                    Margin="0,0,0,10">
             <materialDesign:PackIcon Kind="ArrowLeft" Foreground="Red"/>
             <TextBlock>
                 <Run Text="{Binding CurrentSearchPage,FallbackValue='0'}"/>
@@ -241,12 +211,12 @@
             <materialDesign:PackIcon Kind="ArrowRightBold" Foreground="Red"/>
             
         </StackPanel>
-        <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
+        <!--<TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
                    VerticalAlignment="Bottom" 
                    HorizontalAlignment="Center"
                    FontSize="8"
                    Opacity="0.5"
-                   Text="todo; filter search results with X number per page"/>
+                   Text="todo; filter search results with X number per page"/>-->
         <!--#endregion-->
 
     </Grid>

@@ -27,13 +27,13 @@
             <!--#endregion-->
 
             <!--#region Go Home Button -->
-            <Button Grid.Column="0" Grid.Row="1" Name="BtnIcon" 
+            <!--<Button Grid.Column="0" Grid.Row="1" Name="BtnIcon" 
                     Command="{Binding GoHome}"
                     CommandParameter="home"
                     Width="36" 
                     Padding="6,6" 
                     Content=""
-                    ToolTip="Icon"/>
+                    ToolTip="Icon"/>-->
             <!--#endregion-->
 
             <!--#region Logotype -->
@@ -42,6 +42,10 @@
                     Margin="0,0,0,0" 
                     RenderOptions.BitmapScalingMode="Fant" 
                     Stretch="Fill"  MaxWidth="64" />-->
+            <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=SmileyDevil,Size=25}"
+                        materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
+                        Command="{Binding ByPassIntoBackend}" VerticalAlignment="Center"/>
+            
             <Button Grid.Column="1" Grid.Row="1" Width="80" Height="80" Padding="1" Background="{x:Null}" ToolTip="Hem"
                     Command="{Binding GoHome}" CommandParameter="home" Foreground="{x:Null}" BorderBrush="{x:Null}">
                 <Image Source="/Assets/LibSysWhite.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Fill"/>
@@ -95,15 +99,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    
+
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="Ej inloggad" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="DemiBold"/>
+                <TextBlock Grid.Column="0" Text="Ej inloggad" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" Foreground="Red"/>
                
-                <Button Grid.Column="1" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=SmileyDevil,Size=25}"
-                        materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
-                        Command="{Binding ByPassIntoBackend}"/>
+                
                 <Button Grid.Column="2" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Login,Size=25}"
                         materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
                         Command="{Binding GoToLogin}" ToolTip="Logga in"/>
