@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Linq;
+using Ubiety.Dns.Core;
 
 namespace LibrarySystem.ViewModels
 {
@@ -13,6 +14,7 @@ namespace LibrarySystem.ViewModels
     {
         public MemberRepository memberRepo = new MemberRepository();
         public List<Member> memberList;
+        HeaderViewModel headerViewModel = new HeaderViewModel();
         public string Username { get; set; }
 
         // Backing field
@@ -85,9 +87,11 @@ namespace LibrarySystem.ViewModels
                 await Task.Delay(1);
             });
 
-            MainWindowViewModel.ChangeView(user.role);
+            //await headerViewModel.ShowLoggedIn();
+            MainWindowViewModel.ChangeView("home");
             Globals.LoggedInUser = user;
             OnPropertyChanged("CurrentLoggedInMember");
+            
         }
 
     }
