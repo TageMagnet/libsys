@@ -66,7 +66,7 @@ namespace LibrarySystem.ViewModels
                 return;
             }
 
-            user = (await memberRepo.SearchByColumn("email", Username)).First(); //.Find(x => x.email == Username);
+            user = (await memberRepo.SearchByColumn("email", Username)).Find(x => x.email == Username); //.Find(x => x.email == Username);
 
             if (user == null)
             {
