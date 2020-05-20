@@ -41,8 +41,6 @@ namespace LibrarySystem.ViewModels
         }
         public Member CurrentLoggedInUserExtended { get; set; } = Globals.LoggedInUser;
         static bool isRunning = true;
-        static bool cancelwork2 = false;
-
         
         private async Task DoSomeInfiniteWork1()
         {

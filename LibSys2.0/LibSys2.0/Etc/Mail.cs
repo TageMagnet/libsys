@@ -16,8 +16,6 @@ namespace LibrarySystem.Etc
         private MailMessage Message = new MailMessage();
         private SmtpClient Client = new SmtpClient("ns12.inleed.net", 587);
 
-        private string emailBody = "no body set";
-
         /// <summary>
         /// Constructor just to initialize some private variables
         /// </summary>

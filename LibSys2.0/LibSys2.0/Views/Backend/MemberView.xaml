@@ -81,7 +81,7 @@
                 <Viewbox>
                     <StackPanel Orientation="Vertical">
                         <!--#region Books-->
-                        <ItemsControl x:Name="MemberControl" ItemsSource="{Binding Members, Mode=TwoWay}">
+                        <ItemsControl x:Name="ListOfMembers" ItemsSource="{Binding Members, Mode=TwoWay}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" x:Name="Card1" >
@@ -99,7 +99,7 @@
                                             </Grid.RowDefinitions>
                                             <!--#endregion-->
 
-                                            <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}"
+                                            <Button Command="{Binding Path=DataContext.ToggleHidden, ElementName=ListOfMembers}" CommandParameter="{Binding ElementName=DownButton}"
                                                         x:Name="DownButton" Grid.Column="0" Grid.RowSpan="2" Padding="1" IsEnabled="True" Content="{materialDesign:PackIcon Kind=ArrowDown, Size=15}" Foreground="#F9AA33">
                                                 <Button.Triggers>
                                                     <EventTrigger RoutedEvent="ButtonBase.Click">
@@ -112,7 +112,7 @@
                                             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding role}" FontSize="10" FontWeight="DemiBold" Margin="5,0"/>
 
                                             <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}" BorderBrush="{x:Null}"
-                                                        Background="{x:Null}" Foreground="DarkRed" Margin="5,0" Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}">
+                                                        Background="{x:Null}" Foreground="DarkRed" Margin="5,0" Command="{Binding Path=DataContext.ToggleHidden, ElementName=ListOfMembers}" CommandParameter="{Binding ElementName=DownButton}">
                                                 <Button.Triggers>
                                                     <EventTrigger RoutedEvent="ButtonBase.Click">
                                                         <BeginStoryboard Storyboard="{StaticResource OpenRemove}"/>
@@ -127,10 +127,9 @@
                                                     <TextBlock Text="{Binding email}" FontSize="15" FontWeight="DemiBold" Margin="5 0 0 0"/>
                                                 </StackPanel>
 
-                                                <!--<TextBox x:Name="ReasonBox" Margin="0,0,0,5" Text="{Binding Path=DataContext.ReasonToDelete, ElementName=FindDataContext}"/>-->
                                                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                                     <Button x:Name="Remove" Margin="5" Width="65" Content="Radera" Padding="1" Foreground="#F9AA33"
-                                                                Command="{Binding Path=DataContext.DeleteMemberCommand, ElementName=FindDataContext}" CommandParameter="{Binding}">
+                                                                Command="{Binding Path=DataContext.DeleteMemberCommand, ElementName=ListOfMembers}" CommandParameter="{Binding}">
                                                         <Button.Triggers>
                                                             <EventTrigger RoutedEvent="ButtonBase.Click">
                                                                 <BeginStoryboard Storyboard="{StaticResource CloseRemove}"/>
@@ -138,7 +137,7 @@
                                                         </Button.Triggers>
                                                     </Button>
                                                     <Button x:Name="Abort"  Margin="5" Width="65" Content="Avbryt" Padding="1" Foreground="#F9AA33"
-                                                                 Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}">
+                                                                 Command="{Binding Path=DataContext.ToggleVisible, ElementName=ListOfMembers}" CommandParameter="{Binding ElementName=DownButton}">
                                                         <Button.Triggers>
                                                             <EventTrigger RoutedEvent="ButtonBase.Click">
                                                                 <BeginStoryboard Storyboard="{StaticResource CloseRemove}"/>
@@ -163,12 +162,13 @@
                                                     <Label Content="Lösenord: " Width="70" FontSize="12"/>
                                                     <TextBox Text="{Binding pwd, Converter={StaticResource PasswordMask}}" IsReadOnly="True"  Width="200" Margin="2" Padding="2 0 0 0"/>
                                                 </StackPanel>
+
                                                 <StackPanel Orientation="Horizontal" Margin="0 3 0 0">
                                                     <Label Content="Roll: " Width="70" FontSize="12" />
-                                                    <ComboBox ItemsSource="{Binding Path=DataContext.AvailableRoles, ElementName=FindDataContext, UpdateSourceTrigger=PropertyChanged}"
-                                                                      SelectedIndex="{Binding ref_member_role_id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                      Width="200" Margin="2" Padding="4 2 0 0">
-                                                    </ComboBox>
+
+                                                    <ComboBox IsReadOnly="True" MinWidth="100" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AvailableRoles}"
+                                                              SelectedIndex="{Binding ref_member_role_id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" Padding="4 2 0 0"
+                                                              SelectedItem="{Binding role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Horizontal">
@@ -177,15 +177,17 @@
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Horizontal" Margin="5">
-                                                    <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
+                                                    <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=ListOfMembers}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
                                                         <Button.Triggers>
                                                             <EventTrigger RoutedEvent="ButtonBase.Click">
                                                                 <BeginStoryboard Storyboard="{StaticResource CloseCard}"/>
                                                             </EventTrigger>
                                                         </Button.Triggers>
                                                     </Button>
-                                                    <Button Command="{Binding Path=DataContext.UpdateMemberCommand, ElementName=FindDataContext}" CommandParameter="{Binding}"
-                                                                Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
+                                                    <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.UpdateMemberCommand}" 
+                                                            CommandParameter="{Binding}" Margin="15 0 0 0" 
+                                                            Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
+
                                                 </StackPanel>
                                                 <!--#endregion-->
                                             </StackPanel>

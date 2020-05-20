@@ -41,8 +41,7 @@ namespace Library
                 }
                 catch (Exception e)
                 {
-
-                    throw;
+                    throw e;
                 }
             }
         }

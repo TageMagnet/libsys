@@ -24,7 +24,7 @@ namespace Library
                 {
                    return await connection.QuerySingleAsync<Category>($"SELECT * FROM {table} WHERE code = @category", new { category = cat });
                 }
-                catch (Exception e)
+                catch(Exception)
                 {
                     return null;
                 }

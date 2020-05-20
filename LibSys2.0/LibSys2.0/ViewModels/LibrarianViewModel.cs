@@ -23,8 +23,6 @@ namespace LibrarySystem.ViewModels
 
         // Private holder
         private int tabControlSelectedIndex { get; set; } = 0;
-        public Member NewMember { get; set; }
-        public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
 
         /// <summary>
         /// Trigggers when tab item is changed
@@ -43,29 +41,26 @@ namespace LibrarySystem.ViewModels
                 switch ((int)value)
                 {
                     case 0:
+                        #region BookView
                         CurrentBackEndPage.Content = new BookView();
-                        NewMember = new Member();
-                        // Ladda members när tab control bytts till rätt sida
-                        _ = LoadMembers();
                         break;
+                    #endregion
                     case 1:
+                        #region EventView
                         CurrentBackEndPage.Content = new EventView();
-                        NewMember = new Member();
-                        // Ladda members när tab control bytts till rätt sida
-                        _ = LoadMembers();
                         break;
-                    case 3:
-                        CurrentBackEndPage.Content = new AuthorView();
-                        NewMember = new Member();
-                        // Ladda members när tab control bytts till rätt sida
-                        _ = LoadMembers();
-                        break;
-                    case 4:
-                        NewMember = new Member();
+                    #endregion
+                    case 2:
+                        #region MemberView
                         CurrentBackEndPage.Content = new MemberView();
                         // Ladda members när tab control bytts till rätt sida
-                        _ = LoadMembers();
                         break;
+                    #endregion
+                    case 3:
+                        #region AuthorView
+                        CurrentBackEndPage.Content = new AuthorView();
+                        break;
+                        #endregion
                 }
             }
         }
@@ -73,17 +68,6 @@ namespace LibrarySystem.ViewModels
         public LibrarianViewModel()
         {
             CurrentBackEndPage = new BookView();
-        }
-
-        public async Task LoadMembers()
-        {
-            Members.Clear();
-
-            foreach (Member member in await memberRepo.ReadAllActive())
-            {
-                member.ref_member_role_id--;
-                Members.Add(member);
-            }
         }
     }
 }

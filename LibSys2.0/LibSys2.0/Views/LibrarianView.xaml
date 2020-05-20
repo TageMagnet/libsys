@@ -21,18 +21,18 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel>
-        <CheckBox Content="hello world" 
-                  IsChecked="{Binding TestCheck, 
-                  Mode=TwoWay, 
-                  UpdateSourceTrigger=PropertyChanged}"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <TabControl SelectedIndex="{Binding TabControlSelectedIndex}">
             <TabItem Style="{StaticResource PaddedTabItem}" Header="Böcker"/>
             <TabItem Style="{StaticResource PaddedTabItem}" Header="Seminarium"/>
             <TabItem Style="{StaticResource PaddedTabItem}" Header="Användare"/>
             <TabItem Style="{StaticResource PaddedTabItem}" Header="Författare"/>
         </TabControl>
-        <UserControl Content="{Binding CurrentBackEndPage}"/>
-    </StackPanel>
+        <UserControl Grid.Row="1" Content="{Binding CurrentBackEndPage}"/>
+    </Grid>
 
 </UserControl>

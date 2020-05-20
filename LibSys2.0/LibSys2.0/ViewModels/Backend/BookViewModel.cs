@@ -51,6 +51,8 @@ namespace LibrarySystem
                 LoadBooks();
             }
         }
+        /// <summary>Small textbox for posting multiple new items</summary>
+        public int NumberOfItemsToSubmit { get; set; } = 1;
         public int ActiveFilter { get; set; } = 1;
         public RelayCommand AddBookCommand { get; set; }
         public RelayCommandWithParameters UpdateBookCommand { get; set; } // item

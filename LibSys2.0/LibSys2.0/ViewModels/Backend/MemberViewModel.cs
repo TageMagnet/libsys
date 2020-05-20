@@ -28,9 +28,11 @@ namespace LibrarySystem
         #endregion
         public MemberViewModel()
         {
+            NewMember = new Member();
             AddNewMember = new RelayCommand(async () => await AddNewMemberCommand());
             DeleteMemberCommand = new RelayCommandWithParameters(async (param) => await DeleteMemberCommandMethod(param));
             UpdateMemberCommand = new RelayCommandWithParameters(async (param) => await UpdateMemberCommandMethod((Member)param));
+            InitLoad();
         }
         public async Task UpdateMemberCommandMethod(Member member)
         {
@@ -40,6 +42,7 @@ namespace LibrarySystem
             await LoadMembers();
 
         }
+        public async void InitLoad() => await LoadMembers();
         public async Task LoadMembers()
         {
             Members.Clear();
