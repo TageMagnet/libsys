@@ -60,6 +60,8 @@ namespace LibrarySystem
         public RelayCommandWithParameters ActivateBookCommand { get; set; }
         public RelayCommandWithParameters ToggleHidden { get; set; }
         public RelayCommandWithParameters ToggleVisible { get; set; }
+        public RelayCommandWithParameters FileUploadCommand { get; set; }
+
 
         public BookViewModel()
         {
@@ -69,6 +71,7 @@ namespace LibrarySystem
             ActivateBookCommand = new RelayCommandWithParameters(async(param) => await ActivateBook((Item)param));
             ToggleHidden = new RelayCommandWithParameters(async (param) => await HiddenCommandMethod((Button)param));
             ToggleVisible = new RelayCommandWithParameters(async (param) => await VisibleCommandMethod((Button)param));
+            FileUploadCommand = new RelayCommandWithParameters(async (param) => await UploadFile((string)param));
             LoadDataAsync();
         }
 
@@ -131,10 +134,18 @@ namespace LibrarySystem
             {
                 return;
             }
-            await itemRepo.Create(SelectedItem);
+
+            // Loop multiple insert
+            for (int i = 0; i < NumberOfItemsToSubmit; i++)
+            {
+                await itemRepo.Create(SelectedItem);
+            }
+
+            // reset
+            NumberOfItemsToSubmit = 1;
+            
             await LoadBooks();
             await ClearBookLines("books");
-
         }
 
         public async Task ActivateBook(Item arg)

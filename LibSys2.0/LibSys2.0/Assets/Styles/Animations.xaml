@@ -42,11 +42,11 @@
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
-        <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Height)" From="0" To="350">
+        <!--<DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Height)" From="0" To="350">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
+        </DoubleAnimation>-->
     </Storyboard>
 
     <Storyboard x:Key="OpeneBooks">

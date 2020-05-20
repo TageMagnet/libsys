@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <converters:IntToEmptyConverter x:Key="IntConvert"/>
         <converters:StringToPasswordConverter x:Key="PasswordMask"/>
+        <converters:StringToInt x:Key="ForceConvertIntoInt"/>
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="Foreground" Value="#F9AA33"/>
         </Style>
@@ -92,7 +93,7 @@
         <!--#region Add Books-->
         <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="5" VerticalScrollBarVisibility="Hidden">
 
-            <StackPanel x:Name="OpenAddBooks" Height="0" VerticalAlignment="Top">
+            <StackPanel x:Name="OpenAddBooks" VerticalAlignment="Top" Opacity="0">
                 <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid>
                         <!--#region Grid specification -->
@@ -210,12 +211,27 @@
 
                         <!-- Cover Image -->
                         <StackPanel Grid.Row="6" Grid.ColumnSpan="4">
-                            <Button Content="Upload Cover img" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_cover" Padding="1" Foreground="#F9AA33"/>
+                            <Button Content="{materialDesign:PackIcon Kind=Upload}" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_cover" Padding="1" Foreground="#F9AA33"/>
                             <TextBox Text="{Binding SelectedItem.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
                         </StackPanel>
+                        
+                        
                         <!--Add Button-->
-                        <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Content="Lägg till Bok" Width="110" Padding="1"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" Foreground="#F9AA33"/>
+                        <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Target="{Binding ElementName=InputnumberTextBox}" Content="Antal:"/>
+                                <TextBox x:Name="InputnumberTextBox" Text="{Binding Path=DataContext.NumberOfItemsToSubmit, ElementName=FindDataContext, 
+                                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=1}"
+                                     Padding="2,2" Background="LightGray"
+                                     />
+                            </StackPanel>
+                            <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}"   
+                                    Content="Lägg till Bok" Width="110" Padding="1"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                    Margin="0 20 0 0" Foreground="#F9AA33"/>
+
+                        </StackPanel>
+
                     </Grid>
                 </Viewbox>
             </StackPanel>
