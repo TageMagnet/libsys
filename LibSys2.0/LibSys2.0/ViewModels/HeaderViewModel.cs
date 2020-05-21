@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LibrarySystem.ViewModels
 {
@@ -72,8 +73,13 @@ namespace LibrarySystem.ViewModels
 
         private async Task LogoutCommandMethod()
         {
-            Globals.LoggedInUser = new Member();
-            MainWindowViewModel.ChangeView("home");
+            MessageBoxResult result = MessageBox.Show("Vill du logga ut", "", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                Globals.LoggedInUser = new Member();
+                MainWindowViewModel.ChangeView("home");
+            }
+            
         }
 
     }
