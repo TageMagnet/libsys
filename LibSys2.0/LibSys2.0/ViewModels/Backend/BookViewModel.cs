@@ -127,6 +127,28 @@ namespace LibrarySystem
                 MessageBox.Show("Lägg till årtal!");
                 return;
             }
+
+            // We need a real ISBN input string since we are going to do stuff with it later on, e.g. filterering and checking duplicates
+            ISBN isbn = new ISBN(SelectedItem.isbn);
+
+            // Check if ISBN is valid
+            if (!isbn.IsValid())
+            {
+                if(!isbn.IsCorrectLength)
+                    MessageBox.Show("Fel längd på ISBN string. Endast 13 nummer (eller 12 utan kontroll siffra i slutet)");
+
+                else if(!isbn.IsValidCheckDigit)
+                    MessageBox.Show("Felaktig ISBN, felaktig kontrollsumma");
+
+                else
+                    MessageBox.Show("Felaktig ISBN");
+
+                return;
+            }
+
+            // Retrieve the full ISBN
+            SelectedItem.isbn = isbn.GetCodeWith13Numbers;
+
             SelectedItem.ref_author_id = SelectedAuthor.author_id;
             SelectedItem.is_active = 1;
             await GetBookCategory(InputCategory);

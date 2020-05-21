@@ -78,7 +78,9 @@
                            VerticalAlignment="Center" Margin="10 0 0 0" FontWeight="DemiBold"/>
                 <Button Grid.Column="1" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Account,Size=25}"
                         materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
-                        Command="{Binding GoToCustomerView}" ToolTip="Din profil"/>
+                        Command="{Binding GoToPage}" 
+                        CommandParameter="{Binding CurrentLoggedInUserExtended.role}" 
+                        ToolTip="Din profil"/>
                 <Button Grid.Column="2" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Logout,Size=25}"
                         materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
                         Command="{Binding LogoutCommand}" ToolTip="Logga ut"/>

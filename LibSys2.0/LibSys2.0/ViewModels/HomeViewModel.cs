@@ -20,11 +20,11 @@ namespace LibrarySystem.ViewModels
         /// <summary>Paste autocomplete click into searchbox</summary>
         public RelayCommandWithParameters PasteToSearchBox { get; set; }
         public RelayCommandWithParameters LoanBookCommand { get; set; }
-        public RelayCommand LoanBookCommandTest { get; set; }
+
         /// <summary>
         /// Returnt results
         /// </summary>
-        public ObservableCollection<Item> SearchResults { get; set; } = new ObservableCollection<Item>();
+        public ObservableCollection<SearchItem> SearchResults { get; set; } = new ObservableCollection<SearchItem>();
         // Defaulted to 'title'
         private string searchColumn { get; set; } = "title";
         /// <summary>
@@ -70,7 +70,7 @@ namespace LibrarySystem.ViewModels
             }
         }
         /// <summary>
-        /// Sets when x:Name SearchField is filled in, limited to 3 for now
+        /// Sets when x:Name SearchField is filled in, limited to 2 for now
         /// </summary>
         public ObservableCollection<string> AutoCompleteList { get; set; } = new ObservableCollection<string>();
 
@@ -89,12 +89,13 @@ namespace LibrarySystem.ViewModels
                 AutoCompleteList.Clear();
             });
             LoanBookCommand = new RelayCommandWithParameters(async (param) => await LoanBook((Item)param));
-            LoanBookCommandTest = new RelayCommand(() => {
-                MessageBox.Show("asdasd");
-            });
-
         }
 
+        /// <summary>
+        /// Loan book action, adds the item to the logged in users subscriptions
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         private async Task LoanBook(Item item)
         {
             if (!Globals.IsLoggedIn)
@@ -111,6 +112,7 @@ namespace LibrarySystem.ViewModels
             MessageBox.Show("Bok lånad!");
         }
 
+        /// ...
         private async Task SearchCommandAction(string arg)
         {
             // Clear old search
@@ -119,6 +121,9 @@ namespace LibrarySystem.ViewModels
             await LoadSearchResults(arg);
         }
 
+        /// <summary>
+        /// Items that are seen in the 'autocomplete' box after typing in at least $n characters
+        /// </summary>
         private async void LoadAutoCompleteResults()
         {
             AutoCompleteList.Clear();
@@ -137,15 +142,39 @@ namespace LibrarySystem.ViewModels
             }
         }
 
+        /// <summary>
+        /// After hitting search button, loads observable collections with data and notifies the XAML
+        /// </summary>
         private async Task LoadSearchResults(string arg)
         {
             // Load repos
             var items = await itemRepository.SearchQuery(SearchFieldText);
 
+            // Keep track of ISBN to check for duplicates
+            List<string> isbnCodes = new List<string>();
+
             // Loop and add them into the view
             foreach (Item item in items)
             {
-                SearchResults.Add(item);
+                // Hold the string to avoid code duplication
+                string isbn = item.isbn;
+
+                if (isbnCodes.Contains(isbn))
+                {
+                    // If duplicate, increment the counter
+                    int index = isbnCodes.FindIndex(x => x == isbn);
+                    SearchResults[index].DuplicateCounter++;
+
+                    // Skip to next element
+                    continue;
+                }
+
+                // Add to duplicate-checker list
+                isbnCodes.Add(item.isbn);
+
+                // Convert into an SearchItem, since we need the additional DuplicateCounter property
+                SearchItem searchItem = new SearchItem(item);
+                SearchResults.Add(searchItem);
             }
 
             // Notify the counters

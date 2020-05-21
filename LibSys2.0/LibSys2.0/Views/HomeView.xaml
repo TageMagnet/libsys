@@ -143,12 +143,27 @@
                                     <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="3" VerticalAlignment="Bottom">
 
                                         <Button x:Name="w"  Content="Låna" Command="{Binding Path=DataContext.LoanBookCommand, ElementName=SearchResults}" CommandParameter="{Binding}" />
-                                        <!--<Button x:Name="ww" Content="TTTTTTTTTest" Command="{Binding Path=DataContext.LoanBookCommandTest, ElementName=SearchResults}" />-->
+
                                         <TextBlock VerticalAlignment="Center" Margin="5 0 15 0" FontSize="12" Text="{Binding type}"/>
 
-                                        <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="0 0 0 0" FontSize="10"/>
-                                        <!-- Place Holder-->
-                                        <TextBlock Text="3" Margin="0 0 0 0" FontSize="10" VerticalAlignment="Center"/>
+                                        <TextBlock VerticalAlignment="Center" Text="Antal: " Margin="6,0" FontSize="10">
+                                            <Run Text="{Binding DuplicateCounter, FallbackValue='?'}"/>
+                                        </TextBlock>
+
+                                        <!--
+                                            todo; Placeholder för antal tillgängliga böcker
+                                            Text ska vara DuplicateCounter - Antal utlånade
+                                        -->
+                                        <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="6,0" FontSize="10">
+                                            <Run Text="{Binding PLACEHOLDER_VALUE_NAME, FallbackValue='?'}"/>
+                                        </TextBlock>
+
+                                        <!--
+                                            todo; Placeholder => antal utlånade från database
+                                        -->
+                                        <TextBlock VerticalAlignment="Center" Text="Utlånade: " Margin="6,0" FontSize="10">
+                                            <Run Text="{Binding PLACEHOLDER_VALUE_NAME_X, FallbackValue='?'}"/>
+                                        </TextBlock>
 
                                     </StackPanel>
                                 </Grid>
@@ -173,7 +188,6 @@
                 <Run Text="{Binding CurrentSearchPage,FallbackValue='0'}"/>
                 <Span>/</Span>
                 <Run Text="{Binding ResultsDividedPerPage,FallbackValue='0',UpdateSourceTrigger=PropertyChanged}"/>
-             
             </TextBlock>
             <materialDesign:PackIcon Kind="ArrowRightBold" Foreground="Red"/>
             

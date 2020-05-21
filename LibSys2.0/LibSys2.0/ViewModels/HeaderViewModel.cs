@@ -14,7 +14,7 @@ namespace LibrarySystem.ViewModels
         public RelayCommand GoToLogin { get; set; }
         public RelayCommand GoToRegister { get; set; }
         public RelayCommand ByPassIntoBackend { get; set; }
-        public RelayCommand GoToCustomerView { get; set; }
+        public RelayCommandWithParameters GoToPage { get; set; }
         public RelayCommand LogoutCommand { get; set; }
 
         public bool IsLoggedIn { get; set; } = false;
@@ -26,7 +26,7 @@ namespace LibrarySystem.ViewModels
             GoToLogin = new RelayCommand(() => MainWindowViewModel.ChangeView("login"));
             GoToRegister = new RelayCommand(() => MainWindowViewModel.ChangeView("register"));
             ByPassIntoBackend = new RelayCommand(() => MainWindowViewModel.ChangeView("librarian"));
-            GoToCustomerView = new RelayCommand(() => MainWindowViewModel.ChangeView("customer"));
+            GoToPage = new RelayCommandWithParameters((param) => MainWindowViewModel.ChangeView((string)param));
             LogoutCommand = new RelayCommand(async() =>  await LogoutCommandMethod());
             Method1();
         }
