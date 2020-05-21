@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LibrarySystem.Views"
+             xmlns:local="clr-namespace:LibrarySystem"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
+        
         <Style x:Key="CustomButton" TargetType="Button">
             <Setter Property="Padding" Value="4,4"/>
             <Setter Property="Margin" Value="0"/>
@@ -40,7 +41,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
         <!--#endregion-->
 
@@ -50,7 +51,8 @@
                 <StackPanel  Orientation="Horizontal" >
                     <!--<TextBlock Text="Sök: " FontSize="15" FontWeight="DemiBold" Margin="0 0 0 0"/>-->
                     <TextBox x:Name="SearchField" Text="{Binding SearchFieldText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Margin="0 0 0 0" MinWidth="200" MaxWidth="500" FontSize="15"/>
-                    <Button Name="SearchButton" Command="{Binding SearchCommand}" CommandParameter="{Binding Path=Text, ElementName=SearchField}" Content="{materialDesign:PackIcon Search}" ToolTip="Search"/>
+                    <Button Name="SearchButton" Command="{Binding SearchCommand}" CommandParameter="{Binding Path=Text, ElementName=SearchField}" Content="{materialDesign:PackIcon Search}"
+                            ToolTip="Search" materialDesign:ButtonAssist.CornerRadius="30" Width="35" Height="35" Padding="1"/>
                 </StackPanel>
                 <!--AutoComplete-->
                 <StackPanel>
@@ -89,7 +91,7 @@
         <!--<StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,0,0,60" HorizontalAlignment="Center" >-->
 
             <!--Counter-->
-            <WrapPanel Grid.Column="2" Grid.Row="1" VerticalAlignment="Top">
+            <WrapPanel Grid.Column="2" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 0 30 0">
                 <TextBlock Text="Your search returned " FontSize="10"/>
                 <TextBlock Text="{Binding SearchResultCount, FallbackValue='[0]'}" FontSize="10"/>
                 <TextBlock Text=" results" FontSize="10"/>
@@ -153,35 +155,47 @@
                                         <materialDesign:ToggleButtonAssist.OnContent>
                                             <materialDesign:PackIcon Kind="ExpandLess"/>
                                         </materialDesign:ToggleButtonAssist.OnContent>
-                                        <!--<ToggleButton.Triggers>
-                                            <EventTrigger RoutedEvent="ToggleButton.IsChecked">
-                                                <BeginStoryboard Storyboard="{StaticResource OpenResultCard}"/>
-                                            </EventTrigger>
-                                        </ToggleButton.Triggers>-->
+
                                         <!--<ToggleButton.Style>
-                                            <Style TargetType="{x:Type ToggleButton}">
+                                            <Style  TargetType="{x:Type ToggleButton}" >
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ToggleButton}" Value="IsChecked">
-                                                        <DataTrigger.EnterActions>
-                                                            <BeginStoryboard Storyboard="{StaticResource OpenResultCard}"/>
-                                                        </DataTrigger.EnterActions>
-                                                        <DataTrigger.ExitActions>
-                                                            <BeginStoryboard Storyboard="{StaticResource CloseResultCard}"/>
-                                                        </DataTrigger.ExitActions>
+                                                    <DataTrigger Binding="{Binding CardResult}" Value="IsChecked">
+                                                        <Setter>
+                                                            <Setter.Value>
+                                                                <BeginStoryboard Storyboard="{StaticResource OpenResultCard}"/>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                     </DataTrigger>
-                                                </Style.Triggers> 
+                                                </Style.Triggers>
                                             </Style>
+                                            
                                         </ToggleButton.Style>-->
                                         <!--<ToggleButton.Template>
                                             <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                <Border CornerRadius="3" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter Margin="3"
+                                                                      HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
                                                 <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background">
+                                                            <Setter.Value>
+                                                                
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
                                                     <Trigger Property="IsChecked" Value="True">
-                                                        <Setter TargetName="CardResult" Property="Height" Value="250"/>
+                                                        <Trigger.EnterActions>
+                                                            <BeginStoryboard Storyboard="{StaticResource OpenResultCard}"/>
+                                                        </Trigger.EnterActions>
+                                                        <Trigger.ExitActions>
+                                                            <BeginStoryboard Storyboard="{StaticResource CloseResultCard}"/>
+                                                        </Trigger.ExitActions>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </ToggleButton.Template>-->
-                                        
                                     </ToggleButton>
                                                   
                                 </Grid>
@@ -200,7 +214,7 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center"
-                    Margin="0,0,0,10">
+                    Margin="0,-10,0,0">
             <materialDesign:PackIcon Kind="ArrowLeft" Foreground="Red"/>
             <TextBlock>
                 <Run Text="{Binding CurrentSearchPage,FallbackValue='0'}"/>
