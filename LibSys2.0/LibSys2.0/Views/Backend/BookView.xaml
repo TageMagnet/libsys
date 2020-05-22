@@ -80,7 +80,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Lägg till Item" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5">
+            <Button Grid.Column="0" Content="Lägg till Bok" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5">
                 <Button.Triggers>
                     <EventTrigger RoutedEvent="ButtonBase.Click">
                         <BeginStoryboard Storyboard="{StaticResource OpenBooks}"/>
@@ -104,6 +104,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -214,10 +215,15 @@
                             <Button Content="{materialDesign:PackIcon Kind=Upload}" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_cover" Padding="1" Foreground="#F9AA33"/>
                             <TextBox Text="{Binding SelectedItem.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
                         </StackPanel>
-                        
-                        
+
+                        <!--URL / pdf-->
+                        <StackPanel Grid.Row="7" Grid.ColumnSpan="4">
+                            <Button Content="{materialDesign:PackIcon Kind=Upload}" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_url" Padding="1" Foreground="#F9AA33"/>
+                            <TextBox Text="{Binding SelectedItem.url, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
+                        </StackPanel>
+
                         <!--Add Button-->
-                        <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Vertical">
+                        <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <Label Target="{Binding ElementName=InputnumberTextBox}" Content="Antal:"/>
                                 <TextBox x:Name="InputnumberTextBox" Text="{Binding Path=DataContext.NumberOfItemsToSubmit, ElementName=FindDataContext, 
@@ -229,18 +235,13 @@
                                     Content="Lägg till Bok" Width="110" Padding="1"
                                     HorizontalAlignment="Center" VerticalAlignment="Center" 
                                     Margin="0 20 0 0" Foreground="#F9AA33"/>
-
                         </StackPanel>
-
                     </Grid>
                 </Viewbox>
             </StackPanel>
         </ScrollViewer>
-
-
-
         <!--#endregion-->
-
+        
         <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
 
         <ScrollViewer x:Name="FindDataContext" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
@@ -281,15 +282,14 @@
                                             </Button.Triggers>
                                         </Button>
 
-
                                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding title}" FontSize="15" FontWeight="DemiBold" Margin="5,0"/>
                                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding description}" FontSize="10" FontWeight="DemiBold" Margin="5,0"/>
 
+                                        <!--Activate Inactive book button-->
                                         <Button Grid.Column="2" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=FirstAidKit,Size=20}" BorderBrush="{x:Null}"
-                                                        Command="{Binding Path=DataContext.ActivateBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding}" Background="{x:Null}" Foreground="LightGreen" Name="Activate" Visibility="{Binding Path=DataContext.visible, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ElementName=FindDataContext}"/>
-
-
-
+                                                        Command="{Binding Path=DataContext.ActivateBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding}" Background="{x:Null}" Foreground="ForestGreen" Name="Activate" Visibility="{Binding Path=DataContext.visible, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ElementName=FindDataContext}"/>
+                                        
+                                        <!--Inactive Book button-->
                                         <Button Grid.Column="3" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}" BorderBrush="{x:Null}"
                                                         Background="{x:Null}" Foreground="DarkRed" Margin="5,0" Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}">
                                             <Button.Triggers>
@@ -299,13 +299,13 @@
                                             </Button.Triggers>
                                         </Button>
 
-                                        <!--#region Expaned Remove book-->
+                                        <!--#region Expanded Remove book-->
                                         <StackPanel Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="2" Height="0" x:Name="OpenRemoveBook" Orientation="Vertical">
                                             <TextBlock Text="Anledning :" Margin="0,5,0,0"/>
-                                            <TextBox x:Name="ReasonBox" Margin="0,0,0,5" Text="{Binding Path=DataContext.ReasonToDelete, ElementName=FindDataContext}"/>
+                                            <TextBox x:Name="ReasonBox" Margin="0,0,0,5" Text="{Binding reasonToDelete}"/>
                                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                                 <Button x:Name="Remove" Margin="5" Width="65" Content="Radera" Padding="1" Foreground="#F9AA33"
-                                                                Command="{Binding Path=DataContext.RemoveBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding ID}">
+                                                                Command="{Binding Path=DataContext.RemoveBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding}">
                                                     <Button.Triggers>
                                                         <EventTrigger RoutedEvent="ButtonBase.Click">
                                                             <BeginStoryboard Storyboard="{StaticResource CloseRemove}"/>
@@ -325,7 +325,15 @@
                                         <!--#endregion-->
 
                                         <!--#region Expanded Card-->
-                                        <StackPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Height="0" x:Name="HiddenStuff" Orientation="Vertical">
+                                        <StackPanel Grid.ColumnSpan="5" Grid.Row="2" Height="0" x:Name="HiddenStuff" Orientation="Vertical">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                               
+                                            </Grid>
                                             <StackPanel Orientation="Horizontal">
                                                 <Label Content="Titel: " Width="70" FontSize="12"/>
                                                 <TextBox Text="{Binding title}" Width="200" Margin="2"/>
@@ -340,11 +348,7 @@
                                                     <TextBlock Grid.Column="1" Text="{Binding Author.nickname, FallbackValue='[]'}"/>
                                                     <ComboBox Grid.Column="1" x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" Height="35" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
                                                                 ItemsSource="{Binding Path=DataContext.Authors, ElementName=FindDataContext, UpdateSourceTrigger=PropertyChanged}"
-                                                                SelectedIndex="{Binding Path=DataContext.SelectedAuthorIndex, ElementName=FindDataContext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                                                                  >
-                                                        <!--SelectedValue="{Binding Path=Authors, Mode=TwoWay}"  
-                                                            SelectedItem="{Binding Path=DataContext.NewAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                SelectedIndex="{Binding GetIndex, UpdateSourceTrigger=PropertyChanged}"-->
+                                                                SelectedIndex="{Binding Path=DataContext.SelectedAuthorIndex, ElementName=FindDataContext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                         <ComboBox.ItemTemplate>
                                                             <DataTemplate>
                                                                 <TextBlock Text="{Binding nickname}" Margin="4,0,0,0"/>
@@ -370,6 +374,16 @@
                                                 <Label Content="Kategori: " Width="70" FontSize="12"/>
                                                 <TextBox Text="{Binding category}" Width="200" Margin="2"/>
                                             </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Content="Omslag: " Width="70" FontSize="12"/>
+                                                <TextBox Text="{Binding cover, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" IsReadOnly="True"/>
+                                                <Button Content="{materialDesign:PackIcon Kind=Upload}" FontSize="8" Height="20" Width="50" Command="{Binding Path=DataContext.UpdateFileCommand, ElementName=FindDataContext}" CommandParameter="{Binding}" Padding="1" Foreground="#F9AA33"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Content="URL: " Width="70" FontSize="12"/>
+                                                <TextBox Text="{Binding url, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" IsReadOnly="True"/>
+                                                <Button Content="{materialDesign:PackIcon Kind=Upload}" FontSize="8" Height="20" Width="50" Command="{Binding Path=DataContext.UpdateUrlCommand, ElementName=FindDataContext}" CommandParameter="{Binding}" Padding="1" Foreground="#F9AA33"/>
+                                            </StackPanel>
                                             <StackPanel Orientation="Horizontal" Margin="5">
                                                 <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
                                                     <Button.Triggers>
@@ -380,6 +394,10 @@
                                                 </Button>
                                                 <Button Command="{Binding Path=DataContext.UpdateBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding}"
                                                                 Margin="15 0 0 0" Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
+
+                                                <Viewbox Height="70" Margin="90 0 0 0">
+                                                    <Image Source="{Binding cover}"/>
+                                                </Viewbox>
                                             </StackPanel>
                                             <!--#endregion-->
                                         </StackPanel>

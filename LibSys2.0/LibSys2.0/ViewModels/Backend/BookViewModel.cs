@@ -24,7 +24,6 @@ namespace LibrarySystem
         public Category BookCategory { get; set; } = new Category();
         public string visible { get; set; } = "hidden";
 
-        public string ReasonToDelete { get; set; }
         public string InputCategory { get; set; }
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
         public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
@@ -61,17 +60,20 @@ namespace LibrarySystem
         public RelayCommandWithParameters ToggleHidden { get; set; }
         public RelayCommandWithParameters ToggleVisible { get; set; }
         public RelayCommandWithParameters FileUploadCommand { get; set; }
-
+        public RelayCommandWithParameters UpdateFileCommand { get; set; }
+        public RelayCommandWithParameters UpdateUrlCommand { get; set; }
 
         public BookViewModel()
         {
             AddBookCommand = new RelayCommand(async() => await AddBookCommandMethod());
             UpdateBookCommand = new RelayCommandWithParameters(async (param) => await UpdateBookCommandMethod((Item)param));
-            RemoveBookCommand = new RelayCommandWithParameters(async (param) => await RemoveBookCommandMethod((int)param));
+            RemoveBookCommand = new RelayCommandWithParameters(async (param) => await RemoveBookCommandMethod((Item)param));
             ActivateBookCommand = new RelayCommandWithParameters(async(param) => await ActivateBook((Item)param));
             ToggleHidden = new RelayCommandWithParameters(async (param) => await HiddenCommandMethod((Button)param));
             ToggleVisible = new RelayCommandWithParameters(async (param) => await VisibleCommandMethod((Button)param));
             FileUploadCommand = new RelayCommandWithParameters(async (param) => await UploadFile((string)param));
+            UpdateFileCommand = new RelayCommandWithParameters(async (param) => await UpdateFile((Item)param));
+            UpdateUrlCommand = new RelayCommandWithParameters(async (param) => await UpdateUrl((Item)param));
             LoadDataAsync();
         }
 
@@ -80,8 +82,8 @@ namespace LibrarySystem
         private async Task VisibleCommandMethod(Button arg)
         {
             arg.IsEnabled = true;
-            ReasonToDelete = "";
-            this.OnPropertyChanged(nameof(ReasonToDelete));
+            SelectedItem.reasonToDelete = "";
+            this.OnPropertyChanged(nameof(SelectedItem.reasonToDelete));
         }
 
         /// <summary>Makes arrow down button Hidden</summary>
@@ -180,20 +182,18 @@ namespace LibrarySystem
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task RemoveBookCommandMethod(int id)
+        public async Task RemoveBookCommandMethod(Item item)
         {
-            if (string.IsNullOrEmpty(ReasonToDelete) || string.IsNullOrWhiteSpace(ReasonToDelete))
+            if (string.IsNullOrEmpty(item.reasonToDelete) || string.IsNullOrWhiteSpace(item.reasonToDelete))
             {
                 MessageBox.Show("Fyll i anledning!");
-                ReasonToDelete = "";
+                item.reasonToDelete = "";
                 await LoadBooks();
-                this.NotifyPropertyChanged(nameof(ReasonToDelete));
+                this.NotifyPropertyChanged(nameof(item.reasonToDelete));
                 return;
             }
-
-            ReasonToDelete = "";
-            this.NotifyPropertyChanged(nameof(ReasonToDelete));
-            await itemRepo.ChangeStatusItem(id);
+            this.NotifyPropertyChanged(nameof(item.reasonToDelete));
+            await itemRepo.ChangeStatusItem(item.ID);
             await LoadBooks();
         }
 
@@ -265,6 +265,7 @@ namespace LibrarySystem
             InputCategory = "";
             SelectedItem.url = "";
             SelectedItem.cover = "";
+            SelectedItem.reasonToDelete = "";
             SelectedItem.year = 0;
             SelectedAuthor = null;
             OnPropertyChanged(nameof(SelectedItem));
@@ -334,6 +335,90 @@ namespace LibrarySystem
 
                     // Do something with the response
                     MessageBox.Show("Laddade upp! Pleäse tryck på uppdatera nu");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Uppdaterar cover image för en item i item collections
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        private async Task UpdateFile(Item item)
+        {
+            // Open up file dialog for selection
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+
+            // Multiple files allowed
+            dialog.Multiselect = true;
+
+            if (dialog.ShowDialog() == true)
+            {
+                foreach (string filename in dialog.FileNames.ToList())
+                {
+                    System.IO.FileInfo info = new System.IO.FileInfo(filename);
+                    long len = info.Length;
+
+                    // If exceds 10 MB (mebibyte)
+                    if (len > 10490000)
+                    {
+                        MessageBox.Show("Kan ej ladda upp över 10MB");
+                        continue;
+                    }
+
+                    // Upload file to server
+                    var JSONresponseObject = await Etc.WebHelper.UploadCoverImage(filename);
+
+                    // Raise failure if error
+                    if (!JSONresponseObject.Value<bool>("success"))
+                    {
+                        MessageBox.Show(JSONresponseObject.Value<string>("message"));
+                        continue;
+                    }
+
+                    LibrarySystem.Etc.JkbZoneFile parsedObj = new LibrarySystem.Etc.JkbZoneFile(JSONresponseObject.Value<string>("location"));
+
+                    item.cover = parsedObj.Location;
+
+                }
+            }
+        }
+        private async Task UpdateUrl(Item item)
+        {
+            // Open up file dialog for selection
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+
+            // Multiple files allowed
+            dialog.Multiselect = true;
+
+            if (dialog.ShowDialog() == true)
+            {
+                foreach (string filename in dialog.FileNames.ToList())
+                {
+                    System.IO.FileInfo info = new System.IO.FileInfo(filename);
+                    long len = info.Length;
+
+                    // If exceds 10 MB (mebibyte)
+                    if (len > 10490000)
+                    {
+                        MessageBox.Show("Kan ej ladda upp över 10MB");
+                        continue;
+                    }
+
+                    // Upload file to server
+                    var JSONresponseObject = await Etc.WebHelper.UploadCoverImage(filename);
+
+                    // Raise failure if error
+                    if (!JSONresponseObject.Value<bool>("success"))
+                    {
+                        MessageBox.Show(JSONresponseObject.Value<string>("message"));
+                        continue;
+                    }
+
+                    LibrarySystem.Etc.JkbZoneFile parsedObj = new LibrarySystem.Etc.JkbZoneFile(JSONresponseObject.Value<string>("location"));
+
+                    item.url = parsedObj.Location;
+
                 }
             }
         }

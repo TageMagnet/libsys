@@ -20,5 +20,7 @@ namespace LibrarySystem.Models
         public string category { get; set; }
         public string cover { get; set; } = null;
         public Author Author { get; set; } = null;
+        public string reasonToDelete { get; set; }
+
     }
 }
