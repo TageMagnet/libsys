@@ -4,6 +4,7 @@ using LibrarySystem.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MessageBox = System.Windows.MessageBox;
@@ -36,9 +37,31 @@ namespace LibrarySystem
         }
         public async Task UpdateMemberCommandMethod(Member member)
         {
-            SelectedRoleIndex = AvailableRoles.IndexOf(member.role);
+            Member membercheck = (await memberRepo.SearchByColumn("member_id", member.member_id.ToString())).First();
+            // Fix since MYSQL starts index at 1
+
             member.ref_member_role_id++;
+            
+            //Check if the logged in user have permission to update
+            if (membercheck.ref_member_role_id < Globals.LoggedInUser.ref_member_role_id)
+            {
+                MessageBox.Show("Du har inte behörighet att uppdatera en Admin");
+                return;
+            }
+            if (member.ref_member_role_id < Globals.LoggedInUser.ref_member_role_id)
+            {
+                MessageBox.Show("Du kan inte uppdatera till en högre privilegie än vad du redan har");
+                return;
+            }
+
+            SelectedRoleIndex = AvailableRoles.IndexOf(member.role);
             await memberRepo.Update(member);
+
+            //Update the logged in user if changes are to the logged in user
+            if (member.member_id == Globals.LoggedInUser.member_id)
+            {
+                await Globals.UpdateGlobalUser();
+            }
             await LoadMembers();
 
         }
@@ -104,7 +127,17 @@ namespace LibrarySystem
                 MessageBox.Show("Lägg till roll");
                 return;
             }
-
+            List<Member> memberlist = await memberRepo.SearchByColumn("email", NewMember.email);
+            if (memberlist.Count > 0)
+            {
+                MessageBox.Show("Denna email finns redan!");
+                return;
+            }
+            if (NewMember.role == "admin" && Globals.LoggedInUser.ref_member_role_id != 1)
+            {
+                MessageBox.Show("Du har inte behörighet att lägga till en Admin");
+                return;
+            }
             // Timestamp, since now is creation date
             NewMember.created_at = DateTime.Now;
             NewMember.is_active = 1;

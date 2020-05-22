@@ -80,7 +80,7 @@
             <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
                 <Viewbox>
                     <StackPanel Orientation="Vertical">
-                        <!--#region Books-->
+                        <!--#region Members-->
                         <ItemsControl x:Name="ListOfMembers" ItemsSource="{Binding Members, Mode=TwoWay}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -166,9 +166,16 @@
                                                 <StackPanel Orientation="Horizontal" Margin="0 3 0 0">
                                                     <Label Content="Roll: " Width="70" FontSize="12" />
 
-                                                    <ComboBox IsReadOnly="True" MinWidth="100" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AvailableRoles}"
-                                                              SelectedIndex="{Binding ref_member_role_id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" Padding="4 2 0 0"
-                                                              SelectedItem="{Binding role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                                    <ComboBox IsReadOnly="True" 
+                                                              MinWidth="100" 
+                                                              ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                        AncestorType={x:Type UserControl}},
+                                                        Path=DataContext.AvailableRoles}"
+                                                              SelectedIndex="{Binding ref_member_role_id,
+                                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" Padding="4 2 0 0"
+                                                              SelectedItem="{Binding role,
+                                                        UpdateSourceTrigger=PropertyChanged,
+                                                        Mode=TwoWay}"/>
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Horizontal">

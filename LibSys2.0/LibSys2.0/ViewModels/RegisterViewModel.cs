@@ -16,6 +16,7 @@ namespace LibrarySystem.ViewModels
         public MemberRepository memberRepo = new MemberRepository();
         private MiscellaneousRepository miscRepo = new MiscellaneousRepository();
         public Member NewMember { get; set; }
+        public string Password { get; set; }
         public string CheckPassword { get; set; }
 
         #endregion
@@ -50,22 +51,35 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Fyll i namn!");
                 return;
             }
-            if (String.IsNullOrWhiteSpace(NewMember.pwd) || String.IsNullOrEmpty(NewMember.pwd))
+            if (String.IsNullOrWhiteSpace(Password) || String.IsNullOrEmpty(Password))
             {
                 MessageBox.Show("Fyll i Lösenord!");
                 return;
             }
-            if (NewMember.pwd.Length < 6)
+            if (Password.Length < 6)
             {
                 MessageBox.Show("Lösenordet måste bestå av minst 6 tecken!");
                 return;
             }
-            if (NewMember.pwd != CheckPassword)
+            if (Password != CheckPassword)
             {
                 MessageBox.Show("Lösenorden stämmer inte överens");
                 return;
             }
 
+            NewMember.email = NewMember.email.ToLower();
+
+            List<Member> memberlist = await memberRepo.SearchByColumn("email", NewMember.email);
+            if (memberlist.Count > 0)
+            {
+                MessageBox.Show("Denna email finns redan!");
+                Password = "";
+                CheckPassword = "";
+                
+                return;
+            }
+
+            NewMember.pwd = Password;
             NewMember.ref_member_role_id = 3;
             NewMember.created_at = DateTime.Now;
             // This is set to 0 and later on 1 when activated through emailed registration link
@@ -87,7 +101,7 @@ namespace LibrarySystem.ViewModels
             Mail mail = new Mail();
             mail.SendActivationEmail(NewMember.email, urlLink);
 
-            MessageBox.Show("Välkommen! Du har fått en bekräftelse till din email.");
+            MessageBox.Show("Välkommen! Du har fått en bekräftelse till din email. Slutför din registrering via mejlet");
 
             MainWindowViewModel.ChangeView("home");
         }

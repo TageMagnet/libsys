@@ -81,7 +81,7 @@
         </TextBlock>
 
         <TextBlock Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="4" Margin="6,0" HorizontalAlignment="Center">
-            <Hyperlink Command="{Binding GoToPage}" CommandParameter="register">Registrera ny användare</Hyperlink>
+            <Hyperlink Command="{Binding GoToRegister}">Registrera ny användare</Hyperlink>
         </TextBlock>
 
         <!--#endregion-->
