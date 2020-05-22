@@ -68,6 +68,13 @@ namespace LibrarySystem.ViewModels
 
             user = (await memberRepo.SearchByColumn("email", Username)).Find(x => x.email == Username); //.Find(x => x.email == Username);
 
+
+            if (user.role == null)
+            {
+                MessageBox.Show("Ditt konto är inaktiverat");
+                return;
+            }
+
             if (user == null)
             {
                 MessageBox.Show("Fel Lösenord eller användarnamn");
