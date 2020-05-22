@@ -88,15 +88,16 @@ namespace LibrarySystem.ViewModels
                 await SearchCommandAction(SearchFieldText);
                 AutoCompleteList.Clear();
             });
-            LoanBookCommand = new RelayCommandWithParameters(async (param) => await LoanBook((Item)param));
+            LoanBookCommand = new RelayCommandWithParameters(async (param) => await LoanBook((SearchItem)param));
         }
+
 
         /// <summary>
         /// Loan book action, adds the item to the logged in users subscriptions
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        private async Task LoanBook(Item item)
+        private async Task LoanBook(SearchItem searchItem)
         {
             if (!Globals.IsLoggedIn)
             {
@@ -104,13 +105,22 @@ namespace LibrarySystem.ViewModels
                 //MainWindowViewModel.ChangeView("login");
                 return;
             }
-                
+
             Member currentMember = Globals.LoggedInUser;
-            var x = item;
+
+            // Convert SearchItem into Item
+            Item item = new Item(searchItem);
 
             await itemRepository.SubscribeToItem(item, currentMember);
             MessageBox.Show("Bok lånad!");
         }
+
+        /// <summary>
+        /// -//- Overloading to <see cref="LoanBook(SearchItem)"></see>
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private async Task LoanBook(Item item) => await LoanBook(new SearchItem(item));
 
         /// ...
         private async Task SearchCommandAction(string arg)
@@ -148,13 +158,13 @@ namespace LibrarySystem.ViewModels
         private async Task LoadSearchResults(string arg)
         {
             // Load repos
-            var items = await itemRepository.SearchQuery(SearchFieldText);
+            var items = await itemRepository.SearchQueryWithStatuses(SearchFieldText);
 
             // Keep track of ISBN to check for duplicates
             List<string> isbnCodes = new List<string>();
 
             // Loop and add them into the view
-            foreach (Item item in items)
+            foreach (SearchItem item in items)
             {
                 // Hold the string to avoid code duplication
                 string isbn = item.isbn;
@@ -163,7 +173,7 @@ namespace LibrarySystem.ViewModels
                 {
                     // If duplicate, increment the counter
                     int index = isbnCodes.FindIndex(x => x == isbn);
-                    SearchResults[index].DuplicateCounter++;
+                    //SearchResults[index].Total++;
 
                     // Skip to next element
                     continue;
@@ -172,9 +182,9 @@ namespace LibrarySystem.ViewModels
                 // Add to duplicate-checker list
                 isbnCodes.Add(item.isbn);
 
-                // Convert into an SearchItem, since we need the additional DuplicateCounter property
-                SearchItem searchItem = new SearchItem(item);
-                SearchResults.Add(searchItem);
+                //Convert into an SearchItem, since we need the additional DuplicateCounter property
+                //SearchItem searchItem = new SearchItem(item);
+                SearchResults.Add(item);
             }
 
             // Notify the counters

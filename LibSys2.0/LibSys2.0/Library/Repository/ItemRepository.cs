@@ -139,7 +139,7 @@ namespace Library
         }
 
         /// <summary>
-        /// ...
+        /// Searches several columns in the selected table
         /// </summary>
         /// <param name="searchString"></param>
         /// <returns></returns>
@@ -159,12 +159,14 @@ namespace Library
                     "OR (A.nickname LIKE @Q AND B.is_active = 1)"
                 });
 
-                //
+                // Retrieves books/items
                 items = (await connection.QueryAsync<Item>(query, new { Q = searchString })).ToList();
 
-                // run the query again but collect authors this time
+                // Run the query again but collect authors this time
+                // Items.Author property is an Author object, but havent figured out how to make Dapper fill this automatically
                 authors = (await connection.QueryAsync<Author>(query, new { Q = searchString })).ToList();
 
+                // Joining Items with Author object
                 foreach (Item item in items)
                 {
                     // Insert the Author object into items
@@ -174,6 +176,106 @@ namespace Library
 
                 connection.Close();
                 return items;
+            }
+        }
+
+        /// <summary>
+        /// Searches several columns in the selected table
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
+        public async Task<List<SearchItem>> SearchQueryWithStatuses(string searchString)
+        {
+            List<Item> items = new List<Item>();
+            List<SearchItem> searchItems = new List<SearchItem>();
+            List<Author> authors = new List<Author>();
+            using (var connection = CreateConnection())
+            {
+                //Add %-wildcard operator to the end
+                searchString += '%';
+                string query = string.Join(" ", new string[] {
+                    "SELECT * FROM items B JOIN authors A ON ref_author_id = A.author_id",
+                    "WHERE (B.title LIKE @Q AND B.is_active = 1)",
+                    "OR (A.firstname LIKE @Q AND B.is_active = 1)",
+                    "OR (A.surname LIKE @Q AND B.is_active = 1)",
+                    "OR (A.nickname LIKE @Q AND B.is_active = 1)"
+                });
+
+                // Load items matching search query
+                items = (await connection.QueryAsync<Item>(query, new { Q = searchString })).ToList();
+
+                // Run the query again but collect authors this time
+                // Items.Author property is an Author object, but havent figured out how to make Dapper fill this automatically
+                authors = (await connection.QueryAsync<Author>(query, new { Q = searchString })).ToList();
+
+                // Query that maybe keep tracks of duplicates
+                string testQuery = @"
+                SELECT
+                    items.isbn as isbn,
+                    COUNT(isbn) as Total,
+                	(SELECT COUNT(*) FROM item_subscriptions WHERE item_subscriptions.ref_book_id = items.ID) as UnAvailable
+                FROM
+                    items
+                GROUP BY
+                    isbn";
+
+                // res.Item1 = total count
+                // res.Item2 = subscribed count
+                // var res = connection.Query<object, object, object, Tuple<object, object, object>>(testQuery, Tuple.Create, splitOn: "*").ToList();
+                var xx = (await connection.QueryAsync<dynamic>(testQuery)).ToList();
+
+                // Joining Items with Author object
+                foreach (Item item in items)
+                {
+                    // Insert the Author object into items
+                    Author a = authors.First(x => x.author_id == item.ref_author_id);
+                    item.Author = a;
+                    searchItems.Add(new SearchItem(item));
+                }
+
+                // Loop the already subscribed items and match with items
+                // todo; error prone 
+                foreach (var r in xx)
+                {
+
+                    var found = searchItems.Find(item => item.isbn == r.isbn);
+
+                    // Error check
+                    if (found == null)
+                        continue;
+
+                    // Amount of duplicates
+                    found.Total = (int)r.Total;
+                    // If loaned out/subscribed to
+                    found.UnAvailable = (int)r.UnAvailable;
+                    // Availability display
+                    found.Available = (int)r.Total;
+
+                    // Extra thing fix for cloned book, unavailable was not displaying correct
+                    // If more than 1, it's a books with duplicates
+                    if(r.Total > 1)
+                    {
+                        string countSQLquery = @"
+                            SELECT
+                            	*
+                            FROM
+                            	item_subscriptions
+                            JOIN items ON
+                            	items.ID = item_subscriptions.ref_book_id
+                            WHERE
+                            	items.isbn = @isbn;";
+
+                        var itemSubscriptions = (await connection.QueryAsync(countSQLquery, new { isbn = found.isbn })).ToList();
+
+                        found.UnAvailable = (int)itemSubscriptions.Count();
+                        found.Available = found.Available - (int)found.UnAvailable;
+                        var xxx = 0;
+                    }
+
+                }
+
+                connection.Close();
+                return searchItems;
             }
         }
     }

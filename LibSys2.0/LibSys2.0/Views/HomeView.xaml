@@ -144,25 +144,25 @@
 
                                         <Button x:Name="w"  Content="Låna" Command="{Binding Path=DataContext.LoanBookCommand, ElementName=SearchResults}" CommandParameter="{Binding}" />
 
-                                        <TextBlock VerticalAlignment="Center" Margin="5 0 15 0" FontSize="12" Text="{Binding type}"/>
+                                        <TextBlock VerticalAlignment="Center" Margin="4 0 4 0" FontSize="12" Text="{Binding type}"/>
 
-                                        <TextBlock VerticalAlignment="Center" Text="Antal: " Margin="6,0" FontSize="10">
-                                            <Run Text="{Binding DuplicateCounter, FallbackValue='?'}"/>
+                                        <TextBlock VerticalAlignment="Center" Text="Antal: " Margin="2,0" FontSize="10">
+                                            <Run Text="{Binding Total, FallbackValue='?'}"/>
                                         </TextBlock>
 
                                         <!--
                                             todo; Placeholder för antal tillgängliga böcker
                                             Text ska vara DuplicateCounter - Antal utlånade
                                         -->
-                                        <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="6,0" FontSize="10">
-                                            <Run Text="{Binding PLACEHOLDER_VALUE_NAME, FallbackValue='?'}"/>
+                                        <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="2,0" FontSize="10">
+                                            <Run Text="{Binding Available, FallbackValue='?'}"/>
                                         </TextBlock>
 
                                         <!--
                                             todo; Placeholder => antal utlånade från database
                                         -->
-                                        <TextBlock VerticalAlignment="Center" Text="Utlånade: " Margin="6,0" FontSize="10">
-                                            <Run Text="{Binding PLACEHOLDER_VALUE_NAME_X, FallbackValue='?'}"/>
+                                        <TextBlock VerticalAlignment="Center" Text="Utlånade: " Margin="2,0" FontSize="10">
+                                            <Run Text="{Binding UnAvailable, FallbackValue='?'}"/>
                                         </TextBlock>
 
                                     </StackPanel>

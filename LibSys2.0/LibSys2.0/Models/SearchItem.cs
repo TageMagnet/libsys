@@ -6,7 +6,7 @@ namespace LibrarySystem.Models
 {
     /// <summary>
     /// Just like <see cref="Item"></see>, but with a few added propertes => 
-    /// <see cref="DuplicateCounter"></see> is one
+    /// <see cref="Total"></see> is one
     /// </summary>
     public class SearchItem
     {
@@ -28,7 +28,17 @@ namespace LibrarySystem.Models
         /// Used for tracking duplicates in display view, duplicates should be checked from ISBN code
         /// Defaultar till 1, eftersom det alltid finns minst 1 bok
         /// </summary>
-        public int DuplicateCounter { get; set; } = 1;
+        public int Total { get; set; } = 1;
+        /// <summary>
+        /// Available for member to subscribe to
+        /// </summary>
+        public int Available { get; set; } = 1;
+        /// <summary>
+        /// Unavailable, already loaned out, missing or removed from stock
+        /// </summary>
+        public int UnAvailable { get; set; }
+        public SearchItem() { }
+
         public SearchItem(Item item)
         {
             this.type = item.type;

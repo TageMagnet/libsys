@@ -22,5 +22,24 @@ namespace LibrarySystem.Models
         public Author Author { get; set; } = null;
         public string reasonToDelete { get; set; }
 
+        public Item() { }
+
+        public Item(SearchItem searchItem)
+        {
+            this.type = searchItem.type;
+            this.ID = searchItem.ID;
+            this.ref_author_id = searchItem.ref_author_id;
+            this.is_active = searchItem.is_active;
+            this.year = searchItem.year;
+            this.book_state = searchItem.book_state;
+            this.isbn = searchItem.isbn;
+            this.title = searchItem.title;
+            this.description = searchItem.description;
+            this.url = searchItem.url;
+            this.content = searchItem.content;
+            this.category = searchItem.category;
+            this.cover = searchItem.cover;
+            this.Author = searchItem.Author;
+        }
     }
 }

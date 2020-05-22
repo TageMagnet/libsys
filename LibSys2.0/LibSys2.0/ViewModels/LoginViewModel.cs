@@ -72,8 +72,9 @@ namespace LibrarySystem.ViewModels
             Username = Username.ToLower();
 
             user = (await memberRepo.SearchByColumn("email", Username)).Find(x => x.email == Username); //.Find(x => x.email == Username);
+            
 
-
+            // Null check if user does not exist in database
             if (user == null)
             {
                 MessageBox.Show("Fel Lösenord eller användarnamn");
