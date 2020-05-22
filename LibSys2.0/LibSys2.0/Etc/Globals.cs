@@ -1,9 +1,13 @@
-﻿using LibrarySystem.Models;
+﻿using K4os.Compression.LZ4.Internal;
+using Library;
+using LibrarySystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LibrarySystem
 {
@@ -18,6 +22,7 @@ namespace LibrarySystem
         /// </summary>
         public static TimeSpan DefaultLoanDuration { get; set; } = new TimeSpan(8, 0, 0, 0);
 
+        public static  MemberRepository memerRepo = new MemberRepository();
         /// <summary>
         /// Shakey practice but eh.
         /// </summary>
@@ -34,6 +39,14 @@ namespace LibrarySystem
                     return false;
                 return true;
             }
+        }
+
+        public static async Task UpdateGlobalUser()
+        {
+            Member user = (await memerRepo.SearchByColumn("member_id", LoggedInUser.member_id.ToString())).First();
+
+            LoggedInUser = user;
+
         }
     }
 }

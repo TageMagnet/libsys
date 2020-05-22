@@ -17,6 +17,7 @@ namespace LibrarySystem.ViewModels
         HeaderViewModel headerViewModel = new HeaderViewModel();
         public string Username { get; set; }
 
+
         // Backing field
         private string password;
         public string Password
@@ -31,12 +32,15 @@ namespace LibrarySystem.ViewModels
 
         public RelayCommand LoginCommand { get; set; }
         public RelayCommand GoBackCommand { get; set; }
+
+        public RelayCommand GoToRegister { get; set; }
         public LoginViewModel()
         {
             LoadDataAsync();
 
             LoginCommand = new RelayCommand(async () => await LoginMethod());
             GoBackCommand = new RelayCommand(() => MainWindowViewModel.ChangeView("home"));
+            GoToRegister = new RelayCommand(() => MainWindowViewModel.ChangeView("register"));
         }
 
         //Skapa loginmetod
@@ -65,16 +69,10 @@ namespace LibrarySystem.ViewModels
                 MessageBox.Show("Fyll i lösenord");
                 return;
             }
+            Username = Username.ToLower();
 
             user = (await memberRepo.SearchByColumn("email", Username)).Find(x => x.email == Username); //.Find(x => x.email == Username);
 
-
-
-            if (user.is_active < 1)
-            {
-                MessageBox.Show("Ditt konto är inaktiverat");
-                return;
-            }
 
             if (user == null)
             {
@@ -82,6 +80,13 @@ namespace LibrarySystem.ViewModels
                 Password = "";
                 return;
             }
+
+            if (user.is_active < 1)
+            {
+                MessageBox.Show("Ditt konto är inaktiverat");
+                return;
+            }
+
 
             if (user.pwd != Password)
             {

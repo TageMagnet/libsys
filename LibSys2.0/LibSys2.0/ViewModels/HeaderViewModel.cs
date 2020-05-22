@@ -26,7 +26,7 @@ namespace LibrarySystem.ViewModels
             GoToLogin = new RelayCommand(() => MainWindowViewModel.ChangeView("login"));
             GoToRegister = new RelayCommand(() => MainWindowViewModel.ChangeView("register"));
             ByPassIntoBackend = new RelayCommand(() => MainWindowViewModel.ChangeView("librarian"));
-            GoToPage = new RelayCommandWithParameters((param) => MainWindowViewModel.ChangeView((string)param));
+            GoToPage = new RelayCommandWithParameters(async(param) => await GoToProfilePage((int)param));
             LogoutCommand = new RelayCommand(async() =>  await LogoutCommandMethod());
             Method1();
         }
@@ -80,6 +80,24 @@ namespace LibrarySystem.ViewModels
                 MainWindowViewModel.ChangeView("home");
             }
             
+        }
+
+        private async Task GoToProfilePage(int role_id)
+        {
+            switch (role_id)
+            {
+                case 1:
+                    MainWindowViewModel.ChangeView("admin");
+                    break;
+                case 2:
+                    MainWindowViewModel.ChangeView("librarian");
+                    break;
+                case 3:
+                    MainWindowViewModel.ChangeView("customer");
+                    break;
+                default:
+                    break;
+            }
         }
 
     }

@@ -79,7 +79,7 @@
                 <Button Grid.Column="1" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Account,Size=25}"
                         materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
                         Command="{Binding GoToPage}" 
-                        CommandParameter="{Binding CurrentLoggedInUserExtended.role}" 
+                        CommandParameter="{Binding CurrentLoggedInUserExtended.ref_member_role_id}" 
                         ToolTip="Din profil"/>
                 <Button Grid.Column="2" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Logout,Size=25}"
                         materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
