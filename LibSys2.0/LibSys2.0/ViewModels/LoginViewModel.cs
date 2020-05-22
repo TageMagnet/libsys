@@ -69,7 +69,8 @@ namespace LibrarySystem.ViewModels
             user = (await memberRepo.SearchByColumn("email", Username)).Find(x => x.email == Username); //.Find(x => x.email == Username);
 
 
-            if (user.role == null)
+
+            if (user.is_active < 1)
             {
                 MessageBox.Show("Ditt konto är inaktiverat");
                 return;
