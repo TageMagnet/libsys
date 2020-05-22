@@ -7,7 +7,7 @@
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
-        <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Height)" From="0" To="250">
+        <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Height)" From="0" To="300">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
@@ -19,7 +19,7 @@
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
-        <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Height)" From="250" To="0">
+        <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="HiddenStuff" Storyboard.TargetProperty="(Height)" From="300" To="0">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
@@ -40,28 +40,13 @@
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
     </Storyboard>
-    
+
     <Storyboard x:Key="OpenBooks">
-        <!--<DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="0">
-            <DoubleAnimation.EasingFunction>
-                <PowerEase Power="2" EasingMode="EaseOut"/>
-            </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
-        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Height)" From="0" To="0">
-            <DoubleAnimation.EasingFunction>
-                <PowerEase Power="2" EasingMode="EaseOut"/>
-            </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>-->
         <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="1.0">
             <DoubleAnimation.EasingFunction>
                 <PowerEase Power="2" EasingMode="EaseInOut"/>
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
-        <!--<DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddBooks" Storyboard.TargetProperty="(Height)" From="0" To="350">
-            <DoubleAnimation.EasingFunction>
-                <PowerEase Power="2" EasingMode="EaseInOut"/>
-            </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>-->
     </Storyboard>
 
     <Storyboard x:Key="OpeneBooks">
@@ -75,16 +60,6 @@
                 <PowerEase Power="2" EasingMode="EaseOut"/>
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
-        <!--<DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Opacity)" From="0" To="1.0">
-            <DoubleAnimation.EasingFunction>
-                <PowerEase Power="2" EasingMode="EaseInOut"/>
-            </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
-        <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="OpenAddeBooks" Storyboard.TargetProperty="(Height)" From="0" To="350">
-            <DoubleAnimation.EasingFunction>
-                <PowerEase Power="2" EasingMode="EaseInOut"/>
-            </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>-->
     </Storyboard>
 
     <Storyboard x:Key="OpenRemove">
