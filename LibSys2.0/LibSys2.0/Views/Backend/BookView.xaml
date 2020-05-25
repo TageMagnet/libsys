@@ -80,6 +80,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1">
+                <Label  Content="Filtrera Författare" Target="{Binding ElementName=AuthorFilterText}" />
+                <TextBox x:Name="AuthorFilterText"  Text="{Binding AddBookAuthorSearch, UpdateSourceTrigger=PropertyChanged, FallbackValue=''}"/>
+            </StackPanel>
             <Button Grid.Column="0" Content="Lägg till Bok" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5">
                 <Button.Triggers>
                     <EventTrigger RoutedEvent="ButtonBase.Click">
@@ -131,7 +135,7 @@
                         </TextBlock>
 
                         <!--Author-->
-                        <ComboBox x:Name="Authorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Authors}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
+                        <ComboBox x:Name="AddAuthorbox" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Authors}" Height="35" Width="250" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="2"
                                                               SelectedValue="{Binding SelectedAuthor, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -144,7 +148,7 @@
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Text, ElementName=Authorbox}" Value="">
+                                        <DataTrigger Binding="{Binding Text, ElementName=AddAuthorbox}" Value="">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                     </Style.Triggers>

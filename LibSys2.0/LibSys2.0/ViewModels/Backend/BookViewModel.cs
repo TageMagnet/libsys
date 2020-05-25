@@ -50,6 +50,24 @@ namespace LibrarySystem
                 LoadBooks();
             }
         }
+
+        private string addBookAuthorSearch;
+        /// <summary>
+        /// Filtering aout available authors in combobox
+        /// </summary>
+        public string AddBookAuthorSearch {
+            get
+            {
+                return addBookAuthorSearch;
+            }
+            set
+            {
+                // When
+                addBookAuthorSearch = value;
+                ReloadAuthorsAsync();
+            }
+        }
+
         /// <summary>Small textbox for posting multiple new items</summary>
         public int NumberOfItemsToSubmit { get; set; } = 1;
         public int ActiveFilter { get; set; } = 1;
@@ -271,6 +289,11 @@ namespace LibrarySystem
             OnPropertyChanged(nameof(SelectedItem));
         }
 
+        private async Task SearchAuthor()
+        {
+
+        }
+
 
         /// <summary>
         /// Puttin' da file on da server
@@ -446,6 +469,8 @@ namespace LibrarySystem
             await LoadBooks();
         }
 
+        private async void ReloadAuthorsAsync() => await LoadAuthors();
+
         /// <summary>
         /// Reloads books from DB
         /// </summary>
@@ -464,7 +489,8 @@ namespace LibrarySystem
         public async Task LoadAuthors()
         {
             Authors.Clear();
-            foreach (var author in await authorRepo.ReadAll())
+
+            foreach(Author author in await authorRepo.Search(addBookAuthorSearch))
             {
                 Authors.Add(author);
             }
