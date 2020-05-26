@@ -281,8 +281,7 @@ namespace Library
                         var itemSubscriptions = (await connection.QueryAsync(countSQLquery, new { isbn = found.isbn })).ToList();
 
                         found.UnAvailable = (int)itemSubscriptions.Count();
-                        found.Available = found.Available - (int)found.UnAvailable;
-                        var xxx = 0;
+                        //found.Available = found.Available - (int)found.UnAvailable;
                     }
 
                 }
