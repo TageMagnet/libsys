@@ -17,6 +17,7 @@ namespace LibrarySystem
         public RelayCommand AddNewMember { get; set; }
         public RelayCommandWithParameters DeleteMemberCommand { get; set; }
         public RelayCommandWithParameters UpdateMemberCommand { get; set; }
+        public RelayCommandWithParameters ChangeCardStatusCommand { get; set; }
         #endregion
 
         #region Properties
@@ -26,6 +27,9 @@ namespace LibrarySystem
         public Member SelectedMember { get; set; } = new Member();
         public ObservableCollection<Member> Members { get; set; } = new ObservableCollection<Member>();
         public Member NewMember { get; set; }
+
+        
+        public string visible { get; set; } = "hidden";
         #endregion
         public MemberViewModel()
         {
@@ -33,6 +37,7 @@ namespace LibrarySystem
             AddNewMember = new RelayCommand(async () => await AddNewMemberCommand());
             DeleteMemberCommand = new RelayCommandWithParameters(async (param) => await DeleteMemberCommandMethod(param));
             UpdateMemberCommand = new RelayCommandWithParameters(async (param) => await UpdateMemberCommandMethod((Member)param));
+            ChangeCardStatusCommand = new RelayCommandWithParameters(async (param) => await ChangeCardStatusCommandMethod((Member)param));
             InitLoad();
         }
         public async Task UpdateMemberCommandMethod(Member member)
@@ -46,11 +51,13 @@ namespace LibrarySystem
             if (membercheck.ref_member_role_id < Globals.LoggedInUser.ref_member_role_id)
             {
                 MessageBox.Show("Du har inte behörighet att uppdatera en Admin");
+                await LoadMembers();
                 return;
             }
             if (member.ref_member_role_id < Globals.LoggedInUser.ref_member_role_id)
             {
                 MessageBox.Show("Du kan inte uppdatera till en högre privilegie än vad du redan har");
+                await LoadMembers();
                 return;
             }
 
@@ -101,6 +108,55 @@ namespace LibrarySystem
 
         }
         /// <summary>
+        /// Changes the status on Loan card
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public async Task ChangeCardStatusCommandMethod(Member member)
+        {
+            Member membercheck = (await memberRepo.SearchByColumn("member_id", member.member_id.ToString())).First();
+            // Fix since MYSQL starts index at 1
+
+            member.ref_member_role_id++;
+            string message = "";
+            //Check if the logged in user have permission to update
+            if (Globals.LoggedInUser.ref_member_role_id > 1)
+            {
+                MessageBox.Show("Du har inte behörighet att uppdatera som en user");
+                await LoadMembers();
+                return;
+            }
+            if (membercheck.ref_member_role_id < Globals.LoggedInUser.ref_member_role_id)
+            {
+                MessageBox.Show("Du har inte behörighet att uppdatera en Admin");
+                await LoadMembers();
+                return;
+            }
+            if (member.ref_member_role_id < Globals.LoggedInUser.ref_member_role_id)
+            {
+                MessageBox.Show("Du kan inte uppdatera till en högre privilegie än vad du redan har");
+                await LoadMembers();
+                return;
+            }
+
+            //Chabges the status of loan card
+            if (member.cardstatus == 1)
+            {
+                member.cardstatus = 0;
+                message = "Lånekort spärrat";
+            }
+            else if (member.cardstatus == 0)
+            {
+                member.cardstatus = 1;
+                message = "Lånekort aktiverat";
+            }
+            
+            await memberRepo.Update(member);
+            MessageBox.Show(message);
+            await LoadMembers();
+        }
+
+        /// <summary>
         /// Adds new member
         /// </summary>
         /// <returns></returns>
@@ -143,6 +199,7 @@ namespace LibrarySystem
             NewMember.is_active = 1;
             NewMember.ref_member_role_id = AvailableRoles.IndexOf(NewMember.role);
             NewMember.ref_member_role_id++;
+            NewMember.cardstatus = 1;
             await memberRepo.Create(NewMember);
             await LoadMembers();
             await ClearMemberLines("members");
