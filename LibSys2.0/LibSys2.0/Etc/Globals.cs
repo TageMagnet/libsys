@@ -22,6 +22,11 @@ namespace LibrarySystem
         /// </summary>
         public static TimeSpan DefaultLoanDuration { get; set; } = new TimeSpan(8, 0, 0, 0);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static TimeSpan DefaultExtendLoanDuration { get; set; } = new TimeSpan(8, 0, 0, 0);
+
         public static  MemberRepository memerRepo = new MemberRepository();
         /// <summary>
         /// Shakey practice but eh.

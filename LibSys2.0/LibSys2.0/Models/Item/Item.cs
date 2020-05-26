@@ -4,13 +4,8 @@ using System.Text;
 
 namespace LibrarySystem.Models
 {
-    public class Item
+    public class Item : BaseItem
     {
-        public string type { get; set; }
-        public int ID { get; set; }
-        public int ref_author_id { get; set; }
-        public int is_active { get; set; } = 1;
-        public int year { get; set; }
         public short book_state { get; set; } = 100;
         public string isbn { get; set; }
         public string title { get; set; }

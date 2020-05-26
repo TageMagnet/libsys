@@ -42,7 +42,7 @@ namespace Library
         /// <summary>Already logged in member, subscribe/loan to item</summary>
         /// <param name="item">Selected item</param>
         /// <param name="member">Logged in member</param>
-        public async Task SubscribeToItem(Item item, Member member)
+        public async Task SubscribeToItem(BaseItem item, Member member)
         {
             using (var connection = CreateConnection())
             {
@@ -56,15 +56,26 @@ namespace Library
                 DateTime returnDate = DateTime.Now.Add(Globals.DefaultLoanDuration);
                 await connection.QueryAsync(query, new { ref_member_id = member.member_id, ref_book_id = item.ID, loaned_at = DateTime.Now, return_at = returnDate, status = 1 });
             }
-            //INSERT INTO item_subscriptions(ref_member_id, ref_book_id, loaned_at, return_at, status) VALUES(1, 1, '2020-05-20 13:37', '2020-05-24 13:37', 1);
         }
 
         /// <summary>Return/unsubscribe to item</summary>
         /// <param name="item">Selected item</param>
         /// <param name="member">Logged in member</param>
-        public async Task UnSubscribeToItem(Item item, Member member)
+        public async Task UnSubscribeToItem(BaseItem item, Member member)
         {
-            //INSERT INTO item_subscriptions(ref_member_id, ref_book_id, loaned_at, return_at, status) VALUES(1, 1, '2020-05-20 13:37', '2020-05-24 13:37', 1);
+            using (var connection = CreateConnection())
+            {
+                string query = @"UPDATE
+                	item_subscriptions A
+                SET
+                	`status` = @status
+                WHERE
+                	A.ref_member_id = @memberID
+                AND
+                	A.ref_book_id = @bookID;
+                ";
+                await connection.QueryAsync(query, new { memberID = member.member_id, bookID = item.ID, status = 0 });
+            }
         }
 
         public async Task<List<Item>> ReadAllItemsWithStatus(int status)
@@ -213,7 +224,7 @@ namespace Library
                 SELECT
                     items.isbn as isbn,
                     COUNT(isbn) as Total,
-                	(SELECT COUNT(*) FROM item_subscriptions WHERE item_subscriptions.ref_book_id = items.ID) as UnAvailable
+                	(SELECT COUNT(*) FROM item_subscriptions WHERE item_subscriptions.ref_book_id = items.ID AND item_subscriptions.status > 0) as UnAvailable
                 FROM
                     items
                 GROUP BY
@@ -263,7 +274,9 @@ namespace Library
                             JOIN items ON
                             	items.ID = item_subscriptions.ref_book_id
                             WHERE
-                            	items.isbn = @isbn;";
+                            	items.isbn = @isbn
+                            AND
+                                status > 0;";
 
                         var itemSubscriptions = (await connection.QueryAsync(countSQLquery, new { isbn = found.isbn })).ToList();
 
@@ -276,6 +289,32 @@ namespace Library
 
                 connection.Close();
                 return searchItems;
+            }
+        }
+
+
+        public async Task<List<OverViewItem>> ReadSubscribedItems(int memberID)
+        {
+            string query = @"
+            -- Get each subscribed item object based on user id
+            SELECT
+            	*
+            FROM
+            	item_subscriptions
+            LEFT JOIN items ON
+            	items.ID = item_subscriptions.ref_book_id
+            LEFT JOIN members ON
+            	members.member_id = item_subscriptions.ref_member_id
+            WHERE
+            	members.member_id = @memberID
+            AND
+                item_subscriptions.status = @status;
+            ";
+
+            using(var connection = CreateConnection())
+            {
+                List<OverViewItem> data = (await connection.QueryAsync<OverViewItem>(query, new { memberID = memberID, status = 1 })).ToList();
+                return data;
             }
         }
     }
