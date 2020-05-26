@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Library;
 using MessageBox = System.Windows.MessageBox;
+using System.Collections.Specialized;
 
 namespace LibrarySystem.ViewModels
 {
@@ -76,6 +77,9 @@ namespace LibrarySystem.ViewModels
 
         public HomeViewModel()
         {
+
+            //SearchResults.CollectionChanged += this.OnCollectionChanged;
+
             // Init empty user
             SearchCommand = new RelayCommandWithParameters(async (param) => await SearchCommandAction((string)param));
             SetSearchColumn = new RelayCommandWithParameters((param) =>
@@ -111,7 +115,21 @@ namespace LibrarySystem.ViewModels
             // Convert SearchItem into Item
             Item item = new Item(searchItem);
 
+            //Uppdatera GUI
+            searchItem.Available--;
+            searchItem.UnAvailable++;
+
+            // Check if there are enough in stock
+            if(searchItem.Available < 0)
+            {
+                MessageBox.Show("Slut på bok!");
+                return;
+            }
+
             await itemRepository.SubscribeToItem(item, currentMember);
+            SearchResults.Clear();
+            await LoadSearchResults(SearchFieldText);
+
             MessageBox.Show("Bok lånad!");
         }
 
@@ -191,5 +209,26 @@ namespace LibrarySystem.ViewModels
             NotifyPropertyChanged("SearchResultCount");
             NotifyPropertyChanged("ResultsDividedPerPage");
         }
+
+        //void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    //Get the sender observable collection
+        //    ObservableCollection<SearchItem> obsSender = sender as ObservableCollection<SearchItem>;
+
+        //    List<SearchItem> editedOrRemovedItems = new List<SearchItem>();
+
+        //    // Clear all lol; todo; do some comparison
+        //    //SearchResults.Clear();
+
+        //    foreach(var item in e.NewItems)
+        //    {
+        //        editedOrRemovedItems.Add((SearchItem)item);
+        //    }
+
+
+        //    //Get the action which raised the collection changed event
+        //    NotifyCollectionChangedAction action = e.Action;
+        //}
+
     }
 }
