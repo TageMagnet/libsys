@@ -53,8 +53,34 @@ namespace Library
                 });
 
                 // Add time duration until item is to be returned
+                // todo; move this logic elsewhere. Repos' should be as simple as possible
                 DateTime returnDate = DateTime.Now.Add(Globals.DefaultLoanDuration);
                 await connection.QueryAsync(query, new { ref_member_id = member.member_id, ref_book_id = item.ID, loaned_at = DateTime.Now, return_at = returnDate, status = 1 });
+            }
+        }
+
+        /// <summary>
+        /// Extend loan period for item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public async Task ResubscribeToItem(OverViewItem item, Member member)
+        {
+            using (var connection = CreateConnection())
+            {
+                string query = @"
+                UPDATE
+                	item_subscriptions A
+                SET
+                	`status` = @status,
+                    `return_at` = @ReturnAt
+                WHERE
+                	A.ref_member_id = @memberID
+                AND
+                	A.ref_book_id = @bookID;
+                ";
+                await connection.QueryAsync(query, new { memberID = member.member_id, bookID = item.ID, ReturnAt = item.return_at, status = 1 });
             }
         }
 

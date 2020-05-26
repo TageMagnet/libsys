@@ -53,11 +53,21 @@ namespace LibrarySystem.ViewModels
                 // Kod för att förlänga lånetid
                 OverViewItem overViewItem = (OverViewItem)param;
 
+                // Blockera förlängning om redan försenad
+                if(DateTime.Compare(overViewItem.return_at, DateTime.Now) < 0)
+                {
+                    MessageBox.Show("Kan ej förlänga försenad bok");
+                    return;
+                }
+
                 // Förläng med X dagar
                 overViewItem.return_at = overViewItem.return_at.Add(Globals.DefaultExtendLoanDuration);
 
                 // Återanvänd lånmetoden
-                await itemRepo.SubscribeToItem(overViewItem, LoggedInCustomer);
+                await itemRepo.ResubscribeToItem(overViewItem, LoggedInCustomer);
+
+                // Refresha view
+                LoadAllBooks();
 
                 // Display baserat på hur många default dagar ett lån är
                 MessageBox.Show(string.Format("Lån förlängt med {0} dagar", Globals.DefaultExtendLoanDuration));
