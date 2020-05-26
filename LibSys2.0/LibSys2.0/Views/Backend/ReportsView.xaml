@@ -1,0 +1,90 @@
+﻿<Window x:Class="LibrarySystem.Views.Backend.ReportsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibrarySystem.Views.Backend"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:convert="clr-namespace:LibrarySystem.Converters"
+        mc:Ignorable="d"
+        Title="ReportsView" Height="800" Width="900" WindowStartupLocation="CenterScreen">
+    
+
+        <Window.Resources>
+            <convert:StringToColor x:Key="StringColorConvertThingyStatusYeah"/>
+            <convert:StringToInt x:Key="TestConvert"/>
+        </Window.Resources>
+
+    <DockPanel>
+
+        <Border BorderThickness="1" BorderBrush="#F9AA33" DockPanel.Dock="Left" Padding="12,4">
+            <StackPanel>
+                <TextBox Text="Profilinfo" BorderThickness="0" Margin="8 10 0 35" Style="{StaticResource TextBoxLarge}"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="E-mail: " Margin="8 0 0 0" />
+                    <TextBlock Text="{Binding Path=CurrentMember.email}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Smeknamn: " Margin="8 0 0 0" />
+                    <TextBlock Text="{Binding Path=CurrentMember.nickname}"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Adress: " Margin="8 0 0 0" TextDecorations="strikethrough"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Aktuell skuld: " Margin="8 0 0 0"  TextDecorations="strikethrough"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center">
+
+                <Expander Header="Lånade Böcker" IsExpanded="True">
+                    <DataGrid Grid.Column="2" 
+                              ItemsSource="{Binding CurrentLoans}"  
+                              IsReadOnly="True"
+                              AutoGenerateColumns="False" 
+                              AlternatingRowBackground="#F9AA33" 
+                              Margin="10 0 10 0">
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Status" Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+
+                                            <TextBlock Text="{Binding Path=LateStatus, 
+                                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                            FallbackValue='eeeh'}"
+                                                       
+                                                       Background="{Binding Path=LateStatus,Mode=TwoWay, 
+                                                            UpdateSourceTrigger=PropertyChanged, 
+                                                            Converter={StaticResource StringColorConvertThingyStatusYeah}}"
+                                                       />
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Dagar kvar" Binding="{Binding SubscriptionDaysRemaining}" Width="auto"/>
+                            <DataGridTextColumn Header="Titel" Binding="{Binding title}" Width="auto"/>
+                            <DataGridTextColumn Header="Lånedatum" Binding="{Binding loaned_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="auto"/>
+                            <DataGridTextColumn Header="Återlämningsdatum" Binding="{Binding return_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Expander>
+
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>
