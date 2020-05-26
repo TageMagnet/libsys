@@ -260,7 +260,7 @@ namespace Library
                     // If loaned out/subscribed to
                     found.UnAvailable = (int)r.UnAvailable;
                     // Availability display
-                    found.Available = (int)r.Total;
+                    found.Available = (int)r.Total - found.UnAvailable;
 
                     // Extra thing fix for cloned book, unavailable was not displaying correct
                     // If more than 1, it's a books with duplicates

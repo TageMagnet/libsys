@@ -101,7 +101,7 @@
             <!--#region Search Results -->
             <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,20,0,60" HorizontalAlignment="Center">
             <Viewbox>
-                <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults}" MinHeight="300" >
+                <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding SearchResults, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinHeight="300" >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" Padding="10" MaxWidth="800" Height="170"  Width="500" x:Name="CardResult">
