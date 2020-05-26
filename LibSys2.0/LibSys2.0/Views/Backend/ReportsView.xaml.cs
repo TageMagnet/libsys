@@ -1,4 +1,5 @@
-﻿using LibrarySystem.ViewModels.Backend;
+﻿using LibrarySystem.Models;
+using LibrarySystem.ViewModels.Backend;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,7 +21,7 @@ namespace LibrarySystem.Views.Backend
     {
         public ReportsView()
         {
-            this.DataContext = new ReportsViewModel();
+            //this.DataContext = new ReportsViewModel(member);
             InitializeComponent();
         }
     }

@@ -235,7 +235,7 @@
                                                             Content="Uppdatera" Width="100" Height="30" Foreground="#F9AA33" />
 
                                                     <Button Width="100" Height="30" Margin="15 0 0 0" BorderBrush="{x:Null}" Foreground="#F9AA33" Padding="1"
-                                                            Content="Aktiva lån" />
+                                                            Content="Aktiva lån" Command="{Binding Path=DataContext.BookReportCommand, ElementName=ListOfMembers}" CommandParameter="{Binding}"/>
 
                                                 </StackPanel>
                                                 <!--#endregion-->

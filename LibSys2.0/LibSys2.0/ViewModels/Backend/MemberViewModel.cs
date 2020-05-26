@@ -1,6 +1,9 @@
-﻿using Library;
+﻿using K4os.Compression.LZ4.Internal;
+using Library;
 using LibrarySystem.Models;
 using LibrarySystem.ViewModels;
+using LibrarySystem.ViewModels.Backend;
+using LibrarySystem.Views.Backend;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +21,8 @@ namespace LibrarySystem
         public RelayCommandWithParameters DeleteMemberCommand { get; set; }
         public RelayCommandWithParameters UpdateMemberCommand { get; set; }
         public RelayCommandWithParameters ChangeCardStatusCommand { get; set; }
+
+        public RelayCommandWithParameters BookReportCommand { get; set; }
         #endregion
 
         #region Properties
@@ -38,6 +43,7 @@ namespace LibrarySystem
             DeleteMemberCommand = new RelayCommandWithParameters(async (param) => await DeleteMemberCommandMethod(param));
             UpdateMemberCommand = new RelayCommandWithParameters(async (param) => await UpdateMemberCommandMethod((Member)param));
             ChangeCardStatusCommand = new RelayCommandWithParameters(async (param) => await ChangeCardStatusCommandMethod((Member)param));
+            BookReportCommand = new RelayCommandWithParameters(async (param) => await BookReportCommandMethod((Member)param));
             InitLoad();
         }
         public async Task UpdateMemberCommandMethod(Member member)
@@ -203,6 +209,13 @@ namespace LibrarySystem
             await memberRepo.Create(NewMember);
             await LoadMembers();
             await ClearMemberLines("members");
+        }
+
+        public async Task BookReportCommandMethod(Member member)
+        {
+            var reports = new ReportsView();
+            reports.DataContext = new ReportsViewModel(member);
+            reports.ShowDialog();
         }
     }
 }
