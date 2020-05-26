@@ -14,46 +14,56 @@ namespace LibrarySystem.ViewModels
     {
 
         private ItemRepository itemRepository = new ItemRepository();
+
         /// <summary>Search for book using string from search-field</summary>
         public RelayCommandWithParameters SearchCommand { get; set; }
+
         /// <summary>Which database column to search in</summary>
         public RelayCommandWithParameters SetSearchColumn { get; set; }
+
         /// <summary>Paste autocomplete click into searchbox</summary>
         public RelayCommandWithParameters PasteToSearchBox { get; set; }
+
+        /// <summary>Whenever loan button is hit by user</summary>
         public RelayCommandWithParameters LoanBookCommand { get; set; }
 
         /// <summary>
         /// Returnt results
         /// </summary>
         public ObservableCollection<SearchItem> SearchResults { get; set; } = new ObservableCollection<SearchItem>();
+
         // Defaulted to 'title'
         private string searchColumn { get; set; } = "title";
         /// <summary>
         /// Todo; do something better
         /// </summary>
         public string SearchColumn { get => searchColumn; set { searchColumn = value; OnPropertyChanged("SearchColumn"); } }
+
         /// <summary>
         /// Simple counter return for list
         /// </summary>
         public int SearchResultCount { get => SearchResults.Count; }
+
         /// <summary>
         /// Antal <see cref="SearchResults"></see> per page
         /// </summary>
         public int ResultsPerPage { get; set; } = 5;
+
         // Private holder
         private double resultsDividedPerPage { get; set; }
+        /// <summary>
+        /// Logic for pagination, total count divided by items per page.
+        /// </summary>
         public double ResultsDividedPerPage
         {
             get => Math.Ceiling(Convert.ToDouble(SearchResultCount) / Convert.ToDouble(ResultsPerPage));
             set { resultsDividedPerPage = value; }
         }
-        public int CurrentSearchPage { get; set; } = 0;
 
-        public ViewModels.Components.SearchPageControl SearchPageControl { get; set; } = new ViewModels.Components.SearchPageControl();
         // Private holder
         private string searchFieldText { get; set; }
         /// <summary>
-        /// x:Name SearchField Text
+        /// Text for the SearchFieldInput textbox
         /// </summary>
         public string SearchFieldText
         {
@@ -61,20 +71,27 @@ namespace LibrarySystem.ViewModels
             set
             {
                 searchFieldText = value;
-                // Make autocomplete query if letters are more or equal to number
+
+                // Clear old autocomplete
                 AutoCompleteList.Clear();
+
+                // Break if fewer than two letters are typed in
                 if (searchFieldText.Length >= 2)
-                {
                     LoadAutoCompleteResults();
-                }
+
+                // Notify about change
                 OnPropertyChanged("SearchFieldText");
             }
         }
+
         /// <summary>
         /// Sets when x:Name SearchField is filled in, limited to 2 for now
         /// </summary>
         public ObservableCollection<string> AutoCompleteList { get; set; } = new ObservableCollection<string>();
 
+        /// <summary>
+        /// Construct on ViewModel load
+        /// </summary>
         public HomeViewModel()
         {
 
@@ -95,7 +112,6 @@ namespace LibrarySystem.ViewModels
             LoanBookCommand = new RelayCommandWithParameters(async (param) => await LoanBook((SearchItem)param));
         }
 
-
         /// <summary>
         /// Loan book action, adds the item to the logged in users subscriptions
         /// </summary>
@@ -106,7 +122,6 @@ namespace LibrarySystem.ViewModels
             if (!Globals.IsLoggedIn)
             {
                 MessageBox.Show("Du behöver först logga in eller skapa ett konto för att låna böcker");
-                //MainWindowViewModel.ChangeView("login");
                 return;
             }
 
@@ -140,7 +155,11 @@ namespace LibrarySystem.ViewModels
         /// <returns></returns>
         private async Task LoanBook(Item item) => await LoanBook(new SearchItem(item));
 
-        /// ...
+        /// <summary>
+        /// Search action calling on SQL repo
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private async Task SearchCommandAction(string arg)
         {
             // Clear old search
@@ -209,26 +228,5 @@ namespace LibrarySystem.ViewModels
             NotifyPropertyChanged("SearchResultCount");
             NotifyPropertyChanged("ResultsDividedPerPage");
         }
-
-        //void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    //Get the sender observable collection
-        //    ObservableCollection<SearchItem> obsSender = sender as ObservableCollection<SearchItem>;
-
-        //    List<SearchItem> editedOrRemovedItems = new List<SearchItem>();
-
-        //    // Clear all lol; todo; do some comparison
-        //    //SearchResults.Clear();
-
-        //    foreach(var item in e.NewItems)
-        //    {
-        //        editedOrRemovedItems.Add((SearchItem)item);
-        //    }
-
-
-        //    //Get the action which raised the collection changed event
-        //    NotifyCollectionChangedAction action = e.Action;
-        //}
-
     }
 }
