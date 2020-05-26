@@ -200,6 +200,7 @@
                                                         </TextBlock.Style>
                                                     </TextBlock>
 
+
                                                     <Button x:Name="BlockCard" Margin="70 0 0 0" Width="27" Height="27" Padding="1" Foreground="#F9AA33" Command="{Binding Path=DataContext.ChangeCardStatusCommand, ElementName=ListOfMembers}" CommandParameter="{Binding}">
                                                         <Button.Style>
                                                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}" >
@@ -218,13 +219,10 @@
                                                                 </Style.Triggers>
                                                             </Style>
                                                         </Button.Style>
-                                                            
                                                     </Button>
-                                                    <!--<Button x:Name="ActivateCard" Margin="50 0 0 0" Width="60" Height="25" Padding="1" Foreground="#F9AA33" Content="{materialDesign:PackIcon Kind=PersonKey}" Visibility="{Binding Path=DataContext.visible, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ElementName=ListOfMembers}">
-                                                    </Button>-->
                                                 </StackPanel>
 
-                                                <StackPanel Orientation="Horizontal" Margin="5">
+                                                <StackPanel Orientation="Horizontal" Margin="5 20 0 0">
                                                     <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=ListOfMembers}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
                                                         <Button.Triggers>
                                                             <EventTrigger RoutedEvent="ButtonBase.Click">
@@ -233,8 +231,11 @@
                                                         </Button.Triggers>
                                                     </Button>
                                                     <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.UpdateMemberCommand}" 
-                                                            CommandParameter="{Binding}" Margin="15 0 0 0" 
-                                                            Content="Uppdatera" Width="150" Height="30" Foreground="#F9AA33" />
+                                                            CommandParameter="{Binding}" Margin="15 0 0 0" Padding="1"
+                                                            Content="Uppdatera" Width="100" Height="30" Foreground="#F9AA33" />
+
+                                                    <Button Width="100" Height="30" Margin="15 0 0 0" BorderBrush="{x:Null}" Foreground="#F9AA33" Padding="1"
+                                                            Content="Aktiva lån" />
 
                                                 </StackPanel>
                                                 <!--#endregion-->
