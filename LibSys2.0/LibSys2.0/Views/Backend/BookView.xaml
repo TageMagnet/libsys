@@ -81,8 +81,17 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1">
-                <Label  Content="Filtrera Författare" Target="{Binding ElementName=AuthorFilterText}" />
+                <TextBlock Text="todo; lägg detta någon annanstans" FontSize="8"/>
+                <Label  Content="Filtrera Författare" Target="{Binding ElementName=AuthorFilterText}" FontSize="12" />
                 <TextBox x:Name="AuthorFilterText"  Text="{Binding AddBookAuthorSearch, UpdateSourceTrigger=PropertyChanged, FallbackValue=''}"/>
+
+                <TextBlock>
+                    <Run Text="Antal författare: " FontSize="10"/>
+                    <Run Text="{Binding GetTotalAuthorCount, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, FallbackValue=??}"/>
+                    <Run Text="Antal böcker: " FontSize="10"/>
+                    <Run Text="{Binding GetTotalBookCount, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, FallbackValue=??}"/>
+                </TextBlock>
+
             </StackPanel>
             <Button Grid.Column="0" Content="Lägg till Bok" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5">
                 <Button.Triggers>
@@ -245,7 +254,7 @@
             </StackPanel>
         </ScrollViewer>
         <!--#endregion-->
-        
+
         <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
 
         <ScrollViewer x:Name="FindDataContext" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
@@ -292,7 +301,7 @@
                                         <!--Activate Inactive book button-->
                                         <Button Grid.Column="2" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=FirstAidKit,Size=20}" BorderBrush="{x:Null}"
                                                         Command="{Binding Path=DataContext.ActivateBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding}" Background="{x:Null}" Foreground="ForestGreen" Name="Activate" Visibility="{Binding Path=DataContext.visible, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ElementName=FindDataContext}"/>
-                                        
+
                                         <!--Inactive Book button-->
                                         <Button Grid.Column="3" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=TrashCanEmpty, Size=20}" BorderBrush="{x:Null}"
                                                         Background="{x:Null}" Foreground="DarkRed" Margin="5,0" Command="{Binding Path=DataContext.ToggleHidden, ElementName=FindDataContext}" CommandParameter="{Binding ElementName=DownButton}">
@@ -336,7 +345,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                               
+
                                             </Grid>
                                             <StackPanel Orientation="Horizontal">
                                                 <Label Content="Titel: " Width="70" FontSize="12"/>
