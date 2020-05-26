@@ -68,6 +68,9 @@ namespace LibrarySystem
             }
         }
 
+        public int GetTotalAuthorCount => Authors.Count();
+        public int GetTotalBookCount => Items.Count();
+
         /// <summary>Small textbox for posting multiple new items</summary>
         public int NumberOfItemsToSubmit { get; set; } = 1;
         public int ActiveFilter { get; set; } = 1;
