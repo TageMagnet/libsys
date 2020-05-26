@@ -183,6 +183,46 @@
                                                     <TextBlock Text="{Binding created_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="200" Margin="2" Padding="2 0 0 0" />
                                                 </StackPanel>
 
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Lånekort: " Width="70" FontSize="12" VerticalAlignment="Center"/>
+                                                    <TextBlock  Width="100" Margin="2" Padding="2 0 0 0" VerticalAlignment="Center">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="{x:Type TextBlock}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding cardstatus}" Value="1">
+                                                                        <Setter Property="Text" Value="Aktivt"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding cardstatus}" Value="0" >
+                                                                        <Setter Property="Text" Value="Spärrad"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+
+                                                    <Button x:Name="BlockCard" Margin="50 0 0 0" Width="60" Height="25" Padding="1" Foreground="#F9AA33" Command="{Binding Path=DataContext.ChangeCardStatusCommand, ElementName=ListOfMembers}" CommandParameter="{Binding}">
+                                                        <Button.Style>
+                                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignFlatButton}" >
+                                                                <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="Red"/>
+                                                                    </Trigger>
+                                                                    <DataTrigger Binding="{Binding cardstatus}" Value="1">
+                                                                        <Setter Property="Content" Value="{materialDesign:PackIcon Kind=PersonLock}"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger  Binding="{Binding cardstatus}" Value="0">
+                                                                        <Setter Property="Content" Value="{materialDesign:PackIcon Kind=PersonKey}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                            
+                                                    </Button>
+                                                    <!--<Button x:Name="ActivateCard" Margin="50 0 0 0" Width="60" Height="25" Padding="1" Foreground="#F9AA33" Content="{materialDesign:PackIcon Kind=PersonKey}" Visibility="{Binding Path=DataContext.visible, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ElementName=ListOfMembers}">
+                                                    </Button>-->
+                                                </StackPanel>
+
                                                 <StackPanel Orientation="Horizontal" Margin="5">
                                                     <Button Command="{Binding Path=DataContext.ToggleVisible, ElementName=ListOfMembers}" CommandParameter="{Binding ElementName=DownButton}" Padding="1" Content="{materialDesign:PackIcon Kind=ArrowUp, Size=15}" Foreground="#F9AA33">
                                                         <Button.Triggers>

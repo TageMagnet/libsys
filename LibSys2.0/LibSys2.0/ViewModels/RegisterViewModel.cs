@@ -84,7 +84,7 @@ namespace LibrarySystem.ViewModels
             NewMember.created_at = DateTime.Now;
             // This is set to 0 and later on 1 when activated through emailed registration link
             NewMember.is_active = 0;
-
+            NewMember.cardstatus = 1;
             // Setup in database;
             NewMember = await memberRepo.Create(NewMember);
 

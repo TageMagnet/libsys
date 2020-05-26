@@ -32,6 +32,7 @@ namespace Library
                         "role_name as 'role',",
                         "created_at,",
                         "is_active,",
+                        "cardstatus,",
                         "ref_member_role_id",
                     "FROM members M INNER JOIN member_roles MR ",
                     "ON M.ref_member_role_id = MR.member_role_id ",
@@ -82,7 +83,8 @@ namespace Library
                     "`pwd` = @pwd,",
                     "`role` = @role,",
                     "`ref_member_role_id` = @ref_member_role_id,",
-                    "`is_active` = @is_active",
+                    "`is_active` = @is_active,",
+                    "`cardstatus` = @cardstatus",
                     "WHERE member_id = @member_id"
                 });
 
