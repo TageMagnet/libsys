@@ -1,0 +1,39 @@
+﻿<Window x:Class="LibrarySystem.Views.Backend.BookReportView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibrarySystem.Views.Backend"
+        mc:Ignorable="d"
+        Title="Rapport borttagna böcker" WindowStartupLocation="CenterScreen" Height="500" Width="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.1*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="1">
+        <DataGrid  
+                  ItemsSource="{Binding ListOfInactiveBooks}"
+                  AutoGenerateColumns="False"
+                  Margin="10 0 10 0"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Titel" Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding title}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Anledning" Width="auto" Binding="{Binding reasonToDelete}"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+            <Button Margin="0 30 0 0" Content="Skriv ut rapport" Width="150" Foreground="{StaticResource SecondaryBrush}" Command="{Binding PrintReportCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>
