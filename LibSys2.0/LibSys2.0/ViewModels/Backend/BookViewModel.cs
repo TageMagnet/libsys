@@ -124,6 +124,7 @@ namespace LibrarySystem
         /// <returns></returns>
         public async Task AddBookCommandMethod()
         {
+            #region Felcheck
             if (SelectedItem.title == null)
             {
                 MessageBox.Show("Lägg till titel!");
@@ -154,7 +155,7 @@ namespace LibrarySystem
                 MessageBox.Show("Lägg till årtal!");
                 return;
             }
-
+            #endregion
             // We need a real ISBN input string since we are going to do stuff with it later on, e.g. filterering and checking duplicates
             ISBN isbn = new ISBN(SelectedItem.isbn);
 
@@ -219,6 +220,7 @@ namespace LibrarySystem
             }
             this.NotifyPropertyChanged(nameof(item.reasonToDelete));
             await itemRepo.ChangeStatusItem(item.ID);
+            await itemRepo.DeleteReason(item);
             await LoadBooks();
         }
 

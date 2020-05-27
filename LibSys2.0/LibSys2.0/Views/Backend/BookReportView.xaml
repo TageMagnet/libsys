@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySystem.Views.Backend"
         mc:Ignorable="d"
-        Title="Rapport Böcker" WindowStartupLocation="CenterScreen" Height="500" Width="600">
+        Title="Rapport borttagna böcker" WindowStartupLocation="CenterScreen" Height="500" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="0.1*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="0.1*"/>
         </Grid.ColumnDefinitions>
 
-
-        <DataGrid Grid.Column="1" 
+        <StackPanel Grid.Column="1">
+        <DataGrid  
                   ItemsSource="{Binding ListOfInactiveBooks}"
                   AutoGenerateColumns="False"
                   Margin="10 0 10 0"
@@ -29,8 +29,11 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Anledning" Width="auto" Binding="{Binding reasonToDelete}"/>
             </DataGrid.Columns>
-         
+            
         </DataGrid>
+            <Button Margin="0 30 0 0" Content="Skriv ut rapport" Width="150" Foreground="{StaticResource SecondaryBrush}" Command="{Binding PrintReportCommand}"/>
+        </StackPanel>
     </Grid>
 </Window>
