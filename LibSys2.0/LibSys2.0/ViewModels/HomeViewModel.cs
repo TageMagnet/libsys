@@ -8,6 +8,7 @@ using Library;
 using MessageBox = System.Windows.MessageBox;
 using System.Collections.Specialized;
 using System.Windows.Data;
+using System.Linq;
 
 namespace LibrarySystem.ViewModels
 {
@@ -233,6 +234,7 @@ namespace LibrarySystem.ViewModels
 
             // Load new
             await LoadSearchResults(arg);
+            AutoCompleteList.Clear();
         }
 
         /// <summary>
@@ -244,10 +246,24 @@ namespace LibrarySystem.ViewModels
             // Load repos
             var items = await itemRepository.SearchQueryWithStatuses(SearchFieldText);
 
+            List<string> isbnCodes = new List<string>();
+            List<SearchItem> SortedItems = new List<SearchItem>();
+            foreach (SearchItem item in items)
+            {
+                string isbn = item.isbn;
+
+                if (isbnCodes.Contains(isbn))
+                {
+                    continue;
+                }
+
+                isbnCodes.Add(item.isbn);
+                SortedItems.Add(item);
+            }
             // The first 3
             int j = 0;
             int max = 3;
-            foreach (SearchItem item in items)
+            foreach (SearchItem item in SortedItems)
             {
                 if (j >= max)
                     break;
