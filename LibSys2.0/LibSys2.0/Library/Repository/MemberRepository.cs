@@ -17,7 +17,7 @@ namespace Library
             tableIdName = "member_id";
         }
 
-        public async Task<List<Member>> ReadAllActive()
+        public async Task<List<Member>> ReadAllItemsWithStatus(int status)
         #region ..
         {
             using (var connection = CreateConnection())
@@ -36,9 +36,9 @@ namespace Library
                         "ref_member_role_id",
                     "FROM members M INNER JOIN member_roles MR ",
                     "ON M.ref_member_role_id = MR.member_role_id ",
-                    "WHERE M.is_active = 1");
+                    "WHERE M.is_active = @status");
                         
-                    return (await connection.QueryAsync<Member>(query)).ToList();
+                    return (await connection.QueryAsync<Member>(query, new { status = status })).ToList();
                 }
                 catch (Exception e)
                 {
@@ -90,6 +90,15 @@ namespace Library
 
                 await connection.QueryAsync(query, member);
                 connection.Close();
+            }
+        }
+
+        public async Task ActivateMember(int id, int status)
+        {
+            using (var connection = CreateConnection())
+            {
+                string sqlQuery = $"UPDATE {table} SET is_active={status} WHERE {tableIdName} = " + id.ToString();
+                await connection.QueryAsync(sqlQuery);
             }
         }
     }

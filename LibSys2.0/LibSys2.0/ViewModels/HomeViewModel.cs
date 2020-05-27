@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Library;
 using MessageBox = System.Windows.MessageBox;
 using System.Collections.Specialized;
+using System.Windows.Data;
 
 namespace LibrarySystem.ViewModels
 {
@@ -27,10 +28,21 @@ namespace LibrarySystem.ViewModels
         /// <summary>Whenever loan button is hit by user</summary>
         public RelayCommandWithParameters LoanBookCommand { get; set; }
 
+        /// <summary>Page++</summary>
+        public RelayCommand PreviousPage { get; set; }
+
+        /// <summaryPage--</summary>
+        public RelayCommand NextPage { get; set; }
+
         /// <summary>
         /// Returnt results
         /// </summary>
         public ObservableCollection<SearchItem> SearchResults { get; set; } = new ObservableCollection<SearchItem>();
+
+        /// <summary>
+        /// Helper proxxy for filtering and paging search results
+        /// </summary>
+        public CollectionViewSource PaginationList { get; set; } = new CollectionViewSource();
 
         // Defaulted to 'title'
         private string searchColumn { get; set; } = "title";
@@ -45,10 +57,16 @@ namespace LibrarySystem.ViewModels
         public int SearchResultCount { get => SearchResults.Count; }
 
         /// <summary>
-        /// Antal <see cref="SearchResults"></see> per page
+        /// Active page
+        /// </summary>
+        public int CurrentSearchPage { get; set; } = 1;
+
+        /// <summary>
+        /// Rows <see cref="SearchResults"></see> per page
         /// </summary>
         public int ResultsPerPage { get; set; } = 5;
-
+        public List<int> ResultPerPageOptions { get; set; } = new List<int>() { 5, 10, 15 };
+        public string test { get; set; } = "xx";
         // Private holder
         private double resultsDividedPerPage { get; set; }
         /// <summary>
@@ -94,10 +112,25 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public HomeViewModel()
         {
+            // Note. Paginationlist is acting as a proxxy for SearchResults
+            // While SearchResults contains the actual data, PaginationList is like a facet controlling the output
+            PaginationList.Source = SearchResults;
+            PaginationList.Filter += new FilterEventHandler(ViewFilter);
 
-            //SearchResults.CollectionChanged += this.OnCollectionChanged;
+            // Previous page on the pagination
+            PreviousPage = new RelayCommand(() =>
+            {
+                CurrentSearchPage--;
+                PaginationList.View.Refresh();
+            });
+            // Next page on the pagination
+            NextPage = new RelayCommand(() =>
+            {
+                CurrentSearchPage++;
+                PaginationList.View.Refresh();
+            });
 
-            // Init empty user
+
             SearchCommand = new RelayCommandWithParameters(async (param) => await SearchCommandAction((string)param));
             SetSearchColumn = new RelayCommandWithParameters((param) =>
             {
@@ -135,7 +168,7 @@ namespace LibrarySystem.ViewModels
             searchItem.UnAvailable++;
 
             // Check if there are enough in stock
-            if(searchItem.Available < 0)
+            if (searchItem.Available < 0)
             {
                 MessageBox.Show("Slut på bok!");
                 return;
@@ -164,6 +197,10 @@ namespace LibrarySystem.ViewModels
         {
             // Clear old search
             SearchResults.Clear();
+            CurrentSearchPage = 1;
+
+            
+
             // Load new
             await LoadSearchResults(arg);
         }
@@ -194,6 +231,9 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         private async Task LoadSearchResults(string arg)
         {
+            // For use in Item.Index method
+            int i = 0;
+
             // Load repos
             var items = await itemRepository.SearchQueryWithStatuses(SearchFieldText);
 
@@ -219,6 +259,10 @@ namespace LibrarySystem.ViewModels
                 // Add to duplicate-checker list
                 isbnCodes.Add(item.isbn);
 
+                //Increment index for later use
+                item.Index = i;
+                i += 1;
+
                 //Convert into an SearchItem, since we need the additional DuplicateCounter property
                 //SearchItem searchItem = new SearchItem(item);
                 SearchResults.Add(item);
@@ -227,6 +271,27 @@ namespace LibrarySystem.ViewModels
             // Notify the counters
             NotifyPropertyChanged("SearchResultCount");
             NotifyPropertyChanged("ResultsDividedPerPage");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ViewFilter(object sender, FilterEventArgs e)
+        {
+            SearchItem item = (SearchItem)e.Item;
+            int max = CurrentSearchPage * ResultsPerPage;
+            int min = (CurrentSearchPage * ResultsPerPage) - ResultsPerPage;
+
+            if (min <= item.Index && item.Index < max)
+            {
+                e.Accepted = true;
+            }
+            else
+            {
+                e.Accepted = false;
+            }
         }
     }
 }
