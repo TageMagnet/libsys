@@ -32,6 +32,10 @@ namespace LibrarySystem.Models
         /// Unavailable, already loaned out, missing or removed from stock
         /// </summary>
         public int UnAvailable { get; set; }
+        /// <summary>
+        /// Index to keep track of in ViewFiltering
+        /// </summary>
+        public int Index { get; set; }
         public SearchItem() { }
 
         public SearchItem(Item item)
