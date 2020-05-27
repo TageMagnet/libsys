@@ -79,7 +79,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel>
-                                            <Button Command="{Binding Path=DataContext.UnsubscribeToItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">Återlämna</Button>
+                                            <Button Command="{Binding Path=DataContext.UnsubscribeToItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" Margin="0 0 0 10">Återlämna</Button>
                                             <Button Command="{Binding Path=DataContext.ExtendSubscription, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">Låna igen</Button>
                                         </StackPanel>
                                     </DataTemplate>
