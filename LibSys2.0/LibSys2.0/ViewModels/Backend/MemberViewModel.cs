@@ -21,7 +21,7 @@ namespace LibrarySystem
         public RelayCommandWithParameters DeleteMemberCommand { get; set; }
         public RelayCommandWithParameters UpdateMemberCommand { get; set; }
         public RelayCommandWithParameters ChangeCardStatusCommand { get; set; }
-
+        public RelayCommandWithParameters ActivateMemberCommand { get; set; }
         public RelayCommandWithParameters BookReportCommand { get; set; }
         #endregion
 
@@ -35,6 +35,29 @@ namespace LibrarySystem
 
         
         public string visible { get; set; } = "hidden";
+
+
+        public int ActiveFilter { get; set; } = 1;
+        private bool activeMemberFilter = false;
+        public bool ActiveMemberFilter
+        {
+            get { return activeMemberFilter; }
+            set
+            {
+                activeMemberFilter = value;
+                if (value == true)
+                {
+                    ActiveFilter = 0;
+                    visible = "visible";
+                }
+                else
+                {
+                    ActiveFilter = 1;
+                    visible = "hidden";
+                }
+                LoadMembers();
+            }
+        }
         #endregion
         public MemberViewModel()
         {
@@ -44,6 +67,7 @@ namespace LibrarySystem
             UpdateMemberCommand = new RelayCommandWithParameters(async (param) => await UpdateMemberCommandMethod((Member)param));
             ChangeCardStatusCommand = new RelayCommandWithParameters(async (param) => await ChangeCardStatusCommandMethod((Member)param));
             BookReportCommand = new RelayCommandWithParameters(async (param) => await BookReportCommandMethod((Member)param));
+            ActivateMemberCommand = new RelayCommandWithParameters(async (param) => await ActivateMember((Member)param));
             InitLoad();
         }
         public async Task UpdateMemberCommandMethod(Member member)
@@ -82,8 +106,9 @@ namespace LibrarySystem
         public async Task LoadMembers()
         {
             Members.Clear();
-
-            foreach (Member member in await memberRepo.ReadAllActive())
+            var x = await memberRepo.ReadAllItemsWithStatus(ActiveFilter);
+            x = x.OrderBy(a => a.ref_member_role_id).ToList();
+            foreach (Member member in x )
             {
                 member.ref_member_role_id--;
                 Members.Add(member);
@@ -95,6 +120,12 @@ namespace LibrarySystem
             Member member = (Member)obj;
             member.is_active = 0;
             await UpdateMemberCommandMethod(member);
+            await LoadMembers();
+        }
+
+        public async Task ActivateMember(Member member)
+        {
+            await memberRepo.ActivateMember(member.member_id, 1);
             await LoadMembers();
         }
 

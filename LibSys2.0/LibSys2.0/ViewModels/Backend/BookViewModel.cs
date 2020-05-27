@@ -16,6 +16,7 @@ namespace LibrarySystem
 {
     public class BookViewModel : BaseViewModel
     {
+        #region Properties
         private ItemRepository itemRepo = new ItemRepository();
         private AuthorRepository authorRepo = new AuthorRepository();
         private CategoryRepository categoryRepo = new CategoryRepository();
@@ -74,6 +75,9 @@ namespace LibrarySystem
         /// <summary>Small textbox for posting multiple new items</summary>
         public int NumberOfItemsToSubmit { get; set; } = 1;
         public int ActiveFilter { get; set; } = 1;
+        #endregion
+
+        #region Commands
         public RelayCommand AddBookCommand { get; set; }
         public RelayCommandWithParameters UpdateBookCommand { get; set; } // item
         public RelayCommandWithParameters RemoveBookCommand { get; set; }
@@ -83,6 +87,8 @@ namespace LibrarySystem
         public RelayCommandWithParameters FileUploadCommand { get; set; }
         public RelayCommandWithParameters UpdateFileCommand { get; set; }
         public RelayCommandWithParameters UpdateUrlCommand { get; set; }
+        #endregion
+
 
         public BookViewModel()
         {
