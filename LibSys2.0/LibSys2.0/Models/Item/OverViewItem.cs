@@ -10,6 +10,9 @@ namespace LibrarySystem.Models
         /// Used for visual display
         /// </summary>
         public string LateStatus { get; set; } = "Ja";
+
+        public int SubscriptionID { get; set; }
+        public int ref_book_id { get; set; }
         /// <summary>
         /// Days remaining on subscription
         /// </summary>

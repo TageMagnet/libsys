@@ -78,16 +78,19 @@ namespace Library
                 WHERE
                 	A.ref_member_id = @memberID
                 AND
-                	A.ref_book_id = @bookID;
+                	A.ref_book_id = @bookID
+
+                AND
+                	A.ID = @SubscriptionID;
                 ";
-                await connection.QueryAsync(query, new { memberID = member.member_id, bookID = item.ID, ReturnAt = item.return_at, status = 1 });
+                await connection.QueryAsync(query, new { memberID = member.member_id, bookID = item.ref_book_id, ReturnAt = item.return_at, SubscriptionID = item.SubscriptionID, status = 1 });
             }
         }
 
         /// <summary>Return/unsubscribe to item</summary>
         /// <param name="item">Selected item</param>
         /// <param name="member">Logged in member</param>
-        public async Task UnSubscribeToItem(BaseItem item, Member member)
+        public async Task UnSubscribeToItem(OverViewItem item, Member member)
         {
             using (var connection = CreateConnection())
             {
@@ -98,9 +101,11 @@ namespace Library
                 WHERE
                 	A.ref_member_id = @memberID
                 AND
-                	A.ref_book_id = @bookID;
+                	A.ref_book_id = @bookID
+                AND
+                	A.ID = @SubscriptionID
                 ";
-                await connection.QueryAsync(query, new { memberID = member.member_id, bookID = item.ID, status = 0 });
+                await connection.QueryAsync(query, new { memberID = member.member_id, bookID = item.ref_book_id, SubscriptionID = item.SubscriptionID, status = 0 });
             }
         }
 
@@ -335,9 +340,11 @@ namespace Library
         public async Task<List<OverViewItem>> ReadSubscribedItems(int memberID)
         {
             string query = @"
-            -- Get each subscribed item object based on user id
             SELECT
-            	*
+            	`members`.*,
+            	`items`.*,
+            	`item_subscriptions`.*,
+            	item_subscriptions.ID as SubscriptionID
             FROM
             	item_subscriptions
             LEFT JOIN items ON
@@ -345,12 +352,25 @@ namespace Library
             LEFT JOIN members ON
             	members.member_id = item_subscriptions.ref_member_id
             WHERE
-            	members.member_id = @memberID
-            AND
-                item_subscriptions.status = @status;
-            ";
+            	members.member_id = 1
+            	AND item_subscriptions.status = 1;";
+            //string query = @"
+            //-- Get each subscribed item object based on user id
+            //SELECT
+            //	*
+            //FROM
+            //	item_subscriptions
+            //LEFT JOIN items ON
+            //	items.ID = item_subscriptions.ref_book_id
+            //LEFT JOIN members ON
+            //	members.member_id = item_subscriptions.ref_member_id
+            //WHERE
+            //	members.member_id = @memberID
+            //AND
+            //    item_subscriptions.status = @status;
+            //";
 
-            using(var connection = CreateConnection())
+            using (var connection = CreateConnection())
             {
                 List<OverViewItem> data = (await connection.QueryAsync<OverViewItem>(query, new { memberID = memberID, status = 1 })).ToList();
                 return data;
