@@ -90,7 +90,7 @@ namespace LibrarySystem
         public RelayCommandWithParameters UpdateFileCommand { get; set; }
         public RelayCommandWithParameters UpdateUrlCommand { get; set; }
         public RelayCommand BookReportCommand { get; set; }
-
+        #endregion
         public BookViewModel()
         {
             AddBookCommand = new RelayCommand(async() => await AddBookCommandMethod());

@@ -303,7 +303,7 @@
                                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding description}" FontSize="10" FontWeight="DemiBold" Margin="5,0"/>
 
                                         <!--Activate Inactive book button-->
-                                        <Button Grid.Column="2" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=FirstAidKit,Size=20}" BorderBrush="{x:Null}"
+                                        <Button Grid.Column="2" Grid.RowSpan="2" Padding="1" Content="{materialDesign:PackIcon Kind=RestoreFromTrash,Size=20}" BorderBrush="{x:Null}"
                                                         Command="{Binding Path=DataContext.ActivateBookCommand, ElementName=FindDataContext}" CommandParameter="{Binding}" Background="{x:Null}" Foreground="ForestGreen" Name="Activate" Visibility="{Binding Path=DataContext.visible, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ElementName=FindDataContext}"/>
 
                                         <!--Inactive Book button-->
