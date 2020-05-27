@@ -79,5 +79,20 @@ namespace LibrarySystem.Etc
 
             return str;
         }
+
+        /// <summary>
+        /// Validate URL is kind of correkt
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static bool UrlChecker(string url)
+        {
+            Uri uriResult;
+            bool tryCreateResult = Uri.TryCreate(url, UriKind.Absolute, out uriResult);
+            if (tryCreateResult == true && uriResult != null)
+                return true;
+            else
+                return false;
+        }
     }
 }

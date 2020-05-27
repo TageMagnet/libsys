@@ -33,6 +33,7 @@ namespace LibrarySystem.ViewModels
 
         /// <summaryPage--</summary>
         public RelayCommand NextPage { get; set; }
+        public RelayCommandWithParameters GoToBrowserLink { get; set; }
 
         /// <summary>
         /// Returnt results
@@ -61,12 +62,24 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public int CurrentSearchPage { get; set; } = 1;
 
+        private int resultsPerPage = 5;
         /// <summary>
         /// Rows <see cref="SearchResults"></see> per page
         /// </summary>
-        public int ResultsPerPage { get; set; } = 5;
+        public int ResultsPerPage
+        {
+            get => resultsPerPage;
+            set
+            {
+                resultsPerPage = value;
+                PaginationList.View.Refresh();
+            }
+        }
+        /// <summary>
+        /// ...
+        /// </summary>
         public List<int> ResultPerPageOptions { get; set; } = new List<int>() { 5, 10, 15 };
-        public string test { get; set; } = "xx";
+
         // Private holder
         private double resultsDividedPerPage { get; set; }
         /// <summary>
@@ -130,6 +143,20 @@ namespace LibrarySystem.ViewModels
                 PaginationList.View.Refresh();
             });
 
+            // Using the default browser, go to specified adress
+            GoToBrowserLink = new RelayCommandWithParameters((param) =>
+            {
+                // Validate url
+                if (!Etc.Utilities.UrlChecker(param.ToString()))
+                {
+                    MessageBox.Show("Invalid URL för nedladdning, kontakta adminstratör");
+                    return;
+                }
+                    
+
+                var psi = new System.Diagnostics.ProcessStartInfo() { FileName = param.ToString(), UseShellExecute = true };
+                System.Diagnostics.Process.Start(psi);
+            });
 
             SearchCommand = new RelayCommandWithParameters(async (param) => await SearchCommandAction((string)param));
             SetSearchColumn = new RelayCommandWithParameters((param) =>
@@ -199,7 +226,7 @@ namespace LibrarySystem.ViewModels
             SearchResults.Clear();
             CurrentSearchPage = 1;
 
-            
+
 
             // Load new
             await LoadSearchResults(arg);
@@ -212,12 +239,12 @@ namespace LibrarySystem.ViewModels
         {
             AutoCompleteList.Clear();
             // Load repos
-            var items = await itemRepository.SearchQuery(SearchFieldText);
+            var items = await itemRepository.SearchQueryWithStatuses(SearchFieldText);
 
             // The first 3
             int j = 0;
             int max = 3;
-            foreach (Item item in items)
+            foreach (SearchItem item in items)
             {
                 if (j >= max)
                     break;
