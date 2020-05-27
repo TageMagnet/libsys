@@ -11,6 +11,8 @@ using LibrarySystem.ViewModels;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Windows.Controls;
+using LibrarySystem.Views.Backend;
+using LibrarySystem.ViewModels.Backend;
 
 namespace LibrarySystem
 {
@@ -87,8 +89,7 @@ namespace LibrarySystem
         public RelayCommandWithParameters FileUploadCommand { get; set; }
         public RelayCommandWithParameters UpdateFileCommand { get; set; }
         public RelayCommandWithParameters UpdateUrlCommand { get; set; }
-        #endregion
-
+        public RelayCommand BookReportCommand { get; set; }
 
         public BookViewModel()
         {
@@ -101,6 +102,7 @@ namespace LibrarySystem
             FileUploadCommand = new RelayCommandWithParameters(async (param) => await UploadFile((string)param));
             UpdateFileCommand = new RelayCommandWithParameters(async (param) => await UpdateFile((Item)param));
             UpdateUrlCommand = new RelayCommandWithParameters(async (param) => await UpdateUrl((Item)param));
+            BookReportCommand = new RelayCommand(async () => await BookReportMethod());
             LoadDataAsync();
         }
 
@@ -126,6 +128,7 @@ namespace LibrarySystem
         /// <returns></returns>
         public async Task AddBookCommandMethod()
         {
+            #region Felcheck
             if (SelectedItem.title == null)
             {
                 MessageBox.Show("Lägg till titel!");
@@ -156,7 +159,7 @@ namespace LibrarySystem
                 MessageBox.Show("Lägg till årtal!");
                 return;
             }
-
+            #endregion
             // We need a real ISBN input string since we are going to do stuff with it later on, e.g. filterering and checking duplicates
             ISBN isbn = new ISBN(SelectedItem.isbn);
 
@@ -194,7 +197,7 @@ namespace LibrarySystem
 
             // reset
             NumberOfItemsToSubmit = 1;
-            
+
             await LoadBooks();
             await ClearBookLines("books");
         }
@@ -221,6 +224,7 @@ namespace LibrarySystem
             }
             this.NotifyPropertyChanged(nameof(item.reasonToDelete));
             await itemRepo.ChangeStatusItem(item.ID);
+            await itemRepo.DeleteReason(item);
             await LoadBooks();
         }
 
@@ -503,6 +507,13 @@ namespace LibrarySystem
             {
                 Authors.Add(author);
             }
+        }
+
+        public async Task BookReportMethod()
+        {
+            var bookreport = new BookReportView();
+            bookreport.DataContext = new BookReportViewModel();
+            bookreport.ShowDialog();
         }
     }
 }

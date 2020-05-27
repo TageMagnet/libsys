@@ -93,6 +93,8 @@
                 </TextBlock>
 
             </StackPanel>
+
+            <StackPanel VerticalAlignment="Center">
             <Button Grid.Column="0" Content="Lägg till Bok" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5">
                 <Button.Triggers>
                     <EventTrigger RoutedEvent="ButtonBase.Click">
@@ -100,6 +102,8 @@
                     </EventTrigger>
                 </Button.Triggers>
             </Button>
+                <Button Content="Rapport böcker" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.BookReportCommand}"/>
+            </StackPanel>
         </Grid>
         <!--#endregion-->
 

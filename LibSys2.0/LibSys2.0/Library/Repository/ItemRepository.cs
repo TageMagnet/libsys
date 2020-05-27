@@ -134,6 +134,20 @@ namespace Library
             }
         }
 
+        public async Task DeleteReason(Item item)
+        {
+            using (var connection = CreateConnection())
+            {
+                string query = string.Join(" ", new string[]{
+                    "UPDATE items SET",
+                  "`reasonToDelete`= @reasonToDelete",
+                    "WHERE ID = @ID"
+                });
+
+                await connection.QueryAsync(query, item);
+                connection.Close();
+            }
+        }
         public new async Task Update(Item item)
         {
             using (var connection = CreateConnection())
