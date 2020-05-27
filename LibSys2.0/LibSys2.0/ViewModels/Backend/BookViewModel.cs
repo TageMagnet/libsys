@@ -77,6 +77,8 @@ namespace LibrarySystem
         /// <summary>Small textbox for posting multiple new items</summary>
         public int NumberOfItemsToSubmit { get; set; } = 1;
         public int ActiveFilter { get; set; } = 1;
+
+        public bool SelectedItemIsEBook { get; set; } = false;
         #endregion
 
         #region Commands
@@ -177,7 +179,14 @@ namespace LibrarySystem
 
                 return;
             }
-
+            if (SelectedItemIsEBook == true)
+            {
+                SelectedItem.type = "ebook";
+            }
+            else
+            {
+                SelectedItem.type = "book";
+            }
             // Retrieve the full ISBN
             SelectedItem.isbn = isbn.GetCodeWith13Numbers;
 
@@ -299,6 +308,7 @@ namespace LibrarySystem
             SelectedItem.reasonToDelete = "";
             SelectedItem.year = 0;
             SelectedAuthor = null;
+            SelectedItemIsEBook = false;
             OnPropertyChanged(nameof(SelectedItem));
         }
 
@@ -370,7 +380,7 @@ namespace LibrarySystem
                     }
 
                     // Do something with the response
-                    MessageBox.Show("Laddade upp! Pleäse tryck på uppdatera nu");
+                    MessageBox.Show("Tillagd!");
                 }
             }
         }

@@ -229,24 +229,27 @@
 
                         <!-- Cover Image -->
                         <StackPanel Grid.Row="6" Grid.ColumnSpan="4">
-                            <Button Content="{materialDesign:PackIcon Kind=Upload}" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_cover" Padding="1" Foreground="#F9AA33"/>
+                            <Button ToolTip="Lägg till bild" Content="{materialDesign:PackIcon Kind=Upload}" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_cover" Padding="1" Foreground="#F9AA33"/>
                             <TextBox Text="{Binding SelectedItem.cover, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
                         </StackPanel>
 
                         <!--URL / pdf-->
                         <StackPanel Grid.Row="7" Grid.ColumnSpan="4">
-                            <Button Content="{materialDesign:PackIcon Kind=Upload}" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_url" Padding="1" Foreground="#F9AA33"/>
+                            <Button ToolTip="Lägg till URL" Content="{materialDesign:PackIcon Kind=Upload}" FontSize="8" Height="20" Width="50" Command="{Binding FileUploadCommand}" CommandParameter="book_url" Padding="1" Foreground="#F9AA33"/>
                             <TextBox Text="{Binding SelectedItem.url, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Width="250"/>
                         </StackPanel>
 
                         <!--Add Button-->
                         <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
-                                <Label Target="{Binding ElementName=InputnumberTextBox}" Content="Antal:"/>
+                                <Label Target="{Binding ElementName=InputnumberTextBox}" Content="Antal:" VerticalAlignment="Center"/>
                                 <TextBox x:Name="InputnumberTextBox" Text="{Binding Path=DataContext.NumberOfItemsToSubmit, ElementName=FindDataContext, 
                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=1}"
-                                     Padding="2,2" Background="LightGray"
+                                     Padding="2,2" Background="LightGray" VerticalAlignment="Center"
                                      />
+
+                                <Label Content="E-Book: " Margin="10 0 0 0" VerticalAlignment="Center"/>
+                                <CheckBox IsChecked="{Binding SelectedItemIsEBook, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Button Command="{Binding Path=DataContext.AddBookCommand, ElementName=FindDataContext}"   
                                     Content="Lägg till Bok" Width="110" Padding="1"

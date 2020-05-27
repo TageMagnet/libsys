@@ -30,7 +30,7 @@
                 <!--#endregion-->
 
                 <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
-                    <TextBox Text="{Binding SelectedAuthor.firstname, Mode=TwoWay}" Width="250" x:Name="Authorfirstname" HorizontalAlignment="Center"/>
+                    <TextBox Text="{Binding SelectedAuthor.firstname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="250" x:Name="Authorfirstname" HorizontalAlignment="Center"/>
                     <TextBlock IsHitTestVisible="False" Text="Förnamn" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,195,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -45,7 +45,7 @@
                     </TextBlock>
                 </Grid>
                 <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
-                    <TextBox Text="{Binding SelectedAuthor.surname, Mode=TwoWay}" Width="250" x:Name="AuthorSurname" HorizontalAlignment="Center"/>
+            <TextBox Text="{Binding SelectedAuthor.surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="250" x:Name="AuthorSurname" HorizontalAlignment="Center"/>
                     <TextBlock IsHitTestVisible="False" Text="Efternamn" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,187,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -60,7 +60,7 @@
                     </TextBlock>
                 </Grid>
                 <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
-                    <TextBox Text="{Binding SelectedAuthor.nickname, Mode=TwoWay}" Width="250" x:Name="AuthorNickname" HorizontalAlignment="Center"/>
+            <TextBox Text="{Binding SelectedAuthor.nickname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="250" x:Name="AuthorNickname" HorizontalAlignment="Center"/>
                     <TextBlock IsHitTestVisible="False" Text="Smeknamn" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,183,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
