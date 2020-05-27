@@ -12,6 +12,7 @@ namespace LibrarySystem
 {
     public class AuthorViewModel : BaseViewModel
     {
+        #region Properties
         private ItemRepository itemRepo = new ItemRepository();
         private AuthorRepository authorRepo = new AuthorRepository();
         public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
@@ -20,8 +21,12 @@ namespace LibrarySystem
         public RelayCommand AddAuthorCommand { get; set; }
         public RelayCommandWithParameters UpdateAuthorCommand { get; set; }
         public RelayCommandWithParameters RemoveAuthorCommand { get; set; }
-        
+        #endregion
 
+
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public AuthorViewModel()
         {
             AddAuthorCommand = new RelayCommand(async () => await AddAuthorCommandMethod());
@@ -30,7 +35,10 @@ namespace LibrarySystem
             LoadDataAsync();
         }
 
-        /// <summary> Method to add author to DB </summary>
+        /// <summary>
+        /// Method to add author to DB
+        /// </summary>
+        /// <returns></returns>
         public async Task AddAuthorCommandMethod()
         {
             if (SelectedAuthor.firstname == null)
@@ -95,6 +103,10 @@ namespace LibrarySystem
 
         }
 
+        /// <summary>
+        /// Clears the lines of the selected author
+        /// </summary>
+        /// <returns></returns>
         public async Task ClearAuthorLines()
         {
             SelectedAuthor.firstname = "";
@@ -103,13 +115,18 @@ namespace LibrarySystem
             OnPropertyChanged(nameof(SelectedAuthor));
         }
 
-        /// <summary>Loads all the data from DB</summary>
+        /// <summary>
+        /// Loads all the data from DB
+        /// </summary>
         public async void LoadDataAsync()
         {
             await LoadAuthors();
         }
 
-        /// <summary>Reloads all the Authors from DB</summary>
+        /// <summary>
+        /// Reloads all the Authors from DB
+        /// </summary>
+        /// <returns></returns>
         public async Task LoadAuthors()
         {
             Authors.Clear();

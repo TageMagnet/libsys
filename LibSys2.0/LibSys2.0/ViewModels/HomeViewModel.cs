@@ -13,7 +13,7 @@ namespace LibrarySystem.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
-
+        #region Properties
         private ItemRepository itemRepository = new ItemRepository();
 
         /// <summary>Search for book using string from search-field</summary>
@@ -119,6 +119,9 @@ namespace LibrarySystem.ViewModels
         /// Sets when x:Name SearchField is filled in, limited to 2 for now
         /// </summary>
         public ObservableCollection<string> AutoCompleteList { get; set; } = new ObservableCollection<string>();
+
+
+        #endregion
 
         /// <summary>
         /// Construct on ViewModel load
