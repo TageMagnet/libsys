@@ -51,6 +51,7 @@ namespace LibrarySystem
 
             await authorRepo.Create(SelectedAuthor);
             await LoadAuthors();
+            await ClearAuthorLines();
         }
 
         /// <summary> Updates a author to db.</summary>
@@ -92,6 +93,14 @@ namespace LibrarySystem
                 await LoadAuthors();
             }
 
+        }
+
+        public async Task ClearAuthorLines()
+        {
+            SelectedAuthor.firstname = "";
+            SelectedAuthor.surname = "";
+            SelectedAuthor.nickname = "";
+            OnPropertyChanged(nameof(SelectedAuthor));
         }
 
         /// <summary>Loads all the data from DB</summary>
