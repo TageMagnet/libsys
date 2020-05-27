@@ -11,6 +11,8 @@ using LibrarySystem.ViewModels;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Windows.Controls;
+using LibrarySystem.Views.Backend;
+using LibrarySystem.ViewModels.Backend;
 
 namespace LibrarySystem
 {
@@ -83,6 +85,7 @@ namespace LibrarySystem
         public RelayCommandWithParameters FileUploadCommand { get; set; }
         public RelayCommandWithParameters UpdateFileCommand { get; set; }
         public RelayCommandWithParameters UpdateUrlCommand { get; set; }
+        public RelayCommand BookReportCommand { get; set; }
 
         public BookViewModel()
         {
@@ -95,6 +98,7 @@ namespace LibrarySystem
             FileUploadCommand = new RelayCommandWithParameters(async (param) => await UploadFile((string)param));
             UpdateFileCommand = new RelayCommandWithParameters(async (param) => await UpdateFile((Item)param));
             UpdateUrlCommand = new RelayCommandWithParameters(async (param) => await UpdateUrl((Item)param));
+            BookReportCommand = new RelayCommand(async () => await BookReportMethod());
             LoadDataAsync();
         }
 
@@ -497,6 +501,13 @@ namespace LibrarySystem
             {
                 Authors.Add(author);
             }
+        }
+
+        public async Task BookReportMethod()
+        {
+            var bookreport = new BookReportView();
+            bookreport.DataContext = new BookReportViewModel();
+            bookreport.ShowDialog();
         }
     }
 }
