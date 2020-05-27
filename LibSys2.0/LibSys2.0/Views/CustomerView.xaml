@@ -28,10 +28,8 @@
                     <TextBlock Text="{Binding Path=LoggedInCustomer.nickname}"/>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="Adress: " Margin="8 0 0 0" TextDecorations="strikethrough"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Aktuell skuld: " Margin="8 0 0 0"  TextDecorations="strikethrough"/>
+                    <TextBlock Text="Medlem sedan: " Margin="8 0 0 0"/>
+                    <TextBlock Text="{Binding Path=LoggedInCustomer.created_at, StringFormat=d, ConverterCulture=en-GB}" Margin="8 0 0 0"/>
                 </StackPanel>
             </StackPanel>
         </Border>
@@ -61,8 +59,7 @@
                                         <StackPanel>
 
                                             <TextBlock Text="{Binding Path=LateStatus, 
-                                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                            FallbackValue='eeeh'}"
+                                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        
                                                        Background="{Binding Path=LateStatus,Mode=TwoWay, 
                                                             UpdateSourceTrigger=PropertyChanged, 

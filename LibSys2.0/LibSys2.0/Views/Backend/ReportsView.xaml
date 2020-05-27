@@ -29,10 +29,8 @@
                     <TextBlock Text="{Binding Path=CurrentMember.nickname}"/>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="Adress: " Margin="8 0 0 0" TextDecorations="strikethrough"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Aktuell skuld: " Margin="8 0 0 0"  TextDecorations="strikethrough"/>
+                    <TextBlock Text="Medlem sedan: " Margin="8 0 0 0"/>
+                    <TextBlock Text="{Binding Path=CurrentMember.created_at, StringFormat=d, ConverterCulture=en-GB}" Margin="8 0 0 0"/>
                 </StackPanel>
             </StackPanel>
         </Border>
