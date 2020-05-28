@@ -22,10 +22,18 @@ namespace LibrarySystem
     {
         public BookView()
         {
-            
+            // Sätt muspekare till laddningssnurra
+            Application.Current.Dispatcher.Invoke(() => Mouse.OverrideCursor = Cursors.Wait);
+            Loaded += BookView_Loaded;
             InitializeComponent();
             this.DataContext = new BookViewModel();
+
         }
 
+        private void BookView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Nolställ mus till standard
+            Application.Current.Dispatcher.Invoke(() => Mouse.OverrideCursor = null);
+        }
     }
 }

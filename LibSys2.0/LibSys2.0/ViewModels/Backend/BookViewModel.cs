@@ -524,8 +524,7 @@ namespace LibrarySystem
         /// Load books from DB via SQL, default limit amount is set to 5 unless specified otherwise
         /// </summary>
         /// <returns></returns>
-
-        public async Task LoadBooks() =>  await LoadBooks(LimitBookFilter ? 9999999  : 5);
+        public async Task LoadBooks() =>  await LoadBooks(LimitBookFilter ? 9999999  : 10);
 
         public async Task LoadBooks(int limiter)
         {
