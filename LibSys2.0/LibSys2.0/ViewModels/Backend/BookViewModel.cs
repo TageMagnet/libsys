@@ -110,11 +110,7 @@ namespace LibrarySystem
         public RelayCommandWithParameters UpdateUrlCommand { get; set; }
         public RelayCommand BookReportCommand { get; set; }
         public RelayCommand GoToReportPageCommand { get; set; }
-<<<<<<< HEAD
 
-=======
-        #endregion
->>>>>>> 18b143c667336a226ee569516ceb0f182857247d
         public BookViewModel()
         {
             AddBookCommand = new RelayCommand(async() => await AddBookCommandMethod());
