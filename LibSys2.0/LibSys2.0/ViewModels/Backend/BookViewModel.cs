@@ -15,6 +15,8 @@ using LibrarySystem.Views.Backend;
 using LibrarySystem.ViewModels.Backend;
 using System.Windows.Input;
 using System.Windows;
+using System.Runtime.CompilerServices;
+using System.Windows.Threading;
 
 namespace LibrarySystem
 {
@@ -55,7 +57,7 @@ namespace LibrarySystem
             }
         }
         // Private holder
-        private bool limitBookFilter = true;
+        private bool limitBookFilter = false;
         /// <summary>
         /// True = only load 5 rows on VM startup, False = Load all books,
         /// </summary>
@@ -519,17 +521,16 @@ namespace LibrarySystem
         /// Load books from DB via SQL, default limit amount is set to 5 unless specified otherwise
         /// </summary>
         /// <returns></returns>
-        public async Task LoadBooks() =>await LoadBooks(LimitBookFilter ? 5 : 9999999);
+        public async Task LoadBooks() =>  await LoadBooks(LimitBookFilter ? 9999999  : 5);
+
 
         public async Task LoadBooks(int limiter)
         {
-
             Items.Clear();
             foreach (var item in await itemRepo.ReadAllItemsWithStatus(ActiveFilter, limiter))
             {
                 Items.Add(item);
             }
-
         }
 
         /// <summary>Reloads all the Authors from DB</summary>
