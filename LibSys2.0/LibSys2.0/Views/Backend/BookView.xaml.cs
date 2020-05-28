@@ -24,14 +24,7 @@ namespace LibrarySystem
             
             InitializeComponent();
             this.DataContext = new BookViewModel();
-            Loaded += MyWindowLoaded;
-            HeaderViewModel.IsBusy = "Visible";
         }
 
-        private void MyWindowLoaded(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Laddat");
-            HeaderViewModel.IsBusy = "Hidden";
-        }
     }
 }

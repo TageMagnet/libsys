@@ -492,19 +492,8 @@ namespace LibrarySystem
         }
         public async void LoadDataAsync()
         {
-            WpfContext wpfContext = new WpfContext();
-
-            wpfContext.Invoke(async() =>
-            {
-                await LoadAuthors();
-
-            });
-            wpfContext.Invoke(async () =>
-            {
-                await LoadBooks();
-
-            });
-
+            await LoadAuthors();
+            await LoadBooks();
         }
 
         private async void ReloadAuthorsAsync() => await LoadAuthors();
