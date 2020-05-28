@@ -61,7 +61,8 @@ namespace LibrarySystem
         /// <summary>
         /// True = only load 5 rows on VM startup, False = Load all books,
         /// </summary>
-        public bool LimitBookFilter {
+        public bool LimitBookFilter
+        {
             get
             {
                 return limitBookFilter;
@@ -79,7 +80,8 @@ namespace LibrarySystem
         /// <summary>
         /// Filtering aout available authors in combobox
         /// </summary>
-        public string AddBookAuthorSearch {
+        public string AddBookAuthorSearch
+        {
             get
             {
                 return addBookAuthorSearch;
@@ -115,10 +117,10 @@ namespace LibrarySystem
 
         public BookViewModel()
         {
-            AddBookCommand = new RelayCommand(async() => await AddBookCommandMethod());
+            AddBookCommand = new RelayCommand(async () => await AddBookCommandMethod());
             UpdateBookCommand = new RelayCommandWithParameters(async (param) => await UpdateBookCommandMethod((Item)param));
             RemoveBookCommand = new RelayCommandWithParameters(async (param) => await RemoveBookCommandMethod((Item)param));
-            ActivateBookCommand = new RelayCommandWithParameters(async(param) => await ActivateBook((Item)param));
+            ActivateBookCommand = new RelayCommandWithParameters(async (param) => await ActivateBook((Item)param));
             ToggleHidden = new RelayCommandWithParameters(async (param) => await HiddenCommandMethod((Button)param));
             ToggleVisible = new RelayCommandWithParameters(async (param) => await VisibleCommandMethod((Button)param));
             FileUploadCommand = new RelayCommandWithParameters(async (param) => await UploadFile((string)param));
@@ -189,10 +191,10 @@ namespace LibrarySystem
             // Check if ISBN is valid
             if (!isbn.IsValid())
             {
-                if(!isbn.IsCorrectLength)
+                if (!isbn.IsCorrectLength)
                     MessageBox.Show("Fel längd på ISBN string. Endast 13 nummer (eller 12 utan kontroll siffra i slutet)");
 
-                else if(!isbn.IsValidCheckDigit)
+                else if (!isbn.IsValidCheckDigit)
                     MessageBox.Show("Felaktig ISBN, felaktig kontrollsumma");
 
                 else
@@ -513,6 +515,7 @@ namespace LibrarySystem
         {
             await LoadAuthors();
             await LoadBooks();
+
         }
 
         private async void ReloadAuthorsAsync() => await LoadAuthors();
@@ -521,8 +524,8 @@ namespace LibrarySystem
         /// Load books from DB via SQL, default limit amount is set to 5 unless specified otherwise
         /// </summary>
         /// <returns></returns>
-        public async Task LoadBooks() =>  await LoadBooks(LimitBookFilter ? 9999999  : 5);
 
+        public async Task LoadBooks() =>  await LoadBooks(LimitBookFilter ? 9999999  : 5);
 
         public async Task LoadBooks(int limiter)
         {
@@ -538,7 +541,7 @@ namespace LibrarySystem
         {
             Authors.Clear();
 
-            foreach(Author author in await authorRepo.Search(addBookAuthorSearch))
+            foreach (Author author in await authorRepo.Search(addBookAuthorSearch))
             {
                 Authors.Add(author);
             }
@@ -557,6 +560,28 @@ namespace LibrarySystem
             var bookreport = new BookReportView();
             bookreport.DataContext = new BookReportViewModel();
             bookreport.ShowDialog();
+        }
+
+        //
+        // Expiremental stuff below here
+        //
+
+        private RelayCommand DoWorkCommand { get; set; }
+
+        public async Task DoWork(IProgress<int> progress = null)
+        {
+            await Task.Run(() =>
+            {
+                for (int i = 1; i < 11; i++)
+                {
+                    var count = 0;
+                    for (int j = 0; j < 10000000; j++)
+                    {
+                        count += j;
+                    }
+                    progress.Report(i * 10);
+                }
+            });
         }
     }
 }

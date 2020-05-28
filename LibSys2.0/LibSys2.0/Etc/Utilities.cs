@@ -94,5 +94,17 @@ namespace LibrarySystem.Etc
             else
                 return false;
         }
+
+        /// <summary>
+        /// Random date
+        /// </summary>
+        /// <returns></returns>
+        public static DateTime RandomDate()
+        {
+            Random gen = new Random();
+            DateTime start = new DateTime(1995, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(gen.Next(range));
+        }
     }
 }

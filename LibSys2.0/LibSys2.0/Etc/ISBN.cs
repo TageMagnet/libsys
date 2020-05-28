@@ -57,14 +57,20 @@ namespace LibrarySystem
             int _checkdigit = GetCheckDigit(sum);
 
             // Compare digits, if the input string length was 13 (The last number is the checkdigit)
-            if (checkdigit != _checkdigit && length == 13)
+            if ((checkdigit != _checkdigit && length == 13) && _checkdigit != 10)
                 return false;
 
-            // Assign the correct check digit
+            // 
+            if ((checkdigit > 0 && checkdigit <= 10) == true)
+                return false;
+
+            //
             checkdigit = _checkdigit;
 
-            if (!IsValidCheckDigit)
-                return false;
+            // 10 == 0
+            if (checkdigit == 10)
+                checkdigit = 0;
+
 
             return true;
         }

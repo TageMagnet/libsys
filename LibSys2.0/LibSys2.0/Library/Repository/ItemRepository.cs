@@ -142,6 +142,46 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// .................
+        /// ................................................
+        /// ...........................................
+        /// ....................................help me
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="limiter"></param>
+        /// <returns></returns>
+        public async Task<List<OverViewItem>> ReadAllItemsWithStatus2(int status, int limiter)
+        {
+            using (var connection = CreateConnection())
+            {
+                List<OverViewItem> items = new List<OverViewItem>();
+                List<Author> authors = new List<Author>();
+
+                // From `books`-table get all active that has a reference to an author id
+                var query = string.Join(" ", new string[]{
+                    "SELECT * FROM `items`",
+                    "LEFT JOIN authors ON items.ref_author_id = authors.author_id",
+                    "WHERE is_active = @status",
+                    "LIMIT @limiter;"
+                });
+
+                items = (await connection.QueryAsync<OverViewItem>(query, new { status = status, limiter = limiter })).ToList();
+                authors = (await connection.QueryAsync<Author>(query, new { status = status, limiter = limiter })).ToList();
+
+                foreach (OverViewItem item in items)
+                {
+                    // Insert the Author object into items
+                    Author a = authors.First(x => x.author_id == item.ref_author_id);
+                    item.Author = a;
+                }
+
+                connection.Close();
+                return items;
+
+            }
+        }
+
         public async Task DeleteReason(Item item)
         {
             using (var connection = CreateConnection())

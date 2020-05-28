@@ -95,7 +95,7 @@
             </StackPanel>
 
 
-            <StackPanel VerticalAlignment="Center">
+            <StackPanel VerticalAlignment="Top">
                 <Button Grid.Column="0" Content="Lägg till Bok" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5">
                     <Button.Triggers>
                         <EventTrigger RoutedEvent="ButtonBase.Click">
