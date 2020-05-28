@@ -19,7 +19,8 @@ namespace LibrarySystem.ViewModels.Backend
         public List<OverViewItem> CurrentLoans { get; set; } = new List<OverViewItem>();
 
         #endregion
-
+        // Empty for no construtor arguments
+        public ReportsViewModel() { }
         public ReportsViewModel(Member member)
         {
             CurrentMember = member;

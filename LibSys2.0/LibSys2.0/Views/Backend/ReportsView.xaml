@@ -82,6 +82,43 @@
 
                 </Expander>
 
+                <Expander Header="Lånade Böcker" IsExpanded="True">
+                    <DataGrid Grid.Column="2" 
+                              ItemsSource="{Binding CurrentLoans}"  
+                              IsReadOnly="True"
+                              AutoGenerateColumns="False" 
+                              AlternatingRowBackground="#F9AA33" 
+                              Margin="10 0 10 0">
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Status" Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+
+                                            <TextBlock Text="{Binding Path=LateStatus, 
+                                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                            FallbackValue='eeeh'}"
+                                                       
+                                                       Background="{Binding Path=LateStatus,Mode=TwoWay, 
+                                                            UpdateSourceTrigger=PropertyChanged, 
+                                                            Converter={StaticResource StringColorConvertThingyStatusYeah}}"
+                                                       />
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Dagar kvar" Binding="{Binding SubscriptionDaysRemaining}" Width="auto"/>
+                            <DataGridTextColumn Header="Titel" Binding="{Binding title}" Width="auto"/>
+                            <DataGridTextColumn Header="Lånedatum" Binding="{Binding loaned_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="auto"/>
+                            <DataGridTextColumn Header="Återlämningsdatum" Binding="{Binding return_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Expander>
+
             </StackPanel>
         </Grid>
     </DockPanel>

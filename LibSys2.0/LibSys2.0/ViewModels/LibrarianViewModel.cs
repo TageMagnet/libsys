@@ -41,33 +41,41 @@ namespace LibrarySystem.ViewModels
                 switch ((int)value)
                 {
                     case 0:
+                        // NO viewmodel
+                        CurrentBackEndPage.Content = new StartView();
+                        break;
+                    case 1:
                         #region BookView
                         CurrentBackEndPage.Content = new BookView();
                         break;
                     #endregion
-                    case 1:
+                    case 2:
                         #region EventView
                         CurrentBackEndPage.Content = new EventView();
                         break;
                     #endregion
-                    case 2:
+                    case 3:
                         #region MemberView
                         CurrentBackEndPage.Content = new MemberView();
                         // Ladda members när tab control bytts till rätt sida
                         break;
                     #endregion
-                    case 3:
+                    case 4:
                         #region AuthorView
                         CurrentBackEndPage.Content = new AuthorView();
                         break;
-                        #endregion
+                    #endregion
+                    default:
+                        // Should no reach here
+                        break;
                 }
             }
         }
 
         public LibrarianViewModel()
         {
-            CurrentBackEndPage = new BookView();
+            // Starview contains no ViewModel btw.
+            CurrentBackEndPage = new StartView();
         }
     }
 }

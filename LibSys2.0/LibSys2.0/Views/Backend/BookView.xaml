@@ -75,7 +75,7 @@
         <!--#endregion-->
 
         <!--#region Buttons for add books-->
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -95,14 +95,21 @@
             </StackPanel>
 
             <StackPanel VerticalAlignment="Center">
-            <Button Grid.Column="0" Content="Lägg till Bok" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5">
-                <Button.Triggers>
-                    <EventTrigger RoutedEvent="ButtonBase.Click">
-                        <BeginStoryboard Storyboard="{StaticResource OpenBooks}"/>
-                    </EventTrigger>
-                </Button.Triggers>
-            </Button>
-                <Button Content="Rapport böcker" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.BookReportCommand}"/>
+                <Button Grid.Column="0" Content="Lägg till Bok" Width="140" HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="ButtonBase.Click">
+                            <BeginStoryboard Storyboard="{StaticResource OpenBooks}"/>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Content="Borttagna Böcker" Width="140" 
+                        HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5" 
+                        Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                        AncestorType={x:Type UserControl}}, Path=DataContext.BookReportCommand}"/>
+                <Button Content="Rapporter" Width="140" 
+                        HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5"
+                        Command="{Binding RelativeSource={RelativeSource FindAncestor,
+                        AncestorType={x:Type UserControl}}, Path=DataContext.BookReportCommand}"/>
             </StackPanel>
         </Grid>
         <!--#endregion-->

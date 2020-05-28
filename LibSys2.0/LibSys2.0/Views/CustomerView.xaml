@@ -31,6 +31,7 @@
                     <TextBlock Text="Medlem sedan: " Margin="8 0 0 0"/>
                     <TextBlock Text="{Binding Path=LoggedInCustomer.created_at, StringFormat=d, ConverterCulture=en-GB}" Margin="8 0 0 0"/>
                 </StackPanel>
+                <Button MinWidth="120" Margin="0 15 0 0" Content=" Ändra lösenord" Foreground="{StaticResource SecondaryBrush}" Padding="2" Command="{Binding Path=ChangePasswordCommand}" CommandParameter="{Binding LoggedInCustomer}"/>
             </StackPanel>
         </Border>
 
