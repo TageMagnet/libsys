@@ -143,6 +143,8 @@
                     </LinearGradientBrush>
                 </Canvas.Background>
             </Canvas>
+
+            <ProgressBar Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" IsIndeterminate="True" Visibility="{Binding IsBusy, Mode=TwoWay, IsAsync=True}"/>
             <!--#endregion-->
 
         </Grid>

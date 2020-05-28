@@ -20,6 +20,7 @@ namespace LibrarySystem.Views.Backend
     {
         public BookReportView()
         {
+
             InitializeComponent();
             //this.DataContext = new BookReportViewModel();
         }

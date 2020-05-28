@@ -13,6 +13,8 @@ using System.Linq;
 using System.Windows.Controls;
 using LibrarySystem.Views.Backend;
 using LibrarySystem.ViewModels.Backend;
+using System.Windows.Input;
+using System.Windows;
 
 namespace LibrarySystem
 {
@@ -108,8 +110,8 @@ namespace LibrarySystem
             BookReportCommand = new RelayCommand(async () => await BookReportMethod());
             GoToReportPageCommand = new RelayCommand(() => GoToReportPage());
             LoadDataAsync();
-        }
 
+        }
         /// <summary>Makes Arrow down button Visible</summary>
         /// <param name="arg"></param>
         private async Task VisibleCommandMethod(Button arg)
@@ -495,7 +497,7 @@ namespace LibrarySystem
             wpfContext.Invoke(async() =>
             {
                 await LoadAuthors();
-                
+
             });
             wpfContext.Invoke(async () =>
             {
@@ -519,6 +521,7 @@ namespace LibrarySystem
             {
                 Items.Add(item);
             }
+
         }
 
         /// <summary>Reloads all the Authors from DB</summary>
