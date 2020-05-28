@@ -93,6 +93,20 @@ namespace Library
             }
         }
 
+        public async Task UpdatePassword(Member member)
+        {
+            using (var connection = CreateConnection())
+            {
+                string query = string.Join(" ", new string[]{
+                    "UPDATE members SET",
+                    "`pwd` = @pwd",
+                    "WHERE member_id = @member_id"
+                });
+
+                await connection.QueryAsync(query, member);
+                connection.Close();
+            }
+        }
         public async Task ActivateMember(int id, int status)
         {
             using (var connection = CreateConnection())
