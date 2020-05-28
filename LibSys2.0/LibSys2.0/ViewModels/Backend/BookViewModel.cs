@@ -92,6 +92,7 @@ namespace LibrarySystem
         public RelayCommandWithParameters UpdateFileCommand { get; set; }
         public RelayCommandWithParameters UpdateUrlCommand { get; set; }
         public RelayCommand BookReportCommand { get; set; }
+        public RelayCommand GoToReportPageCommand { get; set; }
         #endregion
         public BookViewModel()
         {
@@ -105,6 +106,7 @@ namespace LibrarySystem
             UpdateFileCommand = new RelayCommandWithParameters(async (param) => await UpdateFile((Item)param));
             UpdateUrlCommand = new RelayCommandWithParameters(async (param) => await UpdateUrl((Item)param));
             BookReportCommand = new RelayCommand(async () => await BookReportMethod());
+            GoToReportPageCommand = new RelayCommand(() => GoToReportPage());
             LoadDataAsync();
         }
 
@@ -488,8 +490,19 @@ namespace LibrarySystem
         }
         public async void LoadDataAsync()
         {
-            await LoadAuthors();
-            await LoadBooks();
+            WpfContext wpfContext = new WpfContext();
+
+            wpfContext.Invoke(async() =>
+            {
+                await LoadAuthors();
+                
+            });
+            wpfContext.Invoke(async () =>
+            {
+                await LoadBooks();
+
+            });
+
         }
 
         private async void ReloadAuthorsAsync() => await LoadAuthors();
@@ -517,6 +530,14 @@ namespace LibrarySystem
             {
                 Authors.Add(author);
             }
+        }
+
+        // Generic page for reports
+        public void GoToReportPage()
+        {
+            var reports = new ReportsView();
+            reports.DataContext = new ReportsViewModel();
+            reports.ShowDialog();
         }
 
         public async Task BookReportMethod()
