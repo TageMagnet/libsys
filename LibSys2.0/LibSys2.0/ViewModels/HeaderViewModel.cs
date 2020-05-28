@@ -1,6 +1,8 @@
 ﻿using LibrarySystem.Models;
+using Org.BouncyCastle.Asn1.BC;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,18 +19,19 @@ namespace LibrarySystem.ViewModels
         public RelayCommandWithParameters GoToPage { get; set; }
         public RelayCommand LogoutCommand { get; set; }
 
-        public bool IsLoggedIn { get; set; } = false;
+        public static string IsBusy { get; set; } = "Hidden";
 
+        public bool IsLoggedIn { get; set; } = false;
 
         public HeaderViewModel()
         {
-            GoHome = new RelayCommandWithParameters((param) => MainWindowViewModel.ChangeView((string)param));
-            GoToLogin = new RelayCommand(() => MainWindowViewModel.ChangeView("login"));
-            GoToRegister = new RelayCommand(() => MainWindowViewModel.ChangeView("register"));
-            ByPassIntoBackend = new RelayCommand(() => MainWindowViewModel.ChangeView("librarian"));
-            GoToPage = new RelayCommandWithParameters(async(param) => await GoToProfilePage((int)param));
-            LogoutCommand = new RelayCommand(async() =>  await LogoutCommandMethod());
-            Method1();
+                GoHome = new RelayCommandWithParameters((param) => MainWindowViewModel.ChangeView((string)param));
+                GoToLogin = new RelayCommand(() => MainWindowViewModel.ChangeView("login"));
+                GoToRegister = new RelayCommand(() => MainWindowViewModel.ChangeView("register"));
+                ByPassIntoBackend = new RelayCommand(() => MainWindowViewModel.ChangeView("librarian"));
+                GoToPage = new RelayCommandWithParameters(async (param) => await GoToProfilePage((int)param));
+                LogoutCommand = new RelayCommand(async () => await LogoutCommandMethod());
+                Method1();
         }
 
         /// <summary>

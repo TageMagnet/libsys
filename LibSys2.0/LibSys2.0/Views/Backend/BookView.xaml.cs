@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibrarySystem.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -20,8 +21,17 @@ namespace LibrarySystem
     {
         public BookView()
         {
+            
             InitializeComponent();
             this.DataContext = new BookViewModel();
+            Loaded += MyWindowLoaded;
+            HeaderViewModel.IsBusy = "Visible";
+        }
+
+        private void MyWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Laddat");
+            HeaderViewModel.IsBusy = "Hidden";
         }
     }
 }
