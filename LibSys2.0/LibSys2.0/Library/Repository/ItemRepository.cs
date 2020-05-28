@@ -109,7 +109,9 @@ namespace Library
             }
         }
 
-        public async Task<List<Item>> ReadAllItemsWithStatus(int status)
+        public async Task<List<Item>> ReadAllItemsWithStatus(int status) => await ReadAllItemsWithStatus(status, 999999);
+
+        public async Task<List<Item>> ReadAllItemsWithStatus(int status, int limiter)
         {
             using (var connection = CreateConnection())
             {
@@ -120,11 +122,12 @@ namespace Library
                 var query = string.Join(" ", new string[]{
                     "SELECT * FROM `items`",
                     "LEFT JOIN authors ON items.ref_author_id = authors.author_id",
-                    "WHERE is_active = @status"
+                    "WHERE is_active = @status",
+                    "LIMIT @limiter;"
                 });
 
-                items = (await connection.QueryAsync<Item>(query, new { status = status })).ToList();
-                authors = (await connection.QueryAsync<Author>(query, new { status = status })).ToList();
+                items = (await connection.QueryAsync<Item>(query, new { status = status, limiter = limiter })).ToList();
+                authors = (await connection.QueryAsync<Author>(query, new { status = status, limiter = limiter })).ToList();
 
                 foreach (Item item in items)
                 {
@@ -336,9 +339,10 @@ namespace Library
             }
         }
 
-
-        public async Task<List<OverViewItem>> ReadSubscribedItems(int memberID)
+        public async Task<List<OverViewItem>> ReadSubscribedItems(int memberID) => await ReadSubscribedItems(memberID, 999999);
+        public async Task<List<OverViewItem>> ReadSubscribedItems(int memberID, int limiter)
         {
+            // LIMIT markerar max antal böcker laddade
             string query = @"
             SELECT
             	`members`.*,
@@ -353,28 +357,17 @@ namespace Library
             	members.member_id = item_subscriptions.ref_member_id
             WHERE
             	members.member_id = 1
-            	AND item_subscriptions.status = 1;";
-            //string query = @"
-            //-- Get each subscribed item object based on user id
-            //SELECT
-            //	*
-            //FROM
-            //	item_subscriptions
-            //LEFT JOIN items ON
-            //	items.ID = item_subscriptions.ref_book_id
-            //LEFT JOIN members ON
-            //	members.member_id = item_subscriptions.ref_member_id
-            //WHERE
-            //	members.member_id = @memberID
-            //AND
-            //    item_subscriptions.status = @status;
-            //";
+            	AND item_subscriptions.status = 1
+            LIMIT 
+                @limit;
+            ";
 
             using (var connection = CreateConnection())
             {
-                List<OverViewItem> data = (await connection.QueryAsync<OverViewItem>(query, new { memberID = memberID, status = 1 })).ToList();
+                List<OverViewItem> data = (await connection.QueryAsync<OverViewItem>(query, new { memberID = memberID, status = 1, @limit = limiter })).ToList();
                 return data;
             }
+
         }
     }
 }

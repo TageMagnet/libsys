@@ -97,6 +97,11 @@ namespace LibrarySystem.ViewModels
         /// <returns></returns>
         public async Task LoadBooks()
         {
+
+        }
+
+        public async Task LoadBooks(int limiter)
+        {
             BorrowedItems.Clear();
             // Only works in swedish time zone
             var now = DateTime.Now;
