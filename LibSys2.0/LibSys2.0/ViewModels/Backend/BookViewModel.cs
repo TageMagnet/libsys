@@ -20,7 +20,6 @@ namespace LibrarySystem
 {
     public class BookViewModel : BaseViewModel
     {
-        #region Properties
         private ItemRepository itemRepo = new ItemRepository();
         private AuthorRepository authorRepo = new AuthorRepository();
         private CategoryRepository categoryRepo = new CategoryRepository();
@@ -55,6 +54,24 @@ namespace LibrarySystem
                 LoadBooks();
             }
         }
+        // Private holder
+        private bool limitBookFilter = true;
+        /// <summary>
+        /// True = only load 5 rows on VM startup, False = Load all books,
+        /// </summary>
+        public bool LimitBookFilter {
+            get
+            {
+                return limitBookFilter;
+            }
+            set
+            {
+                limitBookFilter = value;
+
+                // Reload books
+                ReloadBooksAsync();
+            }
+        }
 
         private string addBookAuthorSearch;
         /// <summary>
@@ -81,9 +98,7 @@ namespace LibrarySystem
         public int ActiveFilter { get; set; } = 1;
 
         public bool SelectedItemIsEBook { get; set; } = false;
-        #endregion
 
-        #region Commands
         public RelayCommand AddBookCommand { get; set; }
         public RelayCommandWithParameters UpdateBookCommand { get; set; } // item
         public RelayCommandWithParameters RemoveBookCommand { get; set; }
@@ -95,7 +110,7 @@ namespace LibrarySystem
         public RelayCommandWithParameters UpdateUrlCommand { get; set; }
         public RelayCommand BookReportCommand { get; set; }
         public RelayCommand GoToReportPageCommand { get; set; }
-        #endregion
+
         public BookViewModel()
         {
             AddBookCommand = new RelayCommand(async() => await AddBookCommandMethod());
@@ -490,6 +505,8 @@ namespace LibrarySystem
             else
                 return cat = first.ToUpper();
         }
+
+        private async void ReloadBooksAsync() => await LoadBooks();
         public async void LoadDataAsync()
         {
             await LoadAuthors();
@@ -499,14 +516,16 @@ namespace LibrarySystem
         private async void ReloadAuthorsAsync() => await LoadAuthors();
 
         /// <summary>
-        /// Reloads books from DB
+        /// Load books from DB via SQL, default limit amount is set to 5 unless specified otherwise
         /// </summary>
         /// <returns></returns>
-        public async Task LoadBooks()
+        public async Task LoadBooks() =>await LoadBooks(LimitBookFilter ? 5 : 9999999);
+
+        public async Task LoadBooks(int limiter)
         {
 
             Items.Clear();
-            foreach (var item in await itemRepo.ReadAllItemsWithStatus(ActiveFilter))
+            foreach (var item in await itemRepo.ReadAllItemsWithStatus(ActiveFilter, limiter))
             {
                 Items.Add(item);
             }
