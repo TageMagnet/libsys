@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows;
+using LibrarySystem.Views.Backend;
+using LibrarySystem.ViewModels.Components;
 
 namespace LibrarySystem.ViewModels
 {
@@ -21,11 +23,14 @@ namespace LibrarySystem.ViewModels
         /// Items that this specific user has loaned
         /// </summary>
         public ObservableCollection<OverViewItem> BorrowedItems { get; set; } = new ObservableCollection<OverViewItem>();
- 
+        public static ChangePasswordView changepw { get; set; }
+
         // Lämna tillbaka lånad bok
         public RelayCommandWithParameters UnsubscribeToItem { get; set; }
         // Förläng lånetid
         public RelayCommandWithParameters ExtendSubscription { get; set; }
+        public RelayCommandWithParameters ChangePasswordCommand { get; set; }
+        
 
         public CustomerViewModel()
         {
@@ -54,7 +59,7 @@ namespace LibrarySystem.ViewModels
                 OverViewItem overViewItem = (OverViewItem)param;
 
                 // Blockera förlängning om redan försenad
-                if(DateTime.Compare(overViewItem.return_at, DateTime.Now) < 0)
+                if (DateTime.Compare(overViewItem.return_at, DateTime.Now) < 0)
                 {
                     MessageBox.Show("Kan ej förlänga försenad bok");
                     return;
@@ -72,6 +77,8 @@ namespace LibrarySystem.ViewModels
                 // Display baserat på hur många default dagar ett lån är
                 MessageBox.Show(string.Format("Lån förlängt med {0} dagar", Globals.DefaultExtendLoanDuration));
             });
+
+            ChangePasswordCommand = new RelayCommandWithParameters(async (param) => { Member member = (Member)param; await ChangePasswordMethod(member); });
 
         }
 
@@ -126,6 +133,13 @@ namespace LibrarySystem.ViewModels
 
                 BorrowedItems.Add(item);
             }
+        }
+
+        public async Task ChangePasswordMethod(Member member)
+        {
+            changepw = new ChangePasswordView();
+            changepw.DataContext = new ChangePasswordViewModel(member);
+            changepw.ShowDialog();
         }
     }
 }
