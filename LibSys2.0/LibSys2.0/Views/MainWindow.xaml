@@ -9,7 +9,7 @@
         Height="768" 
         Width="1080" 
         WindowStartupLocation="CenterScreen"
-        Visibility="Visible"
+        Visibility="Visible" WindowStyle="SingleBorderWindow"
         >
     
         <!--Tog bort dem här design-grejerna så länge, är osäker på vad de exakt påverkar-->

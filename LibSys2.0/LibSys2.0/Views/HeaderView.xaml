@@ -27,24 +27,15 @@
             <!--#endregion-->
 
             <!--#region Go Home Button -->
-            <!--<Button Grid.Column="0" Grid.Row="1" Name="BtnIcon" 
-                    Command="{Binding GoHome}"
-                    CommandParameter="home"
-                    Width="36" 
-                    Padding="6,6" 
-                    Content=""
-                    ToolTip="Icon"/>-->
-            <!--#endregion-->
-
-            <!--#region Logotype -->
-            <!--<Image Grid.Column="1" Grid.Row="1"
-                    Source="/Assets/LibSysWhite.png" 
-                    Margin="0,0,0,0" 
-                    RenderOptions.BitmapScalingMode="Fant" 
-                    Stretch="Fill"  MaxWidth="64" />-->
-            <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=SmileyDevil,Size=25}"
+            
+            <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=EmoticonDevil,Size=25}"
                         materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
-                        Command="{Binding ByPassIntoBackend}" VerticalAlignment="Center"/>
+                        Command="{Binding ByPassIntoBackend}" VerticalAlignment="Center"
+                    Foreground="{StaticResource SecondaryBrush}"/>
+            <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Content="{materialDesign:PackIcon Kind=Home,Size=25}"
+                        materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
+                        Command="{Binding GoHome}" CommandParameter="home" VerticalAlignment="Center"
+                    Foreground="{StaticResource SecondaryBrush}" Margin="50 0 0 0"/>
             
             <Button Grid.Column="1" Grid.Row="1" Width="80" Height="80" Padding="1" Background="{x:Null}" ToolTip="Hem"
                     Command="{Binding GoHome}" CommandParameter="home" Foreground="{x:Null}" BorderBrush="{x:Null}">
@@ -69,21 +60,25 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
-                <TextBlock Grid.Column="0" MaxWidth="300" Text="{Binding CurrentLoggedInUserExtended.nickname, 
-                            FallbackValue='Error', 
-                            Converter={StaticResource EmptyString},
-                            ConverterParameter='Jonathan JonathanJonathanJonathanJonathanJonathan',
-                            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                           VerticalAlignment="Center" Margin="10 0 0 0" FontWeight="DemiBold"/>
+
                 <Button Grid.Column="1" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Account,Size=25}"
                         materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
-                        Command="{Binding GoToPage}" 
+                        Command="{Binding GoToPage}" Foreground="{StaticResource SecondaryBrush}"
                         CommandParameter="{Binding CurrentLoggedInUserExtended.ref_member_role_id}" 
-                        ToolTip="Din profil"/>
+                        >
+                    <Button.ToolTip>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding CurrentLoggedInUserExtended.nickname}"/>
+                            <TextBlock Text=" ( "/>
+                            <TextBlock Text="{Binding CurrentLoggedInUserExtended.role}"/>
+                            <TextBlock Text=" ) "/>
+                        </StackPanel>
+                    </Button.ToolTip>
+                </Button>
                 <Button Grid.Column="2" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Logout,Size=25}"
                         materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
-                        Command="{Binding LogoutCommand}" ToolTip="Logga ut"/>
+                        Command="{Binding LogoutCommand}" ToolTip="Logga ut"
+                        Foreground="{StaticResource SecondaryBrush}"/>
             </Grid>
             
             <!--#region Navigation menu not logged in -->
@@ -104,33 +99,10 @@
 
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="Ej inloggad" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" Foreground="Red"/>
-               
-                
+
                 <Button Grid.Column="2" HorizontalAlignment="Center" Content="{materialDesign:PackIcon Kind=Login,Size=25}"
                         materialDesign:ButtonAssist.CornerRadius="30" Width="50" Height="50" HorizontalContentAlignment="Center" Padding="1"
-                        Command="{Binding GoToLogin}" ToolTip="Logga in"/>
-                <!--<Button Grid.Column="1" 
-                        Command="{Binding ByPassIntoBackend}" 
-                        Content="{materialDesign:PackIcon Kind=SmileyDevil}"
-                        Width="36"
-                        Margin="0,0,12,0"
-                        Padding="6,6"
-                        />-->
-                <!--<Button Grid.Column="2" 
-                        Command="{Binding GoToLogin}" 
-                        Content="{materialDesign:PackIcon Login}"
-                        Width="36"
-                        Margin="0,0,12,0"
-                        Padding="6,6"
-                        />-->
-                <!--<Button Grid.Column="3" 
-                        Command="{Binding GoToRegister}" 
-                        Content="{materialDesign:PackIcon Register}" 
-                        Width="36"
-                        Margin="0,0,12,0"
-                        Padding="6,6"
-                        />-->
+                        Command="{Binding GoToLogin}" ToolTip="Logga in" Foreground="{StaticResource SecondaryBrush}"/>
             </Grid>
             <!--#endregion-->
 

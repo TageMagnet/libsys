@@ -75,7 +75,7 @@ namespace LibrarySystem.ViewModels
                 LoadAllBooks();
 
                 // Display baserat på hur många default dagar ett lån är
-                MessageBox.Show(string.Format("Lån förlängt med {0} dagar", Globals.DefaultExtendLoanDuration));
+                MessageBox.Show(string.Format("Lån förlängt med {0} dagar", Globals.DefaultExtendLoanDuration.Days));
             });
 
             ChangePasswordCommand = new RelayCommandWithParameters(async (param) => { Member member = (Member)param; await ChangePasswordMethod(member); });

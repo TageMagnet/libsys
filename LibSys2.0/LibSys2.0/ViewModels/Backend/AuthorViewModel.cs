@@ -18,6 +18,9 @@ namespace LibrarySystem
         public ObservableCollection<Author> Authors { get; set; } = new ObservableCollection<Author>();
 
         public Author SelectedAuthor { get; set; } = new Author();
+        #endregion
+
+        #region Commands
         public RelayCommand AddAuthorCommand { get; set; }
         public RelayCommandWithParameters UpdateAuthorCommand { get; set; }
         public RelayCommandWithParameters RemoveAuthorCommand { get; set; }

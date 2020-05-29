@@ -18,19 +18,41 @@
 
         <Border BorderThickness="1" BorderBrush="#F9AA33" DockPanel.Dock="Left" Padding="12,4">
             <StackPanel>
-                <TextBox Text="Profilinfo" BorderThickness="0" Margin="8 10 0 35" Style="{StaticResource TextBoxLarge}"/>
+                <TextBox Text="Profilinfo" BorderThickness="0" Margin="8 10 0 35" Style="{StaticResource TextBoxLarge}" FontWeight="DemiBold"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="E-mail: " Margin="8 0 0 0" />
-                    <TextBlock Text="{Binding Path=LoggedInCustomer.email}"/>
+                    <TextBlock Text="E-mail: " Margin="8 0 0 0" Style="{StaticResource TextLarge}" FontWeight="DemiBold"/>
+                    <TextBlock Text="{Binding Path=LoggedInCustomer.email}" Style="{StaticResource TextLarge}"/>
                 </StackPanel>
+                <Separator Margin="0 5" />
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Smeknamn: " Margin="8 0 0 0" />
-                    <TextBlock Text="{Binding Path=LoggedInCustomer.nickname}"/>
+                    <TextBlock Text="Smeknamn: " Margin="8 0 0 0" Style="{StaticResource TextLarge}" FontWeight="DemiBold"/>
+                    <TextBlock Text="{Binding Path=LoggedInCustomer.nickname}" Style="{StaticResource TextLarge}"/>
                 </StackPanel>
-                <StackPanel>
-                    <TextBlock Text="Medlem sedan: " Margin="8 0 0 0"/>
-                    <TextBlock Text="{Binding Path=LoggedInCustomer.created_at, StringFormat=d, ConverterCulture=en-GB}" Margin="8 0 0 0"/>
+                <Separator Margin="0 5"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Medlem sedan: " Margin="8 0 0 0" Style="{StaticResource TextLarge}" FontWeight="DemiBold"/>
+                    <TextBlock Text="{Binding Path=LoggedInCustomer.created_at, StringFormat=d, ConverterCulture=en-GB}" Margin="8 0 0 0" Style="{StaticResource TextLarge}"/>
                 </StackPanel>
+                <Separator Margin="0 5"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Lånekort: " Margin="8 0 0 0" Style="{StaticResource TextLarge}" FontWeight="DemiBold"/>
+                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" >
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextLarge}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=LoggedInCustomer.cardstatus}" Value="1">
+                                        <Setter Property="Text" Value="Aktivt"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=LoggedInCustomer.cardstatus}" Value="0">
+                                        <Setter Property="Text" Value="Spärrad"/>
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+                <Separator Margin="0 5"/>
                 <Button MinWidth="120" Margin="0 15 0 0" Content=" Ändra lösenord" Foreground="{StaticResource SecondaryBrush}" Padding="2" Command="{Binding Path=ChangePasswordCommand}" CommandParameter="{Binding LoggedInCustomer}"/>
             </StackPanel>
         </Border>
@@ -50,8 +72,9 @@
                               ItemsSource="{Binding BorrowedItems}"  
                               IsReadOnly="True"
                               AutoGenerateColumns="False" 
-                              AlternatingRowBackground="#F9AA33" 
-                              Margin="10 0 10 0">
+                              AlternatingRowBackground="LightGray" 
+                              Margin="10 0 10 0"
+                              VerticalScrollBarVisibility="Visible">
 
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Status" Width="auto">
@@ -80,8 +103,8 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel>
-                                            <Button Command="{Binding Path=DataContext.UnsubscribeToItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" Margin="0 0 0 10">Återlämna</Button>
-                                            <Button Command="{Binding Path=DataContext.ExtendSubscription, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">Låna igen</Button>
+                                            <Button Command="{Binding Path=DataContext.UnsubscribeToItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" Foreground="{StaticResource SecondaryBrush}" CommandParameter="{Binding}" Margin="0 0 0 10">Återlämna</Button>
+                                            <Button Command="{Binding Path=DataContext.ExtendSubscription, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" Foreground="{StaticResource SecondaryBrush}" CommandParameter="{Binding}">Låna igen</Button>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
