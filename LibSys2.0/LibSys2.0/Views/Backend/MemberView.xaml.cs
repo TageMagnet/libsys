@@ -20,8 +20,15 @@ namespace LibrarySystem
     {
         public MemberView()
         {
+            Application.Current.Dispatcher.Invoke(() => Mouse.OverrideCursor = Cursors.Wait);
+            Loaded += MemberView_Loaded;
             InitializeComponent();
             this.DataContext = new MemberViewModel();
+        }
+
+        private void MemberView_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() => Mouse.OverrideCursor = null);
         }
     }
 }

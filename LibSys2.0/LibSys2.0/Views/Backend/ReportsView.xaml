@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:convert="clr-namespace:LibrarySystem.Converters"
         mc:Ignorable="d"
-        Title="ReportsView" Height="800" Width="900" WindowStartupLocation="CenterScreen">
+        Title="ReportsView" Height="800" Width="1100" WindowStartupLocation="CenterScreen">
     
 
         <Window.Resources>
@@ -19,7 +19,7 @@
 
         <Border BorderThickness="1" BorderBrush="#F9AA33" DockPanel.Dock="Left" Padding="12,4">
             <StackPanel>
-                <TextBox Text="Profilinfo" BorderThickness="0" Margin="8 10 0 35" Style="{StaticResource TextBoxLarge}"/>
+                <!--<TextBox Text="Profilinfo" BorderThickness="0" Margin="8 10 0 35" Style="{StaticResource TextBoxLarge}"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="E-mail: " Margin="8 0 0 0" />
                     <TextBlock Text="{Binding Path=CurrentMember.email}"/>
@@ -31,7 +31,42 @@
                 <StackPanel>
                     <TextBlock Text="Medlem sedan: " Margin="8 0 0 0"/>
                     <TextBlock Text="{Binding Path=CurrentMember.created_at, StringFormat=d, ConverterCulture=en-GB}" Margin="8 0 0 0"/>
+                </StackPanel>-->
+                <TextBox Text="Profilinfo" BorderThickness="0" Margin="8 10 0 35" Style="{StaticResource TextBoxLarge}" FontWeight="DemiBold"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="E-mail: " Margin="8 0 0 0" Style="{StaticResource TextLarge}" FontWeight="DemiBold"/>
+                    <TextBlock Text="{Binding Path=CurrentMember.email}" Style="{StaticResource TextLarge}"/>
                 </StackPanel>
+                <Separator Margin="0 5" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Smeknamn: " Margin="8 0 0 0" Style="{StaticResource TextLarge}" FontWeight="DemiBold"/>
+                    <TextBlock Text="{Binding Path=CurrentMember.nickname}" Style="{StaticResource TextLarge}"/>
+                </StackPanel>
+                <Separator Margin="0 5"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Medlem sedan: " Margin="8 0 0 0" Style="{StaticResource TextLarge}" FontWeight="DemiBold"/>
+                    <TextBlock Text="{Binding Path=CurrentMember.created_at, StringFormat=d, ConverterCulture=en-GB}" Margin="8 0 0 0" Style="{StaticResource TextLarge}"/>
+                </StackPanel>
+                <Separator Margin="0 5"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Lånekort: " Margin="8 0 0 0" Style="{StaticResource TextLarge}" FontWeight="DemiBold"/>
+                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" >
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextLarge}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=CurrentMember.cardstatus}" Value="1">
+                                        <Setter Property="Text" Value="Aktivt"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=CurrentMember.cardstatus}" Value="0">
+                                        <Setter Property="Text" Value="Spärrad"/>
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+                <Separator Margin="0 5"/>
             </StackPanel>
         </Border>
 
@@ -43,23 +78,26 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center">
+            <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center">
 
-                <Expander Header="Lånade Böcker">
-                    <DataGrid Grid.Column="2" 
+                    <Expander Header="Lånade Böcker">
+                        <DataGrid Grid.Column="2" 
                               ItemsSource="{Binding CurrentLoans}"  
                               IsReadOnly="True"
                               AutoGenerateColumns="False" 
-                              AlternatingRowBackground="#F9AA33" 
-                              Margin="10 0 10 0">
+                              AlternatingRowBackground="LightGray" 
+                              Margin="10 0 10 0"
+                              ScrollViewer.CanContentScroll="True"
+                              MaxHeight="300">
 
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Status" Width="auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Status" Width="auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
 
-                                            <TextBlock Text="{Binding Path=LateStatus, 
+                                                <TextBlock Text="{Binding Path=LateStatus, 
                                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                             FallbackValue='eeeh'}"
                                                        
@@ -68,39 +106,23 @@
                                                             Converter={StaticResource StringColorConvertThingyStatusYeah}}"
                                                        />
 
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
 
-                            <DataGridTextColumn Header="Dagar kvar" Binding="{Binding SubscriptionDaysRemaining}" Width="auto"/>
-                            <DataGridTextColumn Header="Titel" Binding="{Binding title}" Width="auto"/>
-                            <DataGridTextColumn Header="Lånedatum" Binding="{Binding loaned_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="auto"/>
-                            <DataGridTextColumn Header="Återlämningsdatum" Binding="{Binding return_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="auto"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                                <DataGridTextColumn Header="Dagar kvar" Binding="{Binding SubscriptionDaysRemaining}" Width="auto"/>
+                                <DataGridTextColumn Header="Titel" Binding="{Binding title}" Width="auto"/>
+                                <DataGridTextColumn Header="Lånedatum" Binding="{Binding loaned_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="auto"/>
+                                <DataGridTextColumn Header="Återlämningsdatum" Binding="{Binding return_at, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="auto"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                </Expander>
+                    </Expander>
 
-                <Expander Header="Rapport på tillagda objekt">
-                    <DataGrid Grid.Column="2" 
-                              ItemsSource="{Binding Items}"  
-                              IsReadOnly="True"
-                              AlternatingRowBackground="#F9AA33" 
-                              AutoGenerateColumns="False" 
-                              Margin="10 0 10 0">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ISBN" Binding="{Binding isbn}" Width="auto"/>
-                            <DataGridTextColumn Header="Titel" Binding="{Binding title}" Width="auto"/>
-                            <DataGridTextColumn Header="Kat." Binding="{Binding category}" Width="auto"/>
-                            <DataGridTextColumn Header="Skapad" Binding="{Binding created_at}" Width="auto"/>
-                            <DataGridTextColumn Header="Pris" Binding="{Binding price}" Width="auto"/>
-                            <DataGridTextColumn Header="Skapad" Binding="{Binding loaned_at}" Width="auto"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Expander>
-
-            </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+            
         </Grid>
     </DockPanel>
 </Window>
