@@ -88,16 +88,7 @@ namespace LibrarySystem.ViewModels
         public async void LoadAllBooks()
         {
             // Firstly laod books filtered by member_id and if subscribed
-            await LoadBooks();
-        }
-
-        /// <summary>
-        /// Reloads books from DB
-        /// </summary>
-        /// <returns></returns>
-        public async Task LoadBooks()
-        {
-
+            await LoadBooks(LoggedInCustomer.member_id);
         }
 
         public async Task LoadBooks(int limiter)
