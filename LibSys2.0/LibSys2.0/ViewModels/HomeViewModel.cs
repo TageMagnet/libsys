@@ -9,6 +9,8 @@ using MessageBox = System.Windows.MessageBox;
 using System.Collections.Specialized;
 using System.Windows.Data;
 using System.Linq;
+using LibrarySystem.Views;
+using LibrarySystem.ViewModels.Backend;
 
 namespace LibrarySystem.ViewModels
 {
@@ -37,6 +39,7 @@ namespace LibrarySystem.ViewModels
 
         /// <summary>Starts up a browser and visits download link</summary>
         public RelayCommandWithParameters GoToBrowserLink { get; set; }
+        public RelayCommand GotoInfoCommand { get; set; }
 
         /// <summary>
         /// Returnt results
@@ -215,6 +218,7 @@ namespace LibrarySystem.ViewModels
                 AutoCompleteList.Clear();
             });
             LoanBookCommand = new RelayCommandWithParameters(async (param) => await LoanBook((SearchItem)param));
+            GotoInfoCommand = new RelayCommand(async () => await GotoInfoMethod());
         }
 
         /// <summary>
@@ -392,6 +396,16 @@ namespace LibrarySystem.ViewModels
             {
                 e.Accepted = false;
             }
+        }
+        /// <summary>
+        /// Method to open up Site Info-window
+        /// </summary>
+        /// <returns></returns>
+        private async Task GotoInfoMethod()
+        {
+            var infoView = new SiteInfoView();
+            infoView.DataContext = new SiteInfoViewModel();
+            infoView.ShowDialog();
         }
     }
 }

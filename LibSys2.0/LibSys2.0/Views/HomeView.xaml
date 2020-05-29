@@ -243,6 +243,7 @@
         </StackPanel>
 
         <Button Grid.Column="4" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                Command="{Binding GotoInfoCommand}"
                 Content="{materialDesign:PackIcon Kind=Help,Size=25}" Padding="0.5" Width="50" Height="50"
                 materialDesign:ButtonAssist.CornerRadius="30"
                 Foreground="{StaticResource SecondaryBrush}" Margin="5 0 40 -10"/>
