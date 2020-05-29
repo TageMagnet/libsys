@@ -155,6 +155,16 @@ namespace LibrarySystem.ViewModels
             // Using the default browser, go to specified adress
             GoToBrowserLink = new RelayCommandWithParameters((param) =>
             {
+                if (!Globals.IsLoggedIn)
+                {
+                    MessageBox.Show("Du behöver först logga in eller skapa ett konto för att låna böcker");
+                    return;
+                }
+                if (Globals.LoggedInUser.cardstatus != 1)
+                {
+                    MessageBox.Show("Ditt kort är spärrat. Kontakta en bibliotikarie");
+                    return;
+                }
                 // Validate url
                 if (!Etc.Utilities.UrlChecker(param.ToString()))
                 {
@@ -192,6 +202,11 @@ namespace LibrarySystem.ViewModels
             if (!Globals.IsLoggedIn)
             {
                 MessageBox.Show("Du behöver först logga in eller skapa ett konto för att låna böcker");
+                return;
+            }
+            if (Globals.LoggedInUser.cardstatus != 1)
+            {
+                MessageBox.Show("Ditt kort är spärrat. Kontakta en bibliotikarie");
                 return;
             }
 

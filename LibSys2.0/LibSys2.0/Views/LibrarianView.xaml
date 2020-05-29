@@ -27,9 +27,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TabControl SelectedIndex="{Binding TabControlSelectedIndex}">
-            <TabItem Style="{StaticResource PaddedTabItem}" Header="Start"/>
+            <!--<TabItem Style="{StaticResource PaddedTabItem}" Header="Start"/>-->
             <TabItem Style="{StaticResource PaddedTabItem}" Header="Böcker"/>
-            <TabItem Style="{StaticResource PaddedTabItem}" Header="Seminarium"/>
+            <!--<TabItem Style="{StaticResource PaddedTabItem}" Header="Seminarium"/>-->
             <TabItem Style="{StaticResource PaddedTabItem}" Header="Användare"/>
             <TabItem Style="{StaticResource PaddedTabItem}" Header="Författare"/>
         </TabControl>

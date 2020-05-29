@@ -20,8 +20,15 @@ namespace LibrarySystem
     {
         public AuthorView()
         {
+            Application.Current.Dispatcher.Invoke(() => Mouse.OverrideCursor = Cursors.Wait);
+            Loaded += AuthorView_Loaded;
             InitializeComponent();
             this.DataContext = new AuthorViewModel();
+        }
+
+        private void AuthorView_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() => Mouse.OverrideCursor = null);
         }
     }
 }

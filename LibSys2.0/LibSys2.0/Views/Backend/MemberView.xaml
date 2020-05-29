@@ -34,12 +34,85 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="2px" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <!-- Add member -->
-        <Border Grid.Column="0" Padding="18, 18">
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+            <TextBox Text="{Binding NewMember.email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="250" x:Name="MemberEmail" HorizontalAlignment="Center"/>
+            <TextBlock IsHitTestVisible="False" Text="Email" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,210,0" Foreground="DarkGray">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=MemberEmail}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+            <TextBox Text="{Binding NewMember.nickname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="250" x:Name="MemberSurname" HorizontalAlignment="Center"/>
+            <TextBlock IsHitTestVisible="False" Text="Smeknamn" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,180,0" Foreground="DarkGray">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=MemberSurname}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+            <TextBox Text="{Binding NewMember.pwd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PasswordMask}}" Width="250" x:Name="MemberPwd" HorizontalAlignment="Center"/>
+            <TextBlock IsHitTestVisible="False" Text="Lösenord" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,190,0" Foreground="DarkGray">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=MemberPwd}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+            <ComboBox x:Name="RoleBox"  Width="250" IsReadOnly="True" MinWidth="100" ItemsSource="{Binding AvailableRoles}" SelectedIndex="3" SelectedItem="{Binding NewMember.role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <TextBlock IsHitTestVisible="False" Text="Roll" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,210,0" Foreground="DarkGray">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=RoleBox}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+
+        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Command="{Binding AddNewMember}" Content="Lägg till användare" HorizontalAlignment="Center" Foreground="{StaticResource SecondaryBrush}"/>
+        <!--<Border Grid.Column="0" Padding="18, 18">
             <WrapPanel Orientation="Vertical">
                 <StackPanel Style="{StaticResource InputBox}">
                     <StackPanel>
@@ -67,16 +140,14 @@
                 <StackPanel>
                     <Button Command="{Binding AddNewMember}" Content="Lägg till användare"/>
                 </StackPanel>
-            </WrapPanel>
-        </Border>
+            </WrapPanel>-->
+        <!--</Border>-->
 
         <!-- Border -->
-        <Border Background="#F9AA33"
-                Grid.Column="1"
-                Grid.RowSpan="6" />
+        <GridSplitter Grid.Column="3" Grid.RowSpan="6" Width="2" Background="#F9AA33" IsEnabled="False" HorizontalAlignment="Left"/>
 
         <!-- Display members -->
-        <Border Grid.Column="2">
+        <Border Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="6">
             <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="6" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="7">
                 <Viewbox>
                     <StackPanel Orientation="Vertical">
