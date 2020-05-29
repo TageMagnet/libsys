@@ -529,15 +529,17 @@ namespace LibrarySystem
 
         public async Task LoadBooks(int limiter)
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            //var watch = System.Diagnostics.Stopwatch.StartNew();
+            //List<Task> tasks = new List<Task>();
             Items.Clear();
             foreach (var item in await itemRepo.ReadAllItemsWithStatus(ActiveFilter, limiter))
             {
+                //tasks.Add(Items.Add(item));
                 Items.Add(item);
             }
-            watch.Stop();
-            var result = watch.ElapsedMilliseconds;
-            MessageBox.Show((result).ToString());
+            //watch.Stop();
+            //var result = watch.ElapsedMilliseconds;
+            //MessageBox.Show((result).ToString());
         }
 
         /// <summary>Reloads all the Authors from DB</summary>

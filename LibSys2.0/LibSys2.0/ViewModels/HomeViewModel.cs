@@ -41,6 +41,8 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public ObservableCollection<SearchItem> SearchResults { get; set; } = new ObservableCollection<SearchItem>();
 
+        public bool ShowSearchResults { get; set; } = false;
+
         /// <summary>
         /// Helper proxxy for filtering and paging search results
         /// </summary>
@@ -314,7 +316,13 @@ namespace LibrarySystem.ViewModels
                 SearchResults.Add(item);
             }
 
+            if (SearchResults.Count > 0)
+            {
+                ShowSearchResults = true;
+            }
+
             // Notify the counters
+            NotifyPropertyChanged("ShowSearchResults");
             NotifyPropertyChanged("SearchResultCount");
             NotifyPropertyChanged("ResultsDividedPerPage");
         }

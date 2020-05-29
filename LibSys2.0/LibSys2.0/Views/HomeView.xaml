@@ -47,13 +47,14 @@
         <!--#endregion-->
 
         <!--SearchBox stuff-->
-        <StackPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Vertical">
+        <StackPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Vertical" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 10, 0 ,0">
                 <StackPanel  Orientation="Horizontal" >
                     <!--<TextBlock Text="Sök: " FontSize="15" FontWeight="DemiBold" Margin="0 0 0 0"/>-->
                     <TextBox x:Name="SearchField" Text="{Binding SearchFieldText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Margin="0 0 0 0" MinWidth="200" MaxWidth="500" FontSize="15"/>
                     <Button Name="SearchButton" Command="{Binding SearchCommand}" CommandParameter="{Binding Path=Text, ElementName=SearchField}" Content="{materialDesign:PackIcon Search}"
-                            ToolTip="Search" materialDesign:ButtonAssist.CornerRadius="30" Width="35" Height="35" Padding="1"/>
+                            ToolTip="Search" materialDesign:ButtonAssist.CornerRadius="30" Width="35" Height="35" Padding="1"
+                            Foreground="{StaticResource SecondaryBrush}"/>
                 </StackPanel>
                 <!--AutoComplete-->
                 <StackPanel>
@@ -78,13 +79,23 @@
         <!--<StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,0,0,60" HorizontalAlignment="Center" >-->
 
         <!--Counter-->
-        <StackPanel Grid.Column="2" Grid.Row="1" Margin="0 0 30 0">
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="0 0 0 0" HorizontalAlignment="Center">
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ShowSearchResults}" Value="true">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
             <WrapPanel>
-                <TextBlock Text="Your search returned " FontSize="10"/>
+                <TextBlock Text="Your search returned " FontSize="10" />
                 <TextBlock Text="{Binding SearchResultCount, FallbackValue='[0]'}" FontSize="10"/>
                 <TextBlock Text=" results" FontSize="10"/>
             </WrapPanel>
-            <TextBlock FontSize="20" Padding="16" TextDecorations="underline">
+            <TextBlock FontSize="20" Padding="16" TextDecorations="underline" >
                 <Run Text="VISAR"/>
                 <Run Text="{Binding ResultsPerPage,Mode=OneWay,FallbackValue='[0]'}"/>
                 <Run Text="AV"/>
@@ -94,7 +105,7 @@
 
 
         <!--#region Search Results -->
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,20,0,60" HorizontalAlignment="Center">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="1" Margin="0, 0, 0, 0" HorizontalAlignment="Center">
             <Viewbox>
                 <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding PaginationList.View, UpdateSourceTrigger=PropertyChanged}" MinHeight="300" >
                     <ItemsControl.ItemTemplate>
@@ -188,7 +199,7 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center"
-                    Margin="0,-30,0,0">
+                    Margin="0, 0,0,0">
 
             <Button Content="{materialDesign:PackIcon Kind=ArrowLeft,Size=20}" 
                     Background="Transparent"
@@ -213,5 +224,10 @@
             </ComboBox>
 
         </StackPanel>
+
+        <Button Grid.Column="4" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                Content="{materialDesign:PackIcon Kind=Help,Size=25}" Padding="0.5" Width="50" Height="50"
+                materialDesign:ButtonAssist.CornerRadius="30"
+                Foreground="{StaticResource SecondaryBrush}" Margin="5 0 40 -10"/>
     </Grid>
 </UserControl>

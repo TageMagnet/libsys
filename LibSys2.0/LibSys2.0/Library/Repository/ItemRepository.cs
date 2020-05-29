@@ -396,7 +396,7 @@ namespace Library
             LEFT JOIN members ON
             	members.member_id = item_subscriptions.ref_member_id
             WHERE
-            	members.member_id = 1
+            	members.member_id = @memberID
             	AND item_subscriptions.status = 1
             LIMIT 
                 @limit;
