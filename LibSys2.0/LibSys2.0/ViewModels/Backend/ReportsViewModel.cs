@@ -11,7 +11,7 @@ namespace LibrarySystem.ViewModels.Backend
     public class ReportsViewModel: BaseViewModel
     {
         #region Properties
-        public List<OverViewItem> Items { get; set; } = new List<OverViewItem>();
+       
 
         public ItemRepository itemRepo = new ItemRepository();
 
@@ -22,7 +22,7 @@ namespace LibrarySystem.ViewModels.Backend
         #endregion
         // Empty for no construtor arguments
         public ReportsViewModel() {
-            ReadOtherData();
+            
         }
         public ReportsViewModel(Member member)
         {
@@ -35,10 +35,7 @@ namespace LibrarySystem.ViewModels.Backend
             await GetData(member);
         }
 
-        public async void ReadOtherData()
-        {
-            await GetOtherData();
-        }
+       
 
         public async Task GetData(Member member)
         {
@@ -78,14 +75,6 @@ namespace LibrarySystem.ViewModels.Backend
             }
         }
 
-        public async Task GetOtherData()
-        {
-            foreach (var item in await itemRepo.ReadAllItemsWithStatus2(1, 25))
-            {
-                // todo; incorrect. Used as a placeholder for now
-                item.loaned_at = Etc.Utilities.RandomDate();
-                Items.Add(item);
-            }
-        }
+        
     }
 }

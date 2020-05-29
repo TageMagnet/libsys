@@ -104,17 +104,11 @@
                     </Button.Triggers>
                 </Button>
 
-                <Button Content="Borttagna Böcker" Width="140" 
+                <Button Content="Rapport böcker" Width="140" 
                         HorizontalAlignment="Center" Foreground="#F9AA33" Margin="5" 
                         Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                         AncestorType={x:Type UserControl}}, Path=DataContext.BookReportCommand}"/>
 
-                <Button
-                        Content="Rapporter" Width="140" Margin="5"
-                        HorizontalAlignment="Center" Foreground="#F9AA33" 
-                        Command="{Binding RelativeSource={RelativeSource FindAncestor,
-                        AncestorType={x:Type UserControl}}, Path=DataContext.GoToReportPageCommand}"/>
-                
             </StackPanel>
         </Grid>
         <!--#endregion-->

@@ -1,5 +1,6 @@
 ﻿using K4os.Compression.LZ4.Internal;
 using Library;
+using LibrarySystem.Etc;
 using LibrarySystem.Models;
 using LibrarySystem.ViewModels;
 using LibrarySystem.ViewModels.Backend;
@@ -202,6 +203,12 @@ namespace LibrarySystem
             if (NewMember.email == null)
             {
                 MessageBox.Show("Lägg till E-Post");
+                return;
+            }
+
+            if (Utilities.IsValidEmail(NewMember.email) == false)
+            {
+                MessageBox.Show("Fel format på email!");
                 return;
             }
 
