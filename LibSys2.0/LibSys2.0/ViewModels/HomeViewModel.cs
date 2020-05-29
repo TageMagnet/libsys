@@ -29,11 +29,13 @@ namespace LibrarySystem.ViewModels
         /// <summary>Whenever loan button is hit by user</summary>
         public RelayCommandWithParameters LoanBookCommand { get; set; }
 
-        /// <summary>Page++</summary>
+        /// <summary>Pagination decrement</summary>
         public RelayCommand PreviousPage { get; set; }
 
-        /// <summaryPage--</summary>
+        /// <summary>Pagination increment</summary>
         public RelayCommand NextPage { get; set; }
+
+        /// <summary>Starts up a browser and visits download link</summary>
         public RelayCommandWithParameters GoToBrowserLink { get; set; }
 
         /// <summary>
@@ -78,6 +80,24 @@ namespace LibrarySystem.ViewModels
                 PaginationList.View.Refresh();
             }
         }
+
+        /// <summary>Row per page counter MIN</summary>
+        public int CurrentPageMin { get => (ResultsPerPage * CurrentSearchPage) - ResultsPerPage + 1; }
+
+        /// <summary>Row per page counter MAX</summary>
+        public int CurrentPageMax { 
+            get{
+                // Safe return if triggered before search has been done
+                if (SearchResultCount < 1)
+                    return 0;
+                // Special remainder logic for the last page
+                // e.g. total is 9 results, 5 first page and 4 last page
+                int a = (ResultsPerPage * CurrentSearchPage);
+                int b = a % SearchResultCount;
+                return b < a ? a - b : a;
+            }
+        }
+
         /// <summary>
         /// ...
         /// </summary>
@@ -123,7 +143,6 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public ObservableCollection<string> AutoCompleteList { get; set; } = new ObservableCollection<string>();
 
-
         #endregion
 
         /// <summary>
@@ -139,24 +158,34 @@ namespace LibrarySystem.ViewModels
             // Previous page on the pagination
             PreviousPage = new RelayCommand(() =>
             {
-                CurrentSearchPage--;
+                // Check to avoid going negative
+                CurrentSearchPage-= CurrentSearchPage > 1 ? 1 : 0;
                 PaginationList.View.Refresh();
+                NotifyPropertyChanged(nameof(CurrentSearchPage));
+                NotifyPropertyChanged(nameof(CurrentPageMin));
+                NotifyPropertyChanged(nameof(CurrentPageMax));
             });
             // Next page on the pagination
             NextPage = new RelayCommand(() =>
             {
-                CurrentSearchPage++;
+                // Disabled at last pagination page
+                CurrentSearchPage+= CurrentSearchPage < ResultsDividedPerPage ? 1 : 0;
                 PaginationList.View.Refresh();
+                NotifyPropertyChanged(nameof(CurrentSearchPage));
+                NotifyPropertyChanged(nameof(CurrentPageMin));
+                NotifyPropertyChanged(nameof(CurrentPageMax));
             });
 
             // Using the default browser, go to specified adress
             GoToBrowserLink = new RelayCommandWithParameters((param) =>
             {
+                // Logged in variable required
                 if (!Globals.IsLoggedIn)
                 {
                     MessageBox.Show("Du behöver först logga in eller skapa ett konto för att låna böcker");
                     return;
                 }
+                // Card blockage check
                 if (Globals.LoggedInUser.cardstatus != 1)
                 {
                     MessageBox.Show("Ditt kort är spärrat. Kontakta en bibliotikarie");
@@ -168,8 +197,8 @@ namespace LibrarySystem.ViewModels
                     MessageBox.Show("Invalid URL för nedladdning, kontakta adminstratör");
                     return;
                 }
-                    
 
+                // Like starting a program through command shell
                 var psi = new System.Diagnostics.ProcessStartInfo() { FileName = param.ToString(), UseShellExecute = true };
                 System.Diagnostics.Process.Start(psi);
             });
@@ -290,7 +319,7 @@ namespace LibrarySystem.ViewModels
         }
 
         /// <summary>
-        /// After hitting search button, loads observable collections with data and notifies the XAML
+        /// After hitting search button, insert data into observable collections and notifies about changes via propertychanged
         /// </summary>
         private async Task LoadSearchResults(string arg)
         {
@@ -340,10 +369,12 @@ namespace LibrarySystem.ViewModels
             NotifyPropertyChanged("ShowSearchResults");
             NotifyPropertyChanged("SearchResultCount");
             NotifyPropertyChanged("ResultsDividedPerPage");
+            NotifyPropertyChanged("CurrentPageMin");
+            NotifyPropertyChanged("CurrentPageMax");
         }
 
         /// <summary>
-        /// 
+        /// To allows for pagination. Max allowed results per page == <see cref="ResultsPerPage"></see>
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

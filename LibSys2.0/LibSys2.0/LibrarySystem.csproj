@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove="Assets\email-template-register.html" />
+    <None Remove="Assets\lemon-placeholder.jpg" />
     <None Remove="Assets\LibSysWhite.png" />
   </ItemGroup>
 
@@ -23,6 +24,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\email-template-register.html" />
+    <Resource Include="Assets\lemon-placeholder.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\LibSysWhite.png" />
   </ItemGroup>
 
