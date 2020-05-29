@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
+using System.Threading;
 
 namespace LibrarySystem
 {
@@ -528,11 +529,15 @@ namespace LibrarySystem
 
         public async Task LoadBooks(int limiter)
         {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             Items.Clear();
             foreach (var item in await itemRepo.ReadAllItemsWithStatus(ActiveFilter, limiter))
             {
                 Items.Add(item);
             }
+            watch.Stop();
+            var result = watch.ElapsedMilliseconds;
+            MessageBox.Show((result).ToString());
         }
 
         /// <summary>Reloads all the Authors from DB</summary>
