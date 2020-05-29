@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibrarySystem.Views;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +17,14 @@ namespace LibrarySystem.ViewModels.Backend
         public string GeneralInfo { get; set; }
         #endregion
 
+        public RelayCommand CloseWindowCommand { get; set; }
+
         public SiteInfoViewModel()
         {
             GetAllInfo();
+            CloseWindowCommand = new RelayCommand(async () => await CloseWindowMethod());
         }
+
 
         public async void GetAllInfo()
         {
@@ -41,6 +46,12 @@ namespace LibrarySystem.ViewModels.Backend
         public async Task GetGeneralInfo()
         {
             GeneralInfo = "Har du frågor om registrering eller boklån, hör av dig till närmsta bibliotekarie.";
+        }
+
+        private async Task CloseWindowMethod()
+        {
+            var infoView = new SiteInfoView();
+            infoView.Close();
         }
     }
 }
