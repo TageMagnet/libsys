@@ -81,7 +81,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1">
-                <TextBlock Text="todo; lägg detta någon annanstans" FontSize="8"/>
+                <!--<TextBlock Text="todo; lägg detta någon annanstans" FontSize="8"/>-->
                 <Label  Content="Filtrera Författare" Target="{Binding ElementName=AuthorFilterText}" FontSize="12" />
                 <TextBox x:Name="AuthorFilterText"  Text="{Binding AddBookAuthorSearch, UpdateSourceTrigger=PropertyChanged, FallbackValue=''}"/>
 
