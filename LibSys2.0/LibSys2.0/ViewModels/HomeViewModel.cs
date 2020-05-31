@@ -19,6 +19,14 @@ namespace LibrarySystem.ViewModels
         #region Properties
         private ItemRepository itemRepository = new ItemRepository();
 
+        /// <summary>
+        /// Used for data-triggers
+        /// </summary>
+        public string State { get; set; } = "initial";
+
+        /// <summary>Animation after search action</summary>
+        public RelayCommandWithParameters TestCommand { get; set; }
+
         /// <summary>Search for book using string from search-field</summary>
         public RelayCommandWithParameters SearchCommand { get; set; }
 
@@ -37,7 +45,9 @@ namespace LibrarySystem.ViewModels
         /// <summary>Pagination increment</summary>
         public RelayCommand NextPage { get; set; }
 
-        /// <summary>Starts up a browser and visits download link</summary>
+        /// <summary>
+        /// Starts up a browser and visits download link
+        /// </summary>
         public RelayCommandWithParameters GoToBrowserLink { get; set; }
         public RelayCommand GotoInfoCommand { get; set; }
 
@@ -46,6 +56,9 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public ObservableCollection<SearchItem> SearchResults { get; set; } = new ObservableCollection<SearchItem>();
 
+        /// <summary>
+        /// Used as trigger to hide counters
+        /// </summary>
         public bool ShowSearchResults { get; set; } = false;
 
         /// <summary>
@@ -88,8 +101,10 @@ namespace LibrarySystem.ViewModels
         public int CurrentPageMin { get => (ResultsPerPage * CurrentSearchPage) - ResultsPerPage + 1; }
 
         /// <summary>Row per page counter MAX</summary>
-        public int CurrentPageMax { 
-            get{
+        public int CurrentPageMax
+        {
+            get
+            {
                 // Safe return if triggered before search has been done
                 if (SearchResultCount < 1)
                     return 0;
@@ -137,9 +152,19 @@ namespace LibrarySystem.ViewModels
                     LoadAutoCompleteResults();
 
                 // Notify about change
-                OnPropertyChanged("SearchFieldText");
+                OnPropertyChanged(nameof(SearchFieldText));
             }
         }
+
+        /// <summary>
+        /// ...
+        /// </summary>
+        public int ColumnSearchBar { get; set; } = 1;
+
+        /// <summary>
+        /// ...
+        /// </summary>
+        public int RowSearchBar { get; set; } = 2;
 
         /// <summary>
         /// Sets when x:Name SearchField is filled in, limited to 2 for now
@@ -153,7 +178,7 @@ namespace LibrarySystem.ViewModels
         /// </summary>
         public HomeViewModel()
         {
-            // Note. Paginationlist is acting as a proxxy for SearchResults
+            // Note. Paginationlist is acting as a proxy for SearchResults
             // While SearchResults contains the actual data, PaginationList is like a facet controlling the output
             PaginationList.Source = SearchResults;
             PaginationList.Filter += new FilterEventHandler(ViewFilter);
@@ -162,7 +187,7 @@ namespace LibrarySystem.ViewModels
             PreviousPage = new RelayCommand(() =>
             {
                 // Check to avoid going negative
-                CurrentSearchPage-= CurrentSearchPage > 1 ? 1 : 0;
+                CurrentSearchPage -= CurrentSearchPage > 1 ? 1 : 0;
                 PaginationList.View.Refresh();
                 NotifyPropertyChanged(nameof(CurrentSearchPage));
                 NotifyPropertyChanged(nameof(CurrentPageMin));
@@ -172,7 +197,7 @@ namespace LibrarySystem.ViewModels
             NextPage = new RelayCommand(() =>
             {
                 // Disabled at last pagination page
-                CurrentSearchPage+= CurrentSearchPage < ResultsDividedPerPage ? 1 : 0;
+                CurrentSearchPage += CurrentSearchPage < ResultsDividedPerPage ? 1 : 0;
                 PaginationList.View.Refresh();
                 NotifyPropertyChanged(nameof(CurrentSearchPage));
                 NotifyPropertyChanged(nameof(CurrentPageMin));
@@ -206,19 +231,32 @@ namespace LibrarySystem.ViewModels
                 System.Diagnostics.Process.Start(psi);
             });
 
-            SearchCommand = new RelayCommandWithParameters(async (param) => await SearchCommandAction((string)param));
+            //todo; not in use. remove
             SetSearchColumn = new RelayCommandWithParameters((param) =>
             {
                 SearchColumn = (string)param;
             });
+
+            SearchCommand = new RelayCommandWithParameters(async (param) =>
+            {
+                await SearchCommandAction((string)param);
+                TryRunAnimation();
+            });
+
             PasteToSearchBox = new RelayCommandWithParameters(async (param) =>
             {
+                // Paste value
                 SearchFieldText = (string)param;
-                await SearchCommandAction(SearchFieldText);
+                // Clear autocomplete suggestion box
                 AutoCompleteList.Clear();
+                await SearchCommandAction(SearchFieldText);
+                TryRunAnimation();
             });
+
             LoanBookCommand = new RelayCommandWithParameters(async (param) => await LoanBook((SearchItem)param));
+
             GotoInfoCommand = new RelayCommand(async () => await GotoInfoMethod());
+
         }
 
         /// <summary>
@@ -279,8 +317,6 @@ namespace LibrarySystem.ViewModels
             // Clear old search
             SearchResults.Clear();
             CurrentSearchPage = 1;
-
-
 
             // Load new
             await LoadSearchResults(arg);
@@ -370,11 +406,11 @@ namespace LibrarySystem.ViewModels
             }
 
             // Notify the counters
-            NotifyPropertyChanged("ShowSearchResults");
-            NotifyPropertyChanged("SearchResultCount");
-            NotifyPropertyChanged("ResultsDividedPerPage");
-            NotifyPropertyChanged("CurrentPageMin");
-            NotifyPropertyChanged("CurrentPageMax");
+            NotifyPropertyChanged(nameof(ShowSearchResults));
+            NotifyPropertyChanged(nameof(SearchResultCount));
+            NotifyPropertyChanged(nameof(ResultsDividedPerPage));
+            NotifyPropertyChanged(nameof(CurrentPageMin));
+            NotifyPropertyChanged(nameof(CurrentPageMax));
         }
 
         /// <summary>
@@ -397,6 +433,7 @@ namespace LibrarySystem.ViewModels
                 e.Accepted = false;
             }
         }
+
         /// <summary>
         /// Method to open up Site Info-window
         /// </summary>
@@ -406,6 +443,20 @@ namespace LibrarySystem.ViewModels
             var infoView = new SiteInfoView();
             infoView.DataContext = new SiteInfoViewModel();
             infoView.ShowDialog();
+        }
+
+        private async void TryRunAnimation()
+        {
+            // Break if already searched once, searchpanel is at top position
+            if (State == "search")
+                return;
+            // Allow animation to catch up
+            Task delay = Task.Delay(300);
+            await delay;
+            // Jump element one row up 
+            if (RowSearchBar != 1)
+                RowSearchBar = 1;
+            State = "search";
         }
     }
 }

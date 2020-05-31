@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -23,6 +24,31 @@ namespace LibrarySystem.Views
         {
             InitializeComponent();
             this.DataContext = new HomeViewModel();
+        }
+
+
+        /// <summary>
+        /// <para>##########################</para>
+        /// <para>##########################</para>
+        /// <para>##########################</para>
+        /// 
+        /// Breaking MVVM, could not figure how to make an storyboard animation only run once through pure XAML.
+        /// 
+        /// <para>##########################</para>
+        /// <para>##########################</para>
+        /// <para>##########################</para>
+        /// </summary>
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+
+            // Disable button.triggers
+            Application.Current.Dispatcher.Invoke(async () =>
+            {
+                Task delay = Task.Delay(500);
+                await delay;
+                button.Triggers.Clear();
+            });
         }
     }
 }

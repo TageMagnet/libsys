@@ -50,4 +50,20 @@
 
     </Style>
 
+    <Style x:Key="TextExtraSmallLabel" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+    <Style x:Key="TextSmallLabel" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+    <Style x:Key="TextNormalLabel" TargetType="{x:Type Label}" >
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+    <Style x:Key="TextLargeLabel" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="17"/>
+    </Style>
+    <Style x:Key="TextExtraLargeLabel" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+
 </ResourceDictionary>

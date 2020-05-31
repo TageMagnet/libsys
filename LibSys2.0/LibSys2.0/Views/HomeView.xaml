@@ -15,7 +15,7 @@
         <converters:PropertyControlAffection x:Key="PropertyControl"/>
 
         <BitmapImage x:Key="DefaultImage" UriSource="/LibrarySystem;component/Assets/lemon-placeholder.jpg" />
-        
+
         <Style x:Key="CustomButton" TargetType="Button">
             <Setter Property="Padding" Value="4,4"/>
             <Setter Property="Margin" Value="0"/>
@@ -28,39 +28,99 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+
+        <Storyboard x:Key="OnSearchAction">
+            <!--<ColorAnimation Storyboard.TargetName="SearchField" Storyboard.TargetProperty="(Background)" 
+                            From="#" To="Yello">
+            </ColorAnimation>-->
+            <!--<DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="SearchBarLabelTransform" Storyboard.TargetProperty="(ScaleX)" From="1" To="0.9">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="2" EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>-->
+            <DoubleAnimation Duration="0:0:0.9" Storyboard.TargetName="SearchBarLabel" Storyboard.TargetProperty="(Opacity)" From="1" To="0">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="SearchBarLabelTransform" Storyboard.TargetProperty="(ScaleY)" From="1" To="0.9">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="2" EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="SearchButtonTransform" Storyboard.TargetProperty="(ScaleX)" From="1" To="0.8">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="2" EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="0:0:0.5" Storyboard.TargetName="SearchButtonTransform" Storyboard.TargetProperty="(ScaleY)" From="1" To="0.8">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="2" EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
     </UserControl.Resources>
 
     <Grid>
-
-        <!--#region Grid Definitions-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="0.1*"/>
+            <!--Top filler-->
+            <RowDefinition Height="5"/>
+            <!--Searchbar small after action, Hard Pixel Height -->
+            <RowDefinition Height="108"/>
+            <!--Searchresults-->
+            <RowDefinition Height="7*"/>
+            <!--Pagination-->
+            <RowDefinition Height="1*"/>
+            <!--Bottom filler-->
+            <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
-        <!--#endregion-->
 
-        <!--SearchBox stuff-->
-        <StackPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Vertical" HorizontalAlignment="Center">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 10, 0 ,0">
-                <StackPanel  Orientation="Horizontal" >
-                    <!--<TextBlock Text="Sök: " FontSize="15" FontWeight="DemiBold" Margin="0 0 0 0"/>-->
+        <!--#region SEARCH_PANEL -->
+        <StackPanel Grid.Column="{Binding ColumnSearchBar, FallbackValue='1', UpdateSourceTrigger=PropertyChanged}" 
+                    Grid.Row="{Binding RowSearchBar, FallbackValue='2', UpdateSourceTrigger=PropertyChanged}"
+                    HorizontalAlignment="Center">
+            <StackPanel>
+
+                <!--Disappearing text-->
+                <Label x:Name="SearchBarLabel" Content="Sök i vårat bibliotek"  HorizontalAlignment="Center" Style="{StaticResource TextLargeLabel}"/>
+                          
+                <!--Margin left to counterweight button width-->
+                <StackPanel x:Name="SearchBarContainer" Orientation="Horizontal" Margin="26,0,0,0">
                     <TextBox x:Name="SearchField" Text="{Binding SearchFieldText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                             Height="30" Margin="0 0 0 0" MinWidth="200" MaxWidth="500" FontSize="15"/>
+                             Height="30" Margin="0 0 0 0" MinWidth="200" MaxWidth="500" FontSize="15">
+                        <TextBox.RenderTransform>
+                            <ScaleTransform x:Name="SearchBarLabelTransform" ScaleX="1" ScaleY="1" />
+                        </TextBox.RenderTransform>
+                    </TextBox>
+
                     <Button Name="SearchButton" Command="{Binding SearchCommand}" 
-                            CommandParameter="{Binding Path=Text, ElementName=SearchField}" 
-                            Content="{materialDesign:PackIcon Search}"
-                            ToolTip="Search" materialDesign:ButtonAssist.CornerRadius="30" Width="35" Height="35" Padding="1"
-                            Foreground="{StaticResource SecondaryBrush}"/>
+                            CommandParameter="{Binding Path=Text, ElementName=SearchField}"          
+                            ToolTip="Search" materialDesign:ButtonAssist.CornerRadius="30" Width="45" Height="45" Padding="1"
+                            Foreground="{StaticResource SecondaryBrush}" 
+                            Click="SearchButton_Click">
+                        <Button.Content>
+                            <materialDesign:PackIcon Kind="Search" Width="26" Height="26">
+
+                            </materialDesign:PackIcon>
+                        </Button.Content>
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard  x:Name="xxx" Storyboard="{StaticResource OnSearchAction}"/>
+                            </EventTrigger>
+                        </Button.Triggers>
+                        <Button.RenderTransform>
+                            <ScaleTransform x:Name="SearchButtonTransform" ScaleX="1" ScaleY="1" />
+                        </Button.RenderTransform>
+                    </Button>
                 </StackPanel>
+
                 <!--AutoComplete-->
                 <StackPanel>
                     <ListView ItemsSource="{Binding AutoCompleteList}">
@@ -69,8 +129,10 @@
                                 <WrapPanel>
                                     <TextBlock Text="{Binding}">
                                         <TextBlock.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick" Command="{Binding Path=DataContext.PasteToSearchBox, ElementName=SearchField}"
-                                                          CommandParameter="{Binding}"></MouseBinding>
+                                            <MouseBinding MouseAction="LeftClick" 
+                                                          Command="{Binding Path=DataContext.PasteToSearchBox, ElementName=SearchField}"
+                                                          CommandParameter="{Binding}">
+                                            </MouseBinding>
                                         </TextBlock.InputBindings>
                                     </TextBlock>
                                 </WrapPanel>
@@ -79,41 +141,40 @@
                     </ListView>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
 
-        <!--SearchResults-->
-        <!--<StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,0,0,60" HorizontalAlignment="Center" >-->
-
-        <!--Counter-->
-        <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="0 0 0 0" HorizontalAlignment="Center">
-            <StackPanel.Style>
-                <Style TargetType="{x:Type StackPanel}">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ShowSearchResults}" Value="true">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Style>
-            <WrapPanel>
+            <!--#region SEARCH_COUNTER -->
+            <StackPanel HorizontalAlignment="Center">
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ShowSearchResults}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <!--<WrapPanel>
                 <TextBlock Text="Your search returned " FontSize="10" />
                 <TextBlock Text="{Binding SearchResultCount, FallbackValue='[0]'}" FontSize="10"/>
                 <TextBlock Text=" results" FontSize="10"/>
-            </WrapPanel>
-            <TextBlock FontSize="20" Padding="16" TextDecorations="underline"  HorizontalAlignment="Center">
+            </WrapPanel>-->
+                <TextBlock FontSize="16" HorizontalAlignment="Center" Foreground="#dd090909">
                 <Run Text="Resultat"/>
                 <Run Text="{Binding CurrentPageMin, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='[?]'}"/>
                 <Run Text="-"/>
                 <Run Text="{Binding CurrentPageMax, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='[?]'}"/>
                 <Run Text="av"/>
-                <Run Text="{Binding SearchResultCount,Mode=OneWay, FallbackValue='[0]'}"/>
-            </TextBlock>
+                <Run Text="{Binding SearchResultCount, Mode=OneWay, FallbackValue='[0]'}"/>
+                </TextBlock>
+            </StackPanel>
+            <!--#endregion-->
+
         </StackPanel>
+        <!--#endregion-->
 
-
-        <!--#region Search Results -->
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="1" Margin="0, 0, 0, 0" HorizontalAlignment="Center">
+        <!--#region SEARCH_RESULTS -->
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="2"  Margin="0, 0, 0, 0" HorizontalAlignment="Center">
             <Viewbox>
                 <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding PaginationList.View, UpdateSourceTrigger=PropertyChanged}" MinHeight="300" >
                     <ItemsControl.ItemTemplate>
@@ -139,6 +200,7 @@
                                         <Image>
                                             <Image.Source>
                                                 <Binding Path="cover" >
+                                          
                                                     <!--Null fallback to default value, (which is a lemon)-->
                                                     <Binding.TargetNullValue>
                                                         <ImageSource>/Assets/lemon-placeholder.jpg</ImageSource>
@@ -184,17 +246,21 @@
                                             <Run Text="{Binding Total, FallbackValue='?'}"/>
                                         </TextBlock>
 
-                                        <!--
+                              
+                                                    <!--
                                             todo; Placeholder för antal tillgängliga böcker
                                             Text ska vara DuplicateCounter - Antal utlånade
                                         -->
+                                                    <!--
                                         <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="2,0" FontSize="10">
                                             <Run Text="{Binding Available, FallbackValue='?'}"/>
                                         </TextBlock>
 
-                                        <!--
+                                        -->
+                                                    <!--
                                             todo; Placeholder => antal utlånade från database
                                         -->
+                                                 
                                         <TextBlock VerticalAlignment="Center" Text="Utlånade: " Margin="2,0" FontSize="10">
                                             <Run Text="{Binding UnAvailable, FallbackValue='?'}"/>
                                         </TextBlock>
@@ -209,9 +275,243 @@
         </ScrollViewer>
         <!--#endregion-->
 
-        <!--</StackPanel>-->
+        <!--#region PAGINATION_CONTROLS -->
+        <StackPanel Grid.Row="3" Grid.Column="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                    Margin="0, 0,0,0">
 
-        <!--#region Pages -->
+            <Button Content="{materialDesign:PackIcon Kind=ArrowLeft,Size=16}" 
+                    Background="Transparent"
+                    Padding="6,4"
+                    Command="{Binding PreviousPage}"
+                    />
+
+            <TextBlock FontSize="20" Padding="12,0" VerticalAlignment="Center">
+                <Run Text="{Binding CurrentSearchPage, UpdateSourceTrigger=PropertyChanged, FallbackValue='?'}"/>
+                <Span>/</Span>
+                <Run Text="{Binding ResultsDividedPerPage, UpdateSourceTrigger=PropertyChanged, FallbackValue='?'}"/>
+            </TextBlock>
+
+            <Button Content="{materialDesign:PackIcon Kind=ArrowRight,Size=16}" 
+                    Background="Transparent"
+                    Padding="6,4"
+                    Command="{Binding NextPage}"
+                    />
+            <ComboBox Padding="5" Margin="5"
+                ItemsSource="{Binding ResultPerPageOptions}"
+                SelectedValue="{Binding ResultsPerPage, UpdateSourceTrigger=PropertyChanged}">
+            </ComboBox>
+
+        </StackPanel>
+        <!--#endregion-->
+
+    </Grid>
+
+
+    <!--<Grid>
+
+        -->
+    <!--#region Grid Definitions-->
+    <!--
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        -->
+    <!--#endregion-->
+
+    <!--SearchBox stuff-->
+    <!--
+        <StackPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Vertical" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 10, 0 ,0">
+                <StackPanel  Orientation="Horizontal" >
+                    -->
+    <!--<TextBlock Text="Sök: " FontSize="15" FontWeight="DemiBold" Margin="0 0 0 0"/>-->
+    <!--
+                    <TextBox x:Name="SearchField" Text="{Binding SearchFieldText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             Height="30" Margin="0 0 0 0" MinWidth="200" MaxWidth="500" FontSize="15"/>
+                    <Button Name="SearchButton" Command="{Binding SearchCommand}" 
+                            CommandParameter="{Binding Path=Text, ElementName=SearchField}" 
+                            Content="{materialDesign:PackIcon Search}"
+                            ToolTip="Search" materialDesign:ButtonAssist.CornerRadius="30" Width="35" Height="35" Padding="1"
+                            Foreground="{StaticResource SecondaryBrush}"/>
+                </StackPanel>
+                -->
+    <!--AutoComplete-->
+    <!--
+                <StackPanel>
+                    <ListView ItemsSource="{Binding AutoCompleteList}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock Text="{Binding}">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding Path=DataContext.PasteToSearchBox, ElementName=SearchField}"
+                                                          CommandParameter="{Binding}"></MouseBinding>
+                                        </TextBlock.InputBindings>
+                                    </TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        -->
+    <!--SearchResults-->
+    <!--<StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0,0,0,60" HorizontalAlignment="Center" >-->
+
+    <!--Counter-->
+    <!--
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="0 0 0 0" HorizontalAlignment="Center">
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ShowSearchResults}" Value="true">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <WrapPanel>
+                <TextBlock Text="Your search returned " FontSize="10" />
+                <TextBlock Text="{Binding SearchResultCount, FallbackValue='[0]'}" FontSize="10"/>
+                <TextBlock Text=" results" FontSize="10"/>
+            </WrapPanel>
+            <TextBlock FontSize="20" Padding="16" TextDecorations="underline"  HorizontalAlignment="Center">
+                <Run Text="Resultat"/>
+                <Run Text="{Binding CurrentPageMin, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='[?]'}"/>
+                <Run Text="-"/>
+                <Run Text="{Binding CurrentPageMax, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='[?]'}"/>
+                <Run Text="av"/>
+                <Run Text="{Binding SearchResultCount,Mode=OneWay, FallbackValue='[0]'}"/>
+            </TextBlock>
+        </StackPanel>
+
+
+        -->
+    <!--#region Search Results -->
+    <!--
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="1" Margin="0, 0, 0, 0" HorizontalAlignment="Center">
+            <Viewbox>
+                <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding PaginationList.View, UpdateSourceTrigger=PropertyChanged}" MinHeight="300" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5" Padding="10" MaxWidth="800" Height="170"  Width="500" x:Name="CardResult">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="0.3*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Viewbox Grid.Column="0" Grid.RowSpan="4" Width="100">
+                                        <Image>
+                                            <Image.Source>
+                                                <Binding Path="cover" >
+                                                    -->
+    <!--Null fallback to default value, (which is a lemon)-->
+    <!--
+                                                    <Binding.TargetNullValue>
+                                                        <ImageSource>/Assets/lemon-placeholder.jpg</ImageSource>
+                                                    </Binding.TargetNullValue>
+                                                </Binding>
+                                            </Image.Source>
+                                        </Image>
+                                    </Viewbox>
+
+                                    <TextBlock Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="0" Text="{Binding title}" FontSize="18"/>
+
+                                    <StackPanel Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Margin="-3 -24 0 0" Orientation="Vertical" VerticalAlignment="Top">
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 -10 0 0">
+                                            <Label Content="Av: " FontSize="14" VerticalAlignment="Top" Margin="0 5 0 0" FontWeight="DemiBold"/>
+                                            <TextBlock Text="{Binding Author.firstname}" FontSize="14" FontWeight="Light" Margin="22 5 5 0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Author.surname}" FontSize="14" FontWeight="Light" VerticalAlignment="Center" Margin="0 5 0 0"/>
+
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 -12 0 0">
+                                            <Label Content="Genre: " FontSize="14" FontWeight="DemiBold" Margin="0 0 0 0"/>
+                                            <TextBlock Text="{Binding category}" FontSize="14" FontWeight="Light" Margin="0 5 5 0"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" Text="{Binding description}"  TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Margin="0 10 0 0"/>
+
+                                    <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="3" VerticalAlignment="Bottom">
+
+                                        <Button x:Name="w"  Content="Låna" Command="{Binding Path=DataContext.LoanBookCommand, ElementName=SearchResults}" CommandParameter="{Binding}"  Margin="0 0 5 0"/>
+
+                                        <Button x:Name="q"  Content="Ladda ned" Command="{Binding Path=DataContext.GoToBrowserLink, ElementName=SearchResults}" 
+                                                Visibility="{Binding Path=type, Converter={StaticResource PropertyControl}}" 
+                                                CommandParameter="{Binding url}"
+                                                Background="DarkGreen"
+                                                
+                                                />
+                                        
+                                        <TextBlock VerticalAlignment="Center" Margin="4 0 4 0" FontSize="12" Text="{Binding type}"/>
+
+                                        <TextBlock VerticalAlignment="Center" Text="Antal: " Margin="2,0" FontSize="10">
+                                            <Run Text="{Binding Total, FallbackValue='?'}"/>
+                                        </TextBlock>
+
+                                        -->
+    <!--
+                                            todo; Placeholder för antal tillgängliga böcker
+                                            Text ska vara DuplicateCounter - Antal utlånade
+                                        -->
+    <!--
+                                        <TextBlock VerticalAlignment="Center" Text="Tillgängliga: " Margin="2,0" FontSize="10">
+                                            <Run Text="{Binding Available, FallbackValue='?'}"/>
+                                        </TextBlock>
+
+                                        -->
+    <!--
+                                            todo; Placeholder => antal utlånade från database
+                                        -->
+    <!--
+                                        <TextBlock VerticalAlignment="Center" Text="Utlånade: " Margin="2,0" FontSize="10">
+                                            <Run Text="{Binding UnAvailable, FallbackValue='?'}"/>
+                                        </TextBlock>
+
+                                    </StackPanel>
+                                </Grid>
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Viewbox>
+        </ScrollViewer>
+        -->
+    <!--#endregion-->
+
+    <!--</StackPanel>-->
+
+    <!--#region Pages -->
+    <!--
         <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center" 
@@ -248,5 +548,5 @@
                 materialDesign:ButtonAssist.CornerRadius="30"
                 Foreground="{StaticResource SecondaryBrush}" Margin="5 0 40 -10"/>
 
-    </Grid>
+    </Grid>-->
 </UserControl>
