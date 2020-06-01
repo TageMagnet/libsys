@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySystem.Views"
         mc:Ignorable="d"
-        Title="SiteInfoView" Height="200" Width="600"
+        Title="SiteInfoView" Height="230" Width="600"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
@@ -18,20 +18,20 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Border BorderThickness="3" Padding="10" BorderBrush="{StaticResource SecondaryBrush}">
+    <Border BorderThickness="3" Padding="10" BorderBrush="{StaticResource SecondaryBrush}" >
         <StackPanel>
             <TextBlock Text="Info" Style="{StaticResource TextLarge}" Margin="0 0 0 10"/>
             <!--#region Book Info -->
-            <TextBlock Text="{Binding BookInfo}" Style="{StaticResource TextNormal}"/>
+            <TextBlock Text="{Binding BookInfo}" Style="{StaticResource TextNormal}" Margin="0 0 0 10"/>
 
             <!--#region  Register Info -->
-            <TextBlock Text="{Binding RegisterInfo}" Style="{StaticResource TextNormal}"/>
+            <TextBlock Text="{Binding RegisterInfo}" Style="{StaticResource TextNormal}" Margin="0 0 0 10"/>
 
             <!--#region  General Info -->
-            <TextBlock Text="{Binding GeneralInfo}" Style="{StaticResource TextNormal}" Margin="0 0 0 20"/>
+            <TextBlock Text="{Binding GeneralInfo}" Style="{StaticResource TextNormal}" Margin="0 0 0 20" />
             
             <!-- Close button -->
-            <Button Content="Stäng" IsCancel="True" Width="80" Foreground="{StaticResource SecondaryBrush}"/>
+            <Button Content="Stäng" IsCancel="True" Width="80" Foreground="{StaticResource SecondaryBrush}" Margin="0 0 0 10"/>
         </StackPanel>
     </Border>
 </Window>
