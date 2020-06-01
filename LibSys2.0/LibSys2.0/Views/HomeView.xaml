@@ -154,7 +154,7 @@
         <!--#endregion-->
 
         <!--#region SEARCH_RESULTS -->
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="2"  Margin="0, 0, 0, 0" HorizontalAlignment="Center">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"  Margin="0, 0, 0, 0" HorizontalAlignment="Center" MaxWidth="800">
             <Viewbox>
                 <ItemsControl x:Name="SearchResults" HorizontalContentAlignment="Center" ItemsSource="{Binding PaginationList.View, UpdateSourceTrigger=PropertyChanged}" MinHeight="300" >
                     <ItemsControl.ItemTemplate>
