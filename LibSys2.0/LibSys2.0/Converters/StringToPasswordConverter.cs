@@ -45,6 +45,11 @@ namespace LibrarySystem.Converters
             if (value == null)
                 return null;
 
+            // Copy paste bug fix
+            if (StoredCleanPassword == null)
+                StoredCleanPassword = (string)value;
+
+
             string maskedPassword = (string)value;
             string cleanPassword = "";
             // Indexer for the stored password

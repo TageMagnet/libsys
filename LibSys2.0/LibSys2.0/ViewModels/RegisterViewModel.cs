@@ -12,19 +12,35 @@ namespace LibrarySystem.ViewModels
 {
     public class RegisterViewModel : BaseViewModel
     {
-        #region Properties
+        /// <summary>
+        /// DB connection
+        /// </summary>
         public MemberRepository memberRepo = new MemberRepository();
+
+        /// <summary>
+        /// -//-
+        /// </summary>
         private MiscellaneousRepository miscRepo = new MiscellaneousRepository();
+
+        /// <summary>
+        /// Member model to fill in
+        /// </summary>
         public Member NewMember { get; set; }
+
+        /// <summary>
+        /// Input from <see cref="TextBox">PasswordTextBox</see> text, masked with <see cref="Converters.StringToPasswordConverter"></see> converter
+        /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// Input from <see cref="TextBox">CheckPasswordTextBox</see> text, masked with <see cref="Converters.StringToPasswordConverter"></see> converter
+        /// </summary>
         public string CheckPassword { get; set; }
 
-        #endregion
-
-        #region Commands
+        /// <summary>
+        /// On activate email, runs the input validations with <see cref="MessageBox"></see> result display
+        /// </summary>
         public RelayCommand RegisterCommand { get; set; }
-
-        #endregion
 
         public RegisterViewModel()
         {
@@ -33,9 +49,10 @@ namespace LibrarySystem.ViewModels
             RegisterCommand = new RelayCommand(async() => await RegisterCommandMethod());
         }
 
-
         public async Task RegisterCommandMethod()
         {
+            // A bunt of user input validations, before creating account
+
             if (String.IsNullOrEmpty(NewMember.email))
             {
                 MessageBox.Show("Fyll i email!");
@@ -76,6 +93,13 @@ namespace LibrarySystem.ViewModels
                 Password = "";
                 CheckPassword = "";
                 
+                return;
+            }
+
+            // Check disallowed characters
+            if (System.Text.RegularExpressions.Regex.IsMatch(Password, "[^a-zA-Z0-9 !@#$%^&_]"))
+            {
+                MessageBox.Show("Ditt lösenord innehåller otillåtna tecken. Endast A till Z, 0 till 9 och specialkaraktärer som '!@#$%^&_'");
                 return;
             }
 
