@@ -1,0 +1,57 @@
+:root {
+    --gray:#808080;
+    --light-gray:#cccccc;
+    --white:#f9f9f9;
+    --navy:#001f3f;
+    --blue:#0074D9;
+    --aqua :#7FDBFF;
+    --teal :#39CCCC;
+    --olive :#3D9970;
+    --green :#2ECC40;
+    --lime :#01FF70;
+    --yellow :#FFDC00;  
+    --orange :#FF851B;
+    --red :#FF4136;
+    --maroon :#85144b;
+    --fuchsia :#F012BE;
+    --purple :#B10DC9;
+    --black:#111111;
+}
+
+* {
+  font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+  font-size: 14pt;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--white);
+  color: var(--gray);
+}
+
+b {
+  font-weight: bold;
+}
+
+table {
+  height: 50%;
+  border: 1px solid var(--gray);
+}
+
+td {
+  text-align: center;
+  padding: 25;
+}
+
+.root {
+  min-height: 100vh;
+  padding: 0.1px;
+}
+
+.lc {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

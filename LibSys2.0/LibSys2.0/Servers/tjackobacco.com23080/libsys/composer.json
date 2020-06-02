@@ -1,0 +1,6 @@
+{
+    "name": "jkb/libsys",
+    "require": {
+        "catfan/medoo": "^1.7"
+    }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "ID": 1,
+    "Name": "Margherita",
+    "Price": 69,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 2,
+    "Name": "Vesuvio",
+    "Price": 75,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 3,
+    "Name": "Hawaii",
+    "Price": 75,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 4,
+    "Name": "Bussola",
+    "Price": 79,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 5,
+    "Name": "Capriocciosa",
+    "Price": 75,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 6,
+    "Name": "Mexicana",
+    "Price": 80,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 7,
+    "Name": "Altonno",
+    "Price": 75,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 8,
+    "Name": "Tropicana",
+    "Price": 99,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 9,
+    "Name": "Pollo",
+    "Price": 85,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 10,
+    "Name": "Kebabpizza",
+    "Price": 85,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 11,
+    "Name": "Indiana",
+    "Price": 85,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 12,
+    "Name": "Mafioso",
+    "Price": 85,
+    "Type": "Pizza"
+  },
+  {
+    "ID": 21,
+    "Name": "Grekisk Sallad",
+    "Price": 77,
+    "Type": "Sallad"
+  },
+  {
+    "ID": 22,
+    "Name": "Kycklingsallad",
+    "Price": 81,
+    "Type": "Sallad"
+  },
+  {
+    "ID": 23,
+    "Name": "Tonfisksallad",
+    "Price": 85,
+    "Type": "Sallad"
+  },
+  {
+    "ID": 31,
+    "Name": "Vatten",
+    "Price": 0,
+    "Type": "Dryck"
+  },
+  {
+    "ID": 32,
+    "Name": "Pepsi",
+    "Price": 15,
+    "Type": "Dryck"
+  },
+  {
+    "ID": 33,
+    "Name": "Hallonsoda",
+    "Price": 14,
+    "Type": "Dryck"
+  },
+  {
+    "ID": 34,
+    "Name": "Åbro 3.5%",
+    "Price": 39,
+    "Type": "Dryck"
+  },
+  {
+    "ID": 35,
+    "Name": "Finsk Frukost 29.9%",
+    "Price": 79,
+    "Type": "Dryck"
+  }
+]

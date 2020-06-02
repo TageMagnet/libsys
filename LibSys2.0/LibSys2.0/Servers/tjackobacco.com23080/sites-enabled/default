@@ -1,0 +1,30 @@
+#D I E T - P I
+# /etc/nginx/sites-available/default
+
+server {
+
+	# port 23080 is the special port on my home router to the world
+
+	listen 23080 default_server;
+	listen [::]:23080 default_server;
+
+	# Added '/public' as the landing folder
+	
+	root /var/www/public;
+	index index.php index.html index.htm index.nginx-debian.html;
+
+	server_name "$hostname";
+
+	include /etc/nginx/sites-dietpi/*.conf;
+
+	location / {
+		try_files $uri $uri/ /index.php?$args;
+		#try_files $uri $uri/ =404;
+	}
+
+	location ~ \.php(?:$|/) {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass php;
+	}
+
+}
