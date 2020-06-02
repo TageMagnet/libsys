@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <Folder Include="AttachedProperties\" />
+    <Folder Include="Servers\" />
     <Folder Include="Views\Extra\" />
   </ItemGroup>
 
