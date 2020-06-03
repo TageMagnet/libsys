@@ -5,115 +5,57 @@ using System.Text;
 namespace LibrarySystem
 {
     /// <summary>
-    /// For validating ISBN numbers
+    /// Validation of ISBN 13-character number
     /// </summary>
-    public struct ISBN
+    public class ISBN
     {
-        // Holder for the user input
-        private string inputcode;
-        // Holder for the calculated sum
-        private int sum;
-        private int checkdigit;
-        /// <summary>Clear string of non-numeric characters</summary>
-        public string GetCleanedCodeString => System.Text.RegularExpressions.Regex.Replace(inputcode, "[^0-9]", "");
-        /// <summary>Is 12 or 13 characters/digits</summary>
-        public bool IsCorrectLength => GetCleanedCodeString.Length == 12 || GetCleanedCodeString.Length == 13 ? true : false;
-        /// <summary>0 means code is invalid, other numbers between 1-9 are okay</summary>
-        public bool IsValidCheckDigit => checkdigit > 0 && checkdigit < 10 ? true : false;
-        /// <summary>
-        /// After validation get the correct input back (13 numbers)
-        /// </summary>
-        public string GetCodeWith13Numbers => GetCleanedCodeString + checkdigit.ToString();
-
-        public ISBN(string code)
+        public bool IsValid(string isbnNumber)
         {
-            inputcode = code;
-            sum = 0;
-            checkdigit = 0;
-        }
-
-        public bool IsValid()
-        {
-            // Replace non numbers
-            string cleanedInput = GetCleanedCodeString;
-
-            int length = cleanedInput.Length;
-
-            // Invalid length, checks for ISBN with 13 numbers.
-            if (!IsCorrectLength)
+            // Incorrect length
+            if (isbnNumber.Length != 13)
                 return false;
 
-            // Remove the last one and store as checkdigit for comparison
-            if (length == 13)
-            {
-                checkdigit = Int32.Parse(cleanedInput.Substring(length - 1));
-                cleanedInput = cleanedInput.Substring(0, cleanedInput.Length - 1);
-                // Length remains at 13 for later checks
-            }
+            // Store the original last digit
+            int originalCheckdigit = Int32.Parse(isbnNumber.Substring(isbnNumber.Length - 1));
 
-            // String into numbers => then Mod10 sum => then retrieve checkdigit
-            int[] numbers = SplitIntoNumbers(cleanedInput);
-            sum = Mod10(numbers);
-            int _checkdigit = GetCheckDigit(sum);
+            // Truncated to 12 characters
+            isbnNumber = isbnNumber.Substring(0, isbnNumber.Length - 1);
 
-            // Compare digits, if the input string length was 13 (The last number is the checkdigit)
-            if ((checkdigit != _checkdigit && length == 13) && _checkdigit != 10)
-                return false;
+            // Sum of modulus calculated
+            int sum = GetMod10(isbnNumber);
 
-            // 
-            if ((checkdigit > 0 && checkdigit <= 10) == true)
-                return false;
-
-            //
-            checkdigit = _checkdigit;
+            // Checkdigit is the remainder to the closest base-10
+            var checkdigit = 10 - (sum % 10);
 
             // 10 == 0
             if (checkdigit == 10)
                 checkdigit = 0;
 
+            // Check against input check digit
+            if (originalCheckdigit != checkdigit)
+                return false;
 
             return true;
         }
 
-        /// <summary><para>Checkdigit  from Mod10 calculation</para>
-        /// <para>The checkdigit is the remainder between the sum and the next multiple of 10</para>
-        /// <para>E.g. if sum is 127, the next 10multiple is 130. So 3 is the checkdigit</para></summary>
-        private int GetCheckDigit(int n) => 10 - (n % 10) % 10;
-
-        /// <summary>Return a calculated sum of incoming digits</summary>
-        private int Mod10(params int[] numbers)
+        public int GetMod10(string numbers)
         {
-            // Even since we start counting from 11
-            bool IsEven;
-            // Total sum
+            // Sum of modulus
             int sum = 0;
-            for (int j = numbers.Length - 1; j > -1; j--)
+            int counter = 0;
+
+            foreach (char c in numbers)
             {
-                int n = numbers[j];
+                int x = Int32.Parse(c.ToString());
 
-                // Get odd/even status since we shifting between multiplying 1 or 3
-                IsEven = j % 2 == 0 ? true : false;
-
-                if (IsEven)
-                    sum += n * 1;
+                if (counter % 2 == 0)
+                    sum += x * 1;
                 else
-                    sum += n * 3;
-            }
+                    sum += x * 3;
 
+                counter++;
+            }
             return sum;
-        }
-
-        /// <summary>String into int array of single digits</summary>
-        private int[] SplitIntoNumbers(string code)
-        {
-            int i = 0;
-            int[] nl = new int[12];
-            foreach (char c in code)
-            {
-                nl[i] = Int32.Parse(c.ToString());
-                i++;
-            }
-            return nl;
         }
     }
 }
